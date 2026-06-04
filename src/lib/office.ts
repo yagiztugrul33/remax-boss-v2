@@ -19,6 +19,10 @@ export const office = {
     youtube: "https://youtube.com/@remaxboss",
     twitter: "https://twitter.com/remaxboss",
   },
+  shortDescription:
+    "RE/MAX BOSS, Ankara Beştepe merkezli, RE/MAX Türkiye bünyesinde bağımsız sahipli ve işletmeli bir gayrimenkul ofisidir. Profesyonellik ve güvenilirlik ilkeleriyle, alıcılar ve satıcılar için ölçülebilir değer üretir.",
+  mapsQuery:
+    "Be%C5%9Ftepe%20Mah.%20Alparslan%20T%C3%BCrke%C5%9F%20Cad.%20No%2061%20Yenimahalle%20Ankara",
 } as const;
 
 export const navItems = [
