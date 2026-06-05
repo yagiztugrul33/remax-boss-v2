@@ -15,9 +15,9 @@ const subjects = [
 ] as const;
 
 /**
- * Backend yok — Faz 2 disiplini.
- * Submit, kullanıcının kendi e-posta istemcisinde önceden doldurulmuş
- * bir mailto:info@... taslağı açar. Sahte "gönderildi" akışı YOK.
+ * Backend yok — disiplin.
+ * Submit, kullanıcının e-posta istemcisinde önceden doldurulmuş bir
+ * mailto:info@... taslağı açar. Sahte "gönderildi" akışı YOK.
  */
 export default function ContactForm() {
   const ids = {
@@ -59,14 +59,20 @@ export default function ContactForm() {
     setOpened(true);
   }
 
+  const inputClass =
+    "w-full rounded-xl border border-line bg-white px-3.5 py-3 text-sm text-navy outline-none focus:border-remax-red focus:ring-2 focus:ring-remax-red/15 transition-colors";
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-2xl border border-line bg-white p-6 md:p-7 space-y-4"
+      className="rounded-3xl border border-line bg-white p-6 md:p-8 space-y-4 shadow-card"
       noValidate
     >
-      <div className="flex items-start gap-2 rounded-lg bg-remax-blue-soft p-3 text-xs text-navy/75">
-        <Info className="h-4 w-4 mt-0.5 flex-shrink-0 text-remax-blue" aria-hidden />
+      <div className="flex items-start gap-2.5 rounded-xl bg-remax-blue-soft p-3.5 text-xs text-navy/75">
+        <Info
+          className="h-4 w-4 mt-0.5 flex-shrink-0 text-remax-blue"
+          aria-hidden
+        />
         <span>
           Form bir taslak hazırlar ve kendi e-posta uygulamanızda açar; mesajı
           siz gönderirsiniz. Hızlı erişim için doğrudan{" "}
@@ -95,7 +101,7 @@ export default function ContactForm() {
             required
             type="text"
             placeholder="Adınız Soyadınız"
-            className="w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm text-navy outline-none focus:border-remax-red focus:ring-2 focus:ring-remax-red/15"
+            className={inputClass}
           />
         </div>
         <div>
@@ -110,7 +116,7 @@ export default function ContactForm() {
             name="phone"
             type="tel"
             placeholder="+90 5XX XXX XX XX"
-            className="w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm text-navy outline-none focus:border-remax-red focus:ring-2 focus:ring-remax-red/15"
+            className={inputClass}
             dir="ltr"
           />
         </div>
@@ -129,7 +135,7 @@ export default function ContactForm() {
           required
           type="email"
           placeholder="ornek@eposta.com"
-          className="w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm text-navy outline-none focus:border-remax-red focus:ring-2 focus:ring-remax-red/15"
+          className={inputClass}
         />
       </div>
 
@@ -143,7 +149,7 @@ export default function ContactForm() {
         <select
           id={ids.subject}
           name="subject"
-          className="w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm text-navy outline-none focus:border-remax-red focus:ring-2 focus:ring-remax-red/15"
+          className={inputClass}
           defaultValue={subjects[0]}
         >
           {subjects.map((s) => (
@@ -167,11 +173,11 @@ export default function ContactForm() {
           required
           rows={5}
           placeholder="Bize iletmek istediğiniz detayları yazın…"
-          className="w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm text-navy outline-none focus:border-remax-red focus:ring-2 focus:ring-remax-red/15 resize-y"
+          className={`${inputClass} resize-y`}
         />
       </div>
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
         <p className="text-xs text-navy/55">
           KVKK kapsamında bilgilerinizi paylaşıyor sayılırsınız.
         </p>
@@ -179,7 +185,7 @@ export default function ContactForm() {
           type="submit"
           className={cn(
             buttonVariants({ size: "lg" }),
-            "bg-remax-red hover:bg-remax-red-dark text-white h-11 px-5",
+            "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-6 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)]",
           )}
         >
           <Send className="h-4 w-4 me-2" />
@@ -190,7 +196,7 @@ export default function ContactForm() {
       {opened && (
         <div
           role="status"
-          className="rounded-lg bg-emerald-50 border border-emerald-200 p-3 text-sm text-emerald-800"
+          className="rounded-xl bg-emerald-50 border border-emerald-200 p-3.5 text-sm text-emerald-800"
         >
           E-posta uygulamanız açıldıysa mesajı oradan gönderebilirsiniz.
           Açılmadıysa lütfen{" "}
