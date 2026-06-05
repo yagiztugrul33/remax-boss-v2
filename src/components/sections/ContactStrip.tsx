@@ -1,5 +1,6 @@
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { office } from "@/lib/office";
+import MapEmbed from "./MapEmbed";
 
 const items = [
   {
@@ -29,8 +30,6 @@ const items = [
     secondary: `Cumartesi ${office.workingHours.saturday} · Pazar ${office.workingHours.sunday}`,
   },
 ];
-
-const mapsSrc = `https://www.google.com/maps?q=${office.mapsQuery}&output=embed`;
 
 export default function ContactStrip() {
   return (
@@ -82,16 +81,7 @@ export default function ContactStrip() {
             ))}
           </ul>
 
-          <div className="rounded-3xl overflow-hidden border border-line bg-white shadow-sm aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[400px]">
-            <iframe
-              src={mapsSrc}
-              title="RE/MAX BOSS Beştepe — Google Haritalar konumu"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="w-full h-full border-0"
-              allowFullScreen
-            />
-          </div>
+          <MapEmbed className="aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[400px]" />
         </div>
       </div>
     </section>

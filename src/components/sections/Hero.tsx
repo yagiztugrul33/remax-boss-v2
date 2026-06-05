@@ -46,14 +46,13 @@ export default function Hero() {
               <ArrowRight className="h-4 w-4 ms-2" />
             </a>
             <Link
-              href="/#"
-              aria-label="Ofisimiz sayfası (yakında)"
+              href="/hakkimizda"
               className={cn(
                 buttonVariants({ size: "lg", variant: "outline" }),
                 "border-navy/20 text-navy hover:bg-navy hover:text-white px-5 h-11",
               )}
             >
-              Ofisimizi Tanıyın
+              Hakkımızda
             </Link>
           </div>
 

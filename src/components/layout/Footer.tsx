@@ -18,21 +18,21 @@ const socials = [
   { Icon: TwitterIcon, href: office.social.twitter, label: "Twitter" },
 ];
 
+// Disiplin: sadece yayında olan rotalara link veriyoruz.
 const quickLinks = [
-  { href: "/ilanlar?tip=satilik", label: "Satılık İlanlar" },
-  { href: "/ilanlar?tip=kiralik", label: "Kiralık İlanlar" },
-  { href: "/projeler", label: "Projeler" },
-  { href: "/ofisimiz", label: "Ofisimiz" },
-  { href: "/ekibimiz", label: "Ekibimiz" },
+  { href: "/", label: "Anasayfa" },
+  { href: "/ilanlar", label: "İlanlar" },
+  { href: "/hakkimizda", label: "Hakkımızda" },
   { href: "/iletisim", label: "İletişim" },
 ];
 
+// Hizmet sayfaları henüz yok; başlıkları liste halinde gösterip
+// detayları /iletisim sayfasına bağlıyoruz (mailto formunda konu seçimi var).
 const services = [
-  { href: "/hizmetler/satis", label: "Satış Danışmanlığı" },
-  { href: "/hizmetler/kiralama", label: "Kiralama" },
-  { href: "/hizmetler/yatirim", label: "Yatırım Danışmanlığı" },
-  { href: "/hizmetler/degerleme", label: "Değerleme" },
-  { href: "/hizmetler/uluslararasi", label: "Uluslararası Müşteri" },
+  { label: "Alım-Satım Danışmanlığı" },
+  { label: "Kiralama" },
+  { label: "Değerleme & Ekspertiz" },
+  { label: "Portföy Yönetimi" },
 ];
 
 export default function Footer() {
@@ -85,16 +85,17 @@ export default function Footer() {
           </h3>
           <ul className="space-y-2 text-sm">
             {services.map((l) => (
-              <li key={l.href}>
-                <Link
-                  href={l.href}
-                  className="hover:text-white transition-colors"
-                >
-                  {l.label}
-                </Link>
+              <li key={l.label} className="text-white/70">
+                {l.label}
               </li>
             ))}
           </ul>
+          <Link
+            href="/iletisim"
+            className="mt-4 inline-flex text-sm font-semibold text-white hover:text-remax-red transition-colors"
+          >
+            Hizmet talebi gönder →
+          </Link>
         </div>
 
         <div>
@@ -156,20 +157,7 @@ export default function Footer() {
             © {new Date().getFullYear()} RE/MAX BOSS. Tüm hakları saklıdır.
             Her RE/MAX® ofisi bağımsız sahipli ve işletmelidir.
           </p>
-          <div className="flex flex-wrap gap-4">
-            <Link href="/gizlilik" className="hover:text-white">
-              Gizlilik
-            </Link>
-            <Link href="/kvkk" className="hover:text-white">
-              KVKK
-            </Link>
-            <Link href="/kosullar" className="hover:text-white">
-              Kullanım Koşulları
-            </Link>
-            <Link href="/cerez" className="hover:text-white">
-              Çerezler
-            </Link>
-          </div>
+          {/* Yasal sayfalar (Gizlilik/KVKK/Çerezler) hazırlandığında burada listelenecek. */}
         </div>
       </div>
     </footer>

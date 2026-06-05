@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X, Phone, MapPin, Globe, ChevronDown } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
@@ -8,8 +9,14 @@ import Logo from "@/components/brand/Logo";
 import { navItems, office } from "@/lib/office";
 import { cn } from "@/lib/utils";
 
+function isActive(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname() ?? "/";
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85 border-b border-line shadow-[0_1px_8px_rgba(10,26,54,0.04)]">
@@ -30,7 +37,7 @@ export default function Navbar() {
           </div>
           <div className="flex items-center gap-3">
             <Link
-              href="/danisman-ol"
+              href="/iletisim"
               className="hidden sm:inline hover:text-white/80"
             >
               Danışman Ol
@@ -56,20 +63,32 @@ export default function Navbar() {
           aria-label="Ana menü"
           className="hidden lg:flex items-center gap-6"
         >
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm font-medium text-navy hover:text-remax-red transition-colors"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const active = isActive(pathname, item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "relative text-sm font-medium transition-colors",
+                  active
+                    ? "text-remax-red"
+                    : "text-navy hover:text-remax-red",
+                )}
+              >
+                {item.label}
+                {active && (
+                  <span className="absolute -bottom-[18px] start-0 end-0 h-[3px] rounded-t-full bg-remax-red" />
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="hidden lg:flex items-center gap-2">
           <Link
-            href="/ilan-ver"
+            href="/iletisim"
             className={cn(
               buttonVariants({ size: "lg" }),
               "bg-remax-red hover:bg-remax-red-dark text-white shadow-sm",
@@ -100,18 +119,25 @@ export default function Navbar() {
           aria-label="Mobil menü"
           className="container-page flex flex-col gap-2 py-4"
         >
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className="py-2 text-sm font-medium text-navy hover:text-remax-red"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const active = isActive(pathname, item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "py-2 text-sm font-medium",
+                  active ? "text-remax-red" : "text-navy hover:text-remax-red",
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
           <Link
-            href="/ilan-ver"
+            href="/iletisim"
             onClick={() => setOpen(false)}
             className={cn(
               buttonVariants({ size: "lg" }),

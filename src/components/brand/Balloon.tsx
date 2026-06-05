@@ -6,6 +6,16 @@ interface BalloonProps {
   ariaLabel?: string;
 }
 
+/**
+ * RE/MAX sıcak hava balonu — official brand renkleriyle inşa edilmiş SVG.
+ *
+ * Geometri:
+ *  - Balon: yumurta-oval (üst hafif sivri, alt geniş yarımküre)
+ *  - Bant oranı: kırmızı %45 / beyaz %8 / mavi %47 (gerçek RE/MAX dağılımı)
+ *  - 6 dikey dilim dikiş çizgisi (3D balon hissi)
+ *  - Üst sol yumuşak parlaklık (gradient)
+ *  - Sepet: ahşap dokulu, 4 halat ile balon kenarına bağlı
+ */
 export default function Balloon({
   className,
   withBasket = true,
@@ -13,123 +23,150 @@ export default function Balloon({
 }: BalloonProps) {
   return (
     <svg
-      viewBox="0 0 80 110"
+      viewBox="0 0 100 130"
       className={cn("inline-block", className)}
       xmlns="http://www.w3.org/2000/svg"
       role="img"
       aria-label={ariaLabel}
     >
       <defs>
-        <clipPath id="remax-balloon-clip">
-          <path d="M40 4 C61 4 76 21 76 42 C76 56 70 67 60 76 L20 76 C10 67 4 56 4 42 C4 21 19 4 40 4 Z" />
+        <clipPath id="balloon-shape">
+          <path d="M50 4 C76 4 92 24 92 50 C92 68 86 82 76 92 L24 92 C14 82 8 68 8 50 C8 24 24 4 50 4 Z" />
         </clipPath>
-        <linearGradient id="remax-balloon-shine" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.45" />
+        <radialGradient
+          id="balloon-highlight"
+          cx="30%"
+          cy="22%"
+          r="55%"
+          fx="28%"
+          fy="20%"
+        >
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.55" />
           <stop offset="55%" stopColor="#ffffff" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="balloon-shadow" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="rgba(0,0,0,0)" />
+          <stop offset="78%" stopColor="rgba(0,0,0,0)" />
+          <stop offset="100%" stopColor="rgba(0,0,0,0.22)" />
+        </linearGradient>
+        <linearGradient id="basket-wood" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#8b5a2b" />
+          <stop offset="100%" stopColor="#5b3818" />
         </linearGradient>
       </defs>
 
-      <g clipPath="url(#remax-balloon-clip)">
-        <rect x="0" y="0" width="80" height="30" fill="#dc1c2e" />
-        <rect x="0" y="30" width="80" height="14" fill="#ffffff" />
-        <rect x="0" y="44" width="80" height="40" fill="#003da5" />
+      {/* Renk bantları */}
+      <g clipPath="url(#balloon-shape)">
+        <rect x="0" y="0" width="100" height="42" fill="#dc1c2e" />
+        <rect x="0" y="42" width="100" height="8" fill="#ffffff" />
+        <rect x="0" y="50" width="100" height="50" fill="#003da5" />
       </g>
 
-      <g clipPath="url(#remax-balloon-clip)" opacity="0.7">
+      {/* Dikey dilim dikişleri (3D efekti) */}
+      <g clipPath="url(#balloon-shape)" opacity="0.55">
         <path
-          d="M40 4 C40 4 28 18 28 42 C28 60 36 72 40 76"
-          stroke="rgba(0,0,0,0.15)"
+          d="M50 4 C50 4 38 18 38 50 C38 74 44 88 50 92"
+          stroke="rgba(0,0,0,0.18)"
           strokeWidth="0.6"
           fill="none"
         />
         <path
-          d="M40 4 C40 4 52 18 52 42 C52 60 44 72 40 76"
-          stroke="rgba(0,0,0,0.15)"
+          d="M50 4 C50 4 62 18 62 50 C62 74 56 88 50 92"
+          stroke="rgba(0,0,0,0.18)"
           strokeWidth="0.6"
           fill="none"
         />
-        <line
-          x1="4"
-          y1="42"
-          x2="76"
-          y2="42"
-          stroke="rgba(0,0,0,0.12)"
-          strokeWidth="0.4"
+        <path
+          d="M50 4 C50 4 26 20 26 50 C26 72 36 86 42 92"
+          stroke="rgba(0,0,0,0.14)"
+          strokeWidth="0.5"
+          fill="none"
+        />
+        <path
+          d="M50 4 C50 4 74 20 74 50 C74 72 64 86 58 92"
+          stroke="rgba(0,0,0,0.14)"
+          strokeWidth="0.5"
+          fill="none"
         />
       </g>
 
+      {/* Sağ kenardan yumuşak gölge — hacim */}
       <path
-        d="M40 4 C61 4 76 21 76 42 C76 56 70 67 60 76 L20 76 C10 67 4 56 4 42 C4 21 19 4 40 4 Z"
-        fill="url(#remax-balloon-shine)"
+        d="M50 4 C76 4 92 24 92 50 C92 68 86 82 76 92 L24 92 C14 82 8 68 8 50 C8 24 24 4 50 4 Z"
+        fill="url(#balloon-shadow)"
       />
+
+      {/* Üst sol parlaklık */}
       <path
-        d="M40 4 C61 4 76 21 76 42 C76 56 70 67 60 76 L20 76 C10 67 4 56 4 42 C4 21 19 4 40 4 Z"
+        d="M50 4 C76 4 92 24 92 50 C92 68 86 82 76 92 L24 92 C14 82 8 68 8 50 C8 24 24 4 50 4 Z"
+        fill="url(#balloon-highlight)"
+      />
+
+      {/* Dış kontur */}
+      <path
+        d="M50 4 C76 4 92 24 92 50 C92 68 86 82 76 92 L24 92 C14 82 8 68 8 50 C8 24 24 4 50 4 Z"
         fill="none"
-        stroke="rgba(0,0,0,0.18)"
-        strokeWidth="0.7"
+        stroke="rgba(0,0,0,0.22)"
+        strokeWidth="0.8"
       />
 
       {withBasket && (
         <>
+          {/* Halatlar — balonun alt kenarından sepete */}
           <path
-            d="M20 76 L28 92"
+            d="M24 92 Q26 100 33 110"
             stroke="#0a1a36"
             strokeWidth="1"
             strokeLinecap="round"
+            fill="none"
           />
           <path
-            d="M60 76 L52 92"
+            d="M76 92 Q74 100 67 110"
             stroke="#0a1a36"
             strokeWidth="1"
             strokeLinecap="round"
+            fill="none"
           />
           <path
-            d="M32 76 L34 92"
+            d="M38 92 L41 110"
             stroke="#0a1a36"
-            strokeWidth="1"
+            strokeWidth="0.9"
             strokeLinecap="round"
+            fill="none"
           />
           <path
-            d="M48 76 L46 92"
+            d="M62 92 L59 110"
             stroke="#0a1a36"
-            strokeWidth="1"
+            strokeWidth="0.9"
             strokeLinecap="round"
+            fill="none"
           />
+
+          {/* Sepet gövdesi */}
           <rect
-            x="26"
-            y="92"
-            width="28"
-            height="12"
-            rx="1.5"
-            fill="#6b4423"
+            x="31"
+            y="110"
+            width="38"
+            height="14"
+            rx="1.8"
+            fill="url(#basket-wood)"
             stroke="#3a2613"
-            strokeWidth="0.4"
+            strokeWidth="0.6"
           />
-          <rect x="26" y="92" width="28" height="3.5" fill="#8b5a2b" />
-          <line
-            x1="32"
-            y1="92"
-            x2="32"
-            y2="104"
-            stroke="#3a2613"
-            strokeWidth="0.4"
-          />
-          <line
-            x1="40"
-            y1="92"
-            x2="40"
-            y2="104"
-            stroke="#3a2613"
-            strokeWidth="0.4"
-          />
-          <line
-            x1="48"
-            y1="92"
-            x2="48"
-            y2="104"
-            stroke="#3a2613"
-            strokeWidth="0.4"
-          />
+          {/* Üst kayış (kenarlı) */}
+          <rect x="31" y="110" width="38" height="3.5" fill="#a06a36" />
+          {/* Sepet örgü çizgileri */}
+          <g stroke="#3a2613" strokeWidth="0.4">
+            <line x1="37" y1="113.5" x2="37" y2="124" />
+            <line x1="43" y1="113.5" x2="43" y2="124" />
+            <line x1="50" y1="113.5" x2="50" y2="124" />
+            <line x1="57" y1="113.5" x2="57" y2="124" />
+            <line x1="63" y1="113.5" x2="63" y2="124" />
+          </g>
+          <g stroke="#3a2613" strokeWidth="0.3" opacity="0.6">
+            <line x1="31" y1="117" x2="69" y2="117" />
+            <line x1="31" y1="120.5" x2="69" y2="120.5" />
+          </g>
         </>
       )}
     </svg>

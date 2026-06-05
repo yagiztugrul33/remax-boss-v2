@@ -55,8 +55,7 @@ export default function OfficeIntro() {
 
           <div className="mt-7 flex flex-wrap gap-3">
             <Link
-              href="/#"
-              aria-label="Hakkımızda sayfası (yakında)"
+              href="/hakkimizda"
               className={cn(
                 buttonVariants({ variant: "outline", size: "lg" }),
                 "border-navy/20 text-navy hover:bg-navy hover:text-white h-11 px-5",
@@ -77,9 +76,6 @@ export default function OfficeIntro() {
             </a>
           </div>
 
-          <p className="mt-5 text-xs text-navy/45">
-            Hakkımızda sayfasının tamamı FAZ 2&apos;de yayınlanacaktır.
-          </p>
         </div>
       </div>
     </section>
