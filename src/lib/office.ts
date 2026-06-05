@@ -54,6 +54,42 @@ export const aboutContent: AboutContent = {
   values: [],
 };
 
+/**
+ * next/image slot tanımları.
+ * Gerçek fotoğraflar gelene kadar src null → UI gradient/marka işareti fallback gösterir.
+ * Faz 4+'te public/images/ altına gerçek dosyalar konunca burada src doldurulur.
+ */
+export interface ImageSlot {
+  src: string | null;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+export const imageSlots = {
+  // TODO: gerçek görsel — kullanıcıdan (ofisin geniş açılı ön cephe veya iç mekan)
+  heroOffice: {
+    src: null,
+    alt: "RE/MAX BOSS Beştepe ofisinin geniş açılı görüntüsü",
+    width: 1600,
+    height: 1200,
+  } satisfies ImageSlot,
+  // TODO: gerçek görsel — kullanıcıdan (resepsiyon / RE/MAX BOSS logo duvarı)
+  officeReception: {
+    src: null,
+    alt: "RE/MAX BOSS resepsiyon ve karşılama alanı",
+    width: 1280,
+    height: 960,
+  } satisfies ImageSlot,
+  // TODO: gerçek görsel — kullanıcıdan (açık çalışma alanı, geniş kadraj)
+  officeFloor: {
+    src: null,
+    alt: "RE/MAX BOSS açık çalışma alanı",
+    width: 1280,
+    height: 960,
+  } satisfies ImageSlot,
+};
+
 // Sadece yayında olan route'lar. Yeni sayfa eklendikçe burası genişler.
 // Disiplin: 404 dönen veya henüz bulunmayan link konmaz.
 export const navItems = [

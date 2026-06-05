@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
-import { Fraunces, Hanken_Grotesk, Geist_Mono } from "next/font/google";
+import { Sora, Inter, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import "./globals.css";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin", "latin-ext"],
+// Display: Sora — modern, bold, karakterli grotesk
+const sora = Sora({
+  variable: "--font-sora",
+  subsets: ["latin", "latin-ext"], // Türkçe glyph desteği (ş ğ ı İ ç ö ü)
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
-const hankenGrotesk = Hanken_Grotesk({
-  variable: "--font-hanken",
-  subsets: ["latin", "latin-ext"],
+// Body: Inter — okunaklı, nötr, geniş ağırlık skalası
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin", "latin-ext"], // Türkçe glyph desteği
   display: "swap",
 });
 
@@ -40,7 +43,7 @@ export default function RootLayout({
     <html
       lang="tr"
       dir="ltr"
-      className={`${fraunces.variable} ${hankenGrotesk.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${sora.variable} ${inter.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <Navbar />

@@ -1,6 +1,8 @@
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
-import { office } from "@/lib/office";
+import Section from "@/components/ui/section";
+import Eyebrow from "@/components/ui/eyebrow";
 import MapEmbed from "./MapEmbed";
+import { office } from "@/lib/office";
 
 const items = [
   {
@@ -14,7 +16,7 @@ const items = [
     label: "Telefon",
     primary: office.phone,
     href: `tel:${office.phone}`,
-    secondary: `WhatsApp: ${office.whatsapp}`,
+    secondary: `WhatsApp ${office.whatsapp}`,
     ltr: true,
   },
   {
@@ -27,63 +29,63 @@ const items = [
     icon: Clock,
     label: "Çalışma Saatleri",
     primary: `Hafta İçi ${office.workingHours.weekdays}`,
-    secondary: `Cumartesi ${office.workingHours.saturday} · Pazar ${office.workingHours.sunday}`,
+    secondary: `Cmt ${office.workingHours.saturday} · Paz ${office.workingHours.sunday}`,
   },
 ];
 
 export default function ContactStrip() {
   return (
-    <section id="iletisim" className="bg-mist">
-      <div className="container-page py-20 md:py-24">
-        <div className="max-w-2xl">
-          <span className="inline-flex items-center rounded-full bg-remax-blue-soft px-3 py-1 text-xs font-semibold text-remax-blue tracking-wide">
+    <Section id="iletisim" tone="dark" density="normal">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-10 lg:gap-14 items-start">
+        <div>
+          <Eyebrow tone="white" className="text-white/70">
             İletişim
-          </span>
-          <h2 className="mt-4 font-heading text-3xl md:text-4xl font-extrabold text-navy text-balance">
-            Beştepe&apos;deki ofisimizden, gayrimenkul yolculuğunuza.
+          </Eyebrow>
+          <h2 className="mt-5 font-display text-display-lg text-white text-balance">
+            Beştepe&apos;deki ofisimizden,
+            <br />
+            <span className="text-remax-red">gayrimenkul</span> yolculuğunuza.
           </h2>
-          <p className="mt-3 text-navy/70 leading-relaxed">
-            Aşağıdan ofise ulaşabilir, dilerseniz haritadan konumu görüntüleyip
+          <p className="mt-6 text-white/65 leading-relaxed max-w-md">
+            Aşağıdaki kanallardan ofise ulaşabilir, haritadan konumu görüntüleyip
             ziyaret edebilirsiniz.
           </p>
-        </div>
 
-        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <ul className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
             {items.map(({ icon: Icon, label, primary, secondary, href, ltr }) => (
               <li
                 key={label}
-                className="rounded-2xl bg-white border border-line p-5"
+                className="rounded-2xl bg-navy-700/70 border-glow p-5 hover:bg-navy-600/70 transition-colors"
               >
-                <div className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-remax-red-soft text-remax-red">
+                <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 text-remax-red">
                   <Icon className="h-4 w-4" aria-hidden />
                 </div>
-                <div className="mt-4 text-xs font-semibold uppercase tracking-wider text-navy/50">
+                <div className="mt-3 text-[0.7rem] font-display font-bold tracking-[0.18em] uppercase text-white/45">
                   {label}
                 </div>
                 {href ? (
                   <a
                     href={href}
-                    className="mt-1 block font-heading font-bold text-navy hover:text-remax-red transition-colors"
+                    className="mt-1 block font-display font-bold text-white hover:text-remax-red transition-colors leading-tight"
                     {...(ltr ? { dir: "ltr" } : {})}
                   >
                     {primary}
                   </a>
                 ) : (
-                  <div className="mt-1 font-heading font-bold text-navy">
+                  <div className="mt-1 font-display font-bold text-white leading-tight">
                     {primary}
                   </div>
                 )}
                 {secondary && (
-                  <div className="mt-1 text-xs text-navy/55">{secondary}</div>
+                  <div className="mt-1 text-xs text-white/55">{secondary}</div>
                 )}
               </li>
             ))}
           </ul>
-
-          <MapEmbed className="aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[400px]" />
         </div>
+
+        <MapEmbed className="lg:h-full lg:min-h-[520px] aspect-[4/3] lg:aspect-auto border-glow !rounded-3xl" />
       </div>
-    </section>
+    </Section>
   );
 }
