@@ -77,7 +77,7 @@ export default function FeaturedListings() {
 
           {/* SAĞ — ince, elegant skeleton ızgarası (kasıtlı placeholder) */}
           <div
-            className="grid grid-cols-2 gap-3"
+            className="hidden lg:grid grid-cols-2 gap-3"
             aria-label="İlan ızgarası — placeholder"
             aria-hidden
           >

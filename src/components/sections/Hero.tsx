@@ -38,7 +38,7 @@ export default function Hero() {
 
             <h1 className="mt-6 font-display text-display-xl text-balance">
               Ankara&apos;da{" "}
-              <span className="accent-mark">gayrimenkul</span>,
+              <span className="accent-mark">gayrimenkul,</span>
               <br className="hidden sm:block" />
               yeni bir disiplinle.
             </h1>
