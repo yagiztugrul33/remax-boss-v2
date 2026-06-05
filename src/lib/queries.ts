@@ -21,7 +21,7 @@ async function safeRun<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
   }
 }
 
-const LISTING_COLUMNS = `
+export const LISTING_COLUMNS = `
   id, created_at, updated_at, status, featured,
   listing_type, property_type,
   title, description,
