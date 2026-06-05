@@ -2,13 +2,14 @@ import Link from "next/link";
 import { ArrowRight, Mail, Phone } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
+import ListingCard from "@/components/sections/ListingCard";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { getFeaturedListings } from "@/lib/listings";
+import { getFeaturedListings } from "@/lib/queries";
 import { office } from "@/lib/office";
 
-export default function FeaturedListings() {
-  const featured = getFeaturedListings();
+export default async function FeaturedListings() {
+  const featured = await getFeaturedListings(4);
   const hasListings = featured.length > 0;
 
   return (
@@ -31,7 +32,9 @@ export default function FeaturedListings() {
 
       {hasListings ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {/* FAZ 4'te listings.map(...) ile gerçek ListingCard render edilecek */}
+          {featured.map((l, i) => (
+            <ListingCard key={l.id} listing={l} priority={i < 2} />
+          ))}
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-6 items-stretch">

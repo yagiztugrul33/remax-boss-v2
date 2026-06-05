@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { Search, Phone, Mail } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
+import ListingCard from "@/components/sections/ListingCard";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { listings } from "@/lib/listings";
+import { getPublishedListings } from "@/lib/queries";
 import { office } from "@/lib/office";
 
 export const metadata: Metadata = {
@@ -12,6 +13,9 @@ export const metadata: Metadata = {
   description:
     "RE/MAX BOSS Ankara portföyündeki tüm satılık ve kiralık gayrimenkul ilanları.",
 };
+
+// DB'den okuduğumuz için sayfa dinamik — her isteğin güncel veriyi göstermesi için.
+export const dynamic = "force-dynamic";
 
 const kindTabs = [
   { value: "tumu", label: "Tümü" },
@@ -26,10 +30,11 @@ const categoryTabs = [
   "Ofis",
   "Dükkan",
   "Arsa",
-  "Bina",
+  "İş Yeri",
 ];
 
-export default function IlanlarPage() {
+export default async function IlanlarPage() {
+  const listings = await getPublishedListings();
   const hasListings = listings.length > 0;
 
   return (
@@ -59,8 +64,9 @@ export default function IlanlarPage() {
               <span className="accent-mark">Satılık</span> ve kiralık mülkler.
             </h1>
             <p className="mt-7 text-lg text-white/70 max-w-xl leading-relaxed">
-              Tüm aktif ilanlarımız bu sayfada listelenir. Aşağıdaki filtreler
-              UI iskeletidir; gerçek arama veriler girilince etkinleşir.
+              {hasListings
+                ? `${listings.length} aktif ilan listeleniyor. Aşağıdaki filtreler ileride etkinleşir.`
+                : "Tüm aktif ilanlarımız bu sayfada listelenir. Filtreler UI iskeletidir; gerçek arama veriler girilince etkinleşir."}
             </p>
           </div>
         </div>
@@ -105,15 +111,16 @@ export default function IlanlarPage() {
         </div>
       </Section>
 
-      {/* EMPTY STATE — anasayfa FeaturedListings ile aynı muamele */}
+      {/* LİSTE veya EMPTY STATE */}
       <Section tone="light" density="normal">
         {hasListings ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {/* FAZ 5'te listings.map(...) ile gerçek ListingCard render edilecek */}
+            {listings.map((l, i) => (
+              <ListingCard key={l.id} listing={l} priority={i < 4} />
+            ))}
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-6 items-stretch">
-            {/* SOL — iddialı navy blok */}
             <div className="relative overflow-hidden rounded-3xl bg-navy-900 text-white p-8 md:p-10 flex flex-col justify-between">
               <div
                 aria-hidden
@@ -153,7 +160,6 @@ export default function IlanlarPage() {
               </div>
             </div>
 
-            {/* SAĞ — ince ızgara skeleton (MOBİLDE GİZLİ) */}
             <div
               className="hidden lg:grid grid-cols-2 xl:grid-cols-3 gap-3"
               aria-label="İlan ızgarası — placeholder"
