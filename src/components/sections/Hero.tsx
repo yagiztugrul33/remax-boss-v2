@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, MapPin } from "lucide-react";
+import Logo from "@/components/brand/Logo";
 import { buttonVariants } from "@/components/ui/button";
 import Eyebrow from "@/components/ui/eyebrow";
 import { cn } from "@/lib/utils";
@@ -100,6 +101,10 @@ export default function Hero() {
                 aria-hidden
                 className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-navy-900 via-navy-900/70 to-transparent"
               />
+              {/* Sol üst — resmi RE/MAX BOSS balon amblem rozeti */}
+              <div className="absolute top-4 start-4 rounded-2xl bg-navy-900/70 backdrop-blur-sm p-2.5 border border-white/10">
+                <Logo href={null} variant="balloon" size="sm" />
+              </div>
               <div className="absolute inset-x-5 bottom-5">
                 <div className="text-eyebrow font-display text-white/65">
                   RE/MAX BOSS
