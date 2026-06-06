@@ -1,10 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, MapPin } from "lucide-react";
-import Balloon from "@/components/brand/Balloon";
 import { buttonVariants } from "@/components/ui/button";
 import Eyebrow from "@/components/ui/eyebrow";
 import { cn } from "@/lib/utils";
-import { office } from "@/lib/office";
+import { office, heroImage } from "@/lib/office";
 
 export default function Hero() {
   return (
@@ -85,52 +85,56 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* SAĞ — küçük marka kartı (balon ana görsel DEĞİL, marka işareti) */}
+          {/* SAĞ — gerçek ofis fotoğrafı + iletişim mini kart */}
           <div className="relative">
-            <div className="relative rounded-3xl border-glow bg-navy-700/60 backdrop-blur p-8 md:p-10">
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <div className="font-display text-eyebrow text-white/55 uppercase">
-                    RE/MAX BOSS
-                  </div>
-                  <div className="mt-2 font-display text-2xl font-bold leading-tight">
-                    Beştepe
-                    <br />
-                    <span className="text-remax-red">Ankara</span>
-                  </div>
+            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border-glow bg-navy-700">
+              <Image
+                src={heroImage.src}
+                alt={heroImage.alt}
+                fill
+                sizes="(max-width: 1024px) 100vw, 35vw"
+                className="object-cover"
+                priority
+              />
+              <div
+                aria-hidden
+                className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-navy-900 via-navy-900/70 to-transparent"
+              />
+              <div className="absolute inset-x-5 bottom-5">
+                <div className="text-eyebrow font-display text-white/65">
+                  RE/MAX BOSS
                 </div>
-                <Balloon
-                  withBasket={false}
-                  className="h-20 w-auto opacity-95"
-                />
-              </div>
-
-              <div className="mt-8 grid grid-cols-2 gap-px bg-white/10 rounded-xl overflow-hidden text-sm">
-                <div className="bg-navy-700 p-4">
-                  <div className="text-xs text-white/55 uppercase tracking-wider font-semibold">
-                    Telefon
-                  </div>
-                  <a
-                    href={`tel:${office.phone}`}
-                    className="mt-1 block font-display font-bold text-white hover:text-remax-red transition-colors"
-                    dir="ltr"
-                  >
-                    {office.phone}
-                  </a>
+                <div className="mt-1 font-display text-xl font-bold leading-tight">
+                  Beştepe ·{" "}
+                  <span className="text-remax-red">Ankara</span>
                 </div>
-                <div className="bg-navy-700 p-4">
-                  <div className="text-xs text-white/55 uppercase tracking-wider font-semibold">
-                    WhatsApp
+                <div className="mt-3 grid grid-cols-2 gap-px bg-white/10 rounded-xl overflow-hidden text-sm">
+                  <div className="bg-navy-900/85 p-3 backdrop-blur">
+                    <div className="text-[0.65rem] text-white/55 uppercase tracking-wider font-semibold">
+                      Telefon
+                    </div>
+                    <a
+                      href={`tel:${office.phone}`}
+                      className="mt-0.5 block font-display font-bold text-white hover:text-remax-red transition-colors text-xs"
+                      dir="ltr"
+                    >
+                      {office.phone}
+                    </a>
                   </div>
-                  <a
-                    href={`https://wa.me/${office.whatsapp.replace(/\D/g, "")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-1 block font-display font-bold text-white hover:text-remax-red transition-colors"
-                    dir="ltr"
-                  >
-                    {office.whatsapp}
-                  </a>
+                  <div className="bg-navy-900/85 p-3 backdrop-blur">
+                    <div className="text-[0.65rem] text-white/55 uppercase tracking-wider font-semibold">
+                      WhatsApp
+                    </div>
+                    <a
+                      href={`https://wa.me/${office.whatsapp.replace(/\D/g, "")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-0.5 block font-display font-bold text-white hover:text-remax-red transition-colors text-xs"
+                      dir="ltr"
+                    >
+                      {office.whatsapp}
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

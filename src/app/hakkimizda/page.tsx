@@ -1,36 +1,20 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { Info, MapPin, Phone, Mail, ArrowRight, Compass } from "lucide-react";
+import { ArrowRight, MapPin, Phone, Mail } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
+import OfficeGallery from "@/components/sections/OfficeGallery";
+import TeamSection from "@/components/sections/TeamSection";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import Balloon from "@/components/brand/Balloon";
-import { office, aboutContent } from "@/lib/office";
+import { office, aboutContent, heroImage } from "@/lib/office";
 
 export const metadata: Metadata = {
   title: "Hakkımızda",
   description:
-    "RE/MAX BOSS — Ankara Beştepe merkezli, RE/MAX Türkiye bünyesinde bağımsız sahipli ve işletmeli gayrimenkul ofisi.",
+    "RE/MAX BOSS — Ankara Beştepe merkezli, RE/MAX Türkiye bünyesinde bağımsız sahipli ve işletmeli gayrimenkul ofisi. Ekibimiz, ofisimiz ve çalışma prensiplerimiz.",
 };
-
-interface PlaceholderCardProps {
-  title: string;
-  hint: string;
-}
-
-function PlaceholderCard({ title, hint }: PlaceholderCardProps) {
-  return (
-    <div className="rounded-2xl border border-dashed border-navy/20 bg-white p-6">
-      <div className="inline-flex items-center gap-2 text-eyebrow font-display text-navy/40">
-        <Info className="h-3.5 w-3.5" aria-hidden />
-        İçerik Güncelleniyor
-      </div>
-      <h3 className="mt-3 font-display font-bold text-navy text-xl">{title}</h3>
-      <p className="mt-2 text-sm text-navy/55 leading-relaxed">{hint}</p>
-    </div>
-  );
-}
 
 const infoCards = [
   {
@@ -56,213 +40,149 @@ const infoCards = [
 ];
 
 export default function HakkimizdaPage() {
-  const hasFoundedYear = aboutContent.foundedYear !== null;
-  const hasFounder = aboutContent.founder !== null;
-  const hasMission = aboutContent.mission !== null;
-  const hasVision = aboutContent.vision !== null;
-  const hasValues = aboutContent.values.length > 0;
-
   return (
     <>
-      {/* HERO — navy yüzey, sağda küçük marka kartı */}
+      {/* HERO — gerçek ofis fotoğrafı arka plan + navy overlay */}
       <section className="relative isolate bg-navy-900 text-white overflow-hidden">
+        <div className="absolute inset-0 -z-10">
+          <Image
+            src={heroImage.src}
+            alt={heroImage.alt}
+            fill
+            sizes="100vw"
+            className="object-cover opacity-30"
+            priority
+          />
+        </div>
         <div
           aria-hidden
-          className="absolute inset-0 -z-10 opacity-[0.06]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, #ffffff 1px, transparent 0)",
-            backgroundSize: "28px 28px",
-          }}
+          className="absolute inset-0 -z-10 bg-gradient-to-b from-navy-900/70 via-navy-900/80 to-navy-900"
         />
         <div
           aria-hidden
-          className="absolute -top-24 -end-24 w-[26rem] h-[26rem] rounded-full bg-remax-red/25 blur-3xl -z-10"
+          className="absolute -top-32 -end-20 w-[26rem] h-[26rem] rounded-full bg-remax-red/20 blur-3xl -z-10"
         />
 
-        <div className="container-page py-20 md:py-28 grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-10 lg:gap-16 items-end">
-          <div>
+        <div className="container-page py-24 md:py-32">
+          <div className="max-w-3xl">
             <Eyebrow tone="white" className="text-white/80">
               Hakkımızda
             </Eyebrow>
             <h1 className="mt-5 font-display text-display-xl text-balance">
               Ankara&apos;da{" "}
-              <span className="accent-mark">yeni bir RE/MAX</span> adresi.
+              <span className="accent-mark">RE/MAX</span> kalitesi,
+              {" "}
+              <span className="accent-mark">Beştepe</span>&apos;de.
             </h1>
-            <p className="mt-7 text-lg text-white/70 max-w-xl leading-relaxed">
+            <p className="mt-7 text-lg text-white/75 max-w-xl leading-relaxed">
               {office.shortDescription}
             </p>
-          </div>
-
-          <div className="relative">
-            <div className="relative aspect-[5/6] rounded-3xl bg-gradient-to-br from-navy-700 via-remax-blue to-remax-red overflow-hidden border-glow">
-              <div
-                aria-hidden
-                className="absolute inset-0 opacity-25"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.55) 1px, transparent 0)",
-                  backgroundSize: "22px 22px",
-                }}
-              />
-              <Balloon className="absolute inset-0 m-auto h-2/3 w-auto drop-shadow-2xl" />
-              <div className="absolute inset-x-5 bottom-5">
-                <div className="rounded-2xl bg-white/95 backdrop-blur px-4 py-3">
-                  <div className="text-eyebrow font-display text-remax-red">
-                    {office.name}
-                  </div>
-                  <div className="mt-1 font-display font-bold text-navy">
-                    Beştepe · Ankara
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* TEMEL BİLGİLER — açık yüzey, 3 info kartı */}
+      {/* GERÇEK AÇIKLAMA — 4 paragraf */}
       <Section tone="light" density="normal">
-        <div className="max-w-2xl">
-          <Eyebrow tone="blue">Konum & İletişim</Eyebrow>
-          <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-            Ofisimizin temel bilgileri.
-          </h2>
-        </div>
-
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
-          {infoCards.map(({ icon: Icon, label, primary, secondary, href, ltr }) => {
-            const body = (
-              <>
-                <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-remax-red-soft text-remax-red">
-                  <Icon className="h-4 w-4" aria-hidden />
-                </div>
-                <div className="mt-5 text-eyebrow font-display text-navy/45">
-                  {label}
-                </div>
-                <div
-                  className="mt-1 font-display font-bold text-navy text-lg leading-tight"
-                  {...(ltr ? { dir: "ltr" } : {})}
-                >
-                  {primary}
-                </div>
-                {secondary && (
-                  <div className="mt-1 text-sm text-navy/55" {...(ltr ? { dir: "ltr" } : {})}>
-                    {secondary}
-                  </div>
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-10 lg:gap-14 items-start">
+          <div className="lg:sticky lg:top-28">
+            <Eyebrow tone="red">Çalışma Felsefemiz</Eyebrow>
+            <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
+              <span className="accent-mark">Profesyonellik</span> ve güvenilirlik.
+            </h2>
+          </div>
+          <div className="space-y-5">
+            {aboutContent.paragraphs.map((p, i) => (
+              <p
+                key={i}
+                className={cn(
+                  "leading-relaxed",
+                  i === 0
+                    ? "text-lg text-navy/80 font-medium"
+                    : "text-navy/70",
                 )}
-              </>
-            );
-            const base = "rounded-2xl border border-line bg-mist/50 p-6";
-            return href ? (
-              <a
-                key={label}
-                href={href}
-                className={`${base} block hover:bg-white hover:border-remax-red/30 hover:shadow-card transition-all`}
               >
-                {body}
-              </a>
-            ) : (
-              <div key={label} className={base}>
-                {body}
-              </div>
-            );
-          })}
+                {p}
+              </p>
+            ))}
+          </div>
         </div>
       </Section>
 
-      {/* DETAYLI İÇERİK — placeholder + dürüst not + son CTA */}
+      {/* OFİS GALERİSİ */}
       <Section tone="mist" density="normal">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-10 lg:gap-14 items-start">
-          <div>
-            <Eyebrow tone="red">Detaylı İçerik</Eyebrow>
+        <div className="flex flex-wrap items-end justify-between gap-4 mb-10">
+          <div className="max-w-xl">
+            <Eyebrow tone="blue">Ofisimiz</Eyebrow>
             <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-              <span className="accent-mark">Hikayemiz,</span> ekibimiz, vizyonumuz.
+              Beştepe&apos;deki çalışma alanımız.
             </h2>
-            <p className="mt-5 text-navy/65 leading-relaxed">
-              Bu bölümün detayları doğrulanmış kaynaklardan eklendikçe
-              yayınlanacaktır. Aşağıdaki başlıklar planlanan içeriği gösterir;
-              doldurulmadan önce hiçbir bilgi uydurulmaz.
+            <p className="mt-3 text-navy/65 leading-relaxed">
+              Resepsiyondan toplantı odalarına, açık çalışma alanından broker
+              ofislerine kadar tüm mekânlar ekibimizin ve müşterilerimizin
+              verimli çalışması için tasarlandı.
             </p>
-
-            <div className="mt-8 hidden lg:flex items-center gap-3 text-sm text-navy/55">
-              <Compass className="h-4 w-4 text-remax-red" aria-hidden />
-              Veri girdikçe gerçek kartlara dönüşür.
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {hasMission ? (
-              <div className="rounded-2xl bg-white border border-line p-6">
-                <h3 className="font-display font-bold text-navy text-xl">
-                  Misyonumuz
-                </h3>
-                <p className="mt-2 text-navy/65 leading-relaxed">
-                  {aboutContent.mission}
-                </p>
-              </div>
-            ) : (
-              <PlaceholderCard
-                title="Misyonumuz"
-                hint="Müşterilerimize sunduğumuz değer önermesinin tam metni güncellenmeyi bekliyor."
-              />
-            )}
-
-            {hasVision ? (
-              <div className="rounded-2xl bg-white border border-line p-6">
-                <h3 className="font-display font-bold text-navy text-xl">
-                  Vizyonumuz
-                </h3>
-                <p className="mt-2 text-navy/65 leading-relaxed">
-                  {aboutContent.vision}
-                </p>
-              </div>
-            ) : (
-              <PlaceholderCard
-                title="Vizyonumuz"
-                hint="Önümüzdeki dönem hedeflerimiz ve büyüme planımız burada yer alacak."
-              />
-            )}
-
-            {hasFoundedYear || hasFounder ? (
-              <div className="rounded-2xl bg-white border border-line p-6">
-                <h3 className="font-display font-bold text-navy text-xl">
-                  Kuruluş
-                </h3>
-                <p className="mt-2 text-navy/65 leading-relaxed">
-                  {hasFoundedYear && `Kuruluş yılı: ${aboutContent.foundedYear}. `}
-                  {hasFounder &&
-                    `Kurucumuz: ${aboutContent.founder?.name} — ${aboutContent.founder?.title}.`}
-                </p>
-              </div>
-            ) : (
-              <PlaceholderCard
-                title="Kuruluş ve Yönetim"
-                hint="Kuruluş yılı ve yönetim kadrosunun doğrulanmış bilgileri yakında."
-              />
-            )}
-
-            {hasValues ? (
-              <div className="rounded-2xl bg-white border border-line p-6">
-                <h3 className="font-display font-bold text-navy text-xl">
-                  Değerlerimiz
-                </h3>
-                <ul className="mt-2 space-y-1 text-navy/65">
-                  {aboutContent.values.map((v) => (
-                    <li key={v}>· {v}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : (
-              <PlaceholderCard
-                title="Değerlerimiz"
-                hint="Çalışma prensiplerimizi tanımlayan değerler listesi yakında."
-              />
-            )}
           </div>
         </div>
+        <OfficeGallery />
+      </Section>
 
-        <div className="mt-12 flex flex-wrap gap-3">
+      {/* EKİP */}
+      <TeamSection />
+
+      {/* İLETİŞİM KARTLARI */}
+      <Section tone="mist" density="normal">
+        <div className="max-w-2xl">
+          <Eyebrow tone="red">İletişim</Eyebrow>
+          <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
+            Bize ulaşın.
+          </h2>
+        </div>
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+          {infoCards.map(
+            ({ icon: Icon, label, primary, secondary, href, ltr }) => {
+              const body = (
+                <>
+                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-remax-red-soft text-remax-red">
+                    <Icon className="h-4 w-4" aria-hidden />
+                  </div>
+                  <div className="mt-5 text-eyebrow font-display text-navy/45">
+                    {label}
+                  </div>
+                  <div
+                    className="mt-1 font-display font-bold text-navy text-lg leading-tight"
+                    {...(ltr ? { dir: "ltr" } : {})}
+                  >
+                    {primary}
+                  </div>
+                  {secondary && (
+                    <div
+                      className="mt-1 text-sm text-navy/55"
+                      {...(ltr ? { dir: "ltr" } : {})}
+                    >
+                      {secondary}
+                    </div>
+                  )}
+                </>
+              );
+              const base = "rounded-2xl border border-line bg-white p-6";
+              return href ? (
+                <a
+                  key={label}
+                  href={href}
+                  className={`${base} block hover:border-remax-red/30 hover:shadow-card transition-all`}
+                >
+                  {body}
+                </a>
+              ) : (
+                <div key={label} className={base}>
+                  {body}
+                </div>
+              );
+            },
+          )}
+        </div>
+
+        <div className="mt-10 flex flex-wrap gap-3">
           <Link
             href="/iletisim"
             className={cn(
@@ -270,7 +190,7 @@ export default function HakkimizdaPage() {
               "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-6 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)]",
             )}
           >
-            Bize Ulaşın
+            İletişim Sayfası
             <ArrowRight className="h-4 w-4 ms-2" />
           </Link>
           <Link

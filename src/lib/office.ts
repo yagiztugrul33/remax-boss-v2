@@ -1,6 +1,8 @@
 export const office = {
   name: "RE/MAX BOSS",
   city: "Ankara",
+  district: "Yenimahalle",
+  neighborhood: "Beştepe",
   addressFull:
     "Beştepe Mah. Alparslan Türkeş Cad. No: 61, Yenimahalle / Ankara",
   addressShort: "Beştepe · Yenimahalle / Ankara",
@@ -26,72 +28,134 @@ export const office = {
 } as const;
 
 /**
- * Hakkımızda sayfası için doğrulanmamış alanlar.
- * Tüm değerler null = "henüz veri yok" → UI dürüst placeholder gösterir.
- * Faz 3'te kullanıcı/admin gerçek veriyi girince doldurulur. Uydurma yok.
+ * RE/MAX BOSS ofisinin GERÇEK açıklama metni.
+ * Kaynak: RE/MAX BOSS resmi içeriği. UYDURMA YOK.
  */
-export interface AboutContent {
-  // TODO: gerçek metin — kullanıcıdan
-  foundedYear: number | null;
-  // TODO: gerçek metin — kullanıcıdan
-  founder: { name: string; title: string } | null;
-  // TODO: gerçek sayı — kullanıcıdan (ofis fotoğrafı ~50 sıra gösterir ama doğrulanmalı)
-  teamSize: number | null;
-  // TODO: gerçek metin — kullanıcıdan
-  mission: string | null;
-  // TODO: gerçek metin — kullanıcıdan
-  vision: string | null;
-  // TODO: gerçek liste — kullanıcıdan
-  values: readonly string[];
+export const aboutContent = {
+  paragraphs: [
+    "Profesyonellik ve güvenilirlik, çalışma prensiplerimizin temelini oluşturur. RE/MAX Türkiye bünyesindeki geniş tecrübemiz ile hem alıcılar hem de satıcılar için benzersiz fırsatlar sunuyoruz.",
+    "Alıcılar için piyasa dinamiklerini detaylı bir şekilde analiz ederek en uygun mülkleri bulmalarına yardımcı olurken, satıcılar için ise mülklerinin değerini maksimize edecek stratejiler geliştiriyoruz. Pazarlama, müzakere ve işlem sonuçlandırma süreçlerindeki uzmanlığımız sayesinde, müşterilerimizin hedeflerine ulaşmaları için kapsamlı çözümler sunuyoruz. Etkili pazarlama tekniklerimiz ve güçlü müzakere stratejilerimiz ile mülklerin piyasa koşullarında en yüksek potansiyele ulaşmasını sağlıyoruz. Her işlemi titizlikle yönetiyor ve sürecin başından sonuna kadar yanınızda yer alıyoruz.",
+    "Geniş iletişim ağımız ve profesyonel becerilerimiz sayesinde, müşterilerimizin gayrimenkul deneyimlerini sorunsuz ve verimli bir sürece dönüştürüyoruz. RE/MAX Türkiye'nin güçlü altyapısı ve geniş kaynaklarından faydalanarak, size özel çözümler sunuyoruz. İster ev almak, ister ev satmak veya yatırım yapmak isteyin, her aşamada yanınızdayız.",
+    "Müşteri memnuniyeti en büyük önceliğimizdir. Her müşteri ile birebir ilgileniyor ve onların en iyi kararı vermelerine yardımcı olmak için çalışıyoruz. Gayrimenkul alım, satım ve yatırım süreçlerinizde güvenilir bir ortak arıyorsanız, doğru yerdesiniz.",
+  ],
+} as const;
+
+/** next/image slot — public/office/ altındaki gerçek ofis görselleri. */
+export interface ImageSlot {
+  src: string;
+  alt: string;
 }
 
-export const aboutContent: AboutContent = {
-  foundedYear: null,
-  founder: null,
-  teamSize: null,
-  mission: null,
-  vision: null,
-  values: [],
+/** Hero/OfficeIntro için seçilmiş kapak görseli. */
+export const heroImage: ImageSlot = {
+  src: "/office/boss-01.jpeg",
+  alt: "RE/MAX BOSS Beştepe ofisi — Ankara",
 };
+
+/** Ofis galerisi — 11 fotoğraf. Anasayfa ve /hakkimizda'da kullanılır. */
+export const officeGallery: readonly ImageSlot[] = [
+  { src: "/office/boss-01.jpeg", alt: "RE/MAX BOSS ofisinden 1" },
+  { src: "/office/boss-02.jpeg", alt: "RE/MAX BOSS ofisinden 2" },
+  { src: "/office/boss-03.jpeg", alt: "RE/MAX BOSS ofisinden 3" },
+  { src: "/office/boss-04.jpeg", alt: "RE/MAX BOSS ofisinden 4" },
+  { src: "/office/boss-05.jpeg", alt: "RE/MAX BOSS ofisinden 5" },
+  { src: "/office/boss-06.jpeg", alt: "RE/MAX BOSS ofisinden 6" },
+  { src: "/office/boss-07.jpeg", alt: "RE/MAX BOSS ofisinden 7" },
+  { src: "/office/boss-08.jpeg", alt: "RE/MAX BOSS ofisinden 8" },
+  { src: "/office/boss-09.jpeg", alt: "RE/MAX BOSS ofisinden 9" },
+  { src: "/office/boss-10.jpeg", alt: "RE/MAX BOSS ofisinden 10" },
+  { src: "/office/boss-11.jpeg", alt: "RE/MAX BOSS ofisinden 11" },
+] as const;
+
+// ════════════════════ EKİP ════════════════════
+
+export type AgentRole =
+  | "broker"
+  | "ofis-gelisim"
+  | "danisman"
+  | "destek";
+
+export interface Agent {
+  name: string;
+  title: string;
+  role: AgentRole;
+}
 
 /**
- * next/image slot tanımları.
- * Gerçek fotoğraflar gelene kadar src null → UI gradient/marka işareti fallback gösterir.
- * Faz 4+'te public/images/ altına gerçek dosyalar konunca burada src doldurulur.
+ * RE/MAX BOSS gerçek ekibi (kaynak: ofis listesi).
+ * Foto URL'leri yok → UI sadece isim+unvan göstersin. UYDURMA foto YOK.
  */
-export interface ImageSlot {
-  src: string | null;
-  alt: string;
-  width: number;
-  height: number;
+export const team: readonly Agent[] = [
+  // Brokerlar
+  { name: "Uğur Sucu", title: "Broker / Owner", role: "broker" },
+  { name: "Yasin Karaca", title: "Broker / Owner", role: "broker" },
+
+  // Ofis Gelişim
+  {
+    name: "Öykü Sümer",
+    title: "Recruiter ve Kurumsal İletişim",
+    role: "ofis-gelisim",
+  },
+
+  // Danışmanlar (alfabetik)
+  { name: "Berfin Yavaş", title: "Gayrimenkul Danışmanı", role: "danisman" },
+  { name: "Ceren Dişlioğlu", title: "Gayrimenkul Danışmanı", role: "danisman" },
+  { name: "Ercan Karakuş", title: "Gayrimenkul Danışmanı", role: "danisman" },
+  { name: "Gönül Kibar", title: "Gayrimenkul Danışmanı", role: "danisman" },
+  {
+    name: "Merthan Mehmet Mert",
+    title: "Gayrimenkul Danışmanı",
+    role: "danisman",
+  },
+  { name: "Mete Türkay", title: "Gayrimenkul Danışmanı", role: "danisman" },
+  {
+    name: "Ömer Sırrı Cankıymaz",
+    title: "Gayrimenkul Danışmanı",
+    role: "danisman",
+  },
+  { name: "Selma Çelik", title: "Gayrimenkul Danışmanı", role: "danisman" },
+  {
+    name: "Yusufbatuhan Kalkan",
+    title: "Gayrimenkul Danışmanı",
+    role: "danisman",
+  },
+
+  // Destek
+  {
+    name: "Aysel Akbayır",
+    title: "Karşılama ve Servis",
+    role: "destek",
+  },
+  { name: "Hüseyin Arda Sayar", title: "Sosyal Medya", role: "destek" },
+  {
+    name: "Pelin Özge Seven Şahin",
+    title: "Muhasebe ve Finans",
+    role: "destek",
+  },
+];
+
+export interface TeamGroup {
+  key: AgentRole;
+  label: string;
+  members: Agent[];
 }
 
-export const imageSlots = {
-  // TODO: gerçek görsel — kullanıcıdan (ofisin geniş açılı ön cephe veya iç mekan)
-  heroOffice: {
-    src: null,
-    alt: "RE/MAX BOSS Beştepe ofisinin geniş açılı görüntüsü",
-    width: 1600,
-    height: 1200,
-  } satisfies ImageSlot,
-  // TODO: gerçek görsel — kullanıcıdan (resepsiyon / RE/MAX BOSS logo duvarı)
-  officeReception: {
-    src: null,
-    alt: "RE/MAX BOSS resepsiyon ve karşılama alanı",
-    width: 1280,
-    height: 960,
-  } satisfies ImageSlot,
-  // TODO: gerçek görsel — kullanıcıdan (açık çalışma alanı, geniş kadraj)
-  officeFloor: {
-    src: null,
-    alt: "RE/MAX BOSS açık çalışma alanı",
-    width: 1280,
-    height: 960,
-  } satisfies ImageSlot,
-};
+export function getTeamGroups(): TeamGroup[] {
+  const groups: TeamGroup[] = [
+    { key: "broker", label: "Brokerlar", members: [] },
+    { key: "ofis-gelisim", label: "Ofis Gelişim", members: [] },
+    { key: "danisman", label: "Danışmanlar", members: [] },
+    { key: "destek", label: "Destek Ekibi", members: [] },
+  ];
+  for (const m of team) {
+    const g = groups.find((x) => x.key === m.role);
+    if (g) g.members.push(m);
+  }
+  return groups;
+}
 
+// ════════════════════ Nav ════════════════════
 // Sadece yayında olan route'lar. Yeni sayfa eklendikçe burası genişler.
-// Disiplin: 404 dönen veya henüz bulunmayan link konmaz.
 export const navItems = [
   { href: "/", label: "Anasayfa" },
   { href: "/ilanlar", label: "İlanlar" },

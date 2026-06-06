@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Balloon from "./Balloon";
 import RemaxBossWordmark from "./RemaxBossWordmark";
 import { cn } from "@/lib/utils";
 
@@ -10,12 +9,11 @@ interface LogoProps {
   className?: string;
 }
 
-const balloonSize = {
-  sm: "h-9 w-7",
-  md: "h-12 w-9 md:h-14 md:w-10",
-  lg: "h-20 w-16",
-};
-
+/**
+ * Resmi RE/MAX BOSS marka işareti — wordmark-only.
+ * Önceki el-çizimi Balloon SVG kaldırıldı; kimlik tipografi üzerinden kurulu:
+ *   RE (kırmızı italic) / (mavi separator) MAX (kırmızı italic) ® + BOSS (mavi)
+ */
 export default function Logo({
   href = "/",
   variant = "default",
@@ -23,8 +21,7 @@ export default function Logo({
   className,
 }: LogoProps) {
   const content = (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <Balloon className={balloonSize[size]} />
+    <span className={cn("inline-flex items-center", className)}>
       <RemaxBossWordmark size={size} variant={variant} />
     </span>
   );
@@ -32,7 +29,11 @@ export default function Logo({
   if (!href) return content;
 
   return (
-    <Link href={href} className="inline-flex items-center" aria-label="RE/MAX BOSS">
+    <Link
+      href={href}
+      className="inline-flex items-center"
+      aria-label="RE/MAX BOSS"
+    >
       {content}
     </Link>
   );

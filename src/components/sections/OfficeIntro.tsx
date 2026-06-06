@@ -1,11 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, MapPin, Phone, Clock } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
-import Balloon from "@/components/brand/Balloon";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { office } from "@/lib/office";
+import { office, heroImage } from "@/lib/office";
 
 export default function OfficeIntro() {
   return (
@@ -53,26 +53,25 @@ export default function OfficeIntro() {
 
         {/* SAĞ — istif edilmiş info blokları (görsel slotu boş, marka işareti) */}
         <div className="space-y-4">
-          <div className="relative aspect-[5/4] overflow-hidden rounded-3xl bg-gradient-to-br from-navy via-navy-700 to-remax-blue">
+          <div className="relative aspect-[5/4] overflow-hidden rounded-3xl bg-mist">
+            <Image
+              src={heroImage.src}
+              alt={heroImage.alt}
+              fill
+              sizes="(max-width: 1024px) 100vw, 40vw"
+              className="object-cover"
+            />
             <div
               aria-hidden
-              className="absolute inset-0 opacity-20"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.55) 1px, transparent 0)",
-                backgroundSize: "22px 22px",
-              }}
+              className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-navy/40 to-transparent"
             />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Balloon className="h-2/3 w-auto drop-shadow-2xl" />
-            </div>
             <div className="absolute bottom-5 start-5 end-5">
               <div className="rounded-xl bg-white/95 backdrop-blur px-4 py-3">
                 <div className="text-xs text-navy/55 font-semibold uppercase tracking-wider">
                   RE/MAX BOSS
                 </div>
                 <div className="mt-0.5 font-display font-bold text-navy">
-                  Beştepe · Ankara
+                  Beştepe · Yenimahalle / Ankara
                 </div>
               </div>
             </div>
