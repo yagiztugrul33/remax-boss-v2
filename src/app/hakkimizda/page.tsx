@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, MapPin, Phone, Mail } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
+import Logo from "@/components/brand/Logo";
 import OfficeGallery from "@/components/sections/OfficeGallery";
 import TeamSection from "@/components/sections/TeamSection";
 import { buttonVariants } from "@/components/ui/button";
@@ -85,6 +86,7 @@ export default function HakkimizdaPage() {
       <Section tone="light" density="normal">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-10 lg:gap-14 items-start">
           <div className="lg:sticky lg:top-28">
+            <Logo href={null} variant="light-hd" size="lg" className="mb-6" />
             <Eyebrow tone="red">Çalışma Felsefemiz</Eyebrow>
             <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
               <span className="accent-mark">Profesyonellik</span> ve güvenilirlik.

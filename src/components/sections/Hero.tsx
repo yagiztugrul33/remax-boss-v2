@@ -102,8 +102,8 @@ export default function Hero() {
                 className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-navy-900 via-navy-900/70 to-transparent"
               />
               {/* Sol üst — resmi RE/MAX BOSS balon amblem rozeti */}
-              <div className="absolute top-4 start-4 rounded-2xl bg-navy-900/70 backdrop-blur-sm p-2.5 border border-white/10">
-                <Logo href={null} variant="balloon" size="sm" />
+              <div className="absolute top-4 start-4 rounded-2xl bg-navy-900/75 backdrop-blur-sm px-3 py-2.5 border border-white/15">
+                <Logo href={null} variant="balloon" size="md" />
               </div>
               <div className="absolute inset-x-5 bottom-5">
                 <div className="text-eyebrow font-display text-white/65">

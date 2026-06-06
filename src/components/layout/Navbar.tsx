@@ -57,7 +57,7 @@ export default function Navbar() {
       </div>
 
       <div className="container-page flex items-center justify-between py-3">
-        <Logo />
+        <Logo size="lg" />
 
         <nav
           aria-label="Ana menü"
