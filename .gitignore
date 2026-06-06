@@ -13,6 +13,10 @@
 # testing
 /coverage
 
+# local-only inspection (ADIM 2 ekran görüntüleri ve scriptleri)
+/shots/
+/scripts/
+
 # next.js
 /.next/
 /out/
