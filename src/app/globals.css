@@ -305,9 +305,13 @@
     transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
                 transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .reveal-ready .reveal:not(.in-view) {
-    opacity: 0;
-    transform: translateY(28px);
+  /* Gizleme YALNIZCA masaüstünde (md+). Mobilde içerik her zaman görünür
+     → scroll-reveal'a bağlı "yarım sayfa" riski mobilde tamamen kalkar. */
+  @media (min-width: 768px) {
+    .reveal-ready .reveal:not(.in-view) {
+      opacity: 0;
+      transform: translateY(28px);
+    }
   }
   .reveal.in-view {
     opacity: 1;
@@ -889,9 +893,12 @@
     transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
                 transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .reveal-ready .reveal-on-scroll:not(.is-visible) {
-    opacity: 0;
-    transform: translateY(24px);
+  /* Gizleme yalnızca masaüstünde (md+); mobilde içerik her zaman görünür. */
+  @media (min-width: 768px) {
+    .reveal-ready .reveal-on-scroll:not(.is-visible) {
+      opacity: 0;
+      transform: translateY(24px);
+    }
   }
   /* reduced-motion: animasyon kapalı, içerik görünür kalır (gizleme yok) */
   @media (prefers-reduced-motion: reduce) {

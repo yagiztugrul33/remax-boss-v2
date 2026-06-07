@@ -89,7 +89,7 @@ export default function ListingsComingSoon({
                 href="/iletisim"
                 className={cn(
                   buttonVariants({ size: "lg" }),
-                  "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-6 text-sm font-semibold tracking-wide btn-glow btn-shine",
+                  "bg-remax-red hover:bg-remax-red-hover text-white h-auto min-h-12 py-2.5 px-6 text-sm font-semibold tracking-wide btn-glow btn-shine whitespace-normal text-center",
                 )}
               >
                 Aradığınız mülkü birlikte bulalım
