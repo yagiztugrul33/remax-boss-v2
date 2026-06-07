@@ -31,9 +31,9 @@ export default async function FeaturedListings() {
       </div>
 
       {hasListings ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="addon-stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {featured.map((l, i) => (
-            <ListingCard key={l.id} listing={l} priority={i < 2} />
+            <ListingCard key={l.id} listing={l} priority={i < 2} index={i} />
           ))}
         </div>
       ) : (

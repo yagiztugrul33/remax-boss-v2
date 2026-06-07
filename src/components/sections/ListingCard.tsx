@@ -6,24 +6,40 @@ import {
   formatLocation,
   formatPrice,
 } from "@/lib/listings";
+import { cn } from "@/lib/utils";
 
 interface ListingCardProps {
   listing: Listing;
   priority?: boolean;
+  /** Grid sırası — verilirse stagger girişi (--i) ve fade-up uygulanır. */
+  index?: number;
 }
 
 /**
  * İlan kartı — listede, öne çıkanda ve ileride arama sonucunda kullanılır.
  * UYDURMA YOK: boş alanlar gösterilmez.
  */
-export default function ListingCard({ listing, priority }: ListingCardProps) {
+export default function ListingCard({
+  listing,
+  priority,
+  index,
+}: ListingCardProps) {
   const cover = listing.imageUrls[0];
   const kindLabel = listing.listingType === "satilik" ? "Satılık" : "Kiralık";
 
   return (
     <Link
       href={`/ilanlar/${listing.id}`}
-      className="group flex flex-col rounded-2xl border border-line bg-white overflow-hidden hover:shadow-card hover:border-remax-red/30 transition-all"
+      style={index !== undefined ? ({ "--i": index } as React.CSSProperties) : undefined}
+      className={cn(
+        "group flex flex-col rounded-2xl border border-line bg-white overflow-hidden hover:shadow-card hover:border-remax-red/30 transition-all",
+        // additive: elevation + hover lift/glow
+        "card-depth",
+        // additive: grid stagger girişi
+        index !== undefined && "addon-fade-up",
+        // additive: premium kartlara shimmer kenarlık
+        listing.featured && "border-shimmer",
+      )}
     >
       <div className="relative aspect-[4/3] bg-gradient-to-br from-navy-700 via-remax-blue to-remax-red overflow-hidden">
         {cover ? (

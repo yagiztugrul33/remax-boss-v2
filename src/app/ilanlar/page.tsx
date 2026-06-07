@@ -114,9 +114,9 @@ export default async function IlanlarPage() {
       {/* LİSTE veya EMPTY STATE */}
       <Section tone="light" density="normal">
         {hasListings ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <div className="addon-stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {listings.map((l, i) => (
-              <ListingCard key={l.id} listing={l} priority={i < 4} />
+              <ListingCard key={l.id} listing={l} priority={i < 4} index={i} />
             ))}
           </div>
         ) : (

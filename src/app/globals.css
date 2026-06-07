@@ -486,9 +486,10 @@
 
   /* ── polish-depth ─ opsiyonel derinlik/ışıma katmanı (additive) ── */
 
-  /* .card-depth — kartlara opsiyonel elevation + hover lift */
+  /* .card-depth — kartlara opsiyonel elevation + hover lift + glow.
+     border KULLANMAZ → açık kartların border-line'ını ezmez (hem açık
+     hem koyu yüzeyde güvenli). Derinlik yalnızca box-shadow ile. */
   .card-depth {
-    border: 1px solid rgba(255, 255, 255, 0.06);
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.05) inset,
       0 4px 24px rgba(0, 0, 0, 0.08);
@@ -499,7 +500,8 @@
     transform: translateY(-3px);
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.05) inset,
-      0 12px 40px rgba(0, 0, 0, 0.14);
+      0 12px 40px rgba(0, 0, 0, 0.14),
+      0 0 24px -6px var(--glow-primary, rgba(220, 28, 46, 0.25));
   }
 
   /* .section-glow — section üstüne yumuşak radial ışıma */
@@ -787,6 +789,52 @@
   @media (prefers-reduced-motion: reduce) {
     .btn-shine::before {
       animation: none !important;
+    }
+  }
+
+  /* ── polish-cards ─ premium kart kenarlığı (additive, opt-in) ── */
+
+  /* .border-shimmer — opaque kart üstünde görünür gradient kenarlık.
+     mask ile yalnızca ~1.5px'lik halka boyanır; içerik görünür kalır.
+     Hover'da belirir, yavaş shimmer akar. Marka: red ↔ blue. */
+  @keyframes border-shimmer-move {
+    to { background-position: 200% 0; }
+  }
+  .border-shimmer {
+    position: relative;
+  }
+  .border-shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: linear-gradient(
+      110deg,
+      var(--color-remax-red),
+      var(--color-remax-blue),
+      var(--color-remax-red)
+    );
+    background-size: 200% 100%;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  @media (hover: hover) {
+    .border-shimmer:hover::after {
+      opacity: 1;
+      animation: border-shimmer-move 3s linear infinite;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .border-shimmer::after {
+      animation: none !important;
+      transition: none !important;
     }
   }
 
