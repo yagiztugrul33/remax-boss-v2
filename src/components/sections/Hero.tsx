@@ -46,6 +46,12 @@ export default function Hero() {
         className="absolute -bottom-32 -start-16 w-[20rem] h-[20rem] rounded-full bg-remax-blue/15 blur-3xl -z-10 animate-blob-b"
       />
 
+      {/* ── Ek dekoratif arka plan katmanı — float ── */}
+      <div
+        aria-hidden
+        className="hero-bg-layer addon-float absolute top-1/4 start-1/2 -translate-x-1/2 w-[24rem] h-[24rem] rounded-full bg-remax-red/10 blur-3xl -z-10"
+      />
+
       {/* ── Top-left logo badge ── */}
       <div className="absolute top-6 start-6 z-20">
         <div className="rounded-2xl bg-navy-900/60 backdrop-blur-sm px-3 py-2 border border-white/15">
@@ -68,7 +74,7 @@ export default function Hero() {
             <span className="block overflow-hidden">
               <span className="anim-word anim-word-1 inline-block">Ankara&apos;da</span>
               {" "}
-              <span className="anim-word anim-word-2 inline-block text-remax-red">gayrimenkul,</span>
+              <span className="anim-word anim-word-2 inline-block text-remax-red w-accent">gayrimenkul,</span>
             </span>
             <span className="block overflow-hidden mt-1">
               <span className="anim-word anim-word-3 inline-block">yeni bir</span>
@@ -87,7 +93,7 @@ export default function Hero() {
               href="#iletisim"
               className={cn(
                 buttonVariants({ size: "lg" }),
-                "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-7 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)] hover:scale-[1.02] active:scale-[0.97] transition-transform hover-glow",
+                "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-7 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)] hover:scale-[1.02] active:scale-[0.97] transition-transform hover-glow btn-glow btn-shine",
               )}
             >
               İletişime Geç
