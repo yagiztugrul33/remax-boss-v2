@@ -86,22 +86,30 @@ export interface Agent {
   name: string;
   title: string;
   role: AgentRole;
+  /** /team/ altındaki gerçek portre. Yoksa monogram kart gösterilir. */
+  photo?: string;
 }
 
 /**
- * RE/MAX BOSS gerçek ekibi (kaynak: ofis listesi).
- * Foto URL'leri yok → UI sadece isim+unvan göstersin. UYDURMA foto YOK.
+ * RE/MAX BOSS gerçek ekibi (kaynak: ofis listesi + resmi portreler).
+ * Fotoğraflar public/team/ altında; olmayan kişide monogram. UYDURMA foto YOK.
  */
 export const team: readonly Agent[] = [
   // Brokerlar
   { name: "Uğur Sucu", title: "Broker / Owner", role: "broker" },
-  { name: "Yasin Karaca", title: "Broker / Owner", role: "broker" },
+  {
+    name: "Yasin Karaca",
+    title: "Broker / Owner",
+    role: "broker",
+    photo: "/team/yasin-karaca.jpg",
+  },
 
   // Ofis Gelişim Ekibi
   {
     name: "Öykü Sümer",
     title: "Recruiter ve Kurumsal İletişim",
     role: "ofis-gelisim",
+    photo: "/team/oyku-sumer.jpg",
   },
 
   // Gayrimenkul Danışmanı (MAXX Sistem)
@@ -109,6 +117,7 @@ export const team: readonly Agent[] = [
     name: "Gönül Kibar",
     title: "Gayrimenkul Danışmanı (MAXX Sistem)",
     role: "danisman-maxx",
+    photo: "/team/gonul-kibar.jpg",
   },
 
   // Gayrimenkul Danışmanı (RAPP Sistem)
@@ -116,32 +125,52 @@ export const team: readonly Agent[] = [
     name: "Mete Türkay",
     title: "Gayrimenkul Danışmanı (RAPP Sistem)",
     role: "danisman-rapp",
+    photo: "/team/mete-turkay.jpg",
   },
   {
     name: "Ömer Sırrı Cankıymaz",
     title: "Gayrimenkul Danışmanı (RAPP Sistem)",
     role: "danisman-rapp",
+    photo: "/team/omer-sirri-cankiymaz.jpg",
   },
   {
     name: "Selma Çelik",
     title: "Gayrimenkul Danışmanı (RAPP Sistem)",
     role: "danisman-rapp",
+    photo: "/team/selma-celik.jpg",
   },
   {
     name: "Yusufbatuhan Kalkan",
     title: "Gayrimenkul Danışmanı (RAPP Sistem)",
     role: "danisman-rapp",
+    photo: "/team/yusufbatuhan-kalkan.jpg",
   },
 
-  // Sistemi (MAXX/RAPP) henüz belirtilmemiş danışmanlar — ekran
-  // görüntülerinde yoktu; kullanıcı netleştirene dek korunuyor (silinmedi).
-  { name: "Berfin Yavaş", title: "Gayrimenkul Danışmanı", role: "danisman" },
-  { name: "Ceren Dişlioğlu", title: "Gayrimenkul Danışmanı", role: "danisman" },
-  { name: "Ercan Karakuş", title: "Gayrimenkul Danışmanı", role: "danisman" },
+  // Sistemi (MAXX/RAPP) henüz belirtilmemiş danışmanlar — kullanıcı
+  // netleştirene dek "Gayrimenkul Danışmanları" grubunda (silinmedi).
+  {
+    name: "Berfin Yavaş",
+    title: "Gayrimenkul Danışmanı",
+    role: "danisman",
+    photo: "/team/berfin-yavas.jpg",
+  },
+  {
+    name: "Ceren Dişlioğlu",
+    title: "Gayrimenkul Danışmanı",
+    role: "danisman",
+    photo: "/team/ceren-dislioglu.jpg",
+  },
+  {
+    name: "Ercan Karakuş",
+    title: "Gayrimenkul Danışmanı",
+    role: "danisman",
+    photo: "/team/ercan-karakus.jpg",
+  },
   {
     name: "Merthan Mehmet Mert",
     title: "Gayrimenkul Danışmanı",
     role: "danisman",
+    photo: "/team/merthan-mehmet-mert.jpg",
   },
 
   // Ofis Destek Ekibi
@@ -149,12 +178,19 @@ export const team: readonly Agent[] = [
     name: "Aysel Akbayır",
     title: "Karşılama Ve Servis Sorumlusu",
     role: "destek",
+    photo: "/team/aysel-akbayir.jpg",
   },
-  { name: "Hüseyin Arda Sayar", title: "Sosyal Medya Uzmanı", role: "destek" },
+  {
+    name: "Hüseyin Arda Sayar",
+    title: "Sosyal Medya Uzmanı",
+    role: "destek",
+    photo: "/team/huseyin-arda-sayar.jpg",
+  },
   {
     name: "Pelin Özge Seven Şahin",
     title: "Muhasebe ve Finans",
     role: "destek",
+    photo: "/team/pelin-ozge-seven-sahin.jpg",
   },
 ];
 
