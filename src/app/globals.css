@@ -838,6 +838,22 @@
     }
   }
 
+  /* ── polish-nav ─ navigasyon cilası (additive) ── */
+
+  /* .nav-scrolled — scroll'da güçlenen blur + faint kırmızı alt kenar.
+     Header'ın mevcut backdrop-blur/border-b'sine EK; scrolled state ile
+     toggle edilir, mevcut shadow geçişini bozmaz. */
+  .nav-scrolled {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom-color: rgba(220, 28, 46, 0.18);
+  }
+
+  /* .nav-active-glow — aktif link için yumuşak kırmızı ışıma */
+  .nav-active-glow {
+    text-shadow: 0 0 12px var(--glow-primary, rgba(220, 28, 46, 0.25));
+  }
+
   /* Animasyonu reduced-motion'a saygı duyarak ver */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {

@@ -31,7 +31,7 @@ export default function Navbar() {
       className={cn(
         "sticky top-0 z-50 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/88 border-b border-line transition-shadow duration-300",
         scrolled
-          ? "shadow-[0_2px_20px_rgba(10,26,54,0.10)]"
+          ? "shadow-[0_2px_20px_rgba(10,26,54,0.10)] nav-scrolled"
           : "shadow-[0_1px_8px_rgba(10,26,54,0.04)]",
       )}
     >
@@ -112,7 +112,9 @@ export default function Navbar() {
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "relative text-sm font-medium transition-colors",
-                  active ? "text-remax-red" : "text-navy hover:text-remax-red",
+                  active
+                    ? "text-remax-red nav-active-glow"
+                    : "text-navy hover:text-remax-red addon-nav-slide",
                 )}
               >
                 {item.label}
@@ -149,8 +151,8 @@ export default function Navbar() {
 
       <div
         className={cn(
-          "lg:hidden overflow-hidden transition-[max-height] duration-300 border-t border-line",
-          open ? "max-h-[480px]" : "max-h-0 border-t-0",
+          "lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 border-t border-line",
+          open ? "max-h-[480px] opacity-100" : "max-h-0 border-t-0 opacity-0",
         )}
       >
         <nav aria-label="Mobil menü" className="container-page flex flex-col gap-2 py-4 safe-bottom">
