@@ -297,12 +297,17 @@
   .anim-delay-4 { animation-delay: 0.46s; }
   .anim-delay-5 { animation-delay: 0.58s; }
 
-  /* Scroll reveal — toggled via IntersectionObserver */
+  /* Scroll reveal — toggled via IntersectionObserver.
+     FAIL-SAFE: gizleme YALNIZCA JS hazır (.reveal-ready) iken uygulanır.
+     JS çalışmazsa / hydration tamamlanmazsa içerik GÖRÜNÜR kalır → asla
+     boş/yarım sayfa olmaz. */
   .reveal {
-    opacity: 0;
-    transform: translateY(28px);
     transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
                 transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-ready .reveal:not(.in-view) {
+    opacity: 0;
+    transform: translateY(28px);
   }
   .reveal.in-view {
     opacity: 1;

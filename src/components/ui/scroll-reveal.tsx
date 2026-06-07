@@ -40,7 +40,15 @@ export default function ScrollReveal() {
       else io.observe(el);
     }
 
-    return () => io.disconnect();
+    // Güvenlik ağı: gözlemci ateşlemezse içerik kaybolmasın.
+    const safety = window.setTimeout(() => {
+      for (const el of els) el.classList.add("is-visible");
+    }, 4000);
+
+    return () => {
+      io.disconnect();
+      window.clearTimeout(safety);
+    };
   }, []);
 
   return null;
