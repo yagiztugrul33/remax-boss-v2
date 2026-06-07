@@ -166,5 +166,6 @@ export const navItems = [
   { href: "/ilanlar", label: "İlanlar" },
   { href: "/#ofisimiz", label: "Ofisimiz" },
   { href: "/hakkimizda", label: "Hakkımızda" },
+  { href: "/ekibimiz", label: "Ekibimiz" },
   { href: "/iletisim", label: "İletişim" },
 ] as const;
