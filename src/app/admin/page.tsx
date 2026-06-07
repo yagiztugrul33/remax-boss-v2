@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/server";
 import { requireAdmin } from "@/lib/admin/guard";
 import { getAllListingsAdmin } from "@/lib/admin/queries";
+import { getUnreadMessageCount } from "@/lib/admin/leads";
 import { deleteListing } from "@/lib/admin/actions";
 import { formatLocation, formatPrice } from "@/lib/listings";
 
@@ -77,6 +78,15 @@ export default async function AdminHomePage({ searchParams }: PageProps) {
   const listings = await getAllListingsAdmin();
   const published = listings.filter((l) => l.status === "published").length;
   const drafts = listings.filter((l) => l.status === "draft").length;
+
+  // Okunmamış mesaj sayısı — migration henüz uygulanmadıysa güvenle 0 döner
+  // (mevcut admin paneli ASLA kırılmaz).
+  let unreadMessages = 0;
+  try {
+    unreadMessages = await getUnreadMessageCount();
+  } catch {
+    unreadMessages = 0;
+  }
 
   return (
     <>
@@ -158,16 +168,33 @@ export default async function AdminHomePage({ searchParams }: PageProps) {
               Tüm ilanlar
             </h2>
           </div>
-          <Link
-            href="/admin/ilan/yeni"
-            className={cn(
-              buttonVariants({ size: "lg" }),
-              "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-6 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)]",
-            )}
-          >
-            <Plus className="h-4 w-4 me-2" />
-            Yeni İlan
-          </Link>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href="/admin/mesajlar"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "relative h-12 px-5 text-sm font-semibold tracking-wide",
+              )}
+            >
+              <Mail className="h-4 w-4 me-2" />
+              Mesajlar
+              {unreadMessages > 0 && (
+                <span className="ms-2 inline-flex items-center justify-center rounded-full bg-remax-red text-white text-[11px] font-bold min-w-5 h-5 px-1.5">
+                  {unreadMessages}
+                </span>
+              )}
+            </Link>
+            <Link
+              href="/admin/ilan/yeni"
+              className={cn(
+                buttonVariants({ size: "lg" }),
+                "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-6 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)]",
+              )}
+            >
+              <Plus className="h-4 w-4 me-2" />
+              Yeni İlan
+            </Link>
+          </div>
         </div>
 
         {listings.length === 0 ? (

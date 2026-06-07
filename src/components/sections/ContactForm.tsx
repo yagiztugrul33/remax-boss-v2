@@ -1,10 +1,10 @@
 "use client";
 
 import { useId, useState, type FormEvent } from "react";
-import { Send, Info } from "lucide-react";
+import { Send, CheckCircle2, Loader2 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { office } from "@/lib/office";
+import { createClient } from "@/lib/supabase/client";
 
 const subjects = [
   "Satılık mülk hakkında",
@@ -14,10 +14,15 @@ const subjects = [
   "Diğer",
 ] as const;
 
+type Status = "idle" | "sending" | "success" | "error";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_RE = /^[+()\d\s-]{7,}$/;
+
 /**
- * Backend yok — disiplin.
- * Submit, kullanıcının e-posta istemcisinde önceden doldurulmuş bir
- * mailto:info@... taslağı açar. Sahte "gönderildi" akışı YOK.
+ * Gerçek lead formu — Supabase contact_messages tablosuna INSERT eder
+ * (anon client, RLS yalnız insert'e izin verir). Mesaj kaybolmaz; admin
+ * /admin/mesajlar'da görür. KVKK açık rıza zorunlu (Türkiye yasal).
  */
 export default function ContactForm() {
   const ids = {
@@ -26,39 +31,16 @@ export default function ContactForm() {
     phone: useId(),
     subject: useId(),
     message: useId(),
+    kvkk: useId(),
   };
-  const [opened, setOpened] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
 
-  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const PHONE_RE = /^[+()\d\s-]{7,}$/;
-
-  function buildMailto(data: FormData) {
-    const name = String(data.get("name") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim();
-    const phone = String(data.get("phone") ?? "").trim();
-    const subject = String(data.get("subject") ?? "Genel İletişim").trim();
-    const message = String(data.get("message") ?? "").trim();
-
-    const bodyLines = [
-      `Ad Soyad: ${name}`,
-      `E-posta: ${email}`,
-      `Telefon: ${phone}`,
-      "",
-      "Mesaj:",
-      message,
-    ];
-
-    const params = new URLSearchParams({
-      subject: `[Web] ${subject}`,
-      body: bodyLines.join("\n"),
-    });
-    return `mailto:${office.email}?${params.toString()}`;
-  }
-
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
+    if (status === "sending") return;
+    const form = e.currentTarget;
+    const data = new FormData(form);
 
     // Honeypot — bot bu gizli alanı doldurursa sessizce iptal (anti-spam).
     if (String(data.get("company") ?? "").trim() !== "") return;
@@ -66,28 +48,79 @@ export default function ContactForm() {
     const name = String(data.get("name") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
     const phone = String(data.get("phone") ?? "").trim();
+    const subject = String(data.get("subject") ?? "").trim();
     const message = String(data.get("message") ?? "").trim();
+    const kvkk = data.get("kvkk") === "on";
 
-    if (!name || !email || !message) {
-      setError("Lütfen ad, e-posta ve mesaj alanlarını doldurun.");
-      return;
-    }
-    if (!EMAIL_RE.test(email)) {
-      setError("Geçerli bir e-posta adresi girin.");
-      return;
-    }
-    if (phone && !PHONE_RE.test(phone)) {
-      setError("Telefon numarası geçersiz görünüyor.");
-      return;
-    }
+    // ── Validasyon (client) ──
+    if (!name) return setError("Lütfen ad soyad girin.");
+    if (!phone || !PHONE_RE.test(phone))
+      return setError("Lütfen geçerli bir telefon numarası girin.");
+    if (email && !EMAIL_RE.test(email))
+      return setError("Girdiğiniz e-posta adresi geçersiz görünüyor.");
+    if (!message) return setError("Lütfen mesajınızı yazın.");
+    if (!kvkk)
+      return setError("Devam etmek için KVKK aydınlatma onayını işaretleyin.");
 
     setError(null);
-    window.location.href = buildMailto(data);
-    setOpened(true);
+    setStatus("sending");
+
+    try {
+      const supabase = createClient();
+      const { error: dbError } = await supabase
+        .from("contact_messages")
+        .insert({
+          name,
+          email: email || null,
+          phone,
+          // Konu, mesaja eklenir (kaybolmasın); source = form tipi.
+          message: subject ? `[${subject}]\n\n${message}` : message,
+          source: "iletisim",
+          kvkk_consent: kvkk,
+        });
+      if (dbError) throw dbError;
+      form.reset();
+      setStatus("success");
+    } catch {
+      setStatus("error");
+      setError(
+        "Mesaj gönderilemedi. Lütfen tekrar deneyin veya bizi telefonla arayın.",
+      );
+    }
   }
 
   const inputClass =
     "w-full rounded-xl border border-line bg-white px-3.5 py-3 text-sm text-navy outline-none focus:border-remax-red focus:ring-2 focus:ring-remax-red/15 transition-colors";
+
+  // ── Başarı ekranı ──
+  if (status === "success") {
+    return (
+      <div
+        role="status"
+        className="rounded-3xl border border-emerald-200 bg-emerald-50 p-8 md:p-10 text-center shadow-card"
+      >
+        <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
+          <CheckCircle2 className="h-7 w-7" aria-hidden />
+        </span>
+        <h3 className="mt-5 font-display font-bold text-xl text-navy">
+          Mesajınız alındı
+        </h3>
+        <p className="mt-2 text-sm text-navy/65 leading-relaxed max-w-sm mx-auto">
+          En kısa sürede size geri döneceğiz. İlginiz için teşekkür ederiz.
+        </p>
+        <button
+          type="button"
+          onClick={() => setStatus("idle")}
+          className={cn(
+            buttonVariants({ variant: "outline", size: "lg" }),
+            "mt-6 h-11 px-5 text-sm font-semibold",
+          )}
+        >
+          Yeni mesaj gönder
+        </button>
+      </div>
+    );
+  }
 
   return (
     <form
@@ -96,35 +129,14 @@ export default function ContactForm() {
       noValidate
     >
       {/* Honeypot — ekran dışı; insanlar görmez, botlar doldurur → spam filtresi. */}
-      <div aria-hidden className="absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden"
+      >
         <label>
           Şirket (boş bırakın)
-          <input
-            type="text"
-            name="company"
-            tabIndex={-1}
-            autoComplete="off"
-          />
+          <input type="text" name="company" tabIndex={-1} autoComplete="off" />
         </label>
-      </div>
-
-      <div className="flex items-start gap-2.5 rounded-xl bg-remax-blue-soft p-3.5 text-xs text-navy/75">
-        <Info
-          className="h-4 w-4 mt-0.5 flex-shrink-0 text-remax-blue"
-          aria-hidden
-        />
-        <span>
-          Form bir taslak hazırlar ve kendi e-posta uygulamanızda açar; mesajı
-          siz gönderirsiniz. Hızlı erişim için doğrudan{" "}
-          <a
-            href={`tel:${office.phone}`}
-            className="font-semibold text-remax-blue hover:underline"
-            dir="ltr"
-          >
-            {office.phone}
-          </a>{" "}
-          numarasını da arayabilirsiniz.
-        </span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -133,13 +145,14 @@ export default function ContactForm() {
             htmlFor={ids.name}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Ad Soyad
+            Ad Soyad <span className="text-remax-red">*</span>
           </label>
           <input
             id={ids.name}
             name="name"
             required
             type="text"
+            autoComplete="name"
             placeholder="Adınız Soyadınız"
             className={inputClass}
           />
@@ -149,12 +162,15 @@ export default function ContactForm() {
             htmlFor={ids.phone}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Telefon
+            Telefon <span className="text-remax-red">*</span>
           </label>
           <input
             id={ids.phone}
             name="phone"
+            required
             type="tel"
+            autoComplete="tel"
+            inputMode="tel"
             placeholder="+90 5XX XXX XX XX"
             className={inputClass}
             dir="ltr"
@@ -167,13 +183,13 @@ export default function ContactForm() {
           htmlFor={ids.email}
           className="block text-sm font-semibold text-navy mb-1.5"
         >
-          E-posta
+          E-posta <span className="text-navy/40 font-normal">(opsiyonel)</span>
         </label>
         <input
           id={ids.email}
           name="email"
-          required
           type="email"
+          autoComplete="email"
           placeholder="ornek@eposta.com"
           className={inputClass}
         />
@@ -205,7 +221,7 @@ export default function ContactForm() {
           htmlFor={ids.message}
           className="block text-sm font-semibold text-navy mb-1.5"
         >
-          Mesajınız
+          Mesajınız <span className="text-remax-red">*</span>
         </label>
         <textarea
           id={ids.message}
@@ -217,6 +233,24 @@ export default function ContactForm() {
         />
       </div>
 
+      {/* KVKK açık rıza — zorunlu */}
+      <label
+        htmlFor={ids.kvkk}
+        className="flex items-start gap-3 rounded-xl bg-mist/60 p-3.5 text-xs text-navy/70 cursor-pointer"
+      >
+        <input
+          id={ids.kvkk}
+          name="kvkk"
+          type="checkbox"
+          className="mt-0.5 h-4 w-4 flex-shrink-0 accent-remax-red"
+        />
+        <span>
+          Kişisel verilerimin, talebimin değerlendirilmesi amacıyla{" "}
+          <span className="font-semibold text-navy">RE/MAX BOSS</span>{" "}
+          tarafından KVKK kapsamında işlenmesini kabul ediyorum.
+        </span>
+      </label>
+
       {error && (
         <p role="alert" className="text-sm font-medium text-remax-red">
           {error}
@@ -225,36 +259,29 @@ export default function ContactForm() {
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
         <p className="text-xs text-navy/55">
-          KVKK kapsamında bilgilerinizi paylaşıyor sayılırsınız.
+          <span className="text-remax-red">*</span> işaretli alanlar zorunludur.
         </p>
         <button
           type="submit"
+          disabled={status === "sending"}
           className={cn(
             buttonVariants({ size: "lg" }),
-            "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-6 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)]",
+            "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-6 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)] disabled:opacity-70 disabled:cursor-not-allowed",
           )}
         >
-          <Send className="h-4 w-4 me-2" />
-          E-posta Taslağı Hazırla
+          {status === "sending" ? (
+            <>
+              <Loader2 className="h-4 w-4 me-2 animate-spin" aria-hidden />
+              Gönderiliyor…
+            </>
+          ) : (
+            <>
+              <Send className="h-4 w-4 me-2" aria-hidden />
+              Mesaj Gönder
+            </>
+          )}
         </button>
       </div>
-
-      {opened && (
-        <div
-          role="status"
-          className="rounded-xl bg-emerald-50 border border-emerald-200 p-3.5 text-sm text-emerald-800"
-        >
-          E-posta uygulamanız açıldıysa mesajı oradan gönderebilirsiniz.
-          Açılmadıysa lütfen{" "}
-          <a
-            href={`mailto:${office.email}`}
-            className="font-semibold underline"
-          >
-            {office.email}
-          </a>{" "}
-          adresine doğrudan yazın.
-        </div>
-      )}
     </form>
   );
 }
