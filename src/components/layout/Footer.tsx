@@ -9,7 +9,12 @@ import {
   TwitterIcon,
 } from "@/components/brand/SocialIcons";
 import { office } from "@/lib/office";
+import { services } from "@/lib/services";
 import type { Dict } from "@/lib/i18n/dictionaries";
+
+// dict.servicesList sırası services dizisiyle eşleşir (alim-satim, kiralama,
+// degerleme, portfoy) → indeksle slug bağla.
+const serviceSlugs = services.map((s) => s.slug);
 
 // KOŞULLU: yalnızca dolu (gerçek) URL'ler render edilir; boş hesaba link YOK.
 const socials = [
@@ -87,14 +92,26 @@ export default function Footer({
             {dict.services}
           </h3>
           <ul className="space-y-2 text-sm">
-            {dict.servicesList.map((label) => (
-              <li key={label} className="text-white/70">
-                {label}
-              </li>
-            ))}
+            {dict.servicesList.map((label, i) => {
+              const slug = serviceSlugs[i];
+              return (
+                <li key={label}>
+                  {slug ? (
+                    <Link
+                      href={`/hizmetler/${slug}`}
+                      className="text-white/70 hover:text-white transition-colors"
+                    >
+                      {label}
+                    </Link>
+                  ) : (
+                    <span className="text-white/70">{label}</span>
+                  )}
+                </li>
+              );
+            })}
           </ul>
           <Link
-            href="/iletisim"
+            href="/hizmetler"
             className="mt-4 inline-flex text-sm font-semibold text-white hover:text-remax-red transition-colors"
           >
             {dict.serviceRequest}

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { posts } from "@/lib/blog";
+import { services } from "@/lib/services";
 
 const siteUrl = "https://remax-boss-v2.vercel.app";
 
@@ -12,6 +13,7 @@ const routes: {
 }[] = [
   { path: "/", priority: 1, changeFrequency: "weekly" },
   { path: "/ilanlar", priority: 0.9, changeFrequency: "weekly" },
+  { path: "/hizmetler", priority: 0.8, changeFrequency: "monthly" },
   { path: "/blog", priority: 0.8, changeFrequency: "weekly" },
   { path: "/hakkimizda", priority: 0.7, changeFrequency: "monthly" },
   { path: "/ekibimiz", priority: 0.6, changeFrequency: "monthly" },
@@ -37,5 +39,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticEntries, ...blogEntries];
+  // Hizmet detay sayfaları.
+  const serviceEntries: MetadataRoute.Sitemap = services.map((s) => ({
+    url: `${siteUrl}/hizmetler/${s.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticEntries, ...serviceEntries, ...blogEntries];
 }
