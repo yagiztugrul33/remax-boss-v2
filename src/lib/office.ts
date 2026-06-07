@@ -162,6 +162,7 @@ export function getTeamGroups(): TeamGroup[] {
 export const navItems = [
   { href: "/", label: "Anasayfa" },
   { href: "/ilanlar", label: "İlanlar" },
+  { href: "/#ofisimiz", label: "Ofisimiz" },
   { href: "/hakkimizda", label: "Hakkımızda" },
   { href: "/iletisim", label: "İletişim" },
 ] as const;

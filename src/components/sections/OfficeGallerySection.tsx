@@ -5,7 +5,7 @@ import OfficeGallery from "@/components/sections/OfficeGallery";
 
 export default function OfficeGallerySection() {
   return (
-    <Section tone="light" density="normal" innerClassName="space-y-8">
+    <Section id="galeri" tone="light" density="normal" innerClassName="space-y-8">
       <Reveal>
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-6 lg:gap-12 items-end">
           <div>

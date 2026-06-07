@@ -270,6 +270,59 @@
   .stagger-3 { transition-delay: 240ms; }
   .stagger-4 { transition-delay: 320ms; }
 
+  /* Word-mask reveal — Hero title */
+  @keyframes word-up {
+    from { transform: translateY(110%); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+  .anim-word {
+    display: inline-block;
+    opacity: 0;
+    animation: word-up 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .anim-word-1 { animation-delay: 0.15s; }
+  .anim-word-2 { animation-delay: 0.28s; }
+  .anim-word-3 { animation-delay: 0.41s; }
+  .anim-word-4 { animation-delay: 0.54s; }
+  .anim-word-5 { animation-delay: 0.67s; }
+
+  /* Scroll cue — bouncing chevron */
+  @keyframes scroll-cue {
+    0%, 100% { transform: translateY(0);   opacity: 0.7; }
+    50%       { transform: translateY(8px); opacity: 0.3; }
+  }
+  .animate-scroll-cue {
+    animation: scroll-cue 2.2s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  /* Glow pulse — hover CTA */
+  @keyframes glow-red {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(220,28,46,0); }
+    50%       { box-shadow: 0 0 28px 6px rgba(220,28,46,0.38); }
+  }
+  .hover-glow:hover {
+    animation: glow-red 1.6s ease-in-out infinite;
+  }
+
+  /* Underline slide-in — nav link */
+  .nav-underline::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--color-remax-red);
+    border-radius: 999px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-underline:hover::after,
+  .nav-underline.active::after {
+    transform: scaleX(1);
+  }
+
   /* Animasyonu reduced-motion'a saygı duyarak ver */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {

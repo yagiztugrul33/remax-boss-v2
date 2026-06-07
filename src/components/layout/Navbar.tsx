@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, MapPin, Globe, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, MapPin, Globe, ChevronDown, Building2 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import Logo from "@/components/brand/Logo";
 import { navItems, office } from "@/lib/office";
@@ -82,6 +82,29 @@ export default function Navbar() {
         <nav aria-label="Ana menü" className="hidden lg:flex items-center gap-6">
           {navItems.map((item) => {
             const active = isActive(pathname, item.href);
+            if (item.label === "Ofisimiz") {
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="group relative inline-flex items-center text-sm font-medium text-navy hover:text-remax-red transition-colors duration-200"
+                >
+                  <span
+                    aria-hidden
+                    className="inline-flex items-center justify-center w-0 overflow-hidden opacity-0 translate-x-[-4px] group-hover:w-4 group-hover:opacity-100 group-hover:translate-x-0 group-hover:me-1.5 transition-all duration-300 ease-out"
+                  >
+                    <Building2 className="h-3.5 w-3.5 flex-shrink-0" />
+                  </span>
+                  <span className="relative">
+                    Ofisimiz
+                    <span
+                      aria-hidden
+                      className="absolute -bottom-px start-0 end-0 h-px bg-remax-red rounded-full scale-x-0 origin-start transition-transform duration-300 group-hover:scale-x-100"
+                    />
+                  </span>
+                </Link>
+              );
+            }
             return (
               <Link
                 key={item.href}
@@ -133,6 +156,19 @@ export default function Navbar() {
         <nav aria-label="Mobil menü" className="container-page flex flex-col gap-2 py-4">
           {navItems.map((item) => {
             const active = isActive(pathname, item.href);
+            if (item.label === "Ofisimiz") {
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="group py-2 flex items-center gap-2 text-sm font-medium text-navy hover:text-remax-red transition-colors"
+                >
+                  <Building2 className="h-4 w-4 text-remax-red/60 group-hover:text-remax-red transition-colors" aria-hidden />
+                  Ofisimiz
+                </Link>
+              );
+            }
             return (
               <Link
                 key={item.href}
