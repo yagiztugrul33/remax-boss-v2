@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, MapPin, ChevronDown } from "lucide-react";
-import Logo from "@/components/brand/Logo";
 import { buttonVariants } from "@/components/ui/button";
 import Eyebrow from "@/components/ui/eyebrow";
 import { cn } from "@/lib/utils";
@@ -51,13 +50,6 @@ export default function Hero() {
         aria-hidden
         className="hero-bg-layer addon-float absolute top-1/4 start-1/2 -translate-x-1/2 w-[24rem] h-[24rem] rounded-full bg-remax-red/10 blur-3xl -z-10"
       />
-
-      {/* ── Top-left logo badge ── */}
-      <div className="absolute top-6 start-6 z-20">
-        <div className="rounded-2xl bg-navy-900/60 backdrop-blur-sm px-3 py-2 border border-white/15">
-          <Logo href={null} variant="balloon" size="sm" />
-        </div>
-      </div>
 
       {/* ── Main content ── */}
       <div className="relative z-10 container-page pb-24 pt-32">

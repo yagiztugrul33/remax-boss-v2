@@ -235,6 +235,9 @@
   }
   html {
     scroll-behavior: smooth;
+    /* Kök seviye yatay taşma kalkanı (body ile birlikte belt-and-suspenders).
+       clip → scroll-container yapmaz, sticky navbar bozulmaz. */
+    overflow-x: clip;
   }
 }
 

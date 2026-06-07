@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ScrollProgress from "@/components/ui/scroll-progress";
 import ScrollReveal from "@/components/ui/scroll-reveal";
+import FloatingActions from "@/components/ui/floating-actions";
 import { office } from "@/lib/office";
 import "./globals.css";
 
@@ -124,6 +125,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <FloatingActions />
       </body>
     </html>
   );
