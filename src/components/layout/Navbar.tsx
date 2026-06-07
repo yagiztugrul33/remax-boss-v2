@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Menu, X, Phone, MapPin, Globe, ChevronDown, Building2 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
-import Logo from "@/components/brand/Logo";
+import BrandLockup from "@/components/brand/BrandLockup";
 import { navItems, office } from "@/lib/office";
 import { cn } from "@/lib/utils";
 
@@ -77,7 +77,7 @@ export default function Navbar() {
           scrolled ? "py-2" : "py-3",
         )}
       >
-        <Logo variant="balloon" size={scrolled ? "lg" : "xl"} className="transition-[height] duration-300" />
+        <BrandLockup scrolled={scrolled} />
 
         <nav aria-label="Ana menü" className="hidden lg:flex items-center gap-6">
           {navItems.map((item) => {
