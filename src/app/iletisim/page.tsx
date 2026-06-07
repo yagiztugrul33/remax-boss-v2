@@ -117,7 +117,7 @@ export default function IletisimPage() {
                   )}
                 </>
               );
-              const base = "rounded-2xl border border-line bg-mist/50 p-5";
+              const base = "card-depth rounded-2xl border border-line bg-mist/50 p-5";
               return href ? (
                 <a
                   key={label}

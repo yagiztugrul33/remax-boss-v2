@@ -62,7 +62,7 @@ export default async function FeaturedListings() {
                 href={`tel:${office.phone}`}
                 className={cn(
                   buttonVariants({ size: "lg" }),
-                  "bg-remax-red hover:bg-remax-red-hover text-white h-11 px-5 text-sm font-semibold",
+                  "bg-remax-red hover:bg-remax-red-hover text-white h-11 px-5 text-sm font-semibold btn-glow btn-shine",
                 )}
               >
                 <Phone className="h-4 w-4 me-2" />

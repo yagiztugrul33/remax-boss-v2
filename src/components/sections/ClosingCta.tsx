@@ -49,7 +49,7 @@ export default function ClosingCta() {
               href="#iletisim"
               className={cn(
                 buttonVariants({ size: "lg" }),
-                "bg-navy-900 hover:bg-navy-700 text-white h-14 px-7 text-base font-semibold tracking-wide",
+                "bg-navy-900 hover:bg-navy-700 text-white h-14 px-7 text-base font-semibold tracking-wide btn-shine",
               )}
             >
               Değerleme İste

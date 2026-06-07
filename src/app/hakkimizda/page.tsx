@@ -166,7 +166,7 @@ export default function HakkimizdaPage() {
                   )}
                 </>
               );
-              const base = "rounded-2xl border border-line bg-white p-6";
+              const base = "card-depth rounded-2xl border border-line bg-white p-6";
               return href ? (
                 <a
                   key={label}
@@ -189,7 +189,7 @@ export default function HakkimizdaPage() {
             href="/iletisim"
             className={cn(
               buttonVariants({ size: "lg" }),
-              "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-6 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)]",
+              "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-6 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)] btn-glow btn-shine",
             )}
           >
             İletişim Sayfası
