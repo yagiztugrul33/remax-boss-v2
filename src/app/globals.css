@@ -323,6 +323,24 @@
     transform: scaleX(1);
   }
 
+  /* Hero decorative blob float */
+  @keyframes hero-blob-a {
+    0%, 100% { transform: translate(0, 0)     scale(1); }
+    50%       { transform: translate(12px, -20px) scale(1.07); }
+  }
+  @keyframes hero-blob-b {
+    0%, 100% { transform: translate(0, 0)      scale(1); }
+    50%       { transform: translate(-16px, 16px) scale(1.05); }
+  }
+  .animate-blob-a {
+    animation: hero-blob-a 9s ease-in-out infinite;
+    will-change: transform;
+  }
+  .animate-blob-b {
+    animation: hero-blob-b 11s ease-in-out infinite;
+    will-change: transform;
+  }
+
   /* Animasyonu reduced-motion'a saygı duyarak ver */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {

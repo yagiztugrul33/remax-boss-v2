@@ -36,11 +36,11 @@ export default function Hero() {
       {/* ── Decorative glow blobs ── */}
       <div
         aria-hidden
-        className="absolute -top-24 -end-24 w-[28rem] h-[28rem] rounded-full bg-remax-red/20 blur-3xl -z-10"
+        className="absolute -top-24 -end-24 w-[28rem] h-[28rem] rounded-full bg-remax-red/20 blur-3xl -z-10 animate-blob-a"
       />
       <div
         aria-hidden
-        className="absolute -bottom-32 -start-16 w-[20rem] h-[20rem] rounded-full bg-remax-blue/15 blur-3xl -z-10"
+        className="absolute -bottom-32 -start-16 w-[20rem] h-[20rem] rounded-full bg-remax-blue/15 blur-3xl -z-10 animate-blob-b"
       />
 
       {/* ── Top-left logo badge ── */}
@@ -84,7 +84,7 @@ export default function Hero() {
               href="#iletisim"
               className={cn(
                 buttonVariants({ size: "lg" }),
-                "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-7 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)] active:scale-[0.97] transition-transform hover-glow",
+                "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-7 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)] hover:scale-[1.02] active:scale-[0.97] transition-transform hover-glow",
               )}
             >
               İletişime Geç
