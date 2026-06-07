@@ -13,6 +13,9 @@ export default function Hero() {
       className="relative isolate min-h-[92vh] flex flex-col justify-end overflow-hidden bg-navy-900"
       aria-label="RE/MAX BOSS — Ankara Beştepe gayrimenkul ofisi"
     >
+      {/* ── Gradient mesh backdrop (z-index -1) ── */}
+      <div aria-hidden className="hero-mesh" />
+
       {/* ── Full-bleed photo ── */}
       <Image
         src={heroImage.src}
