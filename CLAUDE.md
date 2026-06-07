@@ -30,6 +30,23 @@
 | 6 | Ofisimiz + animasyon — Hero full-bleed, OfficeShowcase, tilt cards | ✅ |
 | 7 | Güvenlik denetimi — security headers, gitignore, git geçmiş taraması | ✅ |
 
+## Veri Modeli — KESİN KARAR (YOL A, 2026-06-07)
+
+> **Veri modeli = MEVCUT CANLI ŞEMA.** Yeni özellikler bunun ÜZERİNE,
+> `is_admin()`'i **BOZMADAN** eklenir. Aşağıdaki yapı tek doğruluk kaynağıdır.
+
+- **Tablolar (canlı):** `admins`, `listings`, `contact_messages`,
+  `campaign_settings`, `campaign_applications`
+- **Yetki:** `public.is_admin()` (0002) → **`admins` tablosuna** dayalı
+  (`exists(select 1 from public.admins where id = auth.uid())`) + app-level
+  `ADMIN_EMAILS` (UI guard, savunma derinliği). **Bu fonksiyon DEĞİŞTİRİLMEZ.**
+- **Migration sırası:** `0001_listings` → `0002_listings_write` (admins + is_admin
+  + storage) → `0003_contact_messages` → `0004_campaign`. Yeni tablo = `0005_*`,
+  AYNI güvenli deseni izler (anon insert / admin select via `is_admin()`).
+- **TERK EDİLDİ:** `profiles`/`agents`/role-enum tabanlı "v2-platform" 18-tablolu
+  şema **KULLANILMIYOR** (silindi). `profiles` tabanlı `is_admin()` yeniden
+  tanımı YASAK — canlı `admins` mantığını bozar.
+
 ## Değişmez Kurallar (her fazda geçerli — ASLA bozma)
 
 1. **TEK ADIM:** Tek görev, tek PR, tek push. Kapsam genişletme yasak.
