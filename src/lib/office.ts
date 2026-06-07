@@ -77,6 +77,8 @@ export const officeGallery: readonly ImageSlot[] = [
 export type AgentRole =
   | "broker"
   | "ofis-gelisim"
+  | "danisman-maxx"
+  | "danisman-rapp"
   | "danisman"
   | "destek";
 
@@ -95,43 +97,60 @@ export const team: readonly Agent[] = [
   { name: "Uğur Sucu", title: "Broker / Owner", role: "broker" },
   { name: "Yasin Karaca", title: "Broker / Owner", role: "broker" },
 
-  // Ofis Gelişim
+  // Ofis Gelişim Ekibi
   {
     name: "Öykü Sümer",
     title: "Recruiter ve Kurumsal İletişim",
     role: "ofis-gelisim",
   },
 
-  // Danışmanlar (alfabetik)
+  // Gayrimenkul Danışmanı (MAXX Sistem)
+  {
+    name: "Gönül Kibar",
+    title: "Gayrimenkul Danışmanı (MAXX Sistem)",
+    role: "danisman-maxx",
+  },
+
+  // Gayrimenkul Danışmanı (RAPP Sistem)
+  {
+    name: "Mete Türkay",
+    title: "Gayrimenkul Danışmanı (RAPP Sistem)",
+    role: "danisman-rapp",
+  },
+  {
+    name: "Ömer Sırrı Cankıymaz",
+    title: "Gayrimenkul Danışmanı (RAPP Sistem)",
+    role: "danisman-rapp",
+  },
+  {
+    name: "Selma Çelik",
+    title: "Gayrimenkul Danışmanı (RAPP Sistem)",
+    role: "danisman-rapp",
+  },
+  {
+    name: "Yusufbatuhan Kalkan",
+    title: "Gayrimenkul Danışmanı (RAPP Sistem)",
+    role: "danisman-rapp",
+  },
+
+  // Sistemi (MAXX/RAPP) henüz belirtilmemiş danışmanlar — ekran
+  // görüntülerinde yoktu; kullanıcı netleştirene dek korunuyor (silinmedi).
   { name: "Berfin Yavaş", title: "Gayrimenkul Danışmanı", role: "danisman" },
   { name: "Ceren Dişlioğlu", title: "Gayrimenkul Danışmanı", role: "danisman" },
   { name: "Ercan Karakuş", title: "Gayrimenkul Danışmanı", role: "danisman" },
-  { name: "Gönül Kibar", title: "Gayrimenkul Danışmanı", role: "danisman" },
   {
     name: "Merthan Mehmet Mert",
     title: "Gayrimenkul Danışmanı",
     role: "danisman",
   },
-  { name: "Mete Türkay", title: "Gayrimenkul Danışmanı", role: "danisman" },
-  {
-    name: "Ömer Sırrı Cankıymaz",
-    title: "Gayrimenkul Danışmanı",
-    role: "danisman",
-  },
-  { name: "Selma Çelik", title: "Gayrimenkul Danışmanı", role: "danisman" },
-  {
-    name: "Yusufbatuhan Kalkan",
-    title: "Gayrimenkul Danışmanı",
-    role: "danisman",
-  },
 
-  // Destek
+  // Ofis Destek Ekibi
   {
     name: "Aysel Akbayır",
-    title: "Karşılama ve Servis",
+    title: "Karşılama Ve Servis Sorumlusu",
     role: "destek",
   },
-  { name: "Hüseyin Arda Sayar", title: "Sosyal Medya", role: "destek" },
+  { name: "Hüseyin Arda Sayar", title: "Sosyal Medya Uzmanı", role: "destek" },
   {
     name: "Pelin Özge Seven Şahin",
     title: "Muhasebe ve Finans",
@@ -148,9 +167,19 @@ export interface TeamGroup {
 export function getTeamGroups(): TeamGroup[] {
   const groups: TeamGroup[] = [
     { key: "broker", label: "Brokerlar", members: [] },
-    { key: "ofis-gelisim", label: "Ofis Gelişim", members: [] },
-    { key: "danisman", label: "Danışmanlar", members: [] },
-    { key: "destek", label: "Destek Ekibi", members: [] },
+    { key: "ofis-gelisim", label: "Ofis Gelişim Ekibi", members: [] },
+    {
+      key: "danisman-maxx",
+      label: "Gayrimenkul Danışmanı (MAXX Sistem)",
+      members: [],
+    },
+    {
+      key: "danisman-rapp",
+      label: "Gayrimenkul Danışmanı (RAPP Sistem)",
+      members: [],
+    },
+    { key: "danisman", label: "Gayrimenkul Danışmanları", members: [] },
+    { key: "destek", label: "Ofis Destek Ekibi", members: [] },
   ];
   for (const m of team) {
     const g = groups.find((x) => x.key === m.role);

@@ -6,6 +6,8 @@ import { getTeamGroups, type AgentRole } from "@/lib/office";
 const roleIcon: Record<AgentRole, typeof Users> = {
   broker: Crown,
   "ofis-gelisim": UserCog,
+  "danisman-maxx": Briefcase,
+  "danisman-rapp": Briefcase,
   danisman: Briefcase,
   destek: Users,
 };
