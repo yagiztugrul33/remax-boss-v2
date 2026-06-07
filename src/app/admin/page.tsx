@@ -12,6 +12,7 @@ import {
   EyeOff,
   CheckCircle2,
   Info,
+  Coins,
 } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
@@ -21,6 +22,7 @@ import { createClient } from "@/lib/supabase/server";
 import { requireAdmin } from "@/lib/admin/guard";
 import { getAllListingsAdmin } from "@/lib/admin/queries";
 import { getUnreadMessageCount } from "@/lib/admin/leads";
+import { getNewCampaignCount } from "@/lib/admin/campaign";
 import { deleteListing } from "@/lib/admin/actions";
 import { formatLocation, formatPrice } from "@/lib/listings";
 
@@ -86,6 +88,12 @@ export default async function AdminHomePage({ searchParams }: PageProps) {
     unreadMessages = await getUnreadMessageCount();
   } catch {
     unreadMessages = 0;
+  }
+  let newCampaign = 0;
+  try {
+    newCampaign = await getNewCampaignCount();
+  } catch {
+    newCampaign = 0;
   }
 
   return (
@@ -181,6 +189,21 @@ export default async function AdminHomePage({ searchParams }: PageProps) {
               {unreadMessages > 0 && (
                 <span className="ms-2 inline-flex items-center justify-center rounded-full bg-remax-red text-white text-[11px] font-bold min-w-5 h-5 px-1.5">
                   {unreadMessages}
+                </span>
+              )}
+            </Link>
+            <Link
+              href="/admin/kampanya"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "relative h-12 px-5 text-sm font-semibold tracking-wide",
+              )}
+            >
+              <Coins className="h-4 w-4 me-2" />
+              Kampanya
+              {newCampaign > 0 && (
+                <span className="ms-2 inline-flex items-center justify-center rounded-full bg-remax-red text-white text-[11px] font-bold min-w-5 h-5 px-1.5">
+                  {newCampaign}
                 </span>
               )}
             </Link>
