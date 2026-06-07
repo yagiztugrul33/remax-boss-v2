@@ -77,7 +77,7 @@ export default function Navbar() {
           scrolled ? "py-2" : "py-3",
         )}
       >
-        <Logo size={scrolled ? "md" : "lg"} className="transition-[height] duration-300" />
+        <Logo size={scrolled ? "lg" : "xl"} className="transition-[height] duration-300" />
 
         <nav aria-label="Ana menü" className="hidden lg:flex items-center gap-6">
           {navItems.map((item) => {
