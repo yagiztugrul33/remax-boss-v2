@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Sora, Inter, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import ScrollProgress from "@/components/ui/scroll-progress";
+import ScrollReveal from "@/components/ui/scroll-reveal";
 import "./globals.css";
 
 // Display: Sora — modern, bold, karakterli grotesk
@@ -46,6 +48,8 @@ export default function RootLayout({
       className={`${sora.variable} ${inter.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <ScrollProgress />
+        <ScrollReveal />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

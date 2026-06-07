@@ -35,7 +35,7 @@ const items = [
 
 export default function ContactStrip() {
   return (
-    <Section id="iletisim" tone="dark" density="normal">
+    <Section id="iletisim" tone="dark" density="normal" className="reveal-on-scroll">
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-10 lg:gap-14 items-start">
         <div>
           <Eyebrow tone="white" className="text-white/70">

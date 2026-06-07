@@ -6,7 +6,7 @@ import { office } from "@/lib/office";
 
 export default function ClosingCta() {
   return (
-    <section className="relative overflow-hidden bg-remax-red text-white">
+    <section className="reveal-on-scroll relative overflow-hidden bg-remax-red text-white">
       {/* arka plan dokusu — bold ama disiplinli */}
       <div
         aria-hidden

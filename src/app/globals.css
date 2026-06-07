@@ -854,6 +854,45 @@
     text-shadow: 0 0 12px var(--glow-primary, rgba(220, 28, 46, 0.25));
   }
 
+  /* ── polish-scroll ─ scroll ilerleme + reveal (additive) ── */
+
+  /* Üst scroll progress bar — JS transform:scaleX ile sürülür.
+     CSS animasyonu DEĞİL → reduced-motion'da çalışmaya devam eder. */
+  .scroll-progress {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    height: 2px;
+    z-index: 100;
+    pointer-events: none;
+  }
+  .scroll-progress__bar {
+    height: 100%;
+    background: var(--color-remax-red);
+    transform-origin: left;
+    transform: scaleX(0);
+    will-change: transform;
+  }
+
+  /* .reveal-on-scroll — yalnızca JS aktifken (.reveal-ready) gizlenir;
+     no-JS/SSR'de görünür kalır. Sadece transform + opacity animate edilir.
+     Mevcut .reveal/<Reveal> mekanizmasına dokunmaz. */
+  .reveal-on-scroll {
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-ready .reveal-on-scroll:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  /* reduced-motion: animasyon kapalı, içerik görünür kalır (gizleme yok) */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-ready .reveal-on-scroll:not(.is-visible) {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   /* Animasyonu reduced-motion'a saygı duyarak ver */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
