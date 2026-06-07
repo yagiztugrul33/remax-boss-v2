@@ -10,7 +10,6 @@ import { office, heroImage } from "@/lib/office";
 export default function Hero() {
   return (
     <section className="relative isolate bg-navy-900 text-white overflow-hidden">
-      {/* arka plan: hafif noise + sağ üstte kırmızı glow */}
       <div
         aria-hidden
         className="absolute inset-0 -z-10 opacity-[0.06]"
@@ -31,30 +30,31 @@ export default function Hero() {
 
       <div className="container-page py-24 md:py-32 lg:py-40">
         <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-12 lg:gap-20 items-end">
-          {/* SOL — bold tipografik blok */}
           <div className="lg:pe-8">
-            <Eyebrow tone="white" className="text-white/80">
-              {office.city} · {office.addressShort.split(" ·")[0]}
-            </Eyebrow>
+            <div className="anim-hero anim-delay-1">
+              <Eyebrow tone="white" className="text-white/80">
+                {office.city} · {office.addressShort.split(" ·")[0]}
+              </Eyebrow>
+            </div>
 
-            <h1 className="mt-6 font-display text-display-xl text-balance">
+            <h1 className="mt-6 font-display text-display-xl text-balance anim-hero anim-delay-2">
               Ankara&apos;da{" "}
               <span className="accent-mark">gayrimenkul,</span>
               <br className="hidden sm:block" />
               yeni bir disiplinle.
             </h1>
 
-            <p className="mt-8 max-w-xl text-lg md:text-xl text-white/70 leading-relaxed">
+            <p className="mt-8 max-w-xl text-lg md:text-xl text-white/70 leading-relaxed anim-hero anim-delay-3">
               Beştepe merkezli ofisimiz ve RE/MAX Türkiye altyapısıyla, alıcı ve
               satıcılara şeffaf, sonuç odaklı bir danışmanlık deneyimi sunuyoruz.
             </p>
 
-            <div className="mt-10 flex flex-wrap items-center gap-3">
+            <div className="mt-10 flex flex-wrap items-center gap-3 anim-hero anim-delay-4">
               <a
                 href="#iletisim"
                 className={cn(
                   buttonVariants({ size: "lg" }),
-                  "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-6 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)]",
+                  "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-6 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)] active:scale-[0.97] transition-transform",
                 )}
               >
                 İletişime Geç
@@ -64,14 +64,14 @@ export default function Hero() {
                 href="/hakkimizda"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "lg" }),
-                  "border-white/25 bg-transparent text-white hover:bg-white/10 hover:text-white h-12 px-6 text-sm font-semibold tracking-wide",
+                  "border-white/25 bg-transparent text-white hover:bg-white/10 hover:text-white h-12 px-6 text-sm font-semibold tracking-wide active:scale-[0.97] transition-transform",
                 )}
               >
                 Hakkımızda
               </Link>
             </div>
 
-            <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-white/60">
+            <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-white/60 anim-hero anim-delay-5">
               <span className="inline-flex items-center gap-2">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 animate-ping" />
@@ -86,22 +86,20 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* SAĞ — gerçek ofis fotoğrafı + iletişim mini kart */}
-          <div className="relative">
+          <div className="relative anim-hero anim-delay-3">
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border-glow bg-navy-700">
               <Image
                 src={heroImage.src}
                 alt={heroImage.alt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 35vw"
-                className="object-cover"
+                className="object-cover animate-kenburns"
                 priority
               />
               <div
                 aria-hidden
                 className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-navy-900 via-navy-900/70 to-transparent"
               />
-              {/* Sol üst — resmi RE/MAX BOSS balon amblem rozeti */}
               <div className="absolute top-4 start-4 rounded-2xl bg-navy-900/75 backdrop-blur-sm px-3 py-2.5 border border-white/15">
                 <Logo href={null} variant="balloon" size="md" />
               </div>
@@ -152,7 +150,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* alt sınır — koyu yüzeyden ışığa keskin geçiş */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent" />
     </section>
   );

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X, Phone, MapPin, Globe, ChevronDown } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import Logo from "@/components/brand/Logo";
@@ -16,16 +16,31 @@ function isActive(pathname: string, href: string) {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname() ?? "/";
 
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 60);
+    handler();
+    window.addEventListener("scroll", handler, { passive: true });
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85 border-b border-line shadow-[0_1px_8px_rgba(10,26,54,0.04)]">
+    <header
+      className={cn(
+        "sticky top-0 z-50 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/88 border-b border-line transition-shadow duration-300",
+        scrolled
+          ? "shadow-[0_2px_20px_rgba(10,26,54,0.10)]"
+          : "shadow-[0_1px_8px_rgba(10,26,54,0.04)]",
+      )}
+    >
       <div className="bg-navy text-white text-xs sm:text-[13px]">
         <div className="container-page flex flex-wrap items-center justify-between gap-2 py-2">
           <div className="flex items-center gap-4 flex-wrap">
             <a
               href={`tel:${office.phone}`}
-              className="inline-flex items-center gap-1.5 hover:text-white/80"
+              className="inline-flex items-center gap-1.5 hover:text-white/80 transition-colors"
             >
               <Phone className="h-3.5 w-3.5" aria-hidden />
               <span dir="ltr">{office.phone}</span>
@@ -38,14 +53,14 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             <Link
               href="/iletisim"
-              className="hidden sm:inline hover:text-white/80"
+              className="hidden sm:inline hover:text-white/80 transition-colors"
             >
               Danışman Ol
             </Link>
             <span className="hidden sm:inline opacity-40">|</span>
             <button
               type="button"
-              className="inline-flex items-center gap-1 hover:text-white/80"
+              className="inline-flex items-center gap-1 hover:text-white/80 transition-colors"
               aria-label="Dil seçimi"
             >
               <Globe className="h-3.5 w-3.5" aria-hidden />
@@ -56,13 +71,15 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="container-page flex items-center justify-between py-3">
-        <Logo size="lg" />
+      <div
+        className={cn(
+          "container-page flex items-center justify-between transition-[padding] duration-300",
+          scrolled ? "py-2" : "py-3",
+        )}
+      >
+        <Logo size={scrolled ? "md" : "lg"} className="transition-[height] duration-300" />
 
-        <nav
-          aria-label="Ana menü"
-          className="hidden lg:flex items-center gap-6"
-        >
+        <nav aria-label="Ana menü" className="hidden lg:flex items-center gap-6">
           {navItems.map((item) => {
             const active = isActive(pathname, item.href);
             return (
@@ -72,9 +89,7 @@ export default function Navbar() {
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "relative text-sm font-medium transition-colors",
-                  active
-                    ? "text-remax-red"
-                    : "text-navy hover:text-remax-red",
+                  active ? "text-remax-red" : "text-navy hover:text-remax-red",
                 )}
               >
                 {item.label}
@@ -91,7 +106,7 @@ export default function Navbar() {
             href="/iletisim"
             className={cn(
               buttonVariants({ size: "lg" }),
-              "bg-remax-red hover:bg-remax-red-dark text-white shadow-sm",
+              "bg-remax-red hover:bg-remax-red-dark text-white shadow-sm active:scale-[0.97] transition-transform",
             )}
           >
             İlan Ver
@@ -115,10 +130,7 @@ export default function Navbar() {
           open ? "max-h-[480px]" : "max-h-0 border-t-0",
         )}
       >
-        <nav
-          aria-label="Mobil menü"
-          className="container-page flex flex-col gap-2 py-4"
-        >
+        <nav aria-label="Mobil menü" className="container-page flex flex-col gap-2 py-4">
           {navItems.map((item) => {
             const active = isActive(pathname, item.href);
             return (

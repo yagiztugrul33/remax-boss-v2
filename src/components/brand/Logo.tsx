@@ -33,7 +33,7 @@ const sizeClass: Record<Variant, Record<Size, string>> = {
   light: {
     sm: "h-9 w-auto",
     md: "h-12 w-auto",
-    lg: "h-14 w-auto md:h-16",
+    lg: "h-16 w-auto md:h-20",
     xl: "h-20 w-auto md:h-24",
   },
   "light-hd": {
