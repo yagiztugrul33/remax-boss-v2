@@ -33,8 +33,8 @@ const sizeClass: Record<Variant, Record<Size, string>> = {
   light: {
     sm: "h-9 w-auto",
     md: "h-12 w-auto",
-    lg: "h-16 w-auto md:h-20",
-    xl: "h-20 w-auto md:h-24",
+    lg: "h-20 w-auto md:h-24",
+    xl: "h-24 w-auto md:h-28",
   },
   "light-hd": {
     sm: "h-12 w-auto",
@@ -45,8 +45,8 @@ const sizeClass: Record<Variant, Record<Size, string>> = {
   dark: {
     sm: "h-9 w-auto",
     md: "h-12 w-auto",
-    lg: "h-16 w-auto md:h-20",
-    xl: "h-24 w-auto md:h-28",
+    lg: "h-20 w-auto md:h-28",
+    xl: "h-24 w-auto md:h-32",
   },
   balloon: {
     sm: "h-14 w-auto",
