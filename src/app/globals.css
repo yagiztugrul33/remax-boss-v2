@@ -179,6 +179,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* polish-type: gövde okunabilirliği (yoktu, eklendi) */
+    line-height: 1.6;
   }
   button:not(:disabled), [role="button"]:not(:disabled) {
     cursor: pointer;
@@ -188,6 +190,12 @@
   }
   h1, h2, h3, h4 {
     @apply font-display tracking-tight;
+  }
+  /* polish-type: büyük başlıklara fallback letter-spacing.
+     text-display-* token'ları (class) bunu her zaman geçersiz kılar —
+     yani mevcut başlıklar değişmez; yalnızca düz h1/h2 için zemin. */
+  h1, h2 {
+    letter-spacing: -0.02em;
   }
   ::selection {
     background-color: var(--color-remax-red);
@@ -504,6 +512,48 @@
   @media (prefers-reduced-motion: reduce) {
     .card-depth {
       transition: none !important;
+    }
+  }
+
+  /* ── polish-type ─ tipografi cilası (additive, opt-in) ── */
+
+  /* .lead — giriş/ilk paragraf ölçü genişliği */
+  .lead {
+    max-width: 42rem;
+  }
+
+  /* .title-underline — başlık altı 48px gradient çizgi */
+  .title-underline {
+    position: relative;
+  }
+  .title-underline::after {
+    content: "";
+    display: block;
+    width: 48px;
+    height: 3px;
+    margin-top: 12px;
+    border-radius: 999px;
+    opacity: 0.8;
+    background: linear-gradient(
+      90deg,
+      var(--color-remax-red) 0%,
+      var(--color-remax-red-hover) 100%
+    );
+  }
+
+  /* .pull-quote — alıntı bloğu (yeni; mevcut blockquote'a dokunmaz) */
+  .pull-quote {
+    border-inline-start: 3px solid var(--color-remax-red);
+    padding-inline-start: 1.5rem;
+  }
+
+  /* .section-breathe — section'ı SARAN wrapper'a uygula; padding'i
+     içteki section'ın kendi py-* değerine eklenir (md+). Section
+     elemanının kendisine verirsen mevcut padding'i geçersiz kılma
+     riski olur — bu yüzden wrapper deseni önerilir. */
+  @media (min-width: 768px) {
+    .section-breathe {
+      padding-block: 1rem;
     }
   }
 
