@@ -52,7 +52,7 @@ export default function Navbar() {
           </div>
           <div className="flex items-center gap-3">
             <Link
-              href="/iletisim"
+              href="/danisman-ol"
               className="hidden sm:inline hover:text-white/80 transition-colors"
             >
               Danışman Ol

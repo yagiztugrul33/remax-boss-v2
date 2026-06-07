@@ -23,6 +23,7 @@ const quickLinks = [
   { href: "/", label: "Anasayfa" },
   { href: "/ilanlar", label: "İlanlar" },
   { href: "/hakkimizda", label: "Hakkımızda" },
+  { href: "/danisman-ol", label: "Danışman Ol" },
   { href: "/iletisim", label: "İletişim" },
 ];
 
