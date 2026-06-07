@@ -6,6 +6,7 @@ import ScrollProgress from "@/components/ui/scroll-progress";
 import ScrollReveal from "@/components/ui/scroll-reveal";
 import FloatingActions from "@/components/ui/floating-actions";
 import { office } from "@/lib/office";
+import { getLocale, getDictionary } from "@/lib/i18n/server";
 import "./globals.css";
 
 // Display: Sora — modern, bold, karakterli grotesk
@@ -98,14 +99,16 @@ const supabaseOrigin = (() => {
   }
 })();
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const dict = await getDictionary();
   return (
     <html
-      lang="tr"
+      lang={locale}
       dir="ltr"
       className={`${sora.variable} ${inter.variable} ${geistMono.variable} h-full antialiased`}
     >
@@ -122,9 +125,9 @@ export default function RootLayout({
         />
         <ScrollProgress />
         <ScrollReveal />
-        <Navbar />
+        <Navbar locale={locale} dict={dict.nav} />
         <main className="flex-1">{children}</main>
-        <Footer />
+        <Footer dict={dict.footer} navDict={dict.nav} />
         <FloatingActions />
       </body>
     </html>

@@ -5,8 +5,10 @@ import { buttonVariants } from "@/components/ui/button";
 import Eyebrow from "@/components/ui/eyebrow";
 import { cn } from "@/lib/utils";
 import { office, heroImage } from "@/lib/office";
+import { getDictionary } from "@/lib/i18n/server";
 
-export default function Hero() {
+export default async function Hero() {
+  const { hero: t } = await getDictionary();
   return (
     <section
       className="relative isolate min-h-[92vh] flex flex-col justify-end overflow-hidden bg-navy-900"
@@ -64,20 +66,19 @@ export default function Hero() {
           <h1 className="mt-6 font-display text-display-xl leading-[0.97] tracking-[-0.04em] font-extrabold text-white">
             {/* Each word in overflow-hidden container for clip effect */}
             <span className="block overflow-hidden">
-              <span className="anim-word anim-word-1 inline-block">Ankara&apos;da</span>
+              <span className="anim-word anim-word-1 inline-block">{t.w1}</span>
               {" "}
-              <span className="anim-word anim-word-2 inline-block text-remax-red w-accent">gayrimenkul,</span>
+              <span className="anim-word anim-word-2 inline-block text-remax-red w-accent">{t.w2}</span>
             </span>
             <span className="block overflow-hidden mt-1">
-              <span className="anim-word anim-word-3 inline-block">yeni bir</span>
+              <span className="anim-word anim-word-3 inline-block">{t.w3}</span>
               {" "}
-              <span className="anim-word anim-word-4 inline-block">disiplinle.</span>
+              <span className="anim-word anim-word-4 inline-block">{t.w4}</span>
             </span>
           </h1>
 
           <p className="mt-7 max-w-lg text-lg text-white/70 leading-relaxed anim-hero anim-delay-3">
-            Beştepe merkezli ofisimiz ve RE/MAX Türkiye altyapısıyla, alıcı ve
-            satıcılara şeffaf, sonuç odaklı bir danışmanlık deneyimi sunuyoruz.
+            {t.desc}
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3 anim-hero anim-delay-4">
@@ -88,7 +89,7 @@ export default function Hero() {
                 "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-7 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)] hover:scale-[1.02] active:scale-[0.97] transition-transform hover-glow btn-glow btn-shine",
               )}
             >
-              İletişime Geç
+              {t.ctaContact}
               <ArrowRight className="h-4 w-4 ms-2" />
             </a>
             <Link
@@ -98,7 +99,7 @@ export default function Hero() {
                 "border-white/25 bg-white/5 backdrop-blur-sm text-white hover:bg-white/15 hover:text-white h-12 px-6 text-sm font-semibold tracking-wide active:scale-[0.97] transition-transform",
               )}
             >
-              Hakkımızda
+              {t.ctaAbout}
             </Link>
           </div>
 
@@ -108,7 +109,7 @@ export default function Hero() {
                 <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 animate-ping" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
               </span>
-              Aktif portföy hazırlanıyor
+              {t.statusActive}
             </span>
             <span className="inline-flex items-center gap-2">
               <MapPin className="h-3.5 w-3.5" aria-hidden />

@@ -227,11 +227,11 @@ export function getTeamGroups(): TeamGroup[] {
 // ════════════════════ Nav ════════════════════
 // Sadece yayında olan route'lar. Yeni sayfa eklendikçe burası genişler.
 export const navItems = [
-  { href: "/", label: "Anasayfa" },
-  { href: "/ilanlar", label: "İlanlar" },
-  { href: "/#ofisimiz", label: "Ofisimiz" },
-  { href: "/hakkimizda", label: "Hakkımızda" },
-  { href: "/ekibimiz", label: "Ekibimiz" },
-  { href: "/kampanya", label: "Kampanya" },
-  { href: "/iletisim", label: "İletişim" },
+  { key: "home", href: "/", label: "Anasayfa" },
+  { key: "listings", href: "/ilanlar", label: "İlanlar" },
+  { key: "office", href: "/#ofisimiz", label: "Ofisimiz" },
+  { key: "about", href: "/hakkimizda", label: "Hakkımızda" },
+  { key: "team", href: "/ekibimiz", label: "Ekibimiz" },
+  { key: "campaign", href: "/kampanya", label: "Kampanya" },
+  { key: "contact", href: "/iletisim", label: "İletişim" },
 ] as const;
