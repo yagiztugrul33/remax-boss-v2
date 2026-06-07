@@ -9,7 +9,13 @@ import OfficeGallery from "@/components/sections/OfficeGallery";
 import TeamSection from "@/components/sections/TeamSection";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { office, aboutContent, heroImage } from "@/lib/office";
+import { office, aboutContent } from "@/lib/office";
+
+// Hakkımızda hero arka planı — Cumhurbaşkanlığı Külliyesi manzarası (Beştepe konumu).
+const kulliyeBg = {
+  src: "/office/kulliye.jpg",
+  alt: "Cumhurbaşkanlığı Külliyesi ve Millet Camii — RE/MAX BOSS'un Beştepe konumu",
+};
 
 export const metadata: Metadata = {
   title: "Hakkımızda",
@@ -47,11 +53,11 @@ export default function HakkimizdaPage() {
       <section className="relative isolate bg-navy-900 text-white overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <Image
-            src={heroImage.src}
-            alt={heroImage.alt}
+            src={kulliyeBg.src}
+            alt={kulliyeBg.alt}
             fill
             sizes="100vw"
-            className="object-cover opacity-30"
+            className="object-cover opacity-40"
             priority
           />
         </div>
@@ -86,7 +92,7 @@ export default function HakkimizdaPage() {
       <Section tone="light" density="normal">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-10 lg:gap-14 items-start">
           <div className="lg:sticky lg:top-28">
-            <Logo href={null} variant="light-hd" size="lg" className="mb-6" />
+            <Logo href={null} variant="balloon" size="xl" className="mb-6" />
             <Eyebrow tone="red">Çalışma Felsefemiz</Eyebrow>
             <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
               <span className="accent-mark">Profesyonellik</span> ve güvenilirlik.

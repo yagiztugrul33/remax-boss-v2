@@ -54,8 +54,8 @@ const sizeClass: Record<Variant, Record<Size, string>> = {
   balloon: {
     sm: "h-14 w-auto",
     md: "h-20 w-auto md:h-24",
-    lg: "h-28 w-auto md:h-36",
-    xl: "h-40 w-auto md:h-52",
+    lg: "h-20 w-auto md:h-28",
+    xl: "h-24 w-auto md:h-32",
   },
 };
 
