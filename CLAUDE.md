@@ -7,14 +7,15 @@
 
 ## Repo & Stack
 
-- **Repo:** https://github.com/yagiztugrul33/remax-boss-v2 (private, gh auth)
+- **Repo:** https://github.com/yagiztugrul33/remax-boss-v2 (public)
+- **GitHub Pages:** https://yagiztugrul33.github.io/remax-boss-v2/ (static export preview)
 - **Lokal:** `C:\Users\yagiz\Documents\GitHub\remax-boss-v2`
 - **Stack:** Next.js 16 (Turbopack, App Router) · React 19 · TypeScript strict
   · Tailwind v4 (`@theme inline`, **`tailwind.config.ts` YOK**) · shadcn
   neutral preset (`@base-ui` tabanlı, **`asChild` API YOK**)
 - **Dil/RTL:** TR içerik, RTL hazır (logical CSS utilities)
 
-## Faz Durumu (master @ 2ccf604)
+## Faz Durumu (master @ 12f7dd60)
 
 | Faz | İş | Durum |
 |---|---|---|
@@ -23,6 +24,11 @@
 | 2 | /hakkimizda /iletisim /ilanlar + navbar bağlama + Balloon polish | ✅ |
 | 3 | Görsel elden geçirme (Yön B "Modern & Cesur") — **SADECE anasayfa** | ✅ |
 | 4 | İç sayfaların yeni tasarıma alınması | 🔜 (onaya bağlı) |
+| 5 | Supabase — listings tablosu + RLS + anon okuma + public queries | ✅ |
+| 5b | Auth — admin login + requireAdmin guard + ADMIN_EMAILS allowlist | ✅ |
+| 5c | Admin panel — ilan CRUD (ListingForm, server actions, /admin/*) | ✅ |
+| 6 | Ofisimiz + animasyon — Hero full-bleed, OfficeShowcase, tilt cards | ✅ |
+| 7 | Güvenlik denetimi — security headers, gitignore, git geçmiş taraması | ✅ |
 
 ## Değişmez Kurallar (her fazda geçerli — ASLA bozma)
 
@@ -92,30 +98,80 @@
 ```
 src/
 ├── app/
-│   ├── layout.tsx           Root: Sora + Inter + Navbar + Footer
-│   ├── page.tsx             Anasayfa (6 section kompozisyonu)
-│   ├── globals.css          Tailwind v4 @theme inline tokenları
-│   ├── hakkimizda/page.tsx  İç sayfa — Faz 2
-│   ├── ilanlar/page.tsx     İç sayfa — Faz 2 (empty state)
-│   └── iletisim/page.tsx    İç sayfa — Faz 2 (mailto form + map)
+│   ├── layout.tsx              Root: Sora + Inter + Navbar + Footer
+│   ├── page.tsx                Anasayfa (8 section kompozisyonu)
+│   ├── globals.css             Tailwind v4 @theme inline tokenları + animasyonlar
+│   ├── hakkimizda/page.tsx     İç sayfa — Faz 2
+│   ├── ilanlar/page.tsx        İlan listesi — DB'den, empty state dürüst
+│   ├── ilanlar/[id]/page.tsx   İlan detay — gallery, facts, CTA
+│   ├── iletisim/page.tsx       İç sayfa — Faz 2
+│   ├── login/page.tsx          Admin girişi (signInWithPassword)
+│   └── admin/                  Admin panel (force-dynamic, requireAdmin guard)
+│       ├── page.tsx            Tüm ilanlar + CRUD bağlantıları
+│       ├── ilan/yeni/page.tsx  Yeni ilan formu
+│       └── ilan/[id]/duzenle/  İlan düzenleme
 ├── components/
-│   ├── brand/               Balloon (3-bantlı SVG), Wordmark, Logo, SocialIcons
-│   ├── layout/              Navbar (usePathname aktif), Footer
-│   ├── sections/            Hero, Services, OfficeIntro, FeaturedListings,
-│   │                        ContactStrip, ClosingCta, ContactForm, MapEmbed
-│   └── ui/                  shadcn (button/card/dialog/...) + section/eyebrow/surface
+│   ├── brand/                  Balloon (SVG), Wordmark, Logo, SocialIcons
+│   ├── layout/                 Navbar (scroll-shrink, Ofisimiz hover), Footer
+│   ├── sections/               Hero (full-bleed), Services (tilt), OfficeIntro,
+│   │                           OfficeShowcase (alternating foto+text), OfficeGallerySection,
+│   │                           FeaturedListings, ContactStrip, ClosingCta, MapEmbed
+│   ├── admin/                  ListingForm (kapsamlı ilan formu)
+│   └── ui/                     shadcn + section/eyebrow/surface/reveal/tilt-card
 └── lib/
-    ├── office.ts            office bilgisi + navItems + aboutContent + imageSlots
-    ├── listings.ts          Listing tipleri + boş array (`getFeaturedListings`)
-    └── utils.ts             cn() helper (clsx + tailwind-merge)
+    ├── office.ts               office bilgisi + navItems + aboutContent + officeGallery + team
+    ├── listings.ts             Listing tipi + formatLocation/formatPrice
+    ├── queries.ts              anon Supabase okuma (safeRun wrapper)
+    ├── auth.ts                 isAdminEmail() — ADMIN_EMAILS CSV parser
+    ├── utils.ts                cn() helper
+    ├── supabase/
+    │   ├── server.ts           createClient() — anon + cookies (server)
+    │   └── client.ts           createBrowserClient() — anon (browser)
+    └── admin/
+        ├── guard.ts            requireAdmin() — 2 katmanlı auth
+        ├── queries.ts          getAllListingsAdmin, getListingByIdAdmin
+        └── actions.ts          createListing, updateListing, deleteListing server actions
+supabase/
+└── migrations/
+    ├── 0001_listings.sql       listings tablosu + RLS anon okuma
+    └── 0002_listings_write.sql admin yazma politikaları
+public/
+└── office/                     14 ofis fotoğrafı (3.9 MB, optimize edilmiş)
+.claude/
+├── settings.json               Proje allowedTools (lint/build/git-read)
+└── commands/
+    └── push.md                 PAT push + gh-pages güncelleme prosedürü
 ```
+
+## Deploy & Push Prosedürü
+
+```bash
+# 1. Commit imzasını düzelt (eğer stop-hook şikayet ediyorsa)
+git config user.email noreply@anthropic.com && git config user.name Claude
+git rebase --exec "git commit --amend --no-edit --reset-author" origin/master
+
+# 2. PAT ile push (sonra hemen temizle)
+git remote set-url origin https://PAT@github.com/yagiztugrul33/remax-boss-v2.git
+git push -u origin master
+git remote set-url origin https://github.com/yagiztugrul33/remax-boss-v2.git
+```
+
+> gh-pages güncelleme için: `.claude/commands/push.md` dosyasına bak.
+
+## Güvenlik Notları (Faz 7 — 2026-06-07)
+
+- `.env.local` hiçbir commit'te YOK — git geçmişi temiz ✅
+- `service_role` key sadece `scripts/create-admin.mjs` (gitignore'da) — kaynak kodda YOK ✅
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` gh-pages JS bundle'ında var — bu beklenen (public key) ✅
+- `next.config.ts`: X-Frame-Options, CSP, Referrer-Policy, Permissions-Policy eklendi ✅
+- `.gitignore`: `.env*` + `!.env.example` açık istisnası ✅
 
 ## Devir Teslim Notu
 
 Tüm imza fontları, type-scale modifier syntax, primitive'ler ve anasayfa
-section'ları Faz 3'te kuruldu. İç sayfalar (`/hakkimizda`, `/iletisim`,
-`/ilanlar`) hâlâ Faz 2 tasarımındadır — Faz 4'te yeni sisteme alınacak,
-**ama bu kullanıcı onayına bağlıdır**.
+section'ları Faz 3'te kuruldu. Faz 5-7 sistemi (Supabase/auth/admin/animasyon/
+güvenlik) tamamlandı. İç sayfalar (`/hakkimizda`, `/iletisim`) hâlâ Faz 2
+tasarımındadır — Faz 4'te yeni sisteme alınacak, **ama bu kullanıcı onayına bağlıdır**.
 
 Yeni bir görev başlatmadan önce: `git log --oneline -5` + bu CLAUDE.md +
 ilgili dosyaları (örn. `src/lib/office.ts` veya değişecek section) oku.
