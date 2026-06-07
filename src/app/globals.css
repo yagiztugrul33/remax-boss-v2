@@ -129,6 +129,9 @@
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.625rem;
+  /* polish-ambient — türetilmiş tokenlar (marka hex'leri DEĞİŞMEDİ) */
+  --glow-primary: color-mix(in srgb, var(--color-remax-red) 25%, transparent);
+  --surface-elevated: color-mix(in srgb, var(--background) 96%, #000);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -158,6 +161,8 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
+  /* polish-ambient — dark modda elevated yüzey %4 daha açık */
+  --surface-elevated: color-mix(in srgb, var(--background) 96%, #fff);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -181,6 +186,29 @@
     @apply bg-background text-foreground;
     /* polish-type: gövde okunabilirliği (yoktu, eklendi) */
     line-height: 1.6;
+    /* polish-ambient: çok hafif dot-grid — yalnızca açıkta kalan body
+       zemininde görünür; opaque section bg'leri bunu örter. */
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      rgba(10, 26, 54, 0.04) 1px,
+      transparent 0
+    );
+    background-size: 24px 24px;
+  }
+  /* polish-ambient: sinematik vignette — fixed katman, içeriği engellemez
+     (pointer-events:none). z-index navbar/modal'ın (z-40/50) ALTINDA →
+     üst katmanlar kararmaz; yalnızca içerik köşelerine %8 hafif gölge. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 30;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 55%,
+      rgba(0, 0, 0, 0.08) 100%
+    );
   }
   button:not(:disabled), [role="button"]:not(:disabled) {
     cursor: pointer;
