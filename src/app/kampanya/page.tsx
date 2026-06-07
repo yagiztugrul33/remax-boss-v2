@@ -95,10 +95,13 @@ export default async function KampanyaPage() {
               </span>{" "}
               sizin olsun.
             </h1>
-            <p className="mt-7 text-lg text-white/75 max-w-xl leading-relaxed anim-hero anim-delay-3">
-              RE/MAX BOSS açılışına özel: uygun mülkünüz bizimle satıldığında
-              çeyrek altın kazanma fırsatı. Şeffaf koşullar, sınırlı kontenjan —
-              başvurun, ekibimiz değerlendirsin.
+            <p className="mt-4 text-base md:text-lg font-semibold text-amber-200 anim-hero anim-delay-3">
+              Hem gayrimenkulünüz satılsın, hem çeyrek altın alın.
+            </p>
+            <p className="mt-5 text-lg text-white/75 max-w-xl leading-relaxed anim-hero anim-delay-3">
+              RE/MAX BOSS açılışına özel: 10.000.000 TL ve üzeri uygun mülkünüz
+              bizimle satıldığında çeyrek altın kazanma fırsatı. Şeffaf koşullar,
+              sınırlı kontenjan — başvurun, ekibimiz değerlendirsin.
             </p>
 
             {/* Canlı kontenjan / durum */}
