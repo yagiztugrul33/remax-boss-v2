@@ -194,6 +194,10 @@
       transparent 0
     );
     background-size: 24px 24px;
+    /* polish-mobile: yatay taşmayı engelle. `clip` kullanıldı çünkü
+       `hidden` overflow-y'yi auto'ya çevirip body'yi scroll-container
+       yapar → sticky navbar'ı bozardı. `clip` bunu yapmaz. */
+    overflow-x: clip;
   }
   /* polish-ambient: sinematik vignette — fixed katman, içeriği engellemez
      (pointer-events:none). z-index navbar/modal'ın (z-40/50) ALTINDA →
@@ -676,6 +680,51 @@
     .card-interact:hover,
     .img-zoom-wrap:hover img {
       transform: none !important;
+    }
+  }
+
+  /* ── polish-mobile ─ dokunmatik & küçük ekran cilası (additive) ── */
+
+  /* .touch-target — min 44×44px dokunma alanı (font'a dokunmaz, opt-in) */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Safe-area — çentikli cihazlarda env() iç boşluğu (opt-in) */
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-x {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* .clip-x — yerel yatay taşma kalkanı (320px dar ekranlar için) */
+  .clip-x {
+    overflow-x: clip;
+  }
+
+  @media (max-width: 768px) {
+    /* Hero blob'ları mobilde yumuşat (animasyon korunur, sadece opacity) */
+    .animate-blob-a,
+    .animate-blob-b {
+      opacity: 0.5;
+    }
+
+    /* Stagger gecikmelerini mobilde 50ms'e indir */
+    .stagger-1 { transition-delay: 50ms; }
+    .stagger-2 { transition-delay: 100ms; }
+    .stagger-3 { transition-delay: 150ms; }
+    .stagger-4 { transition-delay: 200ms; }
+    .addon-stagger > * {
+      animation-delay: calc(var(--i, 0) * 50ms);
     }
   }
 

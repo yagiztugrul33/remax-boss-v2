@@ -153,7 +153,7 @@ export default function Navbar() {
           open ? "max-h-[480px]" : "max-h-0 border-t-0",
         )}
       >
-        <nav aria-label="Mobil menü" className="container-page flex flex-col gap-2 py-4">
+        <nav aria-label="Mobil menü" className="container-page flex flex-col gap-2 py-4 safe-bottom">
           {navItems.map((item) => {
             const active = isActive(pathname, item.href);
             if (item.label === "Ofisimiz") {
