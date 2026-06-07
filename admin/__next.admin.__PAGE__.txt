@@ -1,0 +1,9 @@
+1:"$Sreact.fragment"
+2:I[47257,["/remax-boss-v2/_next/static/chunks/17z3z020r7g1n.js","/remax-boss-v2/_next/static/chunks/1e2ai_wi0mlzp.js","/remax-boss-v2/_next/static/chunks/1c5rrkydrzfjb.js","/remax-boss-v2/_next/static/chunks/14mrh2-p_w84d.js"],"ClientPageRoot"]
+3:I[72906,["/remax-boss-v2/_next/static/chunks/17z3z020r7g1n.js","/remax-boss-v2/_next/static/chunks/1e2ai_wi0mlzp.js","/remax-boss-v2/_next/static/chunks/1c5rrkydrzfjb.js","/remax-boss-v2/_next/static/chunks/14mrh2-p_w84d.js","/remax-boss-v2/_next/static/chunks/10_yeft4zw_k7.js"],"default"]
+6:I[97367,["/remax-boss-v2/_next/static/chunks/17z3z020r7g1n.js","/remax-boss-v2/_next/static/chunks/1e2ai_wi0mlzp.js","/remax-boss-v2/_next/static/chunks/1c5rrkydrzfjb.js","/remax-boss-v2/_next/static/chunks/14mrh2-p_w84d.js"],"OutletBoundary"]
+7:"$Sreact.suspense"
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/remax-boss-v2/_next/static/chunks/10_yeft4zw_k7.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"9sGU7D2kMULOuJhZaRTH5"}
+4:{}
+5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
+8:null
