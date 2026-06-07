@@ -28,6 +28,10 @@ export default function ContactForm() {
     message: useId(),
   };
   const [opened, setOpened] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const PHONE_RE = /^[+()\d\s-]{7,}$/;
 
   function buildMailto(data: FormData) {
     const name = String(data.get("name") ?? "").trim();
@@ -55,6 +59,29 @@ export default function ContactForm() {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
+
+    // Honeypot — bot bu gizli alanı doldurursa sessizce iptal (anti-spam).
+    if (String(data.get("company") ?? "").trim() !== "") return;
+
+    const name = String(data.get("name") ?? "").trim();
+    const email = String(data.get("email") ?? "").trim();
+    const phone = String(data.get("phone") ?? "").trim();
+    const message = String(data.get("message") ?? "").trim();
+
+    if (!name || !email || !message) {
+      setError("Lütfen ad, e-posta ve mesaj alanlarını doldurun.");
+      return;
+    }
+    if (!EMAIL_RE.test(email)) {
+      setError("Geçerli bir e-posta adresi girin.");
+      return;
+    }
+    if (phone && !PHONE_RE.test(phone)) {
+      setError("Telefon numarası geçersiz görünüyor.");
+      return;
+    }
+
+    setError(null);
     window.location.href = buildMailto(data);
     setOpened(true);
   }
@@ -68,6 +95,19 @@ export default function ContactForm() {
       className="rounded-3xl border border-line bg-white p-6 md:p-8 space-y-4 shadow-card"
       noValidate
     >
+      {/* Honeypot — ekran dışı; insanlar görmez, botlar doldurur → spam filtresi. */}
+      <div aria-hidden className="absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden">
+        <label>
+          Şirket (boş bırakın)
+          <input
+            type="text"
+            name="company"
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </label>
+      </div>
+
       <div className="flex items-start gap-2.5 rounded-xl bg-remax-blue-soft p-3.5 text-xs text-navy/75">
         <Info
           className="h-4 w-4 mt-0.5 flex-shrink-0 text-remax-blue"
@@ -176,6 +216,12 @@ export default function ContactForm() {
           className={`${inputClass} resize-y`}
         />
       </div>
+
+      {error && (
+        <p role="alert" className="text-sm font-medium text-remax-red">
+          {error}
+        </p>
+      )}
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
         <p className="text-xs text-navy/55">

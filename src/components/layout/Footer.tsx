@@ -10,13 +10,14 @@ import {
 } from "@/components/brand/SocialIcons";
 import { office } from "@/lib/office";
 
+// KOŞULLU: yalnızca dolu (gerçek) URL'ler render edilir; boş hesaba link YOK.
 const socials = [
   { Icon: InstagramIcon, href: office.social.instagram, label: "Instagram" },
   { Icon: FacebookIcon, href: office.social.facebook, label: "Facebook" },
   { Icon: LinkedinIcon, href: office.social.linkedin, label: "LinkedIn" },
   { Icon: YoutubeIcon, href: office.social.youtube, label: "YouTube" },
   { Icon: TwitterIcon, href: office.social.twitter, label: "Twitter" },
-];
+].filter((s) => s.href);
 
 // Disiplin: sadece yayında olan rotalara link veriyoruz.
 const quickLinks = [
@@ -46,20 +47,22 @@ export default function Footer() {
             RE/MAX Türkiye bünyesinde, Ankara Beştepe merkezli bağımsız sahipli
             ve işletmeli gayrimenkul ofisi.
           </p>
-          <div className="flex gap-2 mt-5">
-            {socials.map(({ Icon, href, label }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-remax-red transition-colors"
-              >
-                <Icon className="h-4 w-4" />
-              </a>
-            ))}
-          </div>
+          {socials.length > 0 && (
+            <div className="flex gap-2 mt-5">
+              {socials.map(({ Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-remax-red transition-colors"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
+          )}
         </div>
 
         <div>

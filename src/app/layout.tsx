@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ScrollProgress from "@/components/ui/scroll-progress";
 import ScrollReveal from "@/components/ui/scroll-reveal";
+import { office } from "@/lib/office";
 import "./globals.css";
 
 // Display: Sora — modern, bold, karakterli grotesk
@@ -29,13 +30,61 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+const siteUrl = "https://remax-boss-v2.vercel.app";
+const siteDescription =
+  "RE/MAX BOSS Ankara Beştepe ofisinin resmi web sitesi. Satılık ve kiralık gayrimenkul, yatırım danışmanlığı ve uluslararası müşteri hizmetleri.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "RE/MAX BOSS — Ankara Beştepe",
     template: "%s | RE/MAX BOSS",
   },
-  description:
-    "RE/MAX BOSS Ankara Beştepe ofisinin resmi web sitesi. Satılık ve kiralık gayrimenkul, yatırım danışmanlığı ve uluslararası müşteri hizmetleri.",
+  description: siteDescription,
+  applicationName: "RE/MAX BOSS",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "tr_TR",
+    siteName: "RE/MAX BOSS",
+    title: "RE/MAX BOSS — Ankara Beştepe",
+    description: siteDescription,
+    url: siteUrl,
+    images: [
+      {
+        url: "/office/resepsiyon.jpg",
+        width: 2000,
+        height: 1125,
+        alt: "RE/MAX BOSS Beştepe ofisi",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "RE/MAX BOSS — Ankara Beştepe",
+    description: siteDescription,
+    images: ["/office/resepsiyon.jpg"],
+  },
+};
+
+// JSON-LD — RealEstateAgent yapısal verisi (yalnızca GERÇEK office verisinden).
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "RealEstateAgent",
+  name: office.name,
+  description: office.shortDescription,
+  url: siteUrl,
+  email: office.email,
+  telephone: office.phone,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: office.addressFull,
+    addressLocality: office.district,
+    addressRegion: office.city,
+    addressCountry: "TR",
+  },
+  areaServed: { "@type": "City", name: office.city },
+  parentOrganization: { "@type": "Organization", name: "RE/MAX" },
 };
 
 // Supabase origin — görsel/API isteklerinde bağlantı kurulumunu öne çeker.
@@ -66,6 +115,10 @@ export default function RootLayout({
         </head>
       )}
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <ScrollProgress />
         <ScrollReveal />
         <Navbar />

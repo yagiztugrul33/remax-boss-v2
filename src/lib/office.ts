@@ -14,12 +14,14 @@ export const office = {
     saturday: "10:00 – 17:00",
     sunday: "Kapalı",
   },
+  // Sosyal medya — UYDURMA URL YOK. Doğrulanmış hesap adresi girilince
+  // ilgili ikon footer/iletişimde OTOMATİK görünür; boş kalan gizlenir.
   social: {
-    instagram: "https://instagram.com/remaxboss",
-    facebook: "https://facebook.com/remaxboss",
-    linkedin: "https://linkedin.com/company/remaxboss",
-    youtube: "https://youtube.com/@remaxboss",
-    twitter: "https://twitter.com/remaxboss",
+    instagram: "",
+    facebook: "",
+    linkedin: "",
+    youtube: "",
+    twitter: "",
   },
   shortDescription:
     "RE/MAX BOSS, Ankara Beştepe merkezli, RE/MAX Türkiye bünyesinde bağımsız sahipli ve işletmeli bir gayrimenkul ofisidir. Profesyonellik ve güvenilirlik ilkeleriyle, alıcılar ve satıcılar için ölçülebilir değer üretir.",
