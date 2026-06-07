@@ -32,6 +32,7 @@ export default function Footer({
     { href: "/", label: navDict.home },
     { href: "/ilanlar", label: navDict.listings },
     { href: "/hakkimizda", label: navDict.about },
+    { href: "/blog", label: navDict.blog },
     { href: "/danisman-ol", label: navDict.advisor },
     { href: "/iletisim", label: navDict.contact },
   ];

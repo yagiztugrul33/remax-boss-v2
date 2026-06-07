@@ -233,5 +233,6 @@ export const navItems = [
   { key: "about", href: "/hakkimizda", label: "Hakkımızda" },
   { key: "team", href: "/ekibimiz", label: "Ekibimiz" },
   { key: "campaign", href: "/kampanya", label: "Kampanya" },
+  { key: "blog", href: "/blog", label: "Rehber" },
   { key: "contact", href: "/iletisim", label: "İletişim" },
 ] as const;
