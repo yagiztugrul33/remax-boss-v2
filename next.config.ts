@@ -11,7 +11,43 @@ const supabaseHost = (() => {
   }
 })();
 
+const securityHeaders = [
+  { key: "X-Frame-Options", value: "DENY" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+  {
+    key: "Content-Security-Policy",
+    value: [
+      "default-src 'self'",
+      // Next.js inline scripts + eval (RSC payload, turbopack HMR)
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      // Supabase API + Google Maps embed
+      `connect-src 'self' https://*.supabase.co wss://*.supabase.co https://maps.googleapis.com`,
+      // Supabase Storage görselleri + kendi origin
+      `img-src 'self' data: blob: ${supabaseHost ? `https://${supabaseHost}` : ""}`,
+      // Tailwind CSS-in-JS inline style
+      "style-src 'self' 'unsafe-inline'",
+      // Google Maps iframe
+      "frame-src https://www.google.com https://maps.google.com",
+      "font-src 'self' https://fonts.gstatic.com",
+      "base-uri 'self'",
+      "form-action 'self'",
+    ]
+      .filter(Boolean)
+      .join("; "),
+  },
+];
+
 const nextConfig: NextConfig = {
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: securityHeaders,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       ...(supabaseHost
