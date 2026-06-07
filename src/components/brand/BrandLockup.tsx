@@ -53,9 +53,9 @@ export default function BrandLockup({
       </span>
     );
   } else {
-    // Yatay: balon solda + renkli 2 satır wordmark sağda. 3 kademe büyük.
-    const emblemH = scrolled ? "h-12 md:h-14" : "h-16 md:h-20";
-    const wordH = scrolled ? "h-8 md:h-9" : "h-10 md:h-12";
+    // Yatay: balon solda + renkli 2 satır wordmark sağda. 3 kademe daha büyük.
+    const emblemH = scrolled ? "h-14 md:h-20" : "h-20 md:h-28";
+    const wordH = scrolled ? "h-9 md:h-12" : "h-12 md:h-16";
     inner = (
       <span
         className={cn(
