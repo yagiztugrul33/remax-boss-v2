@@ -557,6 +557,100 @@
     }
   }
 
+  /* ── polish-interact ─ etkileşim katmanı (additive, opt-in) ── */
+
+  /* .focus-ring — klavye odak halkası (tüm cihazlar). Buton/input/badge
+     zaten kendi focus-visible ring'ine sahip; bu düz link ve diğer
+     etkileşimli öğeler içindir (çift halka olmasın diye opt-in). */
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--color-remax-red);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* .press — tıklama geri bildirimi. buttonVariants'in
+     active:translate-y-px davranışını ezmemek için global değil, opt-in. */
+  .press {
+    transition: transform 100ms ease;
+  }
+  .press:active {
+    transform: scale(0.98);
+  }
+
+  /* .card-interact — kart hover: pointer + hafif scale (mevcut hover'a EK).
+     Not: .card-depth ile birlikte kullanma — ikisi de :hover transform
+     yazar, çakışır. Birini seç. */
+  .card-interact {
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* .img-zoom-wrap — görsel hover zoom; wrapper kırpar, içteki img büyür */
+  .img-zoom-wrap {
+    overflow: hidden;
+  }
+  .img-zoom-wrap img {
+    transition: transform 500ms ease;
+  }
+
+  /* [data-tip] — CSS-only tooltip (attr ile metin). Opt-in: yalnızca
+     data-tip taşıyan öğeleri etkiler. */
+  [data-tip] {
+    position: relative;
+  }
+  [data-tip]::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    padding: 0.35rem 0.6rem;
+    border-radius: 0.5rem;
+    background: var(--color-navy-900);
+    color: #fff;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 50;
+  }
+  [data-tip]:focus-visible::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Hover'a bağlı efektler yalnızca gerçek hover cihazlarında —
+     dokunmatik ekranda sticky-hover sorunu çıkmasın. */
+  @media (hover: hover) {
+    .card-interact:hover {
+      transform: scale(1.01);
+    }
+    .img-zoom-wrap:hover img {
+      transform: scale(1.05);
+    }
+    [data-tip]:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  /* polish-interact reduced-motion reset */
+  @media (prefers-reduced-motion: reduce) {
+    .press,
+    .card-interact,
+    .img-zoom-wrap img,
+    [data-tip]::after {
+      transition: none !important;
+    }
+    .press:active,
+    .card-interact:hover,
+    .img-zoom-wrap:hover img {
+      transform: none !important;
+    }
+  }
+
   /* Animasyonu reduced-motion'a saygı duyarak ver */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
