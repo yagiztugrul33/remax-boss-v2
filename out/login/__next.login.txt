@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[39756,["/remax-boss-v2/_next/static/chunks/2gh2-51grw-4-.js","/remax-boss-v2/_next/static/chunks/3vscp2fsvls_5.js","/remax-boss-v2/_next/static/chunks/1e2ai_wi0mlzp.js","/remax-boss-v2/_next/static/chunks/13hia_2facs7b.js"],"default"]
+3:I[37457,["/remax-boss-v2/_next/static/chunks/2gh2-51grw-4-.js","/remax-boss-v2/_next/static/chunks/3vscp2fsvls_5.js","/remax-boss-v2/_next/static/chunks/1e2ai_wi0mlzp.js","/remax-boss-v2/_next/static/chunks/13hia_2facs7b.js"],"default"]
+4:[]
+0:{"rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"isPartial":false,"staleTime":300,"varyParams":"$W4","buildId":"9JO4XgwL8Ni1V6Uzk9bIN"}
