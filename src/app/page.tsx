@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Hero from "@/components/sections/Hero";
 import Services from "@/components/sections/Services";
+import JoinTeamCta from "@/components/sections/JoinTeamCta";
 import OfficeIntro from "@/components/sections/OfficeIntro";
 import OfficeShowcase from "@/components/sections/OfficeShowcase";
 import OfficeGallerySection from "@/components/sections/OfficeGallerySection";
@@ -19,6 +20,7 @@ export default function HomePage() {
     <>
       <Hero />
       <Services />
+      <JoinTeamCta />
       <OfficeIntro />
       <OfficeShowcase />
       <OfficeGallerySection />

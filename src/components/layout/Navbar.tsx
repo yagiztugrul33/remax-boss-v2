@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, MapPin, Building2 } from "lucide-react";
+import { Menu, X, Phone, MapPin, Building2, BadgeCheck } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import BrandLockup from "@/components/brand/BrandLockup";
 import LocaleToggle from "@/components/layout/LocaleToggle";
@@ -62,7 +62,7 @@ export default function Navbar({
           <div className="flex items-center gap-3">
             <Link
               href="/danisman-ol"
-              className="hidden sm:inline hover:text-white/80 transition-colors"
+              className="hidden sm:inline-flex items-center rounded-full bg-white/10 px-3 py-0.5 font-semibold hover:bg-remax-red transition-colors"
             >
               {dict.advisor}
             </Link>
@@ -188,11 +188,19 @@ export default function Navbar({
             );
           })}
           <Link
+            href="/danisman-ol"
+            onClick={() => setOpen(false)}
+            className="mt-2 py-2 inline-flex items-center gap-2 text-sm font-semibold text-remax-red"
+          >
+            <BadgeCheck className="h-4 w-4" aria-hidden />
+            {dict.advisor}
+          </Link>
+          <Link
             href="/iletisim"
             onClick={() => setOpen(false)}
             className={cn(
               buttonVariants({ size: "lg" }),
-              "mt-2 bg-remax-red hover:bg-remax-red-dark text-white",
+              "mt-1 bg-remax-red hover:bg-remax-red-dark text-white",
             )}
           >
             {dict.postListing}
