@@ -49,6 +49,9 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
+    // Modern format servisleme — Vercel/next optimizer JPEG/PNG'leri
+    // otomatik AVIF/WebP'e çevirir (kaynak dosyalar değişmez).
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       ...(supabaseHost
         ? [

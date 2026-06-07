@@ -10,7 +10,9 @@ import "./globals.css";
 const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin", "latin-ext"], // Türkçe glyph desteği (ş ğ ı İ ç ö ü)
-  weight: ["400", "500", "600", "700", "800"],
+  // Yalnızca gerçekten kullanılan ağırlıklar — Sora 400 hiçbir başlıkta
+  // kullanılmıyor (font-normal yok, ağırlıksız h-tag yok), bu yüzden indi.
+  weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -36,6 +38,16 @@ export const metadata: Metadata = {
     "RE/MAX BOSS Ankara Beştepe ofisinin resmi web sitesi. Satılık ve kiralık gayrimenkul, yatırım danışmanlığı ve uluslararası müşteri hizmetleri.",
 };
 
+// Supabase origin — görsel/API isteklerinde bağlantı kurulumunu öne çeker.
+const supabaseOrigin = (() => {
+  try {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    return url ? new URL(url).origin : null;
+  } catch {
+    return null;
+  }
+})();
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -47,6 +59,12 @@ export default function RootLayout({
       dir="ltr"
       className={`${sora.variable} ${inter.variable} ${geistMono.variable} h-full antialiased`}
     >
+      {supabaseOrigin && (
+        <head>
+          <link rel="preconnect" href={supabaseOrigin} crossOrigin="anonymous" />
+          <link rel="dns-prefetch" href={supabaseOrigin} />
+        </head>
+      )}
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <ScrollProgress />
         <ScrollReveal />

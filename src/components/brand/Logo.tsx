@@ -17,6 +17,9 @@ interface LogoProps {
   variant?: Variant;
   size?: Size;
   className?: string;
+  /** Above-the-fold logolar için true (varsayılan). Footer gibi
+   *  fold-altı kullanımda false → tembel yüklenir. */
+  priority?: boolean;
 }
 
 /**
@@ -76,6 +79,7 @@ export default function Logo({
   variant = "light",
   size = "md",
   className,
+  priority = true,
 }: LogoProps) {
   const { w, h } = dims[variant];
   const cls = sizeClass[variant][size];
@@ -86,7 +90,8 @@ export default function Logo({
       alt="RE/MAX BOSS"
       width={w}
       height={h}
-      priority
+      priority={priority}
+      loading={priority ? undefined : "lazy"}
       className={cn("object-contain", cls, className)}
     />
   );

@@ -40,7 +40,7 @@ export default function Footer() {
     <footer className="bg-navy text-white/80 mt-auto safe-bottom safe-x">
       <div className="container-page py-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         <div>
-          <Logo variant="dark" size="lg" />
+          <Logo variant="dark" size="lg" priority={false} />
           <p className="text-sm leading-relaxed mt-5 text-white/70">
             RE/MAX Türkiye bünyesinde, Ankara Beştepe merkezli bağımsız sahipli
             ve işletmeli gayrimenkul ofisi.
