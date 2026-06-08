@@ -423,6 +423,18 @@
     animation: none;
   }
 
+  /* Hero son iki loop animasyonu DURDUR — kullanıcı "küçük titreme hâlâ var"
+     bildirdi. Öğeler GÖRÜNÜR kalır:
+       - .animate-scroll-cue → aşağı ok/chevron (Hero altında, sabit gösterilir)
+       - .animate-ping → yeşil "aktif" dot (Hero status satırında, sabit nokta)
+     Hareket sıfır → Hero arka planında HİÇBİR sürekli animasyon kalmadı.
+     !important: Tailwind v4'ün default `animate-ping` utility'sini override
+     etmek için (utility layer ordering güvencesi). */
+  .animate-scroll-cue,
+  .animate-ping {
+    animation: none !important;
+  }
+
   /* ── addon-* ─ ek animasyon katmanı (mevcut @keyframes'e dokunulmaz) ── */
   @keyframes addon-float {
     0%, 100% { transform: translateY(0); }
