@@ -21,18 +21,18 @@ export default async function Hero() {
       <div aria-hidden className="hero-mesh" />
 
       {/* ── Full-bleed photo ──
-          Ken-burns yumuşak zoom (globals.css `.animate-kenburns` —
-          pürüzsüzleştirilmiş: tek-scale, 22s, GPU layer).
-          Mobilde (max-width:768px) globals.css'te animation:none → sabit.
-          PLAN B (titreme desktop'ta hâlâ devam ederse): aşağıdaki
-          className'den `animate-kenburns` token'ını çıkar → görsel
-          tamamen sabit kalır, tasarım/içerik aynı, hareket sıfır. */}
+          Ken-burns SABİT — Plan A (pürüzsüzleştirme) titremeyi bitirmedi,
+          Plan B uygulandı: `animate-kenburns` token'ı className'den
+          kaldırıldı → görsel tamamen sabit, hareket sıfır.
+          CSS tanımı (`.animate-kenburns` + @keyframes ken-burns) globals.css'te
+          DURUYOR (zarar vermez, kullanılmıyor); geri istenirse className'e
+          token'ı tek satırda ekleyerek geri açılabilir. */}
       <Image
         src={heroImage.src}
         alt={heroImage.alt}
         fill
         sizes="100vw"
-        className="object-cover animate-kenburns"
+        className="object-cover"
         priority
       />
 
