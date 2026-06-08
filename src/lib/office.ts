@@ -97,8 +97,12 @@ export interface Agent {
  * ile gösterir). UYDURMA foto YOK.
  *
  * Güncel değişiklikler:
- *  - Brokerlar: Uğur Sucu + Yasin Karaca ÇIKARILDI. Yeni brokerlar Berfin
- *    Yavaş + Eda Altun.
+ *  - Brokerlar: Uğur Sucu (ÇIKARILDI) + Yasin Karaca (broker'lıktan
+ *    danışmanlığa GEÇTİ, ekipte kaldı). Yeni brokerlar: Berfin Yavaş +
+ *    Eda Altun.
+ *  - Yasin Karaca artık "Gayrimenkul Danışmanı (MAXX Sistem)" unvanıyla
+ *    Danışmanlar grubunda (Berfin/Ceren/Ercan ile aynı `danisman` role).
+ *    Fotoğrafı korundu (/team/yasin-karaca.jpg).
  *  - Berfin Yavaş danışmandan Broker / Owner'a TERFİ etti — danışmanlar
  *    grubundan çıkarıldı (iki yerde görünmüyor); fotoğrafı korundu
  *    (/team/berfin-yavas.jpg broker kartında).
@@ -106,8 +110,8 @@ export interface Agent {
  *    `/team/eda-altun.jpg` eklenir, şu an monogram ("EA") gösterilir.
  *  - Öykü Sümer (Ofis Gelişim) ekipten KALDIRILDI; bu grup şimdilik boş
  *    kaldı, TeamSection boş grupları otomatik gizler.
- *  - Kullanılmayan fotoğraf dosyaları (yasin-karaca.jpg, oyku-sumer.jpg)
- *    public/team/'de duruyor (silinmedi; referans yok, kırık görsel yok).
+ *  - Kullanılmayan fotoğraf dosyası (oyku-sumer.jpg) public/team/'de
+ *    duruyor (silinmedi; referans yok, kırık görsel yok).
  */
 export const team: readonly Agent[] = [
   // Brokerlar — Berfin Yavaş + Eda Altun (eski brokerlar çıkarıldı).
@@ -157,8 +161,17 @@ export const team: readonly Agent[] = [
   },
 
   // Gayrimenkul Danışmanları — Berfin Yavaş broker'a terfi etti, bu gruptan
-  // çıkarıldı (iki yerde görünmesin). Sistemi (MAXX/RAPP) henüz
-  // belirtilmemiş danışmanlar.
+  // çıkarıldı (iki yerde görünmesin). Yasin Karaca broker'lıktan bu gruba
+  // GEÇTİ — unvanı "Gayrimenkul Danışmanı (MAXX Sistem)" olarak güncellendi,
+  // ama role bu grupta (Ceren/Ercan/Merthan ile aynı `danisman` tipi).
+  // Sistemi (MAXX/RAPP) belirtilmemiş danışmanlar genel "Gayrimenkul
+  // Danışmanı" unvanıyla kalır.
+  {
+    name: "Yasin Karaca",
+    title: "Gayrimenkul Danışmanı (MAXX Sistem)",
+    role: "danisman",
+    photo: "/team/yasin-karaca.jpg",
+  },
   {
     name: "Ceren Dişlioğlu",
     title: "Gayrimenkul Danışmanı",
