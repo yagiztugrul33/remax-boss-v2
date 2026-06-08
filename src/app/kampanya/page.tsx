@@ -22,7 +22,7 @@ import { remainingQuota } from "@/lib/campaign";
 export const metadata: Metadata = {
   title: "Altın Kampanyası",
   description:
-    "RE/MAX BOSS açılışına özel: uygun mülkünüz bizimle satıldığında çeyrek altın. Şeffaf koşullar, sınırlı kontenjan. Başvurun, ekibimiz değerlendirsin.",
+    "RE/MAX BOSS açılışına özel iki aşamalı ödül: uygun mülkünüzü münhasır yetkiyle verdiğinizde 1 gram altın, mülk satıldığında çeyrek altın. Şeffaf koşullar, sınırlı kontenjan. Başvurun, ekibimiz değerlendirsin.",
 };
 
 export const dynamic = "force-dynamic";
@@ -32,14 +32,16 @@ const conditions = [
   { icon: FileSignature, text: "En az 3 ay münhasır (tek yetkili) satış yetkisi." },
   { icon: Trophy, text: "Açılışa özel ilk 50 ONAYLI mülk ile sınırlıdır." },
   { icon: ShieldCheck, text: "Uygunluk kararı tamamen ofise aittir." },
-  { icon: Coins, text: "Çeyrek altın, satış tapuda tamamlandığında hak edilir." },
+  // ── Ödül iki aşamalı ──
+  { icon: Coins, text: "1. Aşama — Yetki: münhasır satış yetkisi sözleşmesi imzalandığında 1 gram altın." },
+  { icon: Coins, text: "2. Aşama — Satış: mülk tapuda devredildiğinde çeyrek altın." },
   { icon: Info, text: "Başvuru, ödül hakkı doğurmaz; değerlendirme talebidir." },
 ];
 
 const faq = [
   {
-    q: "Altını başvurunca mı alırım?",
-    a: "Hayır. Başvuru yalnızca bir değerlendirme talebidir. Çeyrek altın, mülkünüz ofisimiz aracılığıyla satılıp tapu devri tamamlandığında hak edilir.",
+    q: "Altını ne zaman alırım?",
+    a: "Ödül iki aşamalıdır: Münhasır satış yetkisi sözleşmesi imzalandığında 1 gram altın; mülkünüz ofisimiz aracılığıyla satılıp tapu devri tamamlandığında çeyrek altın hak edilir. Önceden ödeme yapılmaz; başvuru tek başına ödül doğurmaz.",
   },
   {
     q: "Hangi mülkler uygun?",
@@ -51,7 +53,7 @@ const faq = [
   },
   {
     q: "Kazancım garanti mi?",
-    a: "Kampanya bir ödül vaadi değildir. Uygunluk ve onay kararı ofise aittir; ödül yalnızca satış tamamlanınca verilir.",
+    a: "Kampanya bir ödül vaadi değildir. Uygunluk ve onay kararı ofise aittir. Gram altın yetki sözleşmesi imzalandığında, çeyrek altın ise satış tapuda tamamlandığında verilir.",
   },
 ];
 
@@ -89,19 +91,24 @@ export default async function KampanyaPage() {
               Açılışa Özel Kampanya
             </div>
             <h1 className="mt-5 font-display text-display-xl text-balance anim-hero anim-delay-2">
-              Mülkünüz satılsın,{" "}
+              Yetki verin{" "}
+              <span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">
+                gram altın
+              </span>
+              , mülkünüz satılsın{" "}
               <span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">
                 çeyrek altın
-              </span>{" "}
-              sizin olsun.
+              </span>
+              .
             </h1>
             <p className="mt-4 text-base md:text-lg font-semibold text-amber-200 anim-hero anim-delay-3">
-              Hem gayrimenkulünüz satılsın, hem çeyrek altın alın.
+              İki aşamalı kazanç: yetkide 1 gram altın, satışta çeyrek altın.
             </p>
             <p className="mt-5 text-lg text-white/75 max-w-xl leading-relaxed anim-hero anim-delay-3">
-              RE/MAX BOSS açılışına özel: 10.000.000 TL ve üzeri uygun mülkünüz
-              bizimle satıldığında çeyrek altın kazanma fırsatı. Şeffaf koşullar,
-              sınırlı kontenjan — başvurun, ekibimiz değerlendirsin.
+              RE/MAX BOSS açılışına özel: 10.000.000 TL ve üzeri uygun mülkünüzü
+              ofisimize 3 ay münhasır yetkiyle verdiğinizde 1 gram altın, mülk
+              bizimle satıldığında çeyrek altın. Şeffaf koşullar, sınırlı kontenjan —
+              başvurun, ekibimiz değerlendirsin.
             </p>
 
             {/* Canlı kontenjan / durum */}
@@ -155,8 +162,9 @@ export default async function KampanyaPage() {
             Net ve <span className="accent-mark">dürüst</span> kurallar.
           </h2>
           <p className="mt-4 text-navy/65 leading-relaxed">
-            Sürpriz yok. Ödül vaat etmiyoruz; aşağıdaki koşullar sağlandığında ve
-            mülk satıldığında çeyrek altın hak edilir.
+            Sürpriz yok. Aşağıdaki koşullar sağlandığında ödül iki aşamada hak
+            edilir: münhasır yetki sözleşmesiyle 1 gram altın, satış tapuda
+            tamamlandığında çeyrek altın. Başvuru tek başına ödül doğurmaz.
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
