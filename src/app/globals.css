@@ -407,6 +407,22 @@
     will-change: transform;
   }
 
+  /* Hero blob hareketleri TÜM ekranlarda DURDUR (desktop+mobil).
+     Büyük blur-3xl (64px filter) katmanların sürekli transform hareketi
+     görsel titreme/jank yaratıyordu. Bloblar görünür kalır (opacity/blur/
+     renk/konum AYNI — Tailwind class'ları işliyor) → tasarım dili korunur,
+     hareket sıfır.
+     Class tanımları (`.animate-blob-a/-b` keyframe + animation) yukarıda
+     DURUYOR — geri açmak istenirse aşağıdaki kuralı silmek tek satır.
+     Aynı kural `.hero-bg-layer.addon-float`'ı da kapsar; bu hem Hero'daki
+     büyük merkez blob (24rem), hem JoinTeamCta'daki küçük blob (w-72) için
+     geçerli — JoinTeamCta blob'u da statik kalır (görsel etki minimal). */
+  .animate-blob-a,
+  .animate-blob-b,
+  .hero-bg-layer.addon-float {
+    animation: none;
+  }
+
   /* ── addon-* ─ ek animasyon katmanı (mevcut @keyframes'e dokunulmaz) ── */
   @keyframes addon-float {
     0%, 100% { transform: translateY(0); }
@@ -740,26 +756,14 @@
   }
 
   @media (max-width: 768px) {
-    /* Hero blob'ları mobilde DURDUR — görsel/renk korunur (opacity 0.5),
-       ama büyük blur-3xl katmanların GPU üzerindeki sürekli transform
-       hareketi mobilde frame drop / jank yaratıyordu. Animasyon kapalı,
-       blob'lar statik dekoratif kalır → titreme/akma azalır. */
+    /* Hero blob'ları mobilde daha yumuşak görünür (opacity 0.5) — animasyon
+       durdurma artık global (yukarıdaki kural). Bu yalnız mobile opacity. */
     .animate-blob-a,
     .animate-blob-b {
       opacity: 0.5;
-      animation: none;
     }
-    /* Hero merkez büyük blob (hero-bg-layer + addon-float) — aynı sebeple
-       mobilde sabit. JoinTeamCta'daki hero-bg-layer küçük; bu kural
-       yalnız Hero-içi büyük blob için pratikte etki eder (orada da statik
-       görünüm tasarım dilini bozmaz). */
-    .hero-bg-layer.addon-float {
-      animation: none;
-    }
-    /* Hero ken-burns mobilde DURDUR — büyük (3840px) resepsiyon.jpg
-       üzerinde sürekli scale animasyonu mobil GPU'da pahalı. Görsel
-       sabit kalır (object-cover ile aynı framing), tasarım dili korunur.
-       Blob'larla tutarlı: mobil Hero = sade, hareketsiz arka plan. */
+    /* Hero ken-burns mobilde no-op — class Hero.tsx'ten kaldırıldı (Plan B);
+       kural saklı, ileride class geri eklenirse mobilde hareket etmez. */
     .animate-kenburns {
       animation: none;
     }
