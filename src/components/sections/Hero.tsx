@@ -46,20 +46,51 @@ export default async function Hero() {
         className="absolute inset-0 bg-gradient-to-t from-navy-900/85 via-navy-900/30 to-transparent"
       />
 
-      {/* ── Decorative glow blobs ── */}
+      {/* ── STATİK derinlik katmanları (HAREKET YOK) ──
+          Bu üç katman sahneye "düz" değil "derin" hissi katar:
+          1) Focal scrim: sol-alt içerik bölgesini yumuşak karartır →
+             metin daha okunaklı + sahnede içeriğin oturduğu odak noktası.
+          2) Sinematik vignette: köşelerden merkeze hafif karartma →
+             premium "kameradan bakıyor" derinlik hissi.
+          3) Üst inci ışık çizgisi: hero'nun en üst kenarında ince beyaz
+             hat → katmanlar arası ayrım, "cam üstü" hissi.
+          Hepsi pointer-events:none, aria-hidden, statik CSS gradient. */}
       <div
         aria-hidden
-        className="absolute -top-24 -end-24 w-[28rem] h-[28rem] rounded-full bg-remax-red/20 blur-3xl -z-10 animate-blob-a"
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(60% 75% at 22% 78%, rgba(5,13,29,0.55) 0%, rgba(5,13,29,0.22) 42%, transparent 70%)",
+        }}
       />
       <div
         aria-hidden
-        className="absolute -bottom-32 -start-16 w-[20rem] h-[20rem] rounded-full bg-remax-blue/15 blur-3xl -z-10 animate-blob-b"
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, transparent 45%, rgba(5,13,29,0.50) 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none"
       />
 
-      {/* ── Ek dekoratif arka plan katmanı — float ── */}
+      {/* ── Dekoratif statik blob'lar — hareketsiz, derinlik için.
+          Opacity ince ayar (20→25, 15→20, 10→15): renk hissini biraz
+          güçlendirir, sahne "düz" değil katmanlı görünür. HAREKET YOK
+          (animasyonlar globals.css'te durdurulmuş). ── */}
       <div
         aria-hidden
-        className="hero-bg-layer addon-float absolute top-1/4 start-1/2 -translate-x-1/2 w-[24rem] h-[24rem] rounded-full bg-remax-red/10 blur-3xl -z-10"
+        className="absolute -top-24 -end-24 w-[28rem] h-[28rem] rounded-full bg-remax-red/25 blur-3xl -z-10 animate-blob-a"
+      />
+      <div
+        aria-hidden
+        className="absolute -bottom-32 -start-16 w-[20rem] h-[20rem] rounded-full bg-remax-blue/20 blur-3xl -z-10 animate-blob-b"
+      />
+      <div
+        aria-hidden
+        className="hero-bg-layer addon-float absolute top-1/4 start-1/2 -translate-x-1/2 w-[24rem] h-[24rem] rounded-full bg-remax-red/15 blur-3xl -z-10"
       />
 
       {/* ── Main content ── */}
@@ -71,8 +102,12 @@ export default async function Hero() {
             </Eyebrow>
           </div>
 
-          {/* Word-stagger title */}
-          <h1 className="mt-6 font-display text-display-xl leading-[0.97] tracking-[-0.04em] font-extrabold text-white">
+          {/* Word-stagger title — statik text-shadow ile zeminden öne çıkar
+              (derinlik, okunabilirlik). Hareket DEĞİL, sabit gölge. */}
+          <h1
+            className="mt-6 font-display text-display-xl leading-[0.97] tracking-[-0.04em] font-extrabold text-white"
+            style={{ textShadow: "0 2px 24px rgba(0,0,0,0.45)" }}
+          >
             {/* Each word in overflow-hidden container for clip effect */}
             <span className="block overflow-hidden">
               <span className="anim-word anim-word-1 inline-block">{t.w1}</span>
@@ -86,7 +121,10 @@ export default async function Hero() {
             </span>
           </h1>
 
-          <p className="mt-7 max-w-lg text-lg text-white/70 leading-relaxed anim-hero anim-delay-3">
+          <p
+            className="mt-7 max-w-lg text-lg text-white/75 leading-relaxed anim-hero anim-delay-3"
+            style={{ textShadow: "0 1px 10px rgba(0,0,0,0.40)" }}
+          >
             {t.desc}
           </p>
 
@@ -105,7 +143,9 @@ export default async function Hero() {
               href="/hakkimizda"
               className={cn(
                 buttonVariants({ variant: "outline", size: "lg" }),
-                "border-white/25 bg-white/5 backdrop-blur-sm text-white hover:bg-white/15 hover:text-white h-12 px-6 text-sm font-semibold tracking-wide active:scale-[0.97] transition-transform",
+                // Statik shadow — outline butonu sahneden ayrıştırır (derinlik
+                // hissi), hareket yok. Cam-üstü "elevated" hisi.
+                "border-white/25 bg-white/5 backdrop-blur-sm text-white hover:bg-white/15 hover:text-white h-12 px-6 text-sm font-semibold tracking-wide shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)] active:scale-[0.97] transition-transform",
               )}
             >
               {t.ctaAbout}
