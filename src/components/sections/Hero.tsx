@@ -20,7 +20,13 @@ export default async function Hero() {
       {/* ── Gradient mesh backdrop (z-index -1) ── */}
       <div aria-hidden className="hero-mesh" />
 
-      {/* ── Full-bleed photo ── */}
+      {/* ── Full-bleed photo ──
+          Ken-burns yumuşak zoom (globals.css `.animate-kenburns` —
+          pürüzsüzleştirilmiş: tek-scale, 22s, GPU layer).
+          Mobilde (max-width:768px) globals.css'te animation:none → sabit.
+          PLAN B (titreme desktop'ta hâlâ devam ederse): aşağıdaki
+          className'den `animate-kenburns` token'ını çıkar → görsel
+          tamamen sabit kalır, tasarım/içerik aynı, hareket sıfır. */}
       <Image
         src={heroImage.src}
         alt={heroImage.alt}

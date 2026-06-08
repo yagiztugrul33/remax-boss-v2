@@ -275,14 +275,28 @@
     background-clip: padding-box;
   }
 
-  /* Ken-burns — hero photo slow zoom */
+  /* Ken-burns — hero photo slow zoom (PÜRÜZSÜZLEŞTİRİLDİ).
+     Eski: scale(1) translateZ(0) → scale(1.09) translate(-1%, -1%) translateZ(0).
+     Sorunlar:
+       1) % bazlı translate, element boyutu × hareket = sub-pixel rounding jitter.
+       2) `from` ve `to` farklı sayıda transform fonksiyonu (translateZ ekstra) →
+          tarayıcı matrix decomposition'a düşüyordu (daha az pürüzsüz interpolation).
+       3) 14s ease-in-out hızlı geçişlerle "durup-başlama" hissi veriyordu.
+     Yeni:
+       1) SADECE scale — translate yok → sub-pixel jitter SIFIR.
+       2) from/to aynı sayıda fonksiyon (tek scale) → düz lineer interpolation.
+       3) Süre 14s → 22s, hareket yavaşlar → titreme algısı düşer.
+       4) backface-visibility:hidden GPU compositor layer'ı sağlamlaştırır (Safari). */
   @keyframes ken-burns {
-    from { transform: scale(1) translateZ(0); }
-    to   { transform: scale(1.09) translate(-1%, -1%) translateZ(0); }
+    from { transform: scale(1.02); }
+    to   { transform: scale(1.10); }
   }
   .animate-kenburns {
-    animation: ken-burns 14s ease-in-out infinite alternate;
+    animation: ken-burns 22s ease-in-out infinite alternate;
     will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform-origin: center center;
   }
 
   /* Text entrance — used by Hero */
@@ -743,6 +757,13 @@
        yalnız Hero-içi büyük blob için pratikte etki eder (orada da statik
        görünüm tasarım dilini bozmaz). */
     .hero-bg-layer.addon-float {
+      animation: none;
+    }
+    /* Hero ken-burns mobilde DURDUR — büyük (3840px) resepsiyon.jpg
+       üzerinde sürekli scale animasyonu mobil GPU'da pahalı. Görsel
+       sabit kalır (object-cover ile aynı framing), tasarım dili korunur.
+       Blob'larla tutarlı: mobil Hero = sade, hareketsiz arka plan. */
+    .animate-kenburns {
       animation: none;
     }
 
