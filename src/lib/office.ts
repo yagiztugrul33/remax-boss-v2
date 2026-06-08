@@ -92,25 +92,35 @@ export interface Agent {
 
 /**
  * RE/MAX BOSS gerçek ekibi (kaynak: ofis listesi + resmi portreler).
- * Fotoğraflar public/team/ altında; olmayan kişide monogram. UYDURMA foto YOK.
+ * Fotoğraflar public/team/ altında; olmayan kişide monogram (TeamSection
+ * monogram fallback'i broker'da kırmızı gradient, diğerlerinde navy gradient
+ * ile gösterir). UYDURMA foto YOK.
+ *
+ * Güncel değişiklikler:
+ *  - Brokerlar: Uğur Sucu + Yasin Karaca ÇIKARILDI. Yeni brokerlar Berfin
+ *    Yavaş + Eda Altun.
+ *  - Berfin Yavaş danışmandan Broker / Owner'a TERFİ etti — danışmanlar
+ *    grubundan çıkarıldı (iki yerde görünmüyor); fotoğrafı korundu
+ *    (/team/berfin-yavas.jpg broker kartında).
+ *  - Eda Altun yeni broker eklendi — fotoğrafı henüz yok; gelince
+ *    `/team/eda-altun.jpg` eklenir, şu an monogram ("EA") gösterilir.
+ *  - Öykü Sümer (Ofis Gelişim) ekipten KALDIRILDI; bu grup şimdilik boş
+ *    kaldı, TeamSection boş grupları otomatik gizler.
+ *  - Kullanılmayan fotoğraf dosyaları (yasin-karaca.jpg, oyku-sumer.jpg)
+ *    public/team/'de duruyor (silinmedi; referans yok, kırık görsel yok).
  */
 export const team: readonly Agent[] = [
-  // Brokerlar
-  { name: "Uğur Sucu", title: "Broker / Owner", role: "broker" },
+  // Brokerlar — Berfin Yavaş + Eda Altun (eski brokerlar çıkarıldı).
   {
-    name: "Yasin Karaca",
+    name: "Berfin Yavaş",
     title: "Broker / Owner",
     role: "broker",
-    photo: "/team/yasin-karaca.jpg",
+    photo: "/team/berfin-yavas.jpg",
   },
+  { name: "Eda Altun", title: "Broker / Owner", role: "broker" },
 
-  // Ofis Gelişim Ekibi
-  {
-    name: "Öykü Sümer",
-    title: "Recruiter ve Kurumsal İletişim",
-    role: "ofis-gelisim",
-    photo: "/team/oyku-sumer.jpg",
-  },
+  // Ofis Gelişim Ekibi — şu an boş (Öykü Sümer ekipten ayrıldı).
+  // Boş grup TeamSection'da otomatik gizlenir.
 
   // Gayrimenkul Danışmanı (MAXX Sistem)
   {
@@ -146,14 +156,9 @@ export const team: readonly Agent[] = [
     photo: "/team/yusufbatuhan-kalkan.jpg",
   },
 
-  // Sistemi (MAXX/RAPP) henüz belirtilmemiş danışmanlar — kullanıcı
-  // netleştirene dek "Gayrimenkul Danışmanları" grubunda (silinmedi).
-  {
-    name: "Berfin Yavaş",
-    title: "Gayrimenkul Danışmanı",
-    role: "danisman",
-    photo: "/team/berfin-yavas.jpg",
-  },
+  // Gayrimenkul Danışmanları — Berfin Yavaş broker'a terfi etti, bu gruptan
+  // çıkarıldı (iki yerde görünmesin). Sistemi (MAXX/RAPP) henüz
+  // belirtilmemiş danışmanlar.
   {
     name: "Ceren Dişlioğlu",
     title: "Gayrimenkul Danışmanı",
