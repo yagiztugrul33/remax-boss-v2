@@ -11,7 +11,10 @@ export default async function Hero() {
   const { hero: t } = await getDictionary();
   return (
     <section
-      className="relative isolate min-h-[92vh] flex flex-col justify-end overflow-hidden bg-navy-900"
+      // min-h-[92vh] fallback + min-h-[92svh] modern: mobil tarayıcı adres
+      // çubuğu açılıp kapanırken svh DEĞİŞMEZ → hero yüksekliği oynamaz, sayfa
+      // zıplaması biter. Desktop'ta svh==vh olduğu için fark yaratmaz.
+      className="relative isolate min-h-[92vh] min-h-[92svh] flex flex-col justify-end overflow-hidden bg-navy-900"
       aria-label="RE/MAX BOSS — Ankara Beştepe gayrimenkul ofisi"
     >
       {/* ── Gradient mesh backdrop (z-index -1) ── */}

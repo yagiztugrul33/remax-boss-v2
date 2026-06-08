@@ -238,6 +238,9 @@
     /* Kök seviye yatay taşma kalkanı (body ile birlikte belt-and-suspenders).
        clip → scroll-container yapmaz, sticky navbar bozulmaz. */
     overflow-x: clip;
+    /* Hash linklerinde hedef sticky navbar altında kalmasın → ~6rem üst
+       boşluk. Smooth scroll + navbar shrink çakışmasında jitter'ı düşürür. */
+    scroll-padding-top: 6rem;
   }
 }
 
@@ -726,10 +729,21 @@
   }
 
   @media (max-width: 768px) {
-    /* Hero blob'ları mobilde yumuşat (animasyon korunur, sadece opacity) */
+    /* Hero blob'ları mobilde DURDUR — görsel/renk korunur (opacity 0.5),
+       ama büyük blur-3xl katmanların GPU üzerindeki sürekli transform
+       hareketi mobilde frame drop / jank yaratıyordu. Animasyon kapalı,
+       blob'lar statik dekoratif kalır → titreme/akma azalır. */
     .animate-blob-a,
     .animate-blob-b {
       opacity: 0.5;
+      animation: none;
+    }
+    /* Hero merkez büyük blob (hero-bg-layer + addon-float) — aynı sebeple
+       mobilde sabit. JoinTeamCta'daki hero-bg-layer küçük; bu kural
+       yalnız Hero-içi büyük blob için pratikte etki eder (orada da statik
+       görünüm tasarım dilini bozmaz). */
+    .hero-bg-layer.addon-float {
+      animation: none;
     }
 
     /* Stagger gecikmelerini mobilde 50ms'e indir */

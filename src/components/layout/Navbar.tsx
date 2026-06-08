@@ -29,10 +29,28 @@ export default function Navbar({
   const pathname = usePathname() ?? "/";
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 60);
-    handler();
-    window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
+    // Histerezis: scrolled olmak için >140, geri dönmek için <60 → eşik sınırında
+    // toggle titremesi sıfır. rAF throttle: scroll event flood yerine frame başına 1 güncelleme.
+    let ticking = false;
+    const SCROLL_DOWN_THRESHOLD = 140;
+    const SCROLL_UP_THRESHOLD = 60;
+    const update = () => {
+      const y = window.scrollY;
+      setScrolled((prev) => {
+        if (!prev && y > SCROLL_DOWN_THRESHOLD) return true;
+        if (prev && y < SCROLL_UP_THRESHOLD) return false;
+        return prev;
+      });
+      ticking = false;
+    };
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
@@ -74,8 +92,8 @@ export default function Navbar({
 
       <div
         className={cn(
-          "container-page flex items-center justify-between transition-[padding] duration-300",
-          scrolled ? "py-2" : "py-3",
+          "container-page flex items-center justify-between transition-[padding] duration-200 ease-out",
+          scrolled ? "py-2.5" : "py-3",
         )}
       >
         <BrandLockup scrolled={scrolled} />

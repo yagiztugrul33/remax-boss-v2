@@ -53,13 +53,16 @@ export default function BrandLockup({
       </span>
     );
   } else {
-    // Yatay: balon solda + renkli 2 satır wordmark sağda. 3 kademe daha büyük.
-    const emblemH = scrolled ? "h-14 md:h-20" : "h-20 md:h-28";
-    const wordH = scrolled ? "h-9 md:h-12" : "h-12 md:h-16";
+    // Yatay: balon solda + renkli 2 satır wordmark sağda.
+    // Küçülme farkı küçük tutuldu (titreme önlemi): mobilde 4px, desktop'ta 4px
+    // (h-20→h-16 mobil, h-24→h-20 desktop). Eski h-28→h-14 sıçraması titremeye
+    // katkıda bulunuyordu. Transition 200ms ease-out — daha az "şişme" hissi.
+    const emblemH = scrolled ? "h-16 md:h-20" : "h-20 md:h-24";
+    const wordH = scrolled ? "h-10 md:h-12" : "h-12 md:h-14";
     inner = (
       <span
         className={cn(
-          "inline-flex items-center gap-2.5 transition-all duration-300",
+          "inline-flex items-center gap-2.5 transition-[height] duration-200 ease-out",
           className,
         )}
       >
@@ -71,7 +74,7 @@ export default function BrandLockup({
           height={EMBLEM.h}
           priority
           className={cn(
-            "w-auto object-contain transition-[height] duration-300",
+            "w-auto object-contain transition-[height] duration-200 ease-out",
             emblemH,
           )}
         />
@@ -82,7 +85,7 @@ export default function BrandLockup({
           height={WORD_COLOR.h}
           priority
           className={cn(
-            "w-auto object-contain transition-[height] duration-300",
+            "w-auto object-contain transition-[height] duration-200 ease-out",
             wordH,
           )}
         />
