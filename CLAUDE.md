@@ -30,6 +30,36 @@
 | 6 | Ofisimiz + animasyon — Hero full-bleed, OfficeShowcase, tilt cards | ✅ |
 | 7 | Güvenlik denetimi — security headers, gitignore, git geçmiş taraması | ✅ |
 
+## AI Sohbet Asistanı (feature flag — default KAPALI)
+
+Kod tamamen hazır ama varsayılan **KAPALI**. Sitede HİÇBİR şey görünmez,
+`/api/chat` 503 döner. Tasarım: Anthropic Claude (Haiku) server-proxy,
+anahtar **sadece server'da**, system prompt sunucuda (sıkı uydurma önleme).
+
+**Aktive etmek için (Vercel):**
+1. Project Settings → Environment Variables:
+   - `ANTHROPIC_API_KEY` (Sensitive olarak işaretle) — Anthropic console'dan
+   - `NEXT_PUBLIC_AI_ASSISTANT_ENABLED=true`
+   - (opsiyonel) `ANTHROPIC_MODEL=claude-haiku-4-5` (varsayılan zaten bu)
+2. Deployments → ↻ Redeploy.
+
+**Dosyalar:**
+- `src/lib/ai-assistant.ts` — system prompt + sabitler (MAX_HISTORY=12,
+  MAX_MESSAGE_LEN=2000, MAX_OUTPUT_TOKENS=600, DEFAULT_MODEL="claude-haiku-4-5")
+- `src/app/api/chat/route.ts` — POST endpoint, Node.js runtime, flag+key+body
+  kontrolleri, Anthropic proxy
+- `src/components/ui/ai-chat.tsx` — sol-alt yüzen buton + köşe/tam-alt pencere,
+  flag false → `null` döner
+- Layout'ta `<AiChat />` render ediliyor (FloatingActions'tan sonra)
+
+**Sıkı UYDURMA önleme (system prompt):** belirli ilan/fiyat/m²/randevu/
+danışman ismi/istatistik UYDURMA YASAK. Kampanya iki aşamalı ödülü doğru
+anlatır; "kazandınız/garanti" demez. Bilmediğini söyler + ofise yönlendirir.
+
+**Maliyet koruması:** max_tokens 600, geçmiş son 12 mesaj, mesaj 2000 chr,
+body 8KB, client rate-limit 2s. Anthropic API key ASLA client/response/log'a
+sızmaz.
+
 ## Veri Modeli — KESİN KARAR (YOL A, 2026-06-07)
 
 > **Veri modeli = MEVCUT CANLI ŞEMA.** Yeni özellikler bunun ÜZERİNE,

@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import ScrollProgress from "@/components/ui/scroll-progress";
 import ScrollReveal from "@/components/ui/scroll-reveal";
 import FloatingActions from "@/components/ui/floating-actions";
+import AiChat from "@/components/ui/ai-chat";
 import { office } from "@/lib/office";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
 import "./globals.css";
@@ -129,6 +130,10 @@ export default async function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer dict={dict.footer} navDict={dict.nav} />
         <FloatingActions />
+        {/* AI sohbet asistanı — feature flag arkasında (default KAPALI).
+            NEXT_PUBLIC_AI_ASSISTANT_ENABLED=true olmadıkça component null
+            döner, sitede HİÇBİR şey görünmez. */}
+        <AiChat />
       </body>
     </html>
   );
