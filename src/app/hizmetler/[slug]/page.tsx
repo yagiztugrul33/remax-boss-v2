@@ -23,8 +23,11 @@ import { office } from "@/lib/office";
 import {
   services,
   getServiceBySlug,
+  localizeService,
   type ServiceIcon,
 } from "@/lib/services";
+import { getLocale, getDictionary } from "@/lib/i18n/server";
+import { withAccent } from "@/lib/i18n/render";
 
 const SITE = "https://remax-boss-v2.vercel.app";
 
@@ -46,17 +49,20 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const s = getServiceBySlug(slug);
-  if (!s) return { title: "Hizmet bulunamadı" };
+  const locale = await getLocale();
+  const dict = await getDictionary();
+  if (!s) return { title: dict.pages.serviceDetail.notFoundTitle };
+  const ls = localizeService(s, locale);
   return {
-    title: s.title,
-    description: s.summary,
-    alternates: { canonical: `/hizmetler/${s.slug}` },
+    title: ls.title,
+    description: ls.summary,
+    alternates: { canonical: `/hizmetler/${ls.slug}` },
     openGraph: {
-      title: `${s.title} | RE/MAX BOSS`,
-      description: s.summary,
+      title: `${ls.title} | RE/MAX BOSS`,
+      description: ls.summary,
       type: "website",
-      url: `${SITE}/hizmetler/${s.slug}`,
-      images: [{ url: s.cover.src, alt: s.cover.alt }],
+      url: `${SITE}/hizmetler/${ls.slug}`,
+      images: [{ url: ls.cover.src, alt: ls.cover.alt }],
     },
   };
 }
@@ -67,14 +73,18 @@ export default async function ServiceDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const s = getServiceBySlug(slug);
-  if (!s) notFound();
+  const raw = getServiceBySlug(slug);
+  if (!raw) notFound();
+  const locale = await getLocale();
+  const d = (await getDictionary()).pages.serviceDetail;
+  const s = localizeService(raw, locale);
   const Icon = iconMap[s.icon];
-  const others = services.filter((x) => x.slug !== s.slug);
+  const others = services
+    .filter((x) => x.slug !== s.slug)
+    .map((x) => localizeService(x, locale));
 
   return (
     <>
-      {/* HERO */}
       <section className="relative isolate bg-navy-900 text-white overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <Image
@@ -96,7 +106,7 @@ export default async function ServiceDetailPage({
             className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors mb-6"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden />
-            Tüm hizmetler
+            {d.backLink}
           </Link>
           <div className="max-w-3xl">
             <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-remax-red text-white">
@@ -108,7 +118,7 @@ export default async function ServiceDetailPage({
             {s.primary && (
               <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-remax-red">
                 <span className="h-px w-8 bg-remax-red" aria-hidden />
-                Birincil hizmetimiz
+                {d.primaryBadge}
               </span>
             )}
             <p className="mt-6 text-lg text-white/75 max-w-xl leading-relaxed">
@@ -118,13 +128,12 @@ export default async function ServiceDetailPage({
         </div>
       </section>
 
-      {/* AÇIKLAMA */}
       <Section tone="light" density="normal">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-10 lg:gap-14 items-start">
           <div className="lg:sticky lg:top-28">
-            <Eyebrow tone="red">Ne Yapıyoruz</Eyebrow>
+            <Eyebrow tone="red">{d.whatWeDoEyebrow}</Eyebrow>
             <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-              Uçtan uca <span className="accent-mark">profesyonel</span> destek.
+              {withAccent(d.whatWeDoTitle)}
             </h2>
           </div>
           <div className="space-y-5 max-w-2xl">
@@ -143,12 +152,11 @@ export default async function ServiceDetailPage({
         </div>
       </Section>
 
-      {/* SÜRECİMİZ — timeline */}
       <Section tone="mist" density="normal">
         <div className="max-w-2xl mb-10">
-          <Eyebrow tone="red">Sürecimiz</Eyebrow>
+          <Eyebrow tone="red">{d.processEyebrow}</Eyebrow>
           <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-            Ne <span className="accent-mark">bekleyebilirsiniz</span>?
+            {withAccent(d.processTitle)}
           </h2>
         </div>
         <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -172,18 +180,23 @@ export default async function ServiceDetailPage({
         </ol>
       </Section>
 
-      {/* FAYDA + NEDEN BİZ */}
       <Section tone="light" density="normal">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
           <div>
-            <Eyebrow tone="red">Size Faydası</Eyebrow>
+            <Eyebrow tone="red">{d.benefitsEyebrow}</Eyebrow>
             <h2 className="mt-5 font-display text-display text-navy text-balance">
-              Neden işinize <span className="accent-mark">yarar</span>?
+              {withAccent(d.benefitsTitle)}
             </h2>
             <ul className="mt-7 space-y-3">
               {s.benefits.map((b) => (
-                <li key={b} className="flex items-start gap-3 text-navy/80 leading-relaxed">
-                  <Check className="h-5 w-5 flex-shrink-0 text-remax-red mt-0.5" aria-hidden />
+                <li
+                  key={b}
+                  className="flex items-start gap-3 text-navy/80 leading-relaxed"
+                >
+                  <Check
+                    className="h-5 w-5 flex-shrink-0 text-remax-red mt-0.5"
+                    aria-hidden
+                  />
                   {b}
                 </li>
               ))}
@@ -196,12 +209,18 @@ export default async function ServiceDetailPage({
             />
             <div className="relative">
               <Eyebrow tone="white" className="text-white/70">
-                Neden RE/MAX BOSS
+                {d.whyUsEyebrow}
               </Eyebrow>
               <ul className="mt-6 space-y-4">
                 {s.whyUs.map((w) => (
-                  <li key={w} className="flex items-start gap-3 text-white/80 leading-relaxed">
-                    <ShieldCheck className="h-5 w-5 flex-shrink-0 text-remax-red mt-0.5" aria-hidden />
+                  <li
+                    key={w}
+                    className="flex items-start gap-3 text-white/80 leading-relaxed"
+                  >
+                    <ShieldCheck
+                      className="h-5 w-5 flex-shrink-0 text-remax-red mt-0.5"
+                      aria-hidden
+                    />
                     {w}
                   </li>
                 ))}
@@ -210,15 +229,12 @@ export default async function ServiceDetailPage({
           </div>
         </div>
 
-        {/* CTA */}
         <div className="mt-10 rounded-3xl border border-line bg-mist/50 p-7 md:p-9 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div>
             <h2 className="font-display font-bold text-xl text-navy">
-              {s.title} için ilk adımı atın.
+              {d.ctaTitleTemplate.replace("{0}", s.title)}
             </h2>
-            <p className="mt-1.5 text-navy/60 text-sm">
-              Ücretsiz görüşme ve değerlendirme için bize ulaşın.
-            </p>
+            <p className="mt-1.5 text-navy/60 text-sm">{d.ctaSubtitle}</p>
           </div>
           <div className="flex flex-wrap items-center gap-3 flex-shrink-0">
             <Link
@@ -228,7 +244,7 @@ export default async function ServiceDetailPage({
                 "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-6 text-sm font-semibold tracking-wide btn-glow btn-shine",
               )}
             >
-              İletişime geç
+              {d.ctaContact}
               <ArrowRight className="h-4 w-4 ms-2" />
             </Link>
             <a
@@ -242,10 +258,9 @@ export default async function ServiceDetailPage({
         </div>
       </Section>
 
-      {/* DİĞER HİZMETLER */}
       <Section tone="mist" density="normal">
         <h2 className="font-display font-extrabold text-2xl text-navy mb-6">
-          Diğer hizmetlerimiz
+          {d.othersHeading}
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {others.map((o) => {
@@ -263,8 +278,11 @@ export default async function ServiceDetailPage({
                   {o.title}
                 </h3>
                 <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-remax-red">
-                  İncele
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                  {d.otherDetailsCta}
+                  <ArrowRight
+                    className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
+                    aria-hidden
+                  />
                 </span>
               </Link>
             );

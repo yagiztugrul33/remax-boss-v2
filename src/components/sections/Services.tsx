@@ -12,7 +12,12 @@ import Eyebrow from "@/components/ui/eyebrow";
 import Reveal from "@/components/ui/reveal";
 import TiltCard from "@/components/ui/tilt-card";
 import { cn } from "@/lib/utils";
-import { getAllServices, type ServiceIcon } from "@/lib/services";
+import {
+  getAllServices,
+  localizeService,
+  type ServiceIcon,
+} from "@/lib/services";
+import { getLocale, getDictionary } from "@/lib/i18n/server";
 
 const iconMap: Record<ServiceIcon, LucideIcon> = {
   handshake: Handshake,
@@ -21,8 +26,11 @@ const iconMap: Record<ServiceIcon, LucideIcon> = {
   briefcase: Briefcase,
 };
 
-export default function Services() {
-  const [hero, ...rest] = getAllServices();
+export default async function Services() {
+  const locale = await getLocale();
+  const d = (await getDictionary()).pages.home.services;
+  const all = getAllServices().map((s) => localizeService(s, locale));
+  const [hero, ...rest] = all;
   const HeroIcon = iconMap[hero.icon];
 
   return (
@@ -30,23 +38,24 @@ export default function Services() {
       <Reveal>
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-8 lg:gap-12 items-end">
           <div>
-            <Eyebrow tone="red">Hizmetler</Eyebrow>
+            <Eyebrow tone="red">{d.eyebrow}</Eyebrow>
             <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-              Gayrimenkulün her aşamasında, tek bir profesyonel adresi.
+              {d.title}
             </h2>
           </div>
           <p className="text-navy/65 text-lg leading-relaxed lg:max-w-md lg:ms-auto">
-            Hizmetlerimiz RE/MAX Türkiye standartları üzerine kurulu olup Beştepe
-            ofisimizden Ankara&apos;nın tüm bölgelerine ulaşır.
+            {d.subtitle}
           </p>
         </div>
       </Reveal>
 
-      {/* Asimetrik kart düzeni: 1 büyük renk-bloklu + 3 sade */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4">
         <Reveal className="lg:col-span-7">
           <TiltCard className="h-full">
-            <Link href={`/hizmetler/${hero.slug}`} className="block h-full">
+            <Link
+              href={`/hizmetler/${hero.slug}`}
+              className="block h-full"
+            >
               <article className="relative overflow-hidden rounded-3xl bg-navy-900 text-white p-8 md:p-10 group h-full">
                 <div
                   aria-hidden
@@ -64,7 +73,7 @@ export default function Services() {
                   </p>
                   <div className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-remax-red">
                     <span className="h-px w-8 bg-remax-red" aria-hidden />
-                    Birincil hizmetimiz — detaylar
+                    {d.primaryCardCta}
                     <ArrowRight className="h-4 w-4" aria-hidden />
                   </div>
                 </div>
@@ -82,7 +91,10 @@ export default function Services() {
               className={cn(i === 0 ? "lg:col-span-5" : "lg:col-span-6")}
             >
               <TiltCard className="h-full">
-                <Link href={`/hizmetler/${s.slug}`} className="block h-full">
+                <Link
+                  href={`/hizmetler/${s.slug}`}
+                  className="block h-full"
+                >
                   <article className="group relative rounded-3xl border border-line bg-mist/50 p-7 hover:bg-white hover:border-remax-red/30 hover:shadow-card transition-all h-full">
                     <div className="flex items-start gap-5">
                       <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-navy text-white group-hover:bg-remax-red transition-colors flex-shrink-0">
@@ -96,8 +108,11 @@ export default function Services() {
                           {s.summary}
                         </p>
                         <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-remax-red">
-                          Detayları gör
-                          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                          {d.detailsCta}
+                          <ArrowRight
+                            className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
+                            aria-hidden
+                          />
                         </span>
                       </div>
                     </div>
@@ -115,7 +130,7 @@ export default function Services() {
             href="/hizmetler"
             className="inline-flex items-center gap-2 text-sm font-semibold text-navy hover:text-remax-red transition-colors"
           >
-            Tüm hizmetlerimizi keşfedin
+            {d.seeAllCta}
             <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </div>

@@ -4,6 +4,8 @@ import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import Reveal from "@/components/ui/reveal";
 import { getTeamGroups, type AgentRole } from "@/lib/office";
+import { getDictionary } from "@/lib/i18n/server";
+import { withAccent } from "@/lib/i18n/render";
 
 const roleIcon: Record<AgentRole, typeof Users> = {
   broker: Crown,
@@ -26,25 +28,34 @@ function initialsOf(name: string) {
 
 /**
  * RE/MAX BOSS gerçek ekibi — gruplu dikey kartlar.
- * Fotoğrafı OLAN kişi → gerçek portre (3:4, object-cover, ezilmez).
- * Fotoğrafı OLMAYAN → monogram (inisyal) fallback. UYDURMA foto YOK.
+ * Ekip isim/unvanları gerçek (TR/EN aynı kalır); başlık + grup etiketleri çevrili.
  */
-export default function TeamSection() {
+export default async function TeamSection() {
+  const d = (await getDictionary()).pages.home.teamSection;
   const groups = getTeamGroups();
   const total = groups.reduce((acc, g) => acc + g.members.length, 0);
+
+  // Grup etiketleri sözlükten (yerelleştirilmiş)
+  const roleLabel: Record<AgentRole, string> = {
+    broker: d.groupLabels.broker,
+    "ofis-gelisim": d.groupLabels.ofisGelisim,
+    "danisman-maxx": d.groupLabels.danismanMaxx,
+    "danisman-rapp": d.groupLabels.danismanRapp,
+    danisman: d.groupLabels.danisman,
+    destek: d.groupLabels.destek,
+  };
+
+  // Başlık template: "<accent>{n} kişilik</accent> uzman kadromuz."
+  const titleText = d.title.replace("{n}", String(total));
 
   return (
     <Section tone="light" density="normal">
       <div className="max-w-2xl">
-        <Eyebrow tone="red">Ekibimiz</Eyebrow>
+        <Eyebrow tone="red">{d.eyebrow}</Eyebrow>
         <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-          <span className="accent-mark">{total} kişilik</span> uzman kadromuz.
+          {withAccent(titleText)}
         </h2>
-        <p className="mt-4 text-navy/65 leading-relaxed">
-          Brokerlardan danışmanlara, ofis gelişiminden destek ekibine kadar
-          her birimimiz tek bir hedef için çalışır: müşterimizin doğru kararı
-          doğru zamanda alması.
-        </p>
+        <p className="mt-4 text-navy/65 leading-relaxed">{d.desc}</p>
       </div>
 
       <div className="mt-10 space-y-12">
@@ -59,7 +70,7 @@ export default function TeamSection() {
                     <Icon className="h-5 w-5" aria-hidden />
                   </div>
                   <h3 className="font-display font-extrabold text-navy text-xl">
-                    {g.label}
+                    {roleLabel[g.key]}
                     <span className="ms-2 text-sm font-semibold text-navy/40">
                       ({g.members.length})
                     </span>
@@ -70,7 +81,6 @@ export default function TeamSection() {
                   {g.members.map((m, i) => (
                     <Reveal key={m.name} delay={(i % 4) * 80}>
                       <li className="card-depth group h-full overflow-hidden rounded-2xl border border-line bg-white">
-                        {/* Üst: foto (varsa) veya monogram — 3:4, ezilmez */}
                         <div className="relative aspect-[3/4] overflow-hidden bg-mist">
                           {m.photo ? (
                             <Image
@@ -94,7 +104,6 @@ export default function TeamSection() {
                           )}
                         </div>
 
-                        {/* Alt: isim + unvan */}
                         <div className="p-3.5">
                           <div className="font-display font-bold text-navy leading-tight text-balance">
                             {m.name}

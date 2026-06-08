@@ -30,16 +30,24 @@ export const office = {
 } as const;
 
 /**
- * RE/MAX BOSS ofisinin GERÇEK açıklama metni.
- * Kaynak: RE/MAX BOSS resmi içeriği. UYDURMA YOK.
+ * RE/MAX BOSS ofisinin GERÇEK açıklama metni — TR (kaynak) + EN (profesyonel
+ * çeviri). UYDURMA YOK. Sayfa kullanımı: `aboutContent.paragraphs[locale]`.
  */
 export const aboutContent = {
-  paragraphs: [
-    "Profesyonellik ve güvenilirlik, çalışma prensiplerimizin temelini oluşturur. RE/MAX Türkiye bünyesindeki geniş tecrübemiz ile hem alıcılar hem de satıcılar için benzersiz fırsatlar sunuyoruz.",
-    "Alıcılar için piyasa dinamiklerini detaylı bir şekilde analiz ederek en uygun mülkleri bulmalarına yardımcı olurken, satıcılar için ise mülklerinin değerini maksimize edecek stratejiler geliştiriyoruz. Pazarlama, müzakere ve işlem sonuçlandırma süreçlerindeki uzmanlığımız sayesinde, müşterilerimizin hedeflerine ulaşmaları için kapsamlı çözümler sunuyoruz. Etkili pazarlama tekniklerimiz ve güçlü müzakere stratejilerimiz ile mülklerin piyasa koşullarında en yüksek potansiyele ulaşmasını sağlıyoruz. Her işlemi titizlikle yönetiyor ve sürecin başından sonuna kadar yanınızda yer alıyoruz.",
-    "Geniş iletişim ağımız ve profesyonel becerilerimiz sayesinde, müşterilerimizin gayrimenkul deneyimlerini sorunsuz ve verimli bir sürece dönüştürüyoruz. RE/MAX Türkiye'nin güçlü altyapısı ve geniş kaynaklarından faydalanarak, size özel çözümler sunuyoruz. İster ev almak, ister ev satmak veya yatırım yapmak isteyin, her aşamada yanınızdayız.",
-    "Müşteri memnuniyeti en büyük önceliğimizdir. Her müşteri ile birebir ilgileniyor ve onların en iyi kararı vermelerine yardımcı olmak için çalışıyoruz. Gayrimenkul alım, satım ve yatırım süreçlerinizde güvenilir bir ortak arıyorsanız, doğru yerdesiniz.",
-  ],
+  paragraphs: {
+    tr: [
+      "Profesyonellik ve güvenilirlik, çalışma prensiplerimizin temelini oluşturur. RE/MAX Türkiye bünyesindeki geniş tecrübemiz ile hem alıcılar hem de satıcılar için benzersiz fırsatlar sunuyoruz.",
+      "Alıcılar için piyasa dinamiklerini detaylı bir şekilde analiz ederek en uygun mülkleri bulmalarına yardımcı olurken, satıcılar için ise mülklerinin değerini maksimize edecek stratejiler geliştiriyoruz. Pazarlama, müzakere ve işlem sonuçlandırma süreçlerindeki uzmanlığımız sayesinde, müşterilerimizin hedeflerine ulaşmaları için kapsamlı çözümler sunuyoruz. Etkili pazarlama tekniklerimiz ve güçlü müzakere stratejilerimiz ile mülklerin piyasa koşullarında en yüksek potansiyele ulaşmasını sağlıyoruz. Her işlemi titizlikle yönetiyor ve sürecin başından sonuna kadar yanınızda yer alıyoruz.",
+      "Geniş iletişim ağımız ve profesyonel becerilerimiz sayesinde, müşterilerimizin gayrimenkul deneyimlerini sorunsuz ve verimli bir sürece dönüştürüyoruz. RE/MAX Türkiye'nin güçlü altyapısı ve geniş kaynaklarından faydalanarak, size özel çözümler sunuyoruz. İster ev almak, ister ev satmak veya yatırım yapmak isteyin, her aşamada yanınızdayız.",
+      "Müşteri memnuniyeti en büyük önceliğimizdir. Her müşteri ile birebir ilgileniyor ve onların en iyi kararı vermelerine yardımcı olmak için çalışıyoruz. Gayrimenkul alım, satım ve yatırım süreçlerinizde güvenilir bir ortak arıyorsanız, doğru yerdesiniz.",
+    ],
+    en: [
+      "Professionalism and trust form the foundation of how we work. Drawing on our deep experience within the RE/MAX Türkiye network, we create distinctive opportunities for both buyers and sellers.",
+      "For buyers, we analyse market dynamics in detail and help them find the right properties; for sellers, we build strategies that maximise the value of their assets. Our expertise across marketing, negotiation and transaction closing translates into comprehensive solutions for our clients' goals. With effective marketing and strong negotiation, we help properties achieve their highest potential under current market conditions. We manage every transaction with care and stay alongside you from beginning to end.",
+      "Through our wide network and professional capabilities, we turn our clients' real estate journey into a smooth, efficient process. Backed by the strong infrastructure and broad resources of RE/MAX Türkiye, we deliver tailored solutions. Whether you want to buy, sell or invest, we are with you at every stage.",
+      "Client satisfaction is our top priority. We work one-to-one with every client and help them make the best decision for their needs. If you are looking for a trusted partner in buying, selling or investing in real estate, you are in the right place.",
+    ],
+  },
 } as const;
 
 /** next/image slot — public/office/ altındaki gerçek ofis görselleri. */

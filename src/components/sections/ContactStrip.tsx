@@ -3,52 +3,59 @@ import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import MapEmbed from "./MapEmbed";
 import { office } from "@/lib/office";
+import { getDictionary } from "@/lib/i18n/server";
 
-const items = [
-  {
-    icon: MapPin,
-    label: "Adres",
-    primary: office.addressShort,
-    secondary: office.addressFull,
-  },
-  {
-    icon: Phone,
-    label: "Telefon",
-    primary: office.phone,
-    href: `tel:${office.phone}`,
-    secondary: `WhatsApp ${office.whatsapp}`,
-    ltr: true,
-  },
-  {
-    icon: Mail,
-    label: "E-posta",
-    primary: office.email,
-    href: `mailto:${office.email}`,
-  },
-  {
-    icon: Clock,
-    label: "Çalışma Saatleri",
-    primary: `Hafta İçi ${office.workingHours.weekdays}`,
-    secondary: `Cmt ${office.workingHours.saturday} · Paz ${office.workingHours.sunday}`,
-  },
-];
+export default async function ContactStrip() {
+  const d = (await getDictionary()).pages.home.contactStrip;
 
-export default function ContactStrip() {
+  const items = [
+    {
+      icon: MapPin,
+      label: d.addressLabel,
+      primary: office.addressShort,
+      secondary: office.addressFull,
+    },
+    {
+      icon: Phone,
+      label: d.phoneLabel,
+      primary: office.phone,
+      href: `tel:${office.phone}`,
+      secondary: `${d.whatsappPrefix} ${office.whatsapp}`,
+      ltr: true,
+    },
+    {
+      icon: Mail,
+      label: d.emailLabel,
+      primary: office.email,
+      href: `mailto:${office.email}`,
+    },
+    {
+      icon: Clock,
+      label: d.hoursLabel,
+      primary: `${d.weekdayPrefix} ${office.workingHours.weekdays}`,
+      secondary: `${d.saturdayShort} ${office.workingHours.saturday} · ${d.sundayShort} ${office.workingHours.sunday}`,
+    },
+  ];
+
   return (
-    <Section id="iletisim" tone="dark" density="normal" className="reveal-on-scroll">
+    <Section
+      id="iletisim"
+      tone="dark"
+      density="normal"
+      className="reveal-on-scroll"
+    >
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-10 lg:gap-14 items-start">
         <div>
           <Eyebrow tone="white" className="text-white/70">
-            İletişim
+            {d.eyebrow}
           </Eyebrow>
           <h2 className="mt-5 font-display text-display-lg text-white text-balance">
-            Beştepe&apos;deki ofisimizden,
+            {d.titleLine1}
             <br />
-            <span className="text-remax-red">gayrimenkul</span> yolculuğunuza.
+            <span className="text-remax-red">{d.titleLine2}</span>
           </h2>
           <p className="mt-6 text-white/65 leading-relaxed max-w-md">
-            Aşağıdaki kanallardan ofise ulaşabilir, haritadan konumu görüntüleyip
-            ziyaret edebilirsiniz.
+            {d.desc}
           </p>
 
           <ul className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">

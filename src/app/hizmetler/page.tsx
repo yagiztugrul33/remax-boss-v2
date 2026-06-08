@@ -11,14 +11,22 @@ import {
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import Reveal from "@/components/ui/reveal";
-import { getAllServices, type ServiceIcon } from "@/lib/services";
+import {
+  getAllServices,
+  localizeService,
+  type ServiceIcon,
+} from "@/lib/services";
+import { getLocale, getDictionary } from "@/lib/i18n/server";
+import { withAccent } from "@/lib/i18n/render";
 
-export const metadata: Metadata = {
-  title: "Hizmetlerimiz",
-  description:
-    "Alım-satım danışmanlığı, kiralama, değerleme & ekspertiz ve portföy yönetimi — RE/MAX BOSS'un Beştepe'den Ankara geneline sunduğu profesyonel gayrimenkul hizmetleri.",
-  alternates: { canonical: "/hizmetler" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const d = (await getDictionary()).pages.services.meta;
+  return {
+    title: d.title,
+    description: d.description,
+    alternates: { canonical: "/hizmetler" },
+  };
+}
 
 const iconMap: Record<ServiceIcon, LucideIcon> = {
   handshake: Handshake,
@@ -27,8 +35,10 @@ const iconMap: Record<ServiceIcon, LucideIcon> = {
   briefcase: Briefcase,
 };
 
-export default function HizmetlerPage() {
-  const all = getAllServices();
+export default async function HizmetlerPage() {
+  const locale = await getLocale();
+  const d = (await getDictionary()).pages.services;
+  const all = getAllServices().map((s) => localizeService(s, locale));
 
   return (
     <>
@@ -49,15 +59,13 @@ export default function HizmetlerPage() {
         <div className="container-page py-20 md:py-28">
           <div className="max-w-2xl">
             <Eyebrow tone="white" className="text-white/80">
-              Hizmetlerimiz
+              {d.heroEyebrow}
             </Eyebrow>
             <h1 className="mt-5 font-display text-display-xl text-balance">
-              Gayrimenkulün her aşamasında{" "}
-              <span className="accent-mark">yanınızdayız</span>.
+              {withAccent(d.heroTitle)}
             </h1>
             <p className="mt-7 text-lg text-white/70 max-w-xl leading-relaxed">
-              Hizmetlerimiz RE/MAX Türkiye standartları üzerine kuruludur ve
-              Beştepe ofisimizden Ankara&apos;nın tüm bölgelerine ulaşır.
+              {d.heroSubtitle}
             </p>
           </div>
         </div>
@@ -79,7 +87,7 @@ export default function HizmetlerPage() {
                     </span>
                     {s.primary && (
                       <span className="text-eyebrow font-display text-remax-red">
-                        Birincil hizmet
+                        {d.primaryServiceBadge}
                       </span>
                     )}
                   </div>
@@ -90,8 +98,11 @@ export default function HizmetlerPage() {
                     {s.summary}
                   </p>
                   <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-remax-red">
-                    Detayları gör
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                    {d.detailsCta}
+                    <ArrowRight
+                      className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
+                      aria-hidden
+                    />
                   </span>
                 </Link>
               </Reveal>

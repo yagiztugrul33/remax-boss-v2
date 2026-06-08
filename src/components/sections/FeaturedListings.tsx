@@ -5,8 +5,10 @@ import Eyebrow from "@/components/ui/eyebrow";
 import ListingCard from "@/components/sections/ListingCard";
 import ListingsComingSoon from "@/components/sections/ListingsComingSoon";
 import { getFeaturedListings } from "@/lib/queries";
+import { getDictionary } from "@/lib/i18n/server";
 
 export default async function FeaturedListings() {
+  const d = (await getDictionary()).pages.home.featuredListings;
   const featured = await getFeaturedListings(4);
   const hasListings = featured.length > 0;
 
@@ -14,16 +16,16 @@ export default async function FeaturedListings() {
     <Section tone="light" density="normal">
       <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
         <div className="max-w-xl">
-          <Eyebrow tone="red">Portföy</Eyebrow>
+          <Eyebrow tone="red">{d.eyebrow}</Eyebrow>
           <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-            Öne çıkan ilanlar.
+            {d.title}
           </h2>
         </div>
         <Link
           href="/ilanlar"
           className="inline-flex items-center gap-2 text-sm font-semibold text-navy hover:text-remax-red transition-colors"
         >
-          Tüm İlanlar
+          {d.seeAllCta}
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>

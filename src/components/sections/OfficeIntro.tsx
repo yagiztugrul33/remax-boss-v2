@@ -7,26 +7,26 @@ import Reveal from "@/components/ui/reveal";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { office, heroImage } from "@/lib/office";
+import { getDictionary } from "@/lib/i18n/server";
+import { withAccent } from "@/lib/i18n/render";
 
-export default function OfficeIntro() {
+export default async function OfficeIntro() {
+  const d = (await getDictionary()).pages.home.officeIntro;
+
   return (
     <Section tone="mist" density="normal">
       <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-16 items-start">
-        {/* SOL — büyük tipografik blok */}
         <Reveal>
           <div>
-            <Eyebrow tone="red">Hakkımızda</Eyebrow>
+            <Eyebrow tone="red">{d.eyebrow}</Eyebrow>
             <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-              Ankara&apos;nın yeni RE/MAX adresi,{" "}
-              <span className="accent-mark">Beştepe</span>&apos;de.
+              {withAccent(d.title)}
             </h2>
             <p className="mt-7 text-lg text-navy/70 leading-relaxed">
-              {office.shortDescription}
+              {d.body1}
             </p>
             <p className="mt-4 text-navy/65 leading-relaxed">
-              Pazarlama, müzakere ve işlem sonuçlandırma süreçlerini titizlikle
-              yönetir; gayrimenkul yolculuğunuzu sorunsuz bir deneyime
-              dönüştürürüz.
+              {d.body2}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -37,7 +37,7 @@ export default function OfficeIntro() {
                   "bg-navy hover:bg-navy-700 text-white h-12 px-6 text-sm font-semibold tracking-wide",
                 )}
               >
-                Hakkımızda Sayfası
+                {d.ctaAbout}
                 <ArrowRight className="h-4 w-4 ms-2" />
               </Link>
               <a
@@ -54,7 +54,6 @@ export default function OfficeIntro() {
           </div>
         </Reveal>
 
-        {/* SAĞ — istif edilmiş info blokları (görsel slotu boş, marka işareti) */}
         <Reveal delay={120}>
           <div className="space-y-4">
             <div className="relative aspect-[5/4] overflow-hidden rounded-3xl bg-mist">
@@ -72,10 +71,10 @@ export default function OfficeIntro() {
               <div className="absolute bottom-5 start-5 end-5">
                 <div className="rounded-xl bg-white/95 backdrop-blur px-4 py-3">
                   <div className="text-xs text-navy/55 font-semibold uppercase tracking-wider">
-                    RE/MAX BOSS
+                    {d.cardName}
                   </div>
                   <div className="mt-0.5 font-display font-bold text-navy">
-                    Beştepe · Yenimahalle / Ankara
+                    {d.cardAddress}
                   </div>
                 </div>
               </div>
@@ -87,7 +86,7 @@ export default function OfficeIntro() {
                   <MapPin className="h-4 w-4" aria-hidden />
                 </div>
                 <div className="mt-3 text-xs font-semibold uppercase tracking-wider text-navy/50">
-                  Adres
+                  {d.addressLabel}
                 </div>
                 <div className="mt-1 text-sm font-bold text-navy leading-tight">
                   {office.addressShort}
@@ -98,13 +97,13 @@ export default function OfficeIntro() {
                   <Clock className="h-4 w-4" aria-hidden />
                 </div>
                 <div className="mt-3 text-xs font-semibold uppercase tracking-wider text-navy/50">
-                  Çalışma
+                  {d.workingLabel}
                 </div>
                 <div className="mt-1 text-sm font-bold text-navy leading-tight">
                   {office.workingHours.weekdays}
                 </div>
                 <div className="text-xs text-navy/55 mt-0.5">
-                  Cmt {office.workingHours.saturday}
+                  {d.weekendShort} {office.workingHours.saturday}
                 </div>
               </div>
             </div>

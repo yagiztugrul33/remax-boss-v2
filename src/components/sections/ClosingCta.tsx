@@ -3,11 +3,13 @@ import { buttonVariants } from "@/components/ui/button";
 import Eyebrow from "@/components/ui/eyebrow";
 import { cn } from "@/lib/utils";
 import { office } from "@/lib/office";
+import { getDictionary } from "@/lib/i18n/server";
 
-export default function ClosingCta() {
+export default async function ClosingCta() {
+  const d = (await getDictionary()).pages.home.closingCta;
+
   return (
     <section className="reveal-on-scroll relative overflow-hidden bg-remax-red text-white">
-      {/* arka plan dokusu — bold ama disiplinli */}
       <div
         aria-hidden
         className="absolute inset-0 opacity-[0.08]"
@@ -31,16 +33,13 @@ export default function ClosingCta() {
           <div>
             <Eyebrow tone="white">
               <Sparkles className="h-3 w-3 me-1" aria-hidden />
-              Ücretsiz Değerleme
+              {d.eyebrow}
             </Eyebrow>
             <h2 className="mt-5 font-display text-display-xl text-balance leading-[0.98]">
-              Mülkünüzün gerçek
-              <br />
-              piyasa değerini öğrenin.
+              {d.title}
             </h2>
             <p className="mt-6 text-lg text-white/80 max-w-xl leading-relaxed">
-              Bölge uzmanımız sizinle iletişime geçsin, bağımsız ve şeffaf bir
-              değerleme raporu hazırlayalım. Hiçbir yükümlülük yok.
+              {d.desc}
             </p>
           </div>
 
@@ -52,7 +51,7 @@ export default function ClosingCta() {
                 "bg-navy-900 hover:bg-navy-700 text-white h-14 px-7 text-base font-semibold tracking-wide btn-shine",
               )}
             >
-              Değerleme İste
+              {d.cta}
               <ArrowRight className="h-5 w-5 ms-2" />
             </a>
             <a

@@ -10,51 +10,49 @@ import TeamSection from "@/components/sections/TeamSection";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { office, aboutContent } from "@/lib/office";
+import { getLocale, getDictionary } from "@/lib/i18n/server";
+import { withAccent } from "@/lib/i18n/render";
 
-// Hakkımızda hero arka planı — Cumhurbaşkanlığı Külliyesi manzarası (Beştepe konumu).
-const kulliyeBg = {
-  src: "/office/kulliye.jpg",
-  alt: "Cumhurbaşkanlığı Külliyesi ve Millet Camii — RE/MAX BOSS'un Beştepe konumu",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const d = (await getDictionary()).pages.about.meta;
+  return { title: d.title, description: d.description };
+}
 
-export const metadata: Metadata = {
-  title: "Hakkımızda",
-  description:
-    "RE/MAX BOSS — Ankara Beştepe merkezli, RE/MAX Türkiye bünyesinde bağımsız sahipli ve işletmeli gayrimenkul ofisi. Ekibimiz, ofisimiz ve çalışma prensiplerimiz.",
-};
+export default async function HakkimizdaPage() {
+  const locale = await getLocale();
+  const d = (await getDictionary()).pages.about;
+  const paragraphs = aboutContent.paragraphs[locale];
 
-const infoCards = [
-  {
-    icon: MapPin,
-    label: "Adres",
-    primary: office.addressShort,
-    secondary: office.addressFull,
-  },
-  {
-    icon: Phone,
-    label: "Telefon",
-    primary: office.phone,
-    secondary: `WhatsApp ${office.whatsapp}`,
-    href: `tel:${office.phone}`,
-    ltr: true,
-  },
-  {
-    icon: Mail,
-    label: "E-posta",
-    primary: office.email,
-    href: `mailto:${office.email}`,
-  },
-];
+  const infoCards = [
+    {
+      icon: MapPin,
+      label: d.infoCards.addressLabel,
+      primary: office.addressShort,
+      secondary: office.addressFull,
+    },
+    {
+      icon: Phone,
+      label: d.infoCards.phoneLabel,
+      primary: office.phone,
+      secondary: `${d.infoCards.whatsappPrefix} ${office.whatsapp}`,
+      href: `tel:${office.phone}`,
+      ltr: true,
+    },
+    {
+      icon: Mail,
+      label: d.infoCards.emailLabel,
+      primary: office.email,
+      href: `mailto:${office.email}`,
+    },
+  ];
 
-export default function HakkimizdaPage() {
   return (
     <>
-      {/* HERO — gerçek ofis fotoğrafı arka plan + navy overlay */}
       <section className="relative isolate bg-navy-900 text-white overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <Image
-            src={kulliyeBg.src}
-            alt={kulliyeBg.alt}
+            src="/office/kulliye.jpg"
+            alt={d.kulliyeBgAlt}
             fill
             sizes="100vw"
             className="object-cover opacity-40"
@@ -73,33 +71,29 @@ export default function HakkimizdaPage() {
         <div className="container-page py-24 md:py-32">
           <div className="max-w-3xl">
             <Eyebrow tone="white" className="text-white/80">
-              Hakkımızda
+              {d.heroEyebrow}
             </Eyebrow>
             <h1 className="mt-5 font-display text-display-xl text-balance">
-              Ankara&apos;da{" "}
-              <span className="accent-mark">RE/MAX</span> kalitesi,
-              {" "}
-              <span className="accent-mark">Beştepe</span>&apos;de.
+              {withAccent(d.heroTitle)}
             </h1>
             <p className="mt-7 text-lg text-white/75 max-w-xl leading-relaxed">
-              {office.shortDescription}
+              {d.shortDescription}
             </p>
           </div>
         </div>
       </section>
 
-      {/* GERÇEK AÇIKLAMA — 4 paragraf */}
       <Section tone="light" density="normal">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-10 lg:gap-14 items-start">
           <div className="lg:sticky lg:top-28">
             <Logo href={null} variant="balloon" size="xl" className="mb-6" />
-            <Eyebrow tone="red">Çalışma Felsefemiz</Eyebrow>
+            <Eyebrow tone="red">{d.sectionEyebrow}</Eyebrow>
             <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-              <span className="accent-mark">Profesyonellik</span> ve güvenilirlik.
+              {withAccent(d.sectionTitle)}
             </h2>
           </div>
           <div className="space-y-5">
-            {aboutContent.paragraphs.map((p, i) => (
+            {paragraphs.map((p, i) => (
               <p
                 key={i}
                 className={cn(
@@ -116,33 +110,28 @@ export default function HakkimizdaPage() {
         </div>
       </Section>
 
-      {/* OFİS GALERİSİ */}
       <Section tone="mist" density="normal">
         <div className="flex flex-wrap items-end justify-between gap-4 mb-10">
           <div className="max-w-xl">
-            <Eyebrow tone="blue">Ofisimiz</Eyebrow>
+            <Eyebrow tone="blue">{d.galleryEyebrow}</Eyebrow>
             <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-              Beştepe&apos;deki çalışma alanımız.
+              {d.galleryTitle}
             </h2>
             <p className="mt-3 text-navy/65 leading-relaxed">
-              Resepsiyondan toplantı odalarına, açık çalışma alanından broker
-              ofislerine kadar tüm mekânlar ekibimizin ve müşterilerimizin
-              verimli çalışması için tasarlandı.
+              {d.gallerySubtitle}
             </p>
           </div>
         </div>
         <OfficeGallery />
       </Section>
 
-      {/* EKİP */}
       <TeamSection />
 
-      {/* İLETİŞİM KARTLARI */}
       <Section tone="mist" density="normal">
         <div className="max-w-2xl">
-          <Eyebrow tone="red">İletişim</Eyebrow>
+          <Eyebrow tone="red">{d.contactEyebrow}</Eyebrow>
           <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-            Bize ulaşın.
+            {d.contactTitle}
           </h2>
         </div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -198,7 +187,7 @@ export default function HakkimizdaPage() {
               "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-6 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)] btn-glow btn-shine",
             )}
           >
-            İletişim Sayfası
+            {d.ctaContactPage}
             <ArrowRight className="h-4 w-4 ms-2" />
           </Link>
           <Link
@@ -208,7 +197,7 @@ export default function HakkimizdaPage() {
               "border-navy/20 text-navy hover:bg-navy hover:text-white h-12 px-6 text-sm font-semibold tracking-wide",
             )}
           >
-            İlanları Gör
+            {d.ctaListings}
           </Link>
         </div>
       </Section>

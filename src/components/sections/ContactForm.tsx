@@ -5,14 +5,7 @@ import { Send, CheckCircle2, Loader2 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
-
-const subjects = [
-  "Satılık mülk hakkında",
-  "Kiralık mülk hakkında",
-  "Mülkümün değerini öğrenmek istiyorum",
-  "Yatırım danışmanlığı",
-  "Diğer",
-] as const;
+import type { Dict } from "@/lib/i18n/dictionaries";
 
 type Status = "idle" | "sending" | "success" | "error";
 
@@ -23,8 +16,14 @@ const PHONE_RE = /^[+()\d\s-]{7,}$/;
  * Gerçek lead formu — Supabase contact_messages tablosuna INSERT eder
  * (anon client, RLS yalnız insert'e izin verir). Mesaj kaybolmaz; admin
  * /admin/mesajlar'da görür. KVKK açık rıza zorunlu (Türkiye yasal).
+ *
+ * Etiket/placeholder/error/success metinleri sözlükten (TR/EN); mantık aynı.
  */
-export default function ContactForm() {
+export default function ContactForm({
+  dict,
+}: {
+  dict: Dict["forms"]["contact"];
+}) {
   const ids = {
     name: useId(),
     email: useId(),
@@ -42,8 +41,7 @@ export default function ContactForm() {
     const form = e.currentTarget;
     const data = new FormData(form);
 
-    // Honeypot — bot bu gizli alanı doldurursa sessizce iptal (anti-spam).
-    if (String(data.get("company") ?? "").trim() !== "") return;
+    if (String(data.get("company") ?? "").trim() !== "") return; // honeypot
 
     const name = String(data.get("name") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
@@ -52,15 +50,13 @@ export default function ContactForm() {
     const message = String(data.get("message") ?? "").trim();
     const kvkk = data.get("kvkk") === "on";
 
-    // ── Validasyon (client) ──
-    if (!name) return setError("Lütfen ad soyad girin.");
+    if (!name) return setError(dict.errors.nameRequired);
     if (!phone || !PHONE_RE.test(phone))
-      return setError("Lütfen geçerli bir telefon numarası girin.");
+      return setError(dict.errors.phoneRequired);
     if (email && !EMAIL_RE.test(email))
-      return setError("Girdiğiniz e-posta adresi geçersiz görünüyor.");
-    if (!message) return setError("Lütfen mesajınızı yazın.");
-    if (!kvkk)
-      return setError("Devam etmek için KVKK aydınlatma onayını işaretleyin.");
+      return setError(dict.errors.emailInvalid);
+    if (!message) return setError(dict.errors.messageRequired);
+    if (!kvkk) return setError(dict.errors.kvkkRequired);
 
     setError(null);
     setStatus("sending");
@@ -73,7 +69,6 @@ export default function ContactForm() {
           name,
           email: email || null,
           phone,
-          // Konu, mesaja eklenir (kaybolmasın); source = form tipi.
           message: subject ? `[${subject}]\n\n${message}` : message,
           source: "iletisim",
           kvkk_consent: kvkk,
@@ -83,16 +78,13 @@ export default function ContactForm() {
       setStatus("success");
     } catch {
       setStatus("error");
-      setError(
-        "Mesaj gönderilemedi. Lütfen tekrar deneyin veya bizi telefonla arayın.",
-      );
+      setError(dict.errors.sendFailed);
     }
   }
 
   const inputClass =
     "w-full rounded-xl border border-line bg-white px-3.5 py-3 text-sm text-navy outline-none focus:border-remax-red focus:ring-2 focus:ring-remax-red/15 transition-colors";
 
-  // ── Başarı ekranı ──
   if (status === "success") {
     return (
       <div
@@ -103,10 +95,10 @@ export default function ContactForm() {
           <CheckCircle2 className="h-7 w-7" aria-hidden />
         </span>
         <h3 className="mt-5 font-display font-bold text-xl text-navy">
-          Mesajınız alındı
+          {dict.successTitle}
         </h3>
         <p className="mt-2 text-sm text-navy/65 leading-relaxed max-w-sm mx-auto">
-          En kısa sürede size geri döneceğiz. İlginiz için teşekkür ederiz.
+          {dict.successDesc}
         </p>
         <button
           type="button"
@@ -116,7 +108,7 @@ export default function ContactForm() {
             "mt-6 h-11 px-5 text-sm font-semibold",
           )}
         >
-          Yeni mesaj gönder
+          {dict.newMessageBtn}
         </button>
       </div>
     );
@@ -128,13 +120,12 @@ export default function ContactForm() {
       className="rounded-3xl border border-line bg-white p-6 md:p-8 space-y-4 shadow-card"
       noValidate
     >
-      {/* Honeypot — ekran dışı; insanlar görmez, botlar doldurur → spam filtresi. */}
       <div
         aria-hidden
         className="absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden"
       >
         <label>
-          Şirket (boş bırakın)
+          {dict.companyHoneypotLabel}
           <input type="text" name="company" tabIndex={-1} autoComplete="off" />
         </label>
       </div>
@@ -145,7 +136,7 @@ export default function ContactForm() {
             htmlFor={ids.name}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Ad Soyad <span className="text-remax-red">*</span>
+            {dict.nameLabel} <span className="text-remax-red">*</span>
           </label>
           <input
             id={ids.name}
@@ -153,7 +144,7 @@ export default function ContactForm() {
             required
             type="text"
             autoComplete="name"
-            placeholder="Adınız Soyadınız"
+            placeholder={dict.namePlaceholder}
             className={inputClass}
           />
         </div>
@@ -162,7 +153,7 @@ export default function ContactForm() {
             htmlFor={ids.phone}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Telefon <span className="text-remax-red">*</span>
+            {dict.phoneLabel} <span className="text-remax-red">*</span>
           </label>
           <input
             id={ids.phone}
@@ -171,7 +162,7 @@ export default function ContactForm() {
             type="tel"
             autoComplete="tel"
             inputMode="tel"
-            placeholder="+90 5XX XXX XX XX"
+            placeholder={dict.phonePlaceholder}
             className={inputClass}
             dir="ltr"
           />
@@ -183,14 +174,15 @@ export default function ContactForm() {
           htmlFor={ids.email}
           className="block text-sm font-semibold text-navy mb-1.5"
         >
-          E-posta <span className="text-navy/40 font-normal">(opsiyonel)</span>
+          {dict.emailLabel}{" "}
+          <span className="text-navy/40 font-normal">{dict.emailOptional}</span>
         </label>
         <input
           id={ids.email}
           name="email"
           type="email"
           autoComplete="email"
-          placeholder="ornek@eposta.com"
+          placeholder={dict.emailPlaceholder}
           className={inputClass}
         />
       </div>
@@ -200,15 +192,15 @@ export default function ContactForm() {
           htmlFor={ids.subject}
           className="block text-sm font-semibold text-navy mb-1.5"
         >
-          Konu
+          {dict.subjectLabel}
         </label>
         <select
           id={ids.subject}
           name="subject"
           className={inputClass}
-          defaultValue={subjects[0]}
+          defaultValue={dict.subjectOptions[0]}
         >
-          {subjects.map((s) => (
+          {dict.subjectOptions.map((s) => (
             <option key={s} value={s}>
               {s}
             </option>
@@ -221,19 +213,18 @@ export default function ContactForm() {
           htmlFor={ids.message}
           className="block text-sm font-semibold text-navy mb-1.5"
         >
-          Mesajınız <span className="text-remax-red">*</span>
+          {dict.messageLabel} <span className="text-remax-red">*</span>
         </label>
         <textarea
           id={ids.message}
           name="message"
           required
           rows={5}
-          placeholder="Bize iletmek istediğiniz detayları yazın…"
+          placeholder={dict.messagePlaceholder}
           className={`${inputClass} resize-y`}
         />
       </div>
 
-      {/* KVKK açık rıza — zorunlu */}
       <label
         htmlFor={ids.kvkk}
         className="flex items-start gap-3 rounded-xl bg-mist/60 p-3.5 text-xs text-navy/70 cursor-pointer"
@@ -245,9 +236,11 @@ export default function ContactForm() {
           className="mt-0.5 h-4 w-4 flex-shrink-0 accent-remax-red"
         />
         <span>
-          Kişisel verilerimin, talebimin değerlendirilmesi amacıyla{" "}
-          <span className="font-semibold text-navy">RE/MAX BOSS</span>{" "}
-          tarafından KVKK kapsamında işlenmesini kabul ediyorum.
+          {dict.kvkkConsentBefore}
+          <span className="font-semibold text-navy">
+            {dict.kvkkBrandEmphasis}
+          </span>
+          {dict.kvkkConsentAfter}
         </span>
       </label>
 
@@ -259,7 +252,7 @@ export default function ContactForm() {
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
         <p className="text-xs text-navy/55">
-          <span className="text-remax-red">*</span> işaretli alanlar zorunludur.
+          <span className="text-remax-red">*</span> {dict.requiredHint}
         </p>
         <button
           type="submit"
@@ -272,12 +265,12 @@ export default function ContactForm() {
           {status === "sending" ? (
             <>
               <Loader2 className="h-4 w-4 me-2 animate-spin" aria-hidden />
-              Gönderiliyor…
+              {dict.sendingBtn}
             </>
           ) : (
             <>
               <Send className="h-4 w-4 me-2" aria-hidden />
-              Mesaj Gönder
+              {dict.submitBtn}
             </>
           )}
         </button>
