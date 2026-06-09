@@ -1,6 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, MapPin, ChevronDown } from "lucide-react";
+import {
+  ArrowRight,
+  MapPin,
+  ChevronDown,
+  Search,
+  Calculator,
+} from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import Eyebrow from "@/components/ui/eyebrow";
 import { cn } from "@/lib/utils";
@@ -150,6 +156,26 @@ export default async function Hero() {
               )}
             >
               {t.ctaAbout}
+            </Link>
+          </div>
+
+          {/* Aksiyon CTA — niyet odaklı 2 hızlı yön (alıcı/satıcı). */}
+          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm anim-hero anim-delay-5">
+            <Link
+              href="/alici-kayit"
+              className="inline-flex items-center gap-1.5 font-semibold text-white/80 hover:text-white transition-colors"
+            >
+              <Search className="h-3.5 w-3.5" aria-hidden />
+              {t.ctaBuyer}
+              <ArrowRight className="h-3.5 w-3.5 opacity-60" aria-hidden />
+            </Link>
+            <Link
+              href="/degerleme"
+              className="inline-flex items-center gap-1.5 font-semibold text-white/80 hover:text-white transition-colors"
+            >
+              <Calculator className="h-3.5 w-3.5" aria-hidden />
+              {t.ctaValuation}
+              <ArrowRight className="h-3.5 w-3.5 opacity-60" aria-hidden />
             </Link>
           </div>
 

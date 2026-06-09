@@ -7,6 +7,7 @@ import ScrollReveal from "@/components/ui/scroll-reveal";
 import FloatingActions from "@/components/ui/floating-actions";
 import AiChat from "@/components/ui/ai-chat";
 import CookieBanner from "@/components/ui/cookie-banner";
+import ExitIntent from "@/components/ui/exit-intent";
 import { office } from "@/lib/office";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { SITE_URL } from "@/lib/site-url";
@@ -160,6 +161,8 @@ export default async function RootLayout({
         <AiChat />
         {/* KVKK uyumlu çerez bildirim banner — localStorage'da karar yoksa görünür. */}
         <CookieBanner dict={dict.pages.cookieBanner} />
+        {/* Çıkış-niyeti modal — oturumda 1 kez, kapanınca localStorage'a kayıt. */}
+        <ExitIntent dict={dict.pages.exitIntent} />
       </body>
     </html>
   );

@@ -44,6 +44,8 @@ export interface Dict {
     desc: string;
     ctaContact: string;
     ctaAbout: string;
+    ctaBuyer: string;
+    ctaValuation: string;
     statusActive: string;
   };
   footer: {
@@ -509,6 +511,14 @@ export interface Dict {
       warningLabel: string;
       ctaCallout: string;
     };
+    exitIntent: {
+      eyebrow: string;
+      title: string;
+      body: string;
+      ctaValuation: string;
+      ctaContact: string;
+      dismiss: string;
+    };
     subscribe: {
       eyebrow: string;
       title: string;
@@ -672,6 +682,8 @@ const tr: Dict = {
     desc: "Beştepe merkezli ofisimiz ve RE/MAX Türkiye altyapısıyla, alıcı ve satıcılara şeffaf, sonuç odaklı bir danışmanlık deneyimi sunuyoruz.",
     ctaContact: "İletişime Geç",
     ctaAbout: "Hakkımızda",
+    ctaBuyer: "Ev arıyorum",
+    ctaValuation: "Mülkümü değerle",
     statusActive: "Aktif portföy hazırlanıyor",
   },
   footer: {
@@ -1251,6 +1263,14 @@ const tr: Dict = {
       notFoundDesc:
         "Aradığınız danışman ekibimizden ayrılmış veya bağlantı geçersiz olabilir. Ekibimiz sayfasından güncel listeyi görebilirsiniz.",
     },
+    exitIntent: {
+      eyebrow: "Ayrılmadan önce",
+      title: "Ücretsiz değerleme veya kısa bir danışmanlık görüşmesi?",
+      body: "Ankara'da gayrimenkul yolculuğunuzun her aşamasında destek vermek için buradayız. Bir adım atmadan önce 1 dakika ayırabilirsiniz.",
+      ctaValuation: "Ücretsiz değerleme iste",
+      ctaContact: "İletişime geç",
+      dismiss: "Daha sonra",
+    },
     guides: {
       indexEyebrow: "Rehberler",
       indexTitle: "Adım adım pratik rehberler",
@@ -1442,6 +1462,8 @@ const en: Dict = {
     desc: "From our Beştepe office, backed by the RE/MAX Türkiye network, we deliver buyers and sellers a transparent, results-driven advisory experience.",
     ctaContact: "Get in Touch",
     ctaAbout: "About Us",
+    ctaBuyer: "I'm buying",
+    ctaValuation: "Value my property",
     statusActive: "Active portfolio in preparation",
   },
   footer: {
@@ -2025,6 +2047,14 @@ const en: Dict = {
       notFoundTitle: "Profile not found.",
       notFoundDesc:
         "The agent you're looking for may have left the team or the link may be invalid. See our Team page for the up-to-date list.",
+    },
+    exitIntent: {
+      eyebrow: "Before you go",
+      title: "A free valuation or a short advisory call?",
+      body: "We're here at every step of your real estate journey in Ankara. Before you take a step, you can spare a minute.",
+      ctaValuation: "Request a free valuation",
+      ctaContact: "Get in touch",
+      dismiss: "Maybe later",
     },
     guides: {
       indexEyebrow: "Guides",
