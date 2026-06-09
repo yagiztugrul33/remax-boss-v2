@@ -498,6 +498,17 @@ export interface Dict {
       notFoundTitle: string;
       notFoundDesc: string;
     };
+    guides: {
+      indexEyebrow: string;
+      indexTitle: string;
+      indexSubtitle: string;
+      readCta: string;
+      backLabel: string;
+      stepsHeading: string;
+      checklistHeading: string;
+      warningLabel: string;
+      ctaCallout: string;
+    };
     subscribe: {
       eyebrow: string;
       title: string;
@@ -1239,6 +1250,18 @@ const tr: Dict = {
       notFoundTitle: "Bu profil bulunamadı.",
       notFoundDesc:
         "Aradığınız danışman ekibimizden ayrılmış veya bağlantı geçersiz olabilir. Ekibimiz sayfasından güncel listeyi görebilirsiniz.",
+    },
+    guides: {
+      indexEyebrow: "Rehberler",
+      indexTitle: "Adım adım pratik rehberler",
+      indexSubtitle:
+        "Alıcı, satıcı, kredi ve kiralama süreçlerini sade ve uygulanabilir adımlarla anlatıyoruz. Sayısal vaadi yok; pratik çerçeve sunuyor.",
+      readCta: "Rehberi oku",
+      backLabel: "← Tüm rehberler",
+      stepsHeading: "Adımlar",
+      checklistHeading: "Hızlı kontrol listesi",
+      warningLabel: "Dikkat",
+      ctaCallout: "Süreç hakkında destek mi gerek?",
     },
     subscribe: {
       eyebrow: "Yeni İlan Bildirimi",
@@ -2002,6 +2025,18 @@ const en: Dict = {
       notFoundTitle: "Profile not found.",
       notFoundDesc:
         "The agent you're looking for may have left the team or the link may be invalid. See our Team page for the up-to-date list.",
+    },
+    guides: {
+      indexEyebrow: "Guides",
+      indexTitle: "Step-by-step practical guides",
+      indexSubtitle:
+        "We walk you through buyer, seller, mortgage and leasing processes in clear, actionable steps. No numerical promises — just a practical framework.",
+      readCta: "Read the guide",
+      backLabel: "← All guides",
+      stepsHeading: "Steps",
+      checklistHeading: "Quick checklist",
+      warningLabel: "Heads up",
+      ctaCallout: "Need support with the process?",
     },
     subscribe: {
       eyebrow: "New Listing Alerts",

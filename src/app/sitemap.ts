@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { posts } from "@/lib/blog";
 import { services } from "@/lib/services";
 import { REGIONS } from "@/lib/regions";
+import { GUIDES } from "@/lib/guides";
 import { SITE_URL as siteUrl } from "@/lib/site-url";
 
 // Yayında olan statik rotalar. İlan detay sayfaları veri-bağımlı olduğundan
@@ -16,6 +17,7 @@ const routes: {
   { path: "/hizmetler", priority: 0.8, changeFrequency: "monthly" },
   { path: "/bolgeler", priority: 0.85, changeFrequency: "monthly" },
   { path: "/blog", priority: 0.8, changeFrequency: "weekly" },
+  { path: "/rehberler", priority: 0.8, changeFrequency: "monthly" },
   { path: "/araclar", priority: 0.7, changeFrequency: "monthly" },
   { path: "/hakkimizda", priority: 0.7, changeFrequency: "monthly" },
   { path: "/ekibimiz", priority: 0.6, changeFrequency: "monthly" },
@@ -60,10 +62,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  // Rehber detayları
+  const guideEntries: MetadataRoute.Sitemap = GUIDES.map((g) => ({
+    url: `${siteUrl}/rehberler/${g.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
   return [
     ...staticEntries,
     ...serviceEntries,
     ...regionEntries,
+    ...guideEntries,
     ...blogEntries,
   ];
 }
