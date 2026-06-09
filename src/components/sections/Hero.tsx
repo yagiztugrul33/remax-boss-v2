@@ -5,10 +5,12 @@ import { buttonVariants } from "@/components/ui/button";
 import Eyebrow from "@/components/ui/eyebrow";
 import { cn } from "@/lib/utils";
 import { office, heroImage } from "@/lib/office";
-import { getDictionary } from "@/lib/i18n/server";
+import { getLocale, getDictionary } from "@/lib/i18n/server";
 
 export default async function Hero() {
+  const locale = await getLocale();
   const { hero: t } = await getDictionary();
+  const heroAlt = locale === "en" ? heroImage.altEn : heroImage.altTr;
   return (
     <section
       // min-h-[92vh] fallback + min-h-[92svh] modern: mobil tarayıcı adres
@@ -21,17 +23,16 @@ export default async function Hero() {
       <div aria-hidden className="hero-mesh" />
 
       {/* ── Full-bleed photo ──
-          Ken-burns SABİT — Plan A (pürüzsüzleştirme) titremeyi bitirmedi,
-          Plan B uygulandı: `animate-kenburns` token'ı className'den
-          kaldırıldı → görsel tamamen sabit, hareket sıfır.
-          CSS tanımı (`.animate-kenburns` + @keyframes ken-burns) globals.css'te
-          DURUYOR (zarar vermez, kullanılmıyor); geri istenirse className'e
-          token'ı tek satırda ekleyerek geri açılabilir. */}
+          Ofis dış cephe fotoğrafı (heroImage = ofis-dis-cephe.jpg).
+          Ken-burns SABİT (Plan B kalıcı): hareket sıfır → titreme imkansız.
+          quality={90}: kullanıcının kaliteli fotoğrafı bozulmadan görünsün
+          (Next default 75). bilingual alt locale'a göre. */}
       <Image
         src={heroImage.src}
-        alt={heroImage.alt}
+        alt={heroAlt}
         fill
         sizes="100vw"
+        quality={90}
         className="object-cover"
         priority
       />

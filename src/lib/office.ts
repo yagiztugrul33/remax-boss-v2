@@ -56,11 +56,19 @@ export interface ImageSlot {
   alt: string;
 }
 
-/** Hero/OfficeIntro için seçilmiş kapak görseli. */
-export const heroImage: ImageSlot = {
-  src: "/office/resepsiyon.jpg",
-  alt: "RE/MAX BOSS Beştepe ofisi — resepsiyon ve bitki duvarı",
-};
+/**
+ * Anasayfa Hero kapak görseli — RE/MAX BOSS Beştepe ofisinin dış cephe
+ * fotoğrafı (bina + tabela). Bilingual alt-text: locale'a göre seçilir.
+ *
+ * NOT: OfficeIntro artık yerel `introImage` (yonetici-ofis.jpg) kullanıyor
+ * — aynı görselin Hero + OfficeIntro'da iki kez yüklenmesi önceki turda
+ * önlendi. `heroImage` artık YALNIZ Hero'da.
+ */
+export const heroImage = {
+  src: "/office/ofis-dis-cephe.jpg",
+  altTr: "RE/MAX BOSS Beştepe ofisi dış görünümü — bina ve tabela",
+  altEn: "RE/MAX BOSS Beştepe office exterior — building and signage",
+} as const;
 
 /** Ofis galerisi — 14 profesyonel fotoğraf. Anasayfa ve /hakkimizda'da kullanılır. */
 export const officeGallery: readonly ImageSlot[] = [
