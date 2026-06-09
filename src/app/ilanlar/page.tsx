@@ -3,7 +3,7 @@ import { Search } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import ListingCard from "@/components/sections/ListingCard";
-import ListingsComingSoon from "@/components/sections/ListingsComingSoon";
+import ListingsRedirect from "@/components/sections/ListingsRedirect";
 import { getPublishedListings } from "@/lib/queries";
 
 export const metadata: Metadata = {
@@ -64,7 +64,7 @@ export default async function IlanlarPage() {
             <p className="mt-7 text-lg text-white/70 max-w-xl leading-relaxed">
               {hasListings
                 ? `${listings.length} aktif ilan listeleniyor.`
-                : "Seçkin satılık ve kiralık portföyümüz hazırlanıyor. Doğrulanan her mülk bu sayfada yayınlanır — sahte ilan göstermiyoruz."}
+                : "Tüm satılık ve kiralık ilanlarımız RE/MAX Türkiye platformunda güncel tutuluyor — aşağıdan tam portföyümüzü görüntüleyebilirsiniz."}
             </p>
           </div>
         </div>
@@ -111,7 +111,7 @@ export default async function IlanlarPage() {
       </Section>
       )}
 
-      {/* LİSTE (>0) veya KASITLI HAZIRLANIYOR DURUMU (0) */}
+      {/* LİSTE (>0) veya RE/MAX TÜRKİYE PORTFÖY YÖNLENDİRMESİ (0) */}
       <Section tone="light" density="normal">
         {hasListings ? (
           <div className="addon-stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
@@ -120,7 +120,7 @@ export default async function IlanlarPage() {
             ))}
           </div>
         ) : (
-          <ListingsComingSoon />
+          <ListingsRedirect />
         )}
       </Section>
     </>
