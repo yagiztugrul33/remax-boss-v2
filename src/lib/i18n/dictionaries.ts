@@ -305,9 +305,9 @@ const tr: Dict = {
       services: {
         eyebrow: "Hizmetler",
         title:
-          "Gayrimenkulün her aşamasında, tek bir profesyonel adresi.",
+          "Gayrimenkulün her aşamasında, güvenilir tek adres.",
         subtitle:
-          "Hizmetlerimiz RE/MAX Türkiye standartları üzerine kurulu olup Beştepe ofisimizden Ankara'nın tüm bölgelerine ulaşır.",
+          "Hizmetlerimiz RE/MAX Türkiye standartları üzerine kuruludur; Beştepe ofisimizden Ankara'nın her bölgesine ulaşırız.",
         primaryCardCta: "Birincil hizmetimiz — detaylar",
         detailsCta: "Detayları gör",
         seeAllCta: "Tüm hizmetlerimizi keşfedin",
@@ -342,7 +342,7 @@ const tr: Dict = {
         eyebrow: "Ofisimiz",
         title: "Modern ofis, <accent>Beştepe</accent> kalbinde.",
         subtitle:
-          "Ankara külliyesi manzaralı, tam donanımlı ofisimizde RE/MAX Türkiye standartlarında hizmet sunuyoruz.",
+          "Cumhurbaşkanlığı Külliyesi manzaralı, tam donanımlı ofisimizde RE/MAX Türkiye standartlarında hizmet sunuyoruz.",
         block1Badge: "Biz Kimiz",
         block1Heading: "Profesyonellik ve güvenilirlik — temel değerlerimiz.",
         block2Badge: "Alıcı & Satıcı",
@@ -354,7 +354,7 @@ const tr: Dict = {
         eyebrow: "Ofisimiz",
         title: "Beştepe'deki ofisimize <accent>göz atın.</accent>",
         subtitle:
-          "Resepsiyon, lounge, yönetici ofisleri ve Ankara manzaralı teras — tüm alanları buradan keşfedebilirsiniz.",
+          "Resepsiyon, lounge, yönetici ofisleri ve Ankara manzaralı teras — tüm alanları keşfedin.",
       },
       featuredListings: {
         eyebrow: "Portföy",
@@ -582,9 +582,9 @@ const en: Dict = {
       services: {
         eyebrow: "Services",
         title:
-          "One professional address for every stage of real estate.",
+          "One trusted address for every stage of real estate.",
         subtitle:
-          "Our services are built on RE/MAX Türkiye standards and reach every district of Ankara from our Beştepe office.",
+          "Our services are built on RE/MAX Türkiye standards; from our Beştepe office, we reach every district of Ankara.",
         primaryCardCta: "Our primary service — details",
         detailsCta: "View details",
         seeAllCta: "Explore all our services",
@@ -620,7 +620,7 @@ const en: Dict = {
         eyebrow: "Our Office",
         title: "A modern office in the heart of <accent>Beştepe</accent>.",
         subtitle:
-          "From our fully equipped office overlooking the Ankara presidential complex, we deliver service to RE/MAX Türkiye standards.",
+          "From our fully equipped office overlooking the Presidential Complex, we deliver service to RE/MAX Türkiye standards.",
         block1Badge: "Who We Are",
         block1Heading:
           "Professionalism and trust — our core values.",
