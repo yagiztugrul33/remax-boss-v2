@@ -12,6 +12,19 @@ export const metadata: Metadata = {
   description:
     "Konut kredisi taksiti, tapu harcı, kira getirisi ve bütçe planlama — RE/MAX BOSS'un ücretsiz, anlık gayrimenkul hesaplama araçları.",
   alternates: { canonical: "/araclar" },
+  openGraph: {
+    title: "Hesaplama Araçları — RE/MAX BOSS",
+    description:
+      "Kredi taksiti, tapu harcı, kira getirisi, bütçe planlayıcı — ücretsiz ve anlık. Bağlayıcı değildir.",
+    images: [
+      {
+        url: "/office/acik-ofis-3.jpg",
+        width: 2000,
+        height: 1125,
+        alt: "RE/MAX BOSS — hesaplama araçları",
+      },
+    ],
+  },
 };
 
 const tools = [

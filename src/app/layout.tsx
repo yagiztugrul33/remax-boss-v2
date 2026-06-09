@@ -8,22 +8,21 @@ import FloatingActions from "@/components/ui/floating-actions";
 import AiChat from "@/components/ui/ai-chat";
 import { office } from "@/lib/office";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
+import { SITE_URL } from "@/lib/site-url";
 import "./globals.css";
 
 // Display: Sora — modern, bold, karakterli grotesk
 const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin", "latin-ext"], // Türkçe glyph desteği (ş ğ ı İ ç ö ü)
-  // Yalnızca gerçekten kullanılan ağırlıklar — Sora 400 hiçbir başlıkta
-  // kullanılmıyor (font-normal yok, ağırlıksız h-tag yok), bu yüzden indi.
   weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
-// Body: Inter — okunaklı, nötr, geniş ağırlık skalası
+// Body: Inter
 const inter = Inter({
   variable: "--font-inter",
-  subsets: ["latin", "latin-ext"], // Türkçe glyph desteği
+  subsets: ["latin", "latin-ext"],
   display: "swap",
 });
 
@@ -33,64 +32,82 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const siteUrl = "https://remax-boss-v2.vercel.app";
-const siteDescription =
-  "RE/MAX BOSS Ankara Beştepe ofisinin resmi web sitesi. Satılık ve kiralık gayrimenkul, yatırım danışmanlığı ve uluslararası müşteri hizmetleri.";
+const SITE_DESCRIPTION = {
+  tr: "RE/MAX BOSS Ankara Beştepe ofisinin resmi web sitesi. Satılık ve kiralık gayrimenkul, yatırım danışmanlığı ve uluslararası müşteri hizmetleri.",
+  en: "The official website of RE/MAX BOSS, an independent real estate office in Beştepe, Ankara — listings for sale and rent, investment advisory and international client services.",
+} as const;
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "RE/MAX BOSS — Ankara Beştepe",
-    template: "%s | RE/MAX BOSS",
-  },
-  description: siteDescription,
-  applicationName: "RE/MAX BOSS",
-  alternates: { canonical: "/" },
-  openGraph: {
-    type: "website",
-    locale: "tr_TR",
-    siteName: "RE/MAX BOSS",
-    title: "RE/MAX BOSS — Ankara Beştepe",
-    description: siteDescription,
-    url: siteUrl,
-    images: [
-      {
-        url: "/office/resepsiyon.jpg",
-        width: 2000,
-        height: 1125,
-        alt: "RE/MAX BOSS Beştepe ofisi",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "RE/MAX BOSS — Ankara Beştepe",
-    description: siteDescription,
-    images: ["/office/resepsiyon.jpg"],
-  },
-};
+/**
+ * Locale-aware metadata: OG locale (tr_TR/en_US) ve description dile göre
+ * değişir. Title template marka korunur ("%s | RE/MAX BOSS").
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const description = SITE_DESCRIPTION[locale];
+  const ogLocale = locale === "en" ? "en_US" : "tr_TR";
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: "RE/MAX BOSS — Ankara Beştepe",
+      template: "%s | RE/MAX BOSS",
+    },
+    description,
+    applicationName: "RE/MAX BOSS",
+    alternates: { canonical: "/" },
+    openGraph: {
+      type: "website",
+      locale: ogLocale,
+      siteName: "RE/MAX BOSS",
+      title: "RE/MAX BOSS — Ankara Beştepe",
+      description,
+      url: SITE_URL,
+      images: [
+        {
+          url: "/office/resepsiyon.jpg",
+          width: 2000,
+          height: 1125,
+          alt:
+            locale === "en"
+              ? "RE/MAX BOSS — Beştepe office"
+              : "RE/MAX BOSS Beştepe ofisi",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "RE/MAX BOSS — Ankara Beştepe",
+      description,
+      images: ["/office/resepsiyon.jpg"],
+    },
+  };
+}
 
-// JSON-LD — RealEstateAgent yapısal verisi (yalnızca GERÇEK office verisinden).
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "RealEstateAgent",
-  name: office.name,
-  description: office.shortDescription,
-  url: siteUrl,
-  email: office.email,
-  telephone: office.phone,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: office.addressFull,
-    addressLocality: office.district,
-    addressRegion: office.city,
-    addressCountry: "TR",
-  },
-  areaServed: { "@type": "City", name: office.city },
-  parentOrganization: { "@type": "Organization", name: "RE/MAX" },
-};
+/**
+ * JSON-LD RealEstateAgent yapısal verisi. Description locale-aware
+ * (TR/EN). Diğer alanlar (adres, telefon, marka) dile bağımsız.
+ */
+function buildJsonLd(localeDescription: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    name: office.name,
+    description: localeDescription,
+    url: SITE_URL,
+    email: office.email,
+    telephone: office.phone,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: office.addressFull,
+      addressLocality: office.district,
+      addressRegion: office.city,
+      addressCountry: "TR",
+    },
+    areaServed: { "@type": "City", name: office.city },
+    parentOrganization: { "@type": "Organization", name: "RE/MAX" },
+  };
+}
 
-// Supabase origin — görsel/API isteklerinde bağlantı kurulumunu öne çeker.
+// Supabase origin — preconnect/dns-prefetch için.
 const supabaseOrigin = (() => {
   try {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -107,6 +124,7 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   const dict = await getDictionary();
+  const jsonLd = buildJsonLd(SITE_DESCRIPTION[locale]);
   return (
     <html
       lang={locale}

@@ -15,8 +15,7 @@ import {
   formatBlogDate,
   CATEGORY_LABEL,
 } from "@/lib/blog";
-
-const SITE = "https://remax-boss-v2.vercel.app";
+import { SITE_URL as SITE } from "@/lib/site-url";
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));

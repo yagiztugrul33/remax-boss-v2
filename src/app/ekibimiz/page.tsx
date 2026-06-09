@@ -13,6 +13,19 @@ export const metadata: Metadata = {
   title: "Ekibimiz",
   description:
     "RE/MAX BOSS ekibi — Beştepe ofisimizin brokerları, gayrimenkul danışmanları ve destek kadrosu. Deneyimli kadromuzla tanışın.",
+  openGraph: {
+    title: "Ekibimiz — RE/MAX BOSS",
+    description:
+      "Brokerlardan danışmanlara, ofis gelişiminden destek ekibine: uzman kadromuzla tanışın.",
+    images: [
+      {
+        url: "/office/acik-ofis-1.jpg",
+        width: 2000,
+        height: 1125,
+        alt: "RE/MAX BOSS ekibi — açık ofis çalışma alanı",
+      },
+    ],
+  },
 };
 
 // Hero arka planı — gerçek ofis fotoğrafı.

@@ -5,12 +5,31 @@ import Eyebrow from "@/components/ui/eyebrow";
 import MapEmbed from "@/components/sections/MapEmbed";
 import ContactForm from "@/components/sections/ContactForm";
 import { office } from "@/lib/office";
-import { getDictionary } from "@/lib/i18n/server";
+import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
   const d = (await getDictionary()).pages.contact.meta;
-  return { title: d.title, description: d.description };
+  return {
+    title: d.title,
+    description: d.description,
+    openGraph: {
+      title: d.title,
+      description: d.description,
+      images: [
+        {
+          url: "/office/resepsiyon.jpg",
+          width: 2000,
+          height: 1125,
+          alt:
+            locale === "en"
+              ? "RE/MAX BOSS reception — get in touch"
+              : "RE/MAX BOSS resepsiyonu — bize ulaşın",
+        },
+      ],
+    },
+  };
 }
 
 const waLink = `https://wa.me/${office.whatsapp.replace(/\D/g, "")}`;

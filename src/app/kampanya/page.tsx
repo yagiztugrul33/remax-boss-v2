@@ -23,6 +23,19 @@ export const metadata: Metadata = {
   title: "Altın Kampanyası",
   description:
     "RE/MAX BOSS açılışına özel iki aşamalı ödül: uygun mülkünüzü münhasır yetkiyle verdiğinizde 1 gram altın, mülk satıldığında çeyrek altın. Şeffaf koşullar, sınırlı kontenjan. Başvurun, ekibimiz değerlendirsin.",
+  openGraph: {
+    title: "Altın Kampanyası — RE/MAX BOSS",
+    description:
+      "İki aşamalı ödül: yetki anında 1 gram altın, satışta çeyrek altın. Şeffaf koşullar, sınırlı kontenjan.",
+    images: [
+      {
+        url: "/office/duvar-logo.jpg",
+        width: 2000,
+        height: 1125,
+        alt: "RE/MAX BOSS — Altın Kampanyası",
+      },
+    ],
+  },
 };
 
 export const dynamic = "force-dynamic";

@@ -45,6 +45,19 @@ export const metadata: Metadata = {
   description:
     "RE/MAX BOSS'ta gayrimenkul danışmanlığı kariyerine başla. Kendi işinin patronu ol — eğitim, mentorluk, prestijli Beştepe ofisi ve RE/MAX'in global gücü. Deneyim şart değil.",
   alternates: { canonical: "/danisman-ol" },
+  openGraph: {
+    title: "Danışman Ol — RE/MAX BOSS",
+    description:
+      "Kendi işinin patronu ol. RE/MAX BOSS ailesine katıl — eğitim, mentorluk ve emeğinle orantılı kazanç potansiyeli.",
+    images: [
+      {
+        url: "/office/lounge.jpg",
+        width: 2000,
+        height: 1125,
+        alt: "RE/MAX BOSS lounge — kariyer fırsatları",
+      },
+    ],
+  },
 };
 
 const iconMap: Record<CareerIcon, typeof Building2> = {

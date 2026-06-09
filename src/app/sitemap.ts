@@ -1,8 +1,7 @@
 import type { MetadataRoute } from "next";
 import { posts } from "@/lib/blog";
 import { services } from "@/lib/services";
-
-const siteUrl = "https://remax-boss-v2.vercel.app";
+import { SITE_URL as siteUrl } from "@/lib/site-url";
 
 // Yayında olan statik rotalar. İlan detay sayfaları veri-bağımlı olduğundan
 // /ilanlar listeleme sayfası üzerinden taranır.

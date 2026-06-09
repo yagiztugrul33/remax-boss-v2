@@ -6,11 +6,21 @@ import Eyebrow from "@/components/ui/eyebrow";
 import Reveal from "@/components/ui/reveal";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { office, heroImage } from "@/lib/office";
-import { getDictionary } from "@/lib/i18n/server";
+import { office } from "@/lib/office";
+import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
 
+// Hero `resepsiyon.jpg`'yi kullanıyor — OfficeIntro'da farklı görsel
+// (yönetici ofisi) → aynı görselin iki kez yüklenmesi önlenir + sahnede
+// görsel çeşitlilik.
+const introImage = {
+  src: "/office/yonetici-ofis.jpg",
+  altTr: "RE/MAX BOSS yönetici ofisi — Chesterfield koltuk",
+  altEn: "RE/MAX BOSS executive office — Chesterfield seating",
+};
+
 export default async function OfficeIntro() {
+  const locale = await getLocale();
   const d = (await getDictionary()).pages.home.officeIntro;
 
   return (
@@ -58,8 +68,8 @@ export default async function OfficeIntro() {
           <div className="space-y-4">
             <div className="relative aspect-[5/4] overflow-hidden rounded-3xl bg-mist">
               <Image
-                src={heroImage.src}
-                alt={heroImage.alt}
+                src={introImage.src}
+                alt={locale === "en" ? introImage.altEn : introImage.altTr}
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 className="object-cover"

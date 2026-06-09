@@ -14,8 +14,27 @@ import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
   const d = (await getDictionary()).pages.about.meta;
-  return { title: d.title, description: d.description };
+  return {
+    title: d.title,
+    description: d.description,
+    openGraph: {
+      title: d.title,
+      description: d.description,
+      images: [
+        {
+          url: "/office/yonetici-ofis.jpg",
+          width: 2000,
+          height: 1125,
+          alt:
+            locale === "en"
+              ? "RE/MAX BOSS executive office"
+              : "RE/MAX BOSS yönetici ofisi",
+        },
+      ],
+    },
+  };
 }
 
 export default async function HakkimizdaPage() {

@@ -20,11 +20,27 @@ import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
   const d = (await getDictionary()).pages.services.meta;
   return {
     title: d.title,
     description: d.description,
     alternates: { canonical: "/hizmetler" },
+    openGraph: {
+      title: d.title,
+      description: d.description,
+      images: [
+        {
+          url: "/office/toplanti.jpg",
+          width: 2000,
+          height: 1125,
+          alt:
+            locale === "en"
+              ? "RE/MAX BOSS meeting room — services"
+              : "RE/MAX BOSS toplantı odası — hizmetlerimiz",
+        },
+      ],
+    },
   };
 }
 

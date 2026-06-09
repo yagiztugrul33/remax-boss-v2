@@ -28,8 +28,7 @@ import {
 } from "@/lib/services";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
-
-const SITE = "https://remax-boss-v2.vercel.app";
+import { SITE_URL as SITE } from "@/lib/site-url";
 
 const iconMap: Record<ServiceIcon, LucideIcon> = {
   handshake: Handshake,
