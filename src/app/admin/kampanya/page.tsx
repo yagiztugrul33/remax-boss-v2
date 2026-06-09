@@ -20,6 +20,7 @@ import {
   remainingQuota,
   type CampaignStatus,
 } from "@/lib/campaign";
+import RetentionBar from "@/components/admin/RetentionBar";
 
 export const metadata: Metadata = {
   title: "Kampanya Başvuruları",
@@ -81,6 +82,8 @@ export default async function AdminKampanyaPage() {
           Panele dön
         </Link>
       </div>
+
+      <RetentionBar table="campaign_applications" />
 
       {/* ── Kampanya kontrol paneli ── */}
       <div className="rounded-3xl border border-line bg-mist/40 p-6 mb-8 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">

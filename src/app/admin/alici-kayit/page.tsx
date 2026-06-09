@@ -15,6 +15,7 @@ import {
   type BuyerRequest,
 } from "@/lib/admin/lead-forms";
 import { updateBuyerStatus } from "@/lib/admin/lead-form-actions";
+import RetentionBar from "@/components/admin/RetentionBar";
 
 export const metadata: Metadata = {
   title: "Alıcı Talepleri",
@@ -80,6 +81,8 @@ export default async function AdminAliciKayitPage() {
           Panele dön
         </Link>
       </div>
+
+      <RetentionBar table="buyer_requests" />
 
       {items.length === 0 ? (
         <div className="rounded-2xl border border-line bg-mist/40 p-10 text-center">

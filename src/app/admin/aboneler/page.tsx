@@ -17,6 +17,7 @@ import {
   updateSubscriberStatus,
   deleteSubscriber,
 } from "@/lib/admin/subscriber-actions";
+import RetentionBar from "@/components/admin/RetentionBar";
 
 export const metadata: Metadata = {
   title: "Aboneler",
@@ -77,6 +78,8 @@ export default async function AdminAbonelerPage() {
           Panele dön
         </Link>
       </div>
+
+      <RetentionBar table="subscribers" showDeactivateAll />
 
       {items.length === 0 ? (
         <div className="rounded-2xl border border-line bg-mist/40 p-10 text-center">

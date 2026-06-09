@@ -8,6 +8,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { requireAdmin } from "@/lib/admin/guard";
 import { getAllMessages } from "@/lib/admin/leads";
 import { updateMessageStatus } from "@/lib/admin/lead-actions";
+import RetentionBar from "@/components/admin/RetentionBar";
 import {
   LEAD_STATUS_LABEL,
   LEAD_SOURCE_LABEL,
@@ -67,6 +68,8 @@ export default async function AdminMesajlarPage() {
           Panele dön
         </Link>
       </div>
+
+      <RetentionBar table="contact_messages" showMarkAllRead />
 
       {messages.length === 0 ? (
         <div className="rounded-2xl border border-line bg-mist/40 p-10 text-center">
