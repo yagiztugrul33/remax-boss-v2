@@ -242,6 +242,14 @@
        boşluk. Smooth scroll + navbar shrink çakışmasında jitter'ı düşürür. */
     scroll-padding-top: 6rem;
   }
+  /* Reduced-motion kullanıcısı smooth scroll istemez (vestibüler rahatsızlık).
+     Universal animasyon override (utilities katmanı altta) zaten süreyi 0.01ms
+     yapıyor ama `scroll-behavior` ayrı bir property — burada explicit kapatıyoruz. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
 }
 
 @layer utilities {

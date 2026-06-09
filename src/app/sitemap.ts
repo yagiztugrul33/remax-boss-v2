@@ -15,6 +15,7 @@ const routes: {
   { path: "/ilanlar", priority: 0.9, changeFrequency: "weekly" },
   { path: "/hizmetler", priority: 0.8, changeFrequency: "monthly" },
   { path: "/blog", priority: 0.8, changeFrequency: "weekly" },
+  { path: "/araclar", priority: 0.7, changeFrequency: "monthly" },
   { path: "/hakkimizda", priority: 0.7, changeFrequency: "monthly" },
   { path: "/ekibimiz", priority: 0.6, changeFrequency: "monthly" },
   { path: "/danisman-ol", priority: 0.7, changeFrequency: "monthly" },

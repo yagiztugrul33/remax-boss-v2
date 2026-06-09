@@ -6,6 +6,7 @@ import {
   MAX_OUTPUT_TOKENS,
   DEFAULT_MODEL,
 } from "@/lib/ai-assistant";
+import { checkRateLimit, clientKeyFromRequest } from "@/lib/rate-limit";
 
 /**
  * POST /api/chat — RE/MAX BOSS sohbet asistanı, Anthropic Claude proxy.
@@ -56,6 +57,16 @@ export async function POST(req: NextRequest) {
     return jsonError(
       "Asistan yapılandırılmamış. Lütfen ofisimizle iletişime geçin.",
       503,
+    );
+  }
+
+  // 2b) Rate-limit: IP başına dakikada 10 istek (in-memory; sınırlı koruma,
+  // bkz. lib/rate-limit.ts notları — serverless instance'lar arası paylaşılmaz)
+  const rl = checkRateLimit(clientKeyFromRequest(req, "chat"), 10, 60_000);
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: "Çok hızlı gönderdiniz. Lütfen kısa bir süre bekleyin." },
+      { status: 429, headers: { "retry-after": String(rl.retryAfterSec) } },
     );
   }
 

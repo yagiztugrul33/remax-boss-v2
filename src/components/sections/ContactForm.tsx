@@ -4,20 +4,27 @@ import { useId, useState, type FormEvent } from "react";
 import { Send, CheckCircle2, Loader2 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/client";
 import type { Dict } from "@/lib/i18n/dictionaries";
 
 type Status = "idle" | "sending" | "success" | "error";
+type FieldName = "name" | "phone" | "email" | "message" | "kvkk";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+()\d\s-]{7,}$/;
 
+const MAX_NAME = 200;
+const MAX_PHONE = 40;
+const MAX_EMAIL = 200;
+const MAX_MESSAGE = 2000;
+
 /**
- * Gerçek lead formu — Supabase contact_messages tablosuna INSERT eder
- * (anon client, RLS yalnız insert'e izin verir). Mesaj kaybolmaz; admin
- * /admin/mesajlar'da görür. KVKK açık rıza zorunlu (Türkiye yasal).
+ * Gerçek lead formu — /api/contact üzerinden Supabase contact_messages
+ * tablosuna anon INSERT (RLS yalnız insert'e izin verir). KVKK açık rıza
+ * zorunlu. Server endpoint'inde rate-limit (5/dakika/IP), validasyon,
+ * 2000 chr message slice (DB şişme önlemi).
  *
- * Etiket/placeholder/error/success metinleri sözlükten (TR/EN); mantık aynı.
+ * A11y: hatalı alana aria-invalid + aria-describedby (ekran okuyucu hata
+ * mesajını input'la ilişkilendirir).
  */
 export default function ContactForm({
   dict,
@@ -31,9 +38,16 @@ export default function ContactForm({
     subject: useId(),
     message: useId(),
     kvkk: useId(),
+    errorMsg: useId(),
   };
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  const [errorField, setErrorField] = useState<FieldName | null>(null);
+
+  function reportError(field: FieldName, msg: string) {
+    setError(msg);
+    setErrorField(field);
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -47,43 +61,56 @@ export default function ContactForm({
     const email = String(data.get("email") ?? "").trim();
     const phone = String(data.get("phone") ?? "").trim();
     const subject = String(data.get("subject") ?? "").trim();
-    const message = String(data.get("message") ?? "").trim();
+    const messageRaw = String(data.get("message") ?? "").trim();
+    // Defansif: client tarafında da slice (server tekrar slice yapacak)
+    const message = messageRaw.slice(0, MAX_MESSAGE);
     const kvkk = data.get("kvkk") === "on";
 
-    if (!name) return setError(dict.errors.nameRequired);
-    if (!phone || !PHONE_RE.test(phone))
-      return setError(dict.errors.phoneRequired);
-    if (email && !EMAIL_RE.test(email))
-      return setError(dict.errors.emailInvalid);
-    if (!message) return setError(dict.errors.messageRequired);
-    if (!kvkk) return setError(dict.errors.kvkkRequired);
-
     setError(null);
+    setErrorField(null);
+
+    if (!name) return reportError("name", dict.errors.nameRequired);
+    if (!phone || !PHONE_RE.test(phone))
+      return reportError("phone", dict.errors.phoneRequired);
+    if (email && !EMAIL_RE.test(email))
+      return reportError("email", dict.errors.emailInvalid);
+    if (!message) return reportError("message", dict.errors.messageRequired);
+    if (!kvkk) return reportError("kvkk", dict.errors.kvkkRequired);
+
     setStatus("sending");
 
     try {
-      const supabase = createClient();
-      const { error: dbError } = await supabase
-        .from("contact_messages")
-        .insert({
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
           name,
-          email: email || null,
+          email,
           phone,
-          message: subject ? `[${subject}]\n\n${message}` : message,
-          source: "iletisim",
-          kvkk_consent: kvkk,
-        });
-      if (dbError) throw dbError;
+          subject,
+          message,
+          kvkk,
+          company: "",
+        }),
+      });
+      const result = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+      };
+      if (!res.ok) {
+        throw new Error(result.error || dict.errors.sendFailed);
+      }
       form.reset();
       setStatus("success");
-    } catch {
+    } catch (err) {
       setStatus("error");
-      setError(dict.errors.sendFailed);
+      setError(err instanceof Error ? err.message : dict.errors.sendFailed);
     }
   }
 
   const inputClass =
     "w-full rounded-xl border border-line bg-white px-3.5 py-3 text-sm text-navy outline-none focus:border-remax-red focus:ring-2 focus:ring-remax-red/15 transition-colors";
+  const errId = error ? ids.errorMsg : undefined;
 
   if (status === "success") {
     return (
@@ -145,6 +172,9 @@ export default function ContactForm({
             type="text"
             autoComplete="name"
             placeholder={dict.namePlaceholder}
+            maxLength={MAX_NAME}
+            aria-invalid={errorField === "name" || undefined}
+            aria-describedby={errorField === "name" ? errId : undefined}
             className={inputClass}
           />
         </div>
@@ -163,6 +193,9 @@ export default function ContactForm({
             autoComplete="tel"
             inputMode="tel"
             placeholder={dict.phonePlaceholder}
+            maxLength={MAX_PHONE}
+            aria-invalid={errorField === "phone" || undefined}
+            aria-describedby={errorField === "phone" ? errId : undefined}
             className={inputClass}
             dir="ltr"
           />
@@ -183,6 +216,9 @@ export default function ContactForm({
           type="email"
           autoComplete="email"
           placeholder={dict.emailPlaceholder}
+          maxLength={MAX_EMAIL}
+          aria-invalid={errorField === "email" || undefined}
+          aria-describedby={errorField === "email" ? errId : undefined}
           className={inputClass}
         />
       </div>
@@ -221,6 +257,9 @@ export default function ContactForm({
           required
           rows={5}
           placeholder={dict.messagePlaceholder}
+          maxLength={MAX_MESSAGE}
+          aria-invalid={errorField === "message" || undefined}
+          aria-describedby={errorField === "message" ? errId : undefined}
           className={`${inputClass} resize-y`}
         />
       </div>
@@ -233,6 +272,8 @@ export default function ContactForm({
           id={ids.kvkk}
           name="kvkk"
           type="checkbox"
+          aria-invalid={errorField === "kvkk" || undefined}
+          aria-describedby={errorField === "kvkk" ? errId : undefined}
           className="mt-0.5 h-4 w-4 flex-shrink-0 accent-remax-red"
         />
         <span>
@@ -245,7 +286,11 @@ export default function ContactForm({
       </label>
 
       {error && (
-        <p role="alert" className="text-sm font-medium text-remax-red">
+        <p
+          id={ids.errorMsg}
+          role="alert"
+          className="text-sm font-medium text-remax-red"
+        >
           {error}
         </p>
       )}

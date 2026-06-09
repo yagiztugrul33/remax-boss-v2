@@ -14,7 +14,13 @@ export default function GlobalError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error("[app:error]", error.digest ?? error.message);
+    // Production'da yalnız digest logla (hassas mesaj sızıntısı önlemi).
+    // Geliştirmede daha kullanışlı olsun diye message da dahil edilir.
+    if (process.env.NODE_ENV === "production") {
+      console.error("[app:error]", error.digest ?? "(no digest)");
+    } else {
+      console.error("[app:error]", error.digest ?? "(no digest)", error.message);
+    }
   }, [error]);
 
   return (

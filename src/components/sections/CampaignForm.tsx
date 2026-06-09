@@ -4,16 +4,27 @@ import { useId, useState, type FormEvent } from "react";
 import { Send, CheckCircle2, Loader2 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/client";
 
 type Status = "idle" | "sending" | "success" | "error";
+type FieldName = "ad" | "tel" | "email" | "konum" | "yetki" | "kvkk" | "mesaj";
 
 const PHONE_RE = /^[+()\d\s-]{7,}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const MAX_NAME = 200;
+const MAX_PHONE = 40;
+const MAX_EMAIL = 200;
+const MAX_LOCATION = 300;
+const MAX_MESSAGE = 2000;
+const MAX_VALUE_DIGITS = 16;
+
 /**
- * Kampanya başvuru formu — campaign_applications tablosuna anon INSERT.
+ * Kampanya başvuru formu — /api/campaign-apply üzerinden
+ * campaign_applications tablosuna anon INSERT (RLS). Server endpoint'inde
+ * rate-limit (3/dakika/IP), validasyon, 2000 chr mesaj slice.
  * Ödül VAATETMEZ: başvuru değerlendirme talebidir, hak doğurmaz.
+ *
+ * A11y: hatalı alana aria-invalid + aria-describedby.
  */
 export default function CampaignForm() {
   const ids = {
@@ -25,9 +36,16 @@ export default function CampaignForm() {
     mesaj: useId(),
     yetki: useId(),
     kvkk: useId(),
+    errorMsg: useId(),
   };
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  const [errorField, setErrorField] = useState<FieldName | null>(null);
+
+  function reportError(field: FieldName, msg: string) {
+    setError(msg);
+    setErrorField(field);
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -41,50 +59,77 @@ export default function CampaignForm() {
     const telefon = String(data.get("telefon") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
     const mulk_konumu = String(data.get("mulk_konumu") ?? "").trim();
-    const degerRaw = String(data.get("tahmini_deger") ?? "").replace(/[^\d]/g, "");
-    const mesaj = String(data.get("mesaj") ?? "").trim();
+    const degerRaw = String(data.get("tahmini_deger") ?? "")
+      .replace(/[^\d]/g, "")
+      .slice(0, MAX_VALUE_DIGITS);
+    const mesajRaw = String(data.get("mesaj") ?? "").trim();
+    const mesaj = mesajRaw.slice(0, MAX_MESSAGE); // defansif client slice
     const yetki = data.get("yetki") === "on";
     const kvkk = data.get("kvkk") === "on";
 
-    if (!ad_soyad) return setError("Lütfen ad soyad girin.");
-    if (!telefon || !PHONE_RE.test(telefon))
-      return setError("Lütfen geçerli bir telefon numarası girin.");
-    if (email && !EMAIL_RE.test(email))
-      return setError("Girdiğiniz e-posta adresi geçersiz görünüyor.");
-    if (!mulk_konumu) return setError("Lütfen mülkün konumunu yazın.");
-    if (!yetki)
-      return setError("Devam etmek için münhasır yetki şartını kabul edin.");
-    if (!kvkk) return setError("Lütfen KVKK aydınlatma onayını işaretleyin.");
-
     setError(null);
+    setErrorField(null);
+
+    if (!ad_soyad) return reportError("ad", "Lütfen ad soyad girin.");
+    if (!telefon || !PHONE_RE.test(telefon))
+      return reportError("tel", "Lütfen geçerli bir telefon numarası girin.");
+    if (email && !EMAIL_RE.test(email))
+      return reportError("email", "Girdiğiniz e-posta adresi geçersiz görünüyor.");
+    if (!mulk_konumu)
+      return reportError("konum", "Lütfen mülkün konumunu yazın.");
+    if (!yetki)
+      return reportError(
+        "yetki",
+        "Devam etmek için münhasır yetki şartını kabul edin.",
+      );
+    if (!kvkk)
+      return reportError(
+        "kvkk",
+        "Lütfen KVKK aydınlatma onayını işaretleyin.",
+      );
+
     setStatus("sending");
     try {
-      const supabase = createClient();
-      const { error: dbError } = await supabase
-        .from("campaign_applications")
-        .insert({
+      const res = await fetch("/api/campaign-apply", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
           ad_soyad,
           telefon,
-          email: email || null,
+          email,
           mulk_konumu,
-          tahmini_deger: degerRaw ? Number(degerRaw) : null,
-          yetki_kabul: yetki,
-          mesaj: mesaj || null,
-          kvkk_onay: kvkk,
-        });
-      if (dbError) throw dbError;
+          tahmini_deger: degerRaw,
+          mesaj,
+          yetki,
+          kvkk,
+          company: "",
+        }),
+      });
+      const result = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+      };
+      if (!res.ok) {
+        throw new Error(
+          result.error ||
+            "Başvuru gönderilemedi. Lütfen tekrar deneyin veya bizi telefonla arayın.",
+        );
+      }
       form.reset();
       setStatus("success");
-    } catch {
+    } catch (err) {
       setStatus("error");
       setError(
-        "Başvuru gönderilemedi. Lütfen tekrar deneyin veya bizi telefonla arayın.",
+        err instanceof Error
+          ? err.message
+          : "Başvuru gönderilemedi. Lütfen tekrar deneyin veya bizi telefonla arayın.",
       );
     }
   }
 
   const inputClass =
     "w-full rounded-xl border border-line bg-white px-3.5 py-3 text-sm text-navy outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/15 transition-colors";
+  const errId = error ? ids.errorMsg : undefined;
 
   if (status === "success") {
     return (
@@ -127,13 +172,37 @@ export default function CampaignForm() {
           <label htmlFor={ids.ad} className="block text-sm font-semibold text-navy mb-1.5">
             Ad Soyad <span className="text-remax-red">*</span>
           </label>
-          <input id={ids.ad} name="ad_soyad" required type="text" autoComplete="name" placeholder="Adınız Soyadınız" className={inputClass} />
+          <input
+            id={ids.ad}
+            name="ad_soyad"
+            required
+            type="text"
+            autoComplete="name"
+            placeholder="Adınız Soyadınız"
+            maxLength={MAX_NAME}
+            aria-invalid={errorField === "ad" || undefined}
+            aria-describedby={errorField === "ad" ? errId : undefined}
+            className={inputClass}
+          />
         </div>
         <div>
           <label htmlFor={ids.tel} className="block text-sm font-semibold text-navy mb-1.5">
             Telefon <span className="text-remax-red">*</span>
           </label>
-          <input id={ids.tel} name="telefon" required type="tel" autoComplete="tel" inputMode="tel" placeholder="+90 5XX XXX XX XX" className={inputClass} dir="ltr" />
+          <input
+            id={ids.tel}
+            name="telefon"
+            required
+            type="tel"
+            autoComplete="tel"
+            inputMode="tel"
+            placeholder="+90 5XX XXX XX XX"
+            maxLength={MAX_PHONE}
+            aria-invalid={errorField === "tel" || undefined}
+            aria-describedby={errorField === "tel" ? errId : undefined}
+            className={inputClass}
+            dir="ltr"
+          />
         </div>
       </div>
 
@@ -141,7 +210,17 @@ export default function CampaignForm() {
         <label htmlFor={ids.email} className="block text-sm font-semibold text-navy mb-1.5">
           E-posta <span className="text-navy/40 font-normal">(opsiyonel)</span>
         </label>
-        <input id={ids.email} name="email" type="email" autoComplete="email" placeholder="ornek@eposta.com" className={inputClass} />
+        <input
+          id={ids.email}
+          name="email"
+          type="email"
+          autoComplete="email"
+          placeholder="ornek@eposta.com"
+          maxLength={MAX_EMAIL}
+          aria-invalid={errorField === "email" || undefined}
+          aria-describedby={errorField === "email" ? errId : undefined}
+          className={inputClass}
+        />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -149,13 +228,32 @@ export default function CampaignForm() {
           <label htmlFor={ids.konum} className="block text-sm font-semibold text-navy mb-1.5">
             Mülkün Konumu <span className="text-remax-red">*</span>
           </label>
-          <input id={ids.konum} name="mulk_konumu" required type="text" placeholder="İlçe / Mahalle (örn. Çankaya)" className={inputClass} />
+          <input
+            id={ids.konum}
+            name="mulk_konumu"
+            required
+            type="text"
+            placeholder="İlçe / Mahalle (örn. Çankaya)"
+            maxLength={MAX_LOCATION}
+            aria-invalid={errorField === "konum" || undefined}
+            aria-describedby={errorField === "konum" ? errId : undefined}
+            className={inputClass}
+          />
         </div>
         <div>
           <label htmlFor={ids.deger} className="block text-sm font-semibold text-navy mb-1.5">
             Tahmini Değer (TL) <span className="text-navy/40 font-normal">(opsiyonel)</span>
           </label>
-          <input id={ids.deger} name="tahmini_deger" type="text" inputMode="numeric" placeholder="örn. 12.000.000" className={inputClass} dir="ltr" />
+          <input
+            id={ids.deger}
+            name="tahmini_deger"
+            type="text"
+            inputMode="numeric"
+            placeholder="örn. 12.000.000"
+            maxLength={MAX_VALUE_DIGITS + 6}
+            className={inputClass}
+            dir="ltr"
+          />
         </div>
       </div>
 
@@ -163,20 +261,47 @@ export default function CampaignForm() {
         <label htmlFor={ids.mesaj} className="block text-sm font-semibold text-navy mb-1.5">
           Mesajınız <span className="text-navy/40 font-normal">(opsiyonel)</span>
         </label>
-        <textarea id={ids.mesaj} name="mesaj" rows={3} placeholder="Mülkünüz hakkında kısa not…" className={`${inputClass} resize-y`} />
+        <textarea
+          id={ids.mesaj}
+          name="mesaj"
+          rows={3}
+          placeholder="Mülkünüz hakkında kısa not…"
+          maxLength={MAX_MESSAGE}
+          aria-invalid={errorField === "mesaj" || undefined}
+          aria-describedby={errorField === "mesaj" ? errId : undefined}
+          className={`${inputClass} resize-y`}
+        />
       </div>
 
-      {/* Münhasır yetki onayı — zorunlu */}
-      <label htmlFor={ids.yetki} className="flex items-start gap-3 rounded-xl bg-amber-50 border border-amber-100 p-3.5 text-xs text-navy/75 cursor-pointer">
-        <input id={ids.yetki} name="yetki" type="checkbox" className="mt-0.5 h-4 w-4 flex-shrink-0 accent-amber-500" />
+      <label
+        htmlFor={ids.yetki}
+        className="flex items-start gap-3 rounded-xl bg-amber-50 border border-amber-100 p-3.5 text-xs text-navy/75 cursor-pointer"
+      >
+        <input
+          id={ids.yetki}
+          name="yetki"
+          type="checkbox"
+          aria-invalid={errorField === "yetki" || undefined}
+          aria-describedby={errorField === "yetki" ? errId : undefined}
+          className="mt-0.5 h-4 w-4 flex-shrink-0 accent-amber-500"
+        />
         <span>
           Mülküm için en az <span className="font-semibold text-navy">3 ay münhasır (tek yetkili) satış yetkisi</span> verme şartını okudum ve kabul ediyorum.
         </span>
       </label>
 
-      {/* KVKK — zorunlu */}
-      <label htmlFor={ids.kvkk} className="flex items-start gap-3 rounded-xl bg-mist/60 p-3.5 text-xs text-navy/70 cursor-pointer">
-        <input id={ids.kvkk} name="kvkk" type="checkbox" className="mt-0.5 h-4 w-4 flex-shrink-0 accent-remax-red" />
+      <label
+        htmlFor={ids.kvkk}
+        className="flex items-start gap-3 rounded-xl bg-mist/60 p-3.5 text-xs text-navy/70 cursor-pointer"
+      >
+        <input
+          id={ids.kvkk}
+          name="kvkk"
+          type="checkbox"
+          aria-invalid={errorField === "kvkk" || undefined}
+          aria-describedby={errorField === "kvkk" ? errId : undefined}
+          className="mt-0.5 h-4 w-4 flex-shrink-0 accent-remax-red"
+        />
         <span>
           Kişisel verilerimin başvurumun değerlendirilmesi amacıyla{" "}
           <span className="font-semibold text-navy">RE/MAX BOSS</span> tarafından KVKK kapsamında işlenmesini kabul ediyorum.
@@ -184,7 +309,13 @@ export default function CampaignForm() {
       </label>
 
       {error && (
-        <p role="alert" className="text-sm font-medium text-remax-red">{error}</p>
+        <p
+          id={ids.errorMsg}
+          role="alert"
+          className="text-sm font-medium text-remax-red"
+        >
+          {error}
+        </p>
       )}
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
@@ -200,9 +331,13 @@ export default function CampaignForm() {
           )}
         >
           {status === "sending" ? (
-            <><Loader2 className="h-4 w-4 me-2 animate-spin" aria-hidden /> Gönderiliyor…</>
+            <>
+              <Loader2 className="h-4 w-4 me-2 animate-spin" aria-hidden /> Gönderiliyor…
+            </>
           ) : (
-            <><Send className="h-4 w-4 me-2" aria-hidden /> Başvuruyu Gönder</>
+            <>
+              <Send className="h-4 w-4 me-2" aria-hidden /> Başvuruyu Gönder
+            </>
           )}
         </button>
       </div>
