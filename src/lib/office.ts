@@ -66,26 +66,106 @@ export interface ImageSlot {
  */
 export const heroImage = {
   src: "/office/ofis-dis-cephe.jpg",
-  altTr: "RE/MAX BOSS Beştepe ofisi dış görünümü — bina ve tabela",
-  altEn: "RE/MAX BOSS Beştepe office exterior — building and signage",
+  altTr: "RE/MAX BOSS Beştepe ofisi dış görünümü",
+  altEn: "RE/MAX BOSS Beştepe office exterior",
 } as const;
 
-/** Ofis galerisi — 14 profesyonel fotoğraf. Anasayfa ve /hakkimizda'da kullanılır. */
-export const officeGallery: readonly ImageSlot[] = [
-  { src: "/office/resepsiyon.jpg", alt: "RE/MAX BOSS Beştepe ofisi resepsiyon ve bitki duvarı" },
-  { src: "/office/duvar-logo.jpg", alt: "RE/MAX BOSS LED ekran logo duvarı" },
-  { src: "/office/acik-ofis-4.jpg", alt: "RE/MAX BOSS ofis — LED ekran ve çalışma masaları" },
-  { src: "/office/lounge.jpg", alt: "RE/MAX BOSS kahve lounge — navy bar ve bitki duvarı" },
-  { src: "/office/yonetici-ofis.jpg", alt: "RE/MAX BOSS yönetici ofisi — Chesterfield koltuk" },
-  { src: "/office/toplanti.jpg", alt: "RE/MAX BOSS toplantı odası" },
-  { src: "/office/teras.jpg", alt: "RE/MAX BOSS teras — şehir manzarası ve kırmızı şemsiyeler" },
-  { src: "/office/kulliye.jpg", alt: "Beştepe külliyesi manzarası — RE/MAX BOSS konumu" },
-  { src: "/office/acik-ofis-1.jpg", alt: "RE/MAX BOSS açık ofis alanı — yeşil sandalyeler" },
-  { src: "/office/acik-ofis-2.jpg", alt: "RE/MAX BOSS açık ofis alanı — uzun sıra" },
-  { src: "/office/acik-ofis-3.jpg", alt: "RE/MAX BOSS geniş ofis — TIME MANAGEMENT köşesi" },
-  { src: "/office/acik-ofis-5.jpg", alt: "RE/MAX BOSS ofis genel görünüm" },
-  { src: "/office/duvar-logo-wide.jpg", alt: "RE/MAX BOSS LED ekran geniş açı" },
-  { src: "/office/kulliye-2.jpg", alt: "Beştepe külliyesi manzarası 2" },
+/** Ofis galerisi tipi — bilingual alt-text (locale'a göre seçilir). */
+export interface OfficeGalleryItem {
+  src: string;
+  altTr: string;
+  altEn: string;
+}
+
+/**
+ * Ofis galerisi — bilingual. Anasayfa ve /hakkimizda'da kullanılır.
+ * Sıralama: önce 2 dış cephe açısı (kullanıcı isteği) → sonra iç mekan
+ * fotoğrafları. OfficeGallery component'i `items` prop'u alır, parent'lar
+ * (OfficeGallerySection + /hakkimizda) locale'a göre map'leyip geçer.
+ */
+export const officeGallery: readonly OfficeGalleryItem[] = [
+  // ── Dış cephe açıları (öne) ──
+  {
+    src: "/office/ofis-dis-3.jpg",
+    altTr: "RE/MAX BOSS binası dış görünüm — açı 1",
+    altEn: "RE/MAX BOSS building exterior — angle 1",
+  },
+  {
+    src: "/office/ofis-dis-4.jpg",
+    altTr: "RE/MAX BOSS binası dış görünüm — açı 2",
+    altEn: "RE/MAX BOSS building exterior — angle 2",
+  },
+  // ── İç mekan ──
+  {
+    src: "/office/resepsiyon.jpg",
+    altTr: "RE/MAX BOSS Beştepe ofisi resepsiyon ve bitki duvarı",
+    altEn: "RE/MAX BOSS Beştepe office reception and plant wall",
+  },
+  {
+    src: "/office/duvar-logo.jpg",
+    altTr: "RE/MAX BOSS LED ekran logo duvarı",
+    altEn: "RE/MAX BOSS LED screen logo wall",
+  },
+  {
+    src: "/office/acik-ofis-4.jpg",
+    altTr: "RE/MAX BOSS ofis — LED ekran ve çalışma masaları",
+    altEn: "RE/MAX BOSS office — LED screen and work desks",
+  },
+  {
+    src: "/office/lounge.jpg",
+    altTr: "RE/MAX BOSS kahve lounge — navy bar ve bitki duvarı",
+    altEn: "RE/MAX BOSS coffee lounge — navy bar and plant wall",
+  },
+  {
+    src: "/office/yonetici-ofis.jpg",
+    altTr: "RE/MAX BOSS yönetici ofisi — Chesterfield koltuk",
+    altEn: "RE/MAX BOSS executive office — Chesterfield seating",
+  },
+  {
+    src: "/office/toplanti.jpg",
+    altTr: "RE/MAX BOSS toplantı odası",
+    altEn: "RE/MAX BOSS meeting room",
+  },
+  {
+    src: "/office/teras.jpg",
+    altTr: "RE/MAX BOSS teras — şehir manzarası ve kırmızı şemsiyeler",
+    altEn: "RE/MAX BOSS terrace — city view and red umbrellas",
+  },
+  {
+    src: "/office/kulliye.jpg",
+    altTr: "Beştepe külliyesi manzarası — RE/MAX BOSS konumu",
+    altEn: "Beştepe Presidential Complex view — RE/MAX BOSS location",
+  },
+  {
+    src: "/office/acik-ofis-1.jpg",
+    altTr: "RE/MAX BOSS açık ofis alanı — yeşil sandalyeler",
+    altEn: "RE/MAX BOSS open office area — green chairs",
+  },
+  {
+    src: "/office/acik-ofis-2.jpg",
+    altTr: "RE/MAX BOSS açık ofis alanı — uzun sıra",
+    altEn: "RE/MAX BOSS open office area — long row",
+  },
+  {
+    src: "/office/acik-ofis-3.jpg",
+    altTr: "RE/MAX BOSS geniş ofis — TIME MANAGEMENT köşesi",
+    altEn: "RE/MAX BOSS large office — TIME MANAGEMENT corner",
+  },
+  {
+    src: "/office/acik-ofis-5.jpg",
+    altTr: "RE/MAX BOSS ofis genel görünüm",
+    altEn: "RE/MAX BOSS office overview",
+  },
+  {
+    src: "/office/duvar-logo-wide.jpg",
+    altTr: "RE/MAX BOSS LED ekran geniş açı",
+    altEn: "RE/MAX BOSS LED screen wide angle",
+  },
+  {
+    src: "/office/kulliye-2.jpg",
+    altTr: "Beştepe külliyesi manzarası 2",
+    altEn: "Beştepe Presidential Complex view 2",
+  },
 ] as const;
 
 // ════════════════════ EKİP ════════════════════

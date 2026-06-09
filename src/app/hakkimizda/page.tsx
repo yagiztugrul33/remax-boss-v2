@@ -9,7 +9,7 @@ import OfficeGallery from "@/components/sections/OfficeGallery";
 import TeamSection from "@/components/sections/TeamSection";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { office, aboutContent } from "@/lib/office";
+import { office, aboutContent, officeGallery } from "@/lib/office";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
 
@@ -41,6 +41,10 @@ export default async function HakkimizdaPage() {
   const locale = await getLocale();
   const d = (await getDictionary()).pages.about;
   const paragraphs = aboutContent.paragraphs[locale];
+  const galleryItems = officeGallery.map((g) => ({
+    src: g.src,
+    alt: locale === "en" ? g.altEn : g.altTr,
+  }));
 
   const infoCards = [
     {
@@ -141,7 +145,7 @@ export default async function HakkimizdaPage() {
             </p>
           </div>
         </div>
-        <OfficeGallery />
+        <OfficeGallery items={galleryItems} />
       </Section>
 
       <TeamSection />

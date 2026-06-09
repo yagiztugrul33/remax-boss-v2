@@ -10,13 +10,13 @@ import { office } from "@/lib/office";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
 
-// Hero `resepsiyon.jpg`'yi kullanıyor — OfficeIntro'da farklı görsel
-// (yönetici ofisi) → aynı görselin iki kez yüklenmesi önlenir + sahnede
-// görsel çeşitlilik.
+// OfficeIntro görseli — ofis girişi ve resepsiyon (bilingual alt).
+// Hero dış cephe (ofis-dis-cephe.jpg) kullanıyor → OfficeIntro'da farklı
+// görsel (giriş + RE/MAX BOSS amblem + bitki duvarı) → görsel çeşitlilik.
 const introImage = {
-  src: "/office/yonetici-ofis.jpg",
-  altTr: "RE/MAX BOSS yönetici ofisi — Chesterfield koltuk",
-  altEn: "RE/MAX BOSS executive office — Chesterfield seating",
+  src: "/office/ofis-giris.jpg",
+  altTr: "RE/MAX BOSS ofis girişi ve resepsiyon",
+  altEn: "RE/MAX BOSS office entrance and reception",
 };
 
 export default async function OfficeIntro() {

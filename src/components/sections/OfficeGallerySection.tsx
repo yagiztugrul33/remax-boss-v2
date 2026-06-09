@@ -2,11 +2,17 @@ import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import Reveal from "@/components/ui/reveal";
 import OfficeGallery from "@/components/sections/OfficeGallery";
-import { getDictionary } from "@/lib/i18n/server";
+import { officeGallery } from "@/lib/office";
+import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
 
 export default async function OfficeGallerySection() {
+  const locale = await getLocale();
   const d = (await getDictionary()).pages.home.officeGallery;
+  const items = officeGallery.map((g) => ({
+    src: g.src,
+    alt: locale === "en" ? g.altEn : g.altTr,
+  }));
 
   return (
     <Section
@@ -28,7 +34,7 @@ export default async function OfficeGallerySection() {
           </p>
         </div>
       </Reveal>
-      <OfficeGallery />
+      <OfficeGallery items={items} />
     </Section>
   );
 }

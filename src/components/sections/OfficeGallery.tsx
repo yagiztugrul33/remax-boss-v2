@@ -3,17 +3,26 @@
 import { useState } from "react";
 import Image from "next/image";
 import Lightbox from "@/components/ui/lightbox";
-import { officeGallery } from "@/lib/office";
 
-export default function OfficeGallery() {
+export interface GalleryItem {
+  src: string;
+  alt: string;
+}
+
+/**
+ * Ofis galerisi grid'i + lightbox. `items` prop'u locale'lenmiş olarak
+ * parent'tan gelir (OfficeGallerySection + /hakkimizda async server'da
+ * getLocale() çağırıp office.ts'teki bilingual veriyi map'ler).
+ */
+export default function OfficeGallery({ items }: { items: readonly GalleryItem[] }) {
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
 
-  if (officeGallery.length === 0) return null;
+  if (items.length === 0) return null;
 
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-        {officeGallery.map((img, i) => (
+        {items.map((img, i) => (
           <button
             key={img.src}
             type="button"
@@ -36,7 +45,7 @@ export default function OfficeGallery() {
 
       {lightboxIdx !== null && (
         <Lightbox
-          images={[...officeGallery]}
+          images={[...items]}
           startIndex={lightboxIdx}
           onClose={() => setLightboxIdx(null)}
         />

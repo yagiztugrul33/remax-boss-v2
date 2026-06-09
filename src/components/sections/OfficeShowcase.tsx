@@ -35,11 +35,11 @@ export default async function OfficeShowcase() {
       reverse: true,
     },
     {
-      src: "/office/teras.jpg",
+      src: "/office/ofis-dis-cephe-2.jpg",
       alt:
         locale === "en"
-          ? "RE/MAX BOSS terrace — Ankara skyline"
-          : "RE/MAX BOSS teras — Ankara manzarası",
+          ? "RE/MAX BOSS building — Beştepe"
+          : "RE/MAX BOSS binası — Beştepe",
       badge: d.block3Badge,
       heading: d.block3Heading,
       body: paragraphs[2],
