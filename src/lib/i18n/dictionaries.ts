@@ -474,6 +474,30 @@ export interface Dict {
       formTitle: string;
       formNote: string;
     };
+    faq: {
+      eyebrow: string;
+      title: string;
+      subtitle: string;
+      noResults: string;
+      stillNeedHelp: string;
+      contactCta: string;
+    };
+    agentDetail: {
+      backLabel: string;
+      bioPlaceholder: string;
+      languagesLabel: string;
+      specialtiesLabel: string;
+      certificationsLabel: string;
+      yearsLabel: string; // "{n} yıl deneyim" / "{n} years of experience"
+      directContactLabel: string;
+      contactCta: string;
+      callOffice: string;
+      whatsappLabel: string;
+      linkedinLabel: string;
+      instagramLabel: string;
+      notFoundTitle: string;
+      notFoundDesc: string;
+    };
   };
 
   // ── Formlar ──
@@ -1090,6 +1114,33 @@ const tr: Dict = {
       formTitle: "Aradığınız mülkün kriterlerini yazın",
       formNote:
         "Kriterlerinizi olabildiğince net yazın — eşleme kalitesi buna bağlı.",
+    },
+    faq: {
+      eyebrow: "SSS",
+      title: "Sıkça Sorulan Sorular",
+      subtitle:
+        "Süreç, hizmetler ve kişisel veriler hakkında en sık aldığımız soruların yanıtları. Aradığınız cevabı bulamazsanız ofisle iletişime geçin.",
+      noResults: "Bu kategoride henüz soru bulunmuyor.",
+      stillNeedHelp: "Sorunuz hâlâ cevapsız mı?",
+      contactCta: "İletişime geçin",
+    },
+    agentDetail: {
+      backLabel: "← Ekibimize dön",
+      bioPlaceholder:
+        "Bu danışman için detaylı profil hazırlanıyor. Görüşmek için ofis hattımızı kullanabilirsiniz.",
+      languagesLabel: "Diller",
+      specialtiesLabel: "Uzmanlık alanları",
+      certificationsLabel: "Sertifika ve lisanslar",
+      yearsLabel: "{n} yıl deneyim",
+      directContactLabel: "Doğrudan iletişim",
+      contactCta: "İletişim formunu kullan",
+      callOffice: "Ofisimizi arayın",
+      whatsappLabel: "WhatsApp",
+      linkedinLabel: "LinkedIn",
+      instagramLabel: "Instagram",
+      notFoundTitle: "Bu profil bulunamadı.",
+      notFoundDesc:
+        "Aradığınız danışman ekibimizden ayrılmış veya bağlantı geçersiz olabilir. Ekibimiz sayfasından güncel listeyi görebilirsiniz.",
     },
   },
   forms: {
@@ -1721,6 +1772,33 @@ const en: Dict = {
       formTitle: "Tell us what you're looking for",
       formNote:
         "Write your criteria as clearly as possible — the match quality depends on it.",
+    },
+    faq: {
+      eyebrow: "FAQ",
+      title: "Frequently Asked Questions",
+      subtitle:
+        "Answers to the questions we receive most often about our process, services and personal data. If you can't find your answer, reach out to the office.",
+      noResults: "No questions in this category yet.",
+      stillNeedHelp: "Still need help?",
+      contactCta: "Contact us",
+    },
+    agentDetail: {
+      backLabel: "← Back to our team",
+      bioPlaceholder:
+        "A detailed profile for this agent is being prepared. You can call our office to get in touch.",
+      languagesLabel: "Languages",
+      specialtiesLabel: "Specialties",
+      certificationsLabel: "Certifications & Licences",
+      yearsLabel: "{n} years of experience",
+      directContactLabel: "Direct contact",
+      contactCta: "Use the contact form",
+      callOffice: "Call our office",
+      whatsappLabel: "WhatsApp",
+      linkedinLabel: "LinkedIn",
+      instagramLabel: "Instagram",
+      notFoundTitle: "Profile not found.",
+      notFoundDesc:
+        "The agent you're looking for may have left the team or the link may be invalid. See our Team page for the up-to-date list.",
     },
   },
   forms: {

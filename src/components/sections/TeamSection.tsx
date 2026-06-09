@@ -1,9 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Briefcase, Crown, UserCog, Users } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import Reveal from "@/components/ui/reveal";
 import { getTeamGroups, type AgentRole } from "@/lib/office";
+import { slugifyName } from "@/lib/team-detail";
 import { getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
 
@@ -81,37 +83,43 @@ export default async function TeamSection() {
                   {g.members.map((m, i) => (
                     <Reveal key={m.name} delay={(i % 4) * 80}>
                       <li className="card-depth group h-full overflow-hidden rounded-2xl border border-line bg-white">
-                        <div className="relative aspect-[3/4] overflow-hidden bg-mist">
-                          {m.photo ? (
-                            <Image
-                              src={m.photo}
-                              alt={`${m.name} — ${m.title}`}
-                              fill
-                              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                              className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
-                            />
-                          ) : (
-                            <div
-                              aria-hidden
-                              className={`absolute inset-0 flex items-center justify-center font-display font-extrabold text-4xl tracking-tight ${
-                                g.key === "broker"
-                                  ? "bg-gradient-to-br from-remax-red to-remax-red-dark text-white"
-                                  : "bg-gradient-to-br from-navy-700 to-navy-900 text-white/90"
-                              }`}
-                            >
-                              {initialsOf(m.name)}
-                            </div>
-                          )}
-                        </div>
+                        <Link
+                          href={`/ekibimiz/${slugifyName(m.name)}`}
+                          className="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-remax-red"
+                          aria-label={`${m.name} — ${m.title}`}
+                        >
+                          <div className="relative aspect-[3/4] overflow-hidden bg-mist">
+                            {m.photo ? (
+                              <Image
+                                src={m.photo}
+                                alt={`${m.name} — ${m.title}`}
+                                fill
+                                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                                className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
+                              />
+                            ) : (
+                              <div
+                                aria-hidden
+                                className={`absolute inset-0 flex items-center justify-center font-display font-extrabold text-4xl tracking-tight ${
+                                  g.key === "broker"
+                                    ? "bg-gradient-to-br from-remax-red to-remax-red-dark text-white"
+                                    : "bg-gradient-to-br from-navy-700 to-navy-900 text-white/90"
+                                }`}
+                              >
+                                {initialsOf(m.name)}
+                              </div>
+                            )}
+                          </div>
 
-                        <div className="p-3.5">
-                          <div className="font-display font-bold text-navy leading-tight text-balance">
-                            {m.name}
+                          <div className="p-3.5">
+                            <div className="font-display font-bold text-navy leading-tight text-balance group-hover:text-remax-red transition-colors">
+                              {m.name}
+                            </div>
+                            <div className="text-xs text-navy/55 mt-1 leading-snug">
+                              {m.title}
+                            </div>
                           </div>
-                          <div className="text-xs text-navy/55 mt-1 leading-snug">
-                            {m.title}
-                          </div>
-                        </div>
+                        </Link>
                       </li>
                     </Reveal>
                   ))}
