@@ -5,6 +5,21 @@ import Link from "next/link";
 import { AlertTriangle } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { dictionaries } from "@/lib/i18n/dictionaries";
+import { LOCALE_COOKIE, isLocale, defaultLocale } from "@/lib/i18n/config";
+
+/**
+ * Global error boundary — client component. Dictionary'i client-side
+ * cookie'den okuyarak locale'a göre TR/EN gösterir.
+ */
+function readLocaleFromCookie(): "tr" | "en" {
+  if (typeof document === "undefined") return defaultLocale;
+  const match = document.cookie
+    .split("; ")
+    .find((c) => c.startsWith(`${LOCALE_COOKIE}=`));
+  const raw = match?.split("=")[1];
+  return isLocale(raw) ? raw : defaultLocale;
+}
 
 export default function GlobalError({
   error,
@@ -22,6 +37,9 @@ export default function GlobalError({
       console.error("[app:error]", error.digest ?? "(no digest)", error.message);
     }
   }, [error]);
+
+  const locale = readLocaleFromCookie();
+  const d = dictionaries[locale].pages.error;
 
   return (
     <section className="relative isolate min-h-[calc(100vh-200px)] flex flex-col items-center justify-center bg-navy-900 text-white px-4 text-center overflow-hidden">
@@ -44,13 +62,12 @@ export default function GlobalError({
       </div>
 
       <h1 className="font-display text-display-lg text-white text-balance">
-        Bir şeyler{" "}
-        <span className="text-remax-red">ters gitti.</span>
+        {d.titleLead}{" "}
+        <span className="text-remax-red">{d.titleAccent}</span>
       </h1>
 
       <p className="mt-4 text-white/65 max-w-md leading-relaxed">
-        Sayfa yüklenirken beklenmedik bir sorun oluştu. Lütfen tekrar deneyin
-        veya anasayfaya dönün.
+        {d.desc}
       </p>
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -61,7 +78,7 @@ export default function GlobalError({
             "bg-remax-red hover:bg-remax-red-hover text-white h-11 px-6 text-sm font-semibold",
           )}
         >
-          Tekrar Dene
+          {d.retry}
         </button>
         <Link
           href="/"
@@ -70,7 +87,7 @@ export default function GlobalError({
             "border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white h-11 px-6 text-sm font-semibold",
           )}
         >
-          Anasayfaya Dön
+          {d.home}
         </Link>
       </div>
 

@@ -214,6 +214,44 @@ export interface Dict {
       otherDetailsCta: string;
       notFoundTitle: string;
     };
+
+    // ── Bu turda eklenenler (küçük/kritik sayfalar) ──
+    team: {
+      heroEyebrow: string;
+      heroTitleLead: string;       // "Uzman"
+      heroTitleAccent: string;     // "kadromuzla"
+      heroTitleEnd: string;        // "tanışın."
+      heroSubtitleTemplate: string; // "Brokerlardan ... {n} kişilik kadromuz..."
+      ctaEyebrow: string;
+      ctaTitleLead: string;        // "Ekibimizle"
+      ctaTitleAccent: string;      // "çalışın"
+      ctaDesc: string;
+      ctaContact: string;
+    };
+    listingsRedirect: {
+      eyebrow: string;
+      titleLead: string;           // "RE/MAX Türkiye"
+      titleAccent: string;         // "güvencesiyle"
+      desc: string;
+      helperText: string;
+      ctaPrimary: string;
+      ctaWhatsapp: string;
+      ctaMaps: string;
+      guarantee: string;
+    };
+    error: {
+      titleLead: string;           // "Bir şeyler"
+      titleAccent: string;         // "ters gitti."
+      desc: string;
+      retry: string;
+      home: string;
+    };
+    notFound: {
+      title: string;
+      desc: string;
+      home: string;
+      viewListings: string;
+    };
   };
 
   // ── Formlar ──
@@ -481,6 +519,46 @@ const tr: Dict = {
       othersHeading: "Diğer hizmetlerimiz",
       otherDetailsCta: "İncele",
       notFoundTitle: "Hizmet bulunamadı",
+    },
+    team: {
+      heroEyebrow: "Ekibimiz",
+      heroTitleLead: "Uzman",
+      heroTitleAccent: "kadromuzla",
+      heroTitleEnd: "tanışın.",
+      heroSubtitleTemplate:
+        "Brokerlardan danışmanlara, ofis gelişiminden destek ekibine kadar {n} kişilik kadromuz, müşterilerimizin doğru kararı doğru zamanda alması için birlikte çalışır.",
+      ctaEyebrow: "Birlikte çalışalım",
+      ctaTitleLead: "Ekibimizle",
+      ctaTitleAccent: "çalışın",
+      ctaDesc:
+        "Alım, satım, kiralama veya yatırım — doğru danışmanla tanışmak için bize ulaşın.",
+      ctaContact: "İletişime geç",
+    },
+    listingsRedirect: {
+      eyebrow: "Tüm İlanlarımız",
+      titleLead: "RE/MAX Türkiye",
+      titleAccent: "güvencesiyle",
+      desc: "Satılık ve kiralık portföyümüz, RE/MAX Türkiye'nin resmi platformunda anlık güncel tutuluyor. Tüm doğrulanmış ilanlarımızı tek tıkla görüntüleyebilirsiniz.",
+      helperText:
+        "Aradığınız mülkü listede bulamıyorsanız bize ulaşın — birlikte bulalım.",
+      ctaPrimary: "Tüm İlanlarımızı Görüntüle",
+      ctaWhatsapp: "WhatsApp'tan yazın",
+      ctaMaps: "Ofisimize gelin",
+      guarantee:
+        "Sahte ilan göstermiyoruz. Portföyümüzdeki tüm mülkler RE/MAX Türkiye altyapısıyla doğrulanır.",
+    },
+    error: {
+      titleLead: "Bir şeyler",
+      titleAccent: "ters gitti.",
+      desc: "Sayfa yüklenirken beklenmedik bir sorun oluştu. Lütfen tekrar deneyin veya anasayfaya dönün.",
+      retry: "Tekrar Dene",
+      home: "Anasayfaya Dön",
+    },
+    notFound: {
+      title: "Sayfa bulunamadı.",
+      desc: "Aradığınız sayfa taşınmış, silinmiş ya da hiç mevcut olmamış olabilir.",
+      home: "Anasayfaya Dön",
+      viewListings: "İlanları Gör",
     },
   },
   forms: {
@@ -763,6 +841,46 @@ const en: Dict = {
       othersHeading: "Our other services",
       otherDetailsCta: "View",
       notFoundTitle: "Service not found",
+    },
+    team: {
+      heroEyebrow: "Our Team",
+      heroTitleLead: "Meet our",
+      heroTitleAccent: "expert team",
+      heroTitleEnd: ".",
+      heroSubtitleTemplate:
+        "From brokers to advisors, from office development to support — our {n}-strong team works together to help our clients make the right decision at the right time.",
+      ctaEyebrow: "Let's work together",
+      ctaTitleLead: "Work with our",
+      ctaTitleAccent: "team",
+      ctaDesc:
+        "Buying, selling, leasing or investing — reach out to meet the right advisor.",
+      ctaContact: "Get in touch",
+    },
+    listingsRedirect: {
+      eyebrow: "All Our Listings",
+      titleLead: "Backed by",
+      titleAccent: "RE/MAX Türkiye",
+      desc: "Our sales and rental portfolio is kept up to date on the official RE/MAX Türkiye platform in real time. View every verified listing of our office with a single click.",
+      helperText:
+        "Can't find what you're looking for? Get in touch — let's find it together.",
+      ctaPrimary: "View All Our Listings",
+      ctaWhatsapp: "Message on WhatsApp",
+      ctaMaps: "Visit our office",
+      guarantee:
+        "We do not show fake listings. Every property in our portfolio is verified through the RE/MAX Türkiye infrastructure.",
+    },
+    error: {
+      titleLead: "Something",
+      titleAccent: "went wrong.",
+      desc: "An unexpected problem occurred while loading the page. Please try again or return to the home page.",
+      retry: "Try Again",
+      home: "Back to Home",
+    },
+    notFound: {
+      title: "Page not found.",
+      desc: "The page you are looking for may have been moved, deleted or never existed.",
+      home: "Back to Home",
+      viewListings: "View Listings",
     },
   },
   forms: {

@@ -2,8 +2,11 @@ import Link from "next/link";
 import { Home, Search } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { getDictionary } from "@/lib/i18n/server";
 
-export default function NotFound() {
+export default async function NotFound() {
+  const d = (await getDictionary()).pages.notFound;
+
   return (
     <section className="relative isolate min-h-[calc(100vh-200px)] flex flex-col items-center justify-center bg-navy-900 text-white px-4 text-center overflow-hidden">
       <div
@@ -28,11 +31,11 @@ export default function NotFound() {
       </div>
 
       <h1 className="font-display text-display-lg text-white text-balance">
-        Sayfa bulunamadı.
+        {d.title}
       </h1>
 
       <p className="mt-4 text-white/65 max-w-md leading-relaxed">
-        Aradığınız sayfa taşınmış, silinmiş ya da hiç mevcut olmamış olabilir.
+        {d.desc}
       </p>
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -44,7 +47,7 @@ export default function NotFound() {
           )}
         >
           <Home className="h-4 w-4 me-2" aria-hidden />
-          Anasayfaya Dön
+          {d.home}
         </Link>
         <Link
           href="/ilanlar"
@@ -54,7 +57,7 @@ export default function NotFound() {
           )}
         >
           <Search className="h-4 w-4 me-2" aria-hidden />
-          İlanları Gör
+          {d.viewListings}
         </Link>
       </div>
     </section>

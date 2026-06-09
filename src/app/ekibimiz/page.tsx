@@ -8,6 +8,7 @@ import TeamSection from "@/components/sections/TeamSection";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { office, team } from "@/lib/office";
+import { getDictionary } from "@/lib/i18n/server";
 
 export const metadata: Metadata = {
   title: "Ekibimiz",
@@ -34,7 +35,8 @@ const heroBg = {
   alt: "RE/MAX BOSS açık ofis çalışma alanı",
 };
 
-export default function EkibimizPage() {
+export default async function EkibimizPage() {
+  const d = (await getDictionary()).pages.team;
   return (
     <>
       {/* ── HERO ── */}
@@ -62,17 +64,16 @@ export default function EkibimizPage() {
           <div className="max-w-3xl">
             <div className="anim-hero anim-delay-1">
               <Eyebrow tone="white" className="text-white/80">
-                Ekibimiz
+                {d.heroEyebrow}
               </Eyebrow>
             </div>
             <h1 className="mt-5 font-display text-display-xl text-balance anim-hero anim-delay-2">
-              Uzman <span className="accent-mark">kadromuzla</span> tanışın.
+              {d.heroTitleLead}{" "}
+              <span className="accent-mark">{d.heroTitleAccent}</span>
+              {d.heroTitleEnd}
             </h1>
             <p className="mt-7 text-lg text-white/75 max-w-xl leading-relaxed anim-hero anim-delay-3">
-              Brokerlardan danışmanlara, ofis gelişiminden destek ekibine kadar
-              {" "}
-              {team.length} kişilik kadromuz, müşterilerimizin doğru kararı
-              doğru zamanda alması için birlikte çalışır.
+              {d.heroSubtitleTemplate.replace("{n}", String(team.length))}
             </p>
           </div>
         </div>
@@ -91,14 +92,14 @@ export default function EkibimizPage() {
           <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             <div className="max-w-xl">
               <Eyebrow tone="white" className="text-white/70">
-                Birlikte çalışalım
+                {d.ctaEyebrow}
               </Eyebrow>
               <h2 className="mt-5 font-display text-display-lg text-white text-balance">
-                Ekibimizle <span className="accent-mark">çalışın</span>.
+                {d.ctaTitleLead}{" "}
+                <span className="accent-mark">{d.ctaTitleAccent}</span>.
               </h2>
               <p className="mt-4 text-white/70 leading-relaxed">
-                Alım, satım, kiralama veya yatırım — doğru danışmanla tanışmak
-                için bize ulaşın.
+                {d.ctaDesc}
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-3 flex-shrink-0">
@@ -109,7 +110,7 @@ export default function EkibimizPage() {
                   "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-7 text-sm font-semibold tracking-wide btn-glow btn-shine",
                 )}
               >
-                İletişime geç
+                {d.ctaContact}
                 <ArrowRight className="h-4 w-4 ms-2" />
               </Link>
               <a
