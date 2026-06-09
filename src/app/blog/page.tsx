@@ -2,24 +2,45 @@ import type { Metadata } from "next";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import BlogList from "@/components/sections/BlogList";
-import { getAllPosts } from "@/lib/blog";
+import { getAllPostsLocalized, formatBlogDate } from "@/lib/blog";
+import { getLocale, getDictionary } from "@/lib/i18n/server";
+import { withAccent } from "@/lib/i18n/render";
 
-export const metadata: Metadata = {
-  title: "Rehber & Blog",
-  description:
-    "Beştepe ve Yenimahalle bölge rehberleri, ev alma ve satma süreçleri, gayrimenkul yatırımı — RE/MAX BOSS uzman ekibinden faydalı içerikler.",
-  alternates: { canonical: "/blog" },
-  openGraph: {
-    title: "Rehber & Blog | RE/MAX BOSS",
-    description:
-      "Bölge rehberleri, alıcı ve satıcı rehberleri, gayrimenkul yatırımı içerikleri.",
-    type: "website",
-    images: [{ url: "/office/resepsiyon.jpg" }],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const d = (await getDictionary()).pages.blog;
+  return {
+    title: d.meta.title,
+    description: d.meta.description,
+    alternates: { canonical: "/blog" },
+    openGraph: {
+      title: d.og.title,
+      description: d.og.desc,
+      type: "website",
+      images: [{ url: "/office/resepsiyon.jpg" }],
+    },
+  };
+}
 
-export default function BlogIndexPage() {
-  const allPosts = getAllPosts();
+export default async function BlogIndexPage() {
+  const locale = await getLocale();
+  const d = (await getDictionary()).pages.blog;
+  const posts = getAllPostsLocalized(locale).map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    excerpt: p.excerpt,
+    category: p.category,
+    cover: p.cover,
+    dateFormatted: formatBlogDate(p.date, locale),
+    readingMinutes: p.readingMinutes,
+  }));
+
+  const categoryLabels = {
+    all: d.categories.all,
+    "bolge-rehberi": d.categories.bolge,
+    "alici-rehberi": d.categories.alici,
+    "satici-rehberi": d.categories.satici,
+    yatirim: d.categories.yatirim,
+  } as const;
 
   return (
     <>
@@ -41,16 +62,13 @@ export default function BlogIndexPage() {
         <div className="container-page py-20 md:py-28">
           <div className="max-w-2xl">
             <Eyebrow tone="white" className="text-white/80">
-              Rehber & Blog
+              {d.heroEyebrow}
             </Eyebrow>
             <h1 className="mt-5 font-display text-display-xl text-balance">
-              Gayrimenkulde <span className="accent-mark">doğru kararın</span>{" "}
-              rehberi.
+              {withAccent(d.heroTitle)}
             </h1>
             <p className="mt-7 text-lg text-white/70 max-w-xl leading-relaxed">
-              Bölge rehberlerinden alım-satım süreçlerine, yatırımdan değerlemeye
-              — gayrimenkul yolculuğunuzda işinize yarayacak, sade ve dürüst
-              içerikler.
+              {d.heroSubtitle}
             </p>
           </div>
         </div>
@@ -58,7 +76,12 @@ export default function BlogIndexPage() {
 
       {/* LİSTE */}
       <Section tone="light" density="normal">
-        <BlogList posts={allPosts} />
+        <BlogList
+          posts={posts}
+          categoryLabels={categoryLabels}
+          readingTemplate={d.readingTemplate}
+          readMore={d.readMore}
+        />
       </Section>
     </>
   );

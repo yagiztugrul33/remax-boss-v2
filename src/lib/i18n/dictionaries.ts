@@ -412,6 +412,29 @@ export interface Dict {
         warningTail: string;
       };
     };
+    blog: {
+      meta: { title: string; description: string };
+      og: { title: string; desc: string };
+      heroEyebrow: string;
+      heroTitle: string;
+      heroSubtitle: string;
+      categories: {
+        all: string;
+        bolge: string;
+        alici: string;
+        satici: string;
+        yatirim: string;
+      };
+      readingTemplate: string; // "{n} dk okuma" / "{n} min read"
+      readMore: string;
+      backLink: string;
+      relatedHeading: string;
+      notFoundTitle: string;
+      disclaimer: string;
+      ctaTitle: string;
+      ctaDesc: string;
+      ctaContact: string;
+    };
   };
 
   // ── Formlar ──
@@ -948,6 +971,40 @@ const tr: Dict = {
           " Gerçek kazanç performansa, piyasaya ve çalışmana bağlıdır; hiçbir gelir garantisi",
         warningTail: " değildir.",
       },
+    },
+    blog: {
+      meta: {
+        title: "Rehber & Blog",
+        description:
+          "Beştepe ve Yenimahalle bölge rehberleri, ev alma ve satma süreçleri, gayrimenkul yatırımı — RE/MAX BOSS uzman ekibinden faydalı içerikler.",
+      },
+      og: {
+        title: "Rehber & Blog | RE/MAX BOSS",
+        desc: "Bölge rehberleri, alıcı ve satıcı rehberleri, gayrimenkul yatırımı içerikleri.",
+      },
+      heroEyebrow: "Rehber & Blog",
+      heroTitle:
+        "Gayrimenkulde <accent>doğru kararın</accent> rehberi.",
+      heroSubtitle:
+        "Bölge rehberlerinden alım-satım süreçlerine, yatırımdan değerlemeye — gayrimenkul yolculuğunuzda işinize yarayacak, sade ve dürüst içerikler.",
+      categories: {
+        all: "Tümü",
+        bolge: "Bölge Rehberi",
+        alici: "Alıcı Rehberi",
+        satici: "Satıcı Rehberi",
+        yatirim: "Yatırım",
+      },
+      readingTemplate: "{n} dk okuma",
+      readMore: "Devamını oku",
+      backLink: "Tüm rehberler",
+      relatedHeading: "İlgili rehberler",
+      notFoundTitle: "Yazı bulunamadı",
+      disclaimer:
+        "Bu içerik genel bilgilendirme amaçlıdır ve kesin yatırım veya hukuki tavsiye niteliği taşımaz. Mülkünüze özel doğru bilgi için RE/MAX BOSS ekibiyle görüşmenizi öneririz.",
+      ctaTitle: "Mülkünüz için doğru adımı birlikte atalım.",
+      ctaDesc:
+        "Alım, satım, kiralama veya yatırım — uzman ekibimiz size yol göstersin.",
+      ctaContact: "İletişime geç",
     },
   },
   forms: {
@@ -1498,6 +1555,40 @@ const en: Dict = {
           " Real earnings depend on performance, the market and your effort; no income is",
         warningTail: " guaranteed.",
       },
+    },
+    blog: {
+      meta: {
+        title: "Guides & Blog",
+        description:
+          "Neighbourhood guides for Beştepe and Yenimahalle, buying and selling processes, real estate investment — useful content from the RE/MAX BOSS expert team.",
+      },
+      og: {
+        title: "Guides & Blog | RE/MAX BOSS",
+        desc: "Neighbourhood guides, buyer and seller guides, real estate investment content.",
+      },
+      heroEyebrow: "Guides & Blog",
+      heroTitle:
+        "A guide to the <accent>right decision</accent> in real estate.",
+      heroSubtitle:
+        "From neighbourhood guides to buying and selling, from investment to valuation — clear, honest content for your real estate journey.",
+      categories: {
+        all: "All",
+        bolge: "Neighbourhood Guide",
+        alici: "Buyer's Guide",
+        satici: "Seller's Guide",
+        yatirim: "Investment",
+      },
+      readingTemplate: "{n} min read",
+      readMore: "Read more",
+      backLink: "All guides",
+      relatedHeading: "Related guides",
+      notFoundTitle: "Article not found",
+      disclaimer:
+        "This content is for general informational purposes and is not specific investment or legal advice. For information specific to your property, we recommend speaking with the RE/MAX BOSS team.",
+      ctaTitle: "Let's take the right step for your property together.",
+      ctaDesc:
+        "Buying, selling, leasing or investing — let our expert team guide you.",
+      ctaContact: "Get in touch",
     },
   },
   forms: {

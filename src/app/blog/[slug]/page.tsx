@@ -11,11 +11,12 @@ import { office } from "@/lib/office";
 import {
   posts,
   getPostBySlug,
-  getRelatedPosts,
+  getRelatedPostsLocalized,
+  localizePost,
   formatBlogDate,
-  CATEGORY_LABEL,
 } from "@/lib/blog";
 import { SITE_URL as SITE } from "@/lib/site-url";
+import { getLocale, getDictionary } from "@/lib/i18n/server";
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
@@ -28,18 +29,21 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = getPostBySlug(slug);
-  if (!post) return { title: "Yazı bulunamadı" };
+  const locale = await getLocale();
+  const d = (await getDictionary()).pages.blog;
+  if (!post) return { title: d.notFoundTitle };
+  const ls = localizePost(post, locale);
   return {
-    title: post.title,
-    description: post.excerpt,
-    alternates: { canonical: `/blog/${post.slug}` },
+    title: ls.title,
+    description: ls.excerpt,
+    alternates: { canonical: `/blog/${ls.slug}` },
     openGraph: {
-      title: `${post.title} | RE/MAX BOSS`,
-      description: post.excerpt,
+      title: `${ls.title} | RE/MAX BOSS`,
+      description: ls.excerpt,
       type: "article",
-      publishedTime: post.date,
-      url: `${SITE}/blog/${post.slug}`,
-      images: [{ url: post.cover.src, alt: post.cover.alt }],
+      publishedTime: ls.date,
+      url: `${SITE}/blog/${ls.slug}`,
+      images: [{ url: ls.cover.src, alt: ls.cover.alt }],
     },
   };
 }
@@ -50,10 +54,19 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
-  if (!post) notFound();
+  const raw = getPostBySlug(slug);
+  if (!raw) notFound();
+  const locale = await getLocale();
+  const d = (await getDictionary()).pages.blog;
+  const post = localizePost(raw, locale);
+  const related = getRelatedPostsLocalized(slug, locale);
 
-  const related = getRelatedPosts(slug);
+  const categoryLabel = {
+    "bolge-rehberi": d.categories.bolge,
+    "alici-rehberi": d.categories.alici,
+    "satici-rehberi": d.categories.satici,
+    yatirim: d.categories.yatirim,
+  }[post.category];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -97,27 +110,29 @@ export default async function BlogPostPage({
             className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors mb-6"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden />
-            Tüm rehberler
+            {d.backLink}
           </Link>
           <div className="max-w-3xl">
             <Eyebrow tone="white" className="text-white/80">
-              {CATEGORY_LABEL[post.category]}
+              {categoryLabel}
             </Eyebrow>
             <h1 className="mt-5 font-display text-display-lg text-balance">
               {post.title}
             </h1>
             <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/60">
-              <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
+              <time dateTime={post.date}>
+                {formatBlogDate(post.date, locale)}
+              </time>
               <span className="inline-flex items-center gap-1.5">
                 <Clock className="h-4 w-4" aria-hidden />
-                {post.readingMinutes} dk okuma
+                {d.readingTemplate.replace("{n}", String(post.readingMinutes))}
               </span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* İÇERİK — okunabilir tipografi */}
+      {/* İÇERİK */}
       <Section tone="light" density="normal">
         <article className="mx-auto max-w-2xl">
           <p className="text-xl text-navy/80 leading-relaxed font-medium">
@@ -142,21 +157,16 @@ export default async function BlogPostPage({
             </div>
           ))}
 
-          {/* Uyarı */}
+          {/* Disclaimer */}
           <div className="mt-10 rounded-2xl border border-line bg-mist/50 p-5 text-sm text-navy/60 leading-relaxed">
-            Bu içerik genel bilgilendirme amaçlıdır ve kesin yatırım veya hukuki
-            tavsiye niteliği taşımaz. Mülkünüze özel doğru bilgi için RE/MAX BOSS
-            ekibiyle görüşmenizi öneririz.
+            {d.disclaimer}
           </div>
 
           {/* CTA */}
           <div className="mt-8 rounded-3xl bg-navy-900 text-white p-7 md:p-9 text-center">
-            <h2 className="font-display font-bold text-xl">
-              Mülkünüz için doğru adımı birlikte atalım.
-            </h2>
+            <h2 className="font-display font-bold text-xl">{d.ctaTitle}</h2>
             <p className="mt-2 text-white/70 text-sm max-w-md mx-auto">
-              Alım, satım, kiralama veya yatırım — uzman ekibimiz size yol
-              göstersin.
+              {d.ctaDesc}
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <Link
@@ -166,7 +176,7 @@ export default async function BlogPostPage({
                   "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-7 text-sm font-semibold tracking-wide btn-glow btn-shine",
                 )}
               >
-                İletişime geç
+                {d.ctaContact}
                 <ArrowRight className="h-4 w-4 ms-2" />
               </Link>
               <a
@@ -185,34 +195,42 @@ export default async function BlogPostPage({
       {related.length > 0 && (
         <Section tone="mist" density="normal">
           <h2 className="font-display font-extrabold text-2xl text-navy mb-6">
-            İlgili rehberler
+            {d.relatedHeading}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {related.map((r) => (
-              <Link
-                key={r.slug}
-                href={`/blog/${r.slug}`}
-                className="card-depth group flex flex-col overflow-hidden rounded-2xl border border-line bg-white"
-              >
-                <div className="relative aspect-[16/10] overflow-hidden bg-mist">
-                  <Image
-                    src={r.cover.src}
-                    alt={r.cover.alt}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                  />
-                </div>
-                <div className="p-5">
-                  <span className="text-eyebrow font-display text-remax-red">
-                    {CATEGORY_LABEL[r.category]}
-                  </span>
-                  <h3 className="mt-2 font-display font-bold text-navy leading-snug line-clamp-2">
-                    {r.title}
-                  </h3>
-                </div>
-              </Link>
-            ))}
+            {related.map((r) => {
+              const rLabel = {
+                "bolge-rehberi": d.categories.bolge,
+                "alici-rehberi": d.categories.alici,
+                "satici-rehberi": d.categories.satici,
+                yatirim: d.categories.yatirim,
+              }[r.category];
+              return (
+                <Link
+                  key={r.slug}
+                  href={`/blog/${r.slug}`}
+                  className="card-depth group flex flex-col overflow-hidden rounded-2xl border border-line bg-white"
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden bg-mist">
+                    <Image
+                      src={r.cover.src}
+                      alt={r.cover.alt}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 33vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <span className="text-eyebrow font-display text-remax-red">
+                      {rLabel}
+                    </span>
+                    <h3 className="mt-2 font-display font-bold text-navy leading-snug line-clamp-2">
+                      {r.title}
+                    </h3>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </Section>
       )}

@@ -4,32 +4,55 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Clock, ArrowRight } from "lucide-react";
-import {
-  CATEGORY_LABEL,
-  formatBlogDate,
-  type BlogPost,
-  type BlogCategory,
-} from "@/lib/blog";
 import { cn } from "@/lib/utils";
+import type { BlogCategory } from "@/lib/blog";
 
-const FILTERS: { key: BlogCategory | "all"; label: string }[] = [
-  { key: "all", label: "Tümü" },
-  { key: "bolge-rehberi", label: CATEGORY_LABEL["bolge-rehberi"] },
-  { key: "alici-rehberi", label: CATEGORY_LABEL["alici-rehberi"] },
-  { key: "satici-rehberi", label: CATEGORY_LABEL["satici-rehberi"] },
-  { key: "yatirim", label: CATEGORY_LABEL["yatirim"] },
-];
+export interface BlogListItem {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: BlogCategory;
+  cover: { src: string; alt: string };
+  dateFormatted: string;
+  readingMinutes: number;
+}
 
-export default function BlogList({ posts }: { posts: BlogPost[] }) {
+export interface BlogCategoryLabels {
+  all: string;
+  "bolge-rehberi": string;
+  "alici-rehberi": string;
+  "satici-rehberi": string;
+  yatirim: string;
+}
+
+export default function BlogList({
+  posts,
+  categoryLabels,
+  readingTemplate,
+  readMore,
+}: {
+  posts: readonly BlogListItem[];
+  categoryLabels: BlogCategoryLabels;
+  readingTemplate: string;
+  readMore: string;
+}) {
   const [active, setActive] = useState<BlogCategory | "all">("all");
   const shown =
     active === "all" ? posts : posts.filter((p) => p.category === active);
+
+  const filters: { key: BlogCategory | "all"; label: string }[] = [
+    { key: "all", label: categoryLabels.all },
+    { key: "bolge-rehberi", label: categoryLabels["bolge-rehberi"] },
+    { key: "alici-rehberi", label: categoryLabels["alici-rehberi"] },
+    { key: "satici-rehberi", label: categoryLabels["satici-rehberi"] },
+    { key: "yatirim", label: categoryLabels["yatirim"] },
+  ];
 
   return (
     <div>
       {/* Kategori filtresi */}
       <div className="flex flex-wrap gap-2 mb-8">
-        {FILTERS.map((f) => (
+        {filters.map((f) => (
           <button
             key={f.key}
             type="button"
@@ -65,7 +88,7 @@ export default function BlogList({ posts }: { posts: BlogPost[] }) {
                 priority={i < 3}
               />
               <span className="absolute top-3 start-3 inline-flex items-center rounded-full bg-white/95 text-navy text-eyebrow font-display px-2.5 py-1">
-                {CATEGORY_LABEL[p.category]}
+                {categoryLabels[p.category]}
               </span>
             </div>
             <div className="flex flex-col gap-2 p-5">
@@ -76,14 +99,14 @@ export default function BlogList({ posts }: { posts: BlogPost[] }) {
                 {p.excerpt}
               </p>
               <div className="mt-2 flex items-center justify-between text-xs text-navy/45 pt-2 border-t border-line">
-                <span>{formatBlogDate(p.date)}</span>
+                <span>{p.dateFormatted}</span>
                 <span className="inline-flex items-center gap-1">
                   <Clock className="h-3.5 w-3.5" aria-hidden />
-                  {p.readingMinutes} dk okuma
+                  {readingTemplate.replace("{n}", String(p.readingMinutes))}
                 </span>
               </div>
               <span className="mt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-remax-red">
-                Devamını oku
+                {readMore}
                 <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
               </span>
             </div>
