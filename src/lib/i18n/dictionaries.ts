@@ -498,6 +498,28 @@ export interface Dict {
       notFoundTitle: string;
       notFoundDesc: string;
     };
+    regions: {
+      // Liste sayfası /bolgeler
+      indexEyebrow: string;
+      indexTitle: string;
+      indexSubtitle: string;
+      indexCardCta: string;
+      // Detay sayfası /bolgeler/[slug]
+      backLabel: string;
+      factsHeading: string;
+      servicesHeading: string;
+      servicesSubtitle: string;
+      ctaSectionEyebrow: string;
+      ctaSectionTitle: string;
+      ctaSectionSubtitle: string;
+      ctaBuyer: string;
+      ctaValuation: string;
+      ctaPortfolio: string;
+      ctaContact: string;
+      portfolioNote: string;
+      footerHeading: string;
+      footerCta: string;
+    };
   };
 
   // ── Formlar ──
@@ -1141,6 +1163,30 @@ const tr: Dict = {
       notFoundTitle: "Bu profil bulunamadı.",
       notFoundDesc:
         "Aradığınız danışman ekibimizden ayrılmış veya bağlantı geçersiz olabilir. Ekibimiz sayfasından güncel listeyi görebilirsiniz.",
+    },
+    regions: {
+      indexEyebrow: "Hizmet Bölgeleri",
+      indexTitle: "Ankara'da hizmet verdiğimiz bölgeler",
+      indexSubtitle:
+        "RE/MAX BOSS, Beştepe merkezli ofisinden Ankara'nın gelişen bölgelerinde gayrimenkul alım-satım, kiralama ve değerleme hizmeti verir.",
+      indexCardCta: "Bölgeye git",
+      backLabel: "← Tüm bölgeler",
+      factsHeading: "Bölge hakkında",
+      servicesHeading: "Bu bölgede sunduğumuz hizmetler",
+      servicesSubtitle:
+        "Süreç hangi aşamada olursa olsun, RE/MAX Türkiye standartlarıyla yönetiyoruz.",
+      ctaSectionEyebrow: "Lead",
+      ctaSectionTitle: "Bu bölgede nasıl yardımcı olabiliriz?",
+      ctaSectionSubtitle:
+        "Mülk arıyorsanız kriterlerinizi bize iletin, satıcıysanız ücretsiz değerleme talebi gönderin.",
+      ctaBuyer: "Bu bölgede mülk arıyorum",
+      ctaValuation: "Mülkümü değerletmek istiyorum",
+      ctaPortfolio: "Tüm güncel ilanlarımız",
+      ctaContact: "İletişime geç",
+      portfolioNote:
+        "Bu sayfada uydurma ilan kartı yer almaz. Bölgedeki güncel ilanlarımız için RE/MAX Türkiye ofis sayfasına yönlendiriyoruz.",
+      footerHeading: "Hizmet Bölgelerimiz",
+      footerCta: "Tüm bölgeler",
     },
   },
   forms: {
@@ -1799,6 +1845,30 @@ const en: Dict = {
       notFoundTitle: "Profile not found.",
       notFoundDesc:
         "The agent you're looking for may have left the team or the link may be invalid. See our Team page for the up-to-date list.",
+    },
+    regions: {
+      indexEyebrow: "Service Areas",
+      indexTitle: "The areas we serve in Ankara",
+      indexSubtitle:
+        "From its office in Beştepe, RE/MAX BOSS provides buying, selling, leasing and valuation services across Ankara's growing areas.",
+      indexCardCta: "Go to area",
+      backLabel: "← All areas",
+      factsHeading: "About the area",
+      servicesHeading: "Services we offer in this area",
+      servicesSubtitle:
+        "Whatever stage your process is at, we run it to RE/MAX Türkiye standards.",
+      ctaSectionEyebrow: "Lead",
+      ctaSectionTitle: "How can we help in this area?",
+      ctaSectionSubtitle:
+        "If you're looking for a property, share your criteria; if you're selling, request a free valuation.",
+      ctaBuyer: "I'm looking for a property here",
+      ctaValuation: "I want to value my property",
+      ctaPortfolio: "All our current listings",
+      ctaContact: "Get in touch",
+      portfolioNote:
+        "No fabricated listing cards are shown on this page. For current listings in the area, we link you to the RE/MAX Türkiye office page.",
+      footerHeading: "Our Service Areas",
+      footerCta: "All areas",
     },
   },
   forms: {

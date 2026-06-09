@@ -151,6 +151,7 @@ export default async function RootLayout({
           dict={dict.footer}
           navDict={dict.nav}
           legalDict={dict.pages.legal}
+          regionsDict={dict.pages.regions}
         />
         <FloatingActions />
         {/* AI sohbet asistanı — feature flag arkasında (default KAPALI).

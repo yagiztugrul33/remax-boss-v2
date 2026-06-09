@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import BrandLockup from "@/components/brand/BrandLockup";
+import { REGIONS } from "@/lib/regions";
 import {
   InstagramIcon,
   FacebookIcon,
@@ -29,10 +30,12 @@ export default function Footer({
   dict,
   navDict,
   legalDict,
+  regionsDict,
 }: {
   dict: Dict["footer"];
   navDict: Dict["nav"];
   legalDict: Dict["pages"]["legal"];
+  regionsDict: Dict["pages"]["regions"];
 }) {
   // Disiplin: sadece yayında olan rotalara link veriyoruz.
   const quickLinks = [
@@ -43,6 +46,7 @@ export default function Footer({
     { href: "/sss", label: "SSS" },
     { href: "/araclar", label: navDict.tools },
     { href: "/danisman-ol", label: navDict.advisor },
+    { href: "/bolgeler", label: regionsDict.footerCta },
     { href: "/iletisim", label: navDict.contact },
   ];
 
@@ -119,6 +123,33 @@ export default function Footer({
           >
             {dict.serviceRequest}
           </Link>
+
+          {/* Hizmet bölgeleri — yerel SEO için ayrı küçük blok */}
+          <div className="mt-6 pt-5 border-t border-white/10">
+            <h4 className="font-heading font-bold text-white text-sm mb-3">
+              {regionsDict.footerHeading}
+            </h4>
+            <ul className="space-y-1.5 text-sm">
+              {REGIONS.map((r) => (
+                <li key={r.slug}>
+                  <Link
+                    href={`/bolgeler/${r.slug}`}
+                    className="text-white/70 hover:text-white transition-colors"
+                  >
+                    {r.name}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  href="/bolgeler"
+                  className="text-white/60 hover:text-white transition-colors font-semibold"
+                >
+                  {regionsDict.footerCta} →
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div>

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { posts } from "@/lib/blog";
 import { services } from "@/lib/services";
+import { REGIONS } from "@/lib/regions";
 import { SITE_URL as siteUrl } from "@/lib/site-url";
 
 // Yayında olan statik rotalar. İlan detay sayfaları veri-bağımlı olduğundan
@@ -13,6 +14,7 @@ const routes: {
   { path: "/", priority: 1, changeFrequency: "weekly" },
   { path: "/ilanlar", priority: 0.9, changeFrequency: "weekly" },
   { path: "/hizmetler", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/bolgeler", priority: 0.85, changeFrequency: "monthly" },
   { path: "/blog", priority: 0.8, changeFrequency: "weekly" },
   { path: "/araclar", priority: 0.7, changeFrequency: "monthly" },
   { path: "/hakkimizda", priority: 0.7, changeFrequency: "monthly" },
@@ -20,6 +22,9 @@ const routes: {
   { path: "/danisman-ol", priority: 0.7, changeFrequency: "monthly" },
   { path: "/kampanya", priority: 0.6, changeFrequency: "monthly" },
   { path: "/iletisim", priority: 0.6, changeFrequency: "monthly" },
+  { path: "/sss", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/degerleme", priority: 0.85, changeFrequency: "monthly" },
+  { path: "/alici-kayit", priority: 0.85, changeFrequency: "monthly" },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -47,5 +52,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticEntries, ...serviceEntries, ...blogEntries];
+  // Bölge detay sayfaları (yerel SEO landing).
+  const regionEntries: MetadataRoute.Sitemap = REGIONS.map((r) => ({
+    url: `${siteUrl}/bolgeler/${r.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
+  return [
+    ...staticEntries,
+    ...serviceEntries,
+    ...regionEntries,
+    ...blogEntries,
+  ];
 }
