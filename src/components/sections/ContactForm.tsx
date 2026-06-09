@@ -281,7 +281,15 @@ export default function ContactForm({
           <span className="font-semibold text-navy">
             {dict.kvkkBrandEmphasis}
           </span>
-          {dict.kvkkConsentAfter}
+          {dict.kvkkConsentAfter}{" "}
+          <a
+            href="/kvkk-aydinlatma"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-remax-red hover:text-remax-red-hover"
+          >
+            (KVKK Aydınlatma Metni)
+          </a>
         </span>
       </label>
 

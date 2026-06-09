@@ -425,7 +425,7 @@ export interface Dict {
         satici: string;
         yatirim: string;
       };
-      readingTemplate: string; // "{n} dk okuma" / "{n} min read"
+      readingTemplate: string;
       readMore: string;
       backLink: string;
       relatedHeading: string;
@@ -434,6 +434,18 @@ export interface Dict {
       ctaTitle: string;
       ctaDesc: string;
       ctaContact: string;
+    };
+    legal: {
+      eyebrow: string;
+      placeholderNoticeTitle: string;
+      placeholderNoticeBody: string;
+      lastUpdated: string;
+      footerHeading: string;
+      // Footer link etiketleri için kısa adlar
+      kvkkLabel: string;
+      privacyLabel: string;
+      cookieLabel: string;
+      termsLabel: string;
     };
   };
 
@@ -1005,6 +1017,19 @@ const tr: Dict = {
       ctaDesc:
         "Alım, satım, kiralama veya yatırım — uzman ekibimiz size yol göstersin.",
       ctaContact: "İletişime geç",
+    },
+    legal: {
+      eyebrow: "Yasal",
+      placeholderNoticeTitle: "Bu metin hazırlanıyor.",
+      placeholderNoticeBody:
+        "Aşağıdaki bölümlerin nihai içeriği yasal danışman onayı sonrasında yayınlanacaktır. Detaylı bilgi için info@remaxboss.com.tr veya +90 312 598 00 00 numarasından ofisimize ulaşabilirsiniz.",
+      lastUpdated:
+        "Bu metin yasal danışman onayı sonrası güncellenecektir. Son güncelleme tarihi metin yayınlandığında eklenecektir.",
+      footerHeading: "Yasal",
+      kvkkLabel: "KVKK Aydınlatma",
+      privacyLabel: "Gizlilik Politikası",
+      cookieLabel: "Çerez Politikası",
+      termsLabel: "Kullanım Şartları",
     },
   },
   forms: {
@@ -1589,6 +1614,19 @@ const en: Dict = {
       ctaDesc:
         "Buying, selling, leasing or investing — let our expert team guide you.",
       ctaContact: "Get in touch",
+    },
+    legal: {
+      eyebrow: "Legal",
+      placeholderNoticeTitle: "This text is being prepared.",
+      placeholderNoticeBody:
+        "The final content of the sections below will be published after legal counsel approval. For detailed information, please reach our office at info@remaxboss.com.tr or +90 312 598 00 00.",
+      lastUpdated:
+        "This text will be updated upon legal counsel approval. The last-updated date will be added once the content is published.",
+      footerHeading: "Legal",
+      kvkkLabel: "GDPR/KVKK Notice",
+      privacyLabel: "Privacy Policy",
+      cookieLabel: "Cookie Policy",
+      termsLabel: "Terms of Use",
     },
   },
   forms: {

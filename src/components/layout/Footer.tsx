@@ -28,9 +28,11 @@ const socials = [
 export default function Footer({
   dict,
   navDict,
+  legalDict,
 }: {
   dict: Dict["footer"];
   navDict: Dict["nav"];
+  legalDict: Dict["pages"]["legal"];
 }) {
   // Disiplin: sadece yayında olan rotalara link veriyoruz.
   const quickLinks = [
@@ -181,7 +183,36 @@ export default function Footer({
             © {new Date().getFullYear()} RE/MAX BOSS. {dict.rights}{" "}
             {dict.independence}
           </p>
-          {/* Yasal sayfalar (Gizlilik/KVKK/Çerezler) hazırlandığında burada listelenecek. */}
+          {/* Yasal sayfalar */}
+          <nav
+            aria-label={legalDict.footerHeading}
+            className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5"
+          >
+            <Link
+              href="/kvkk-aydinlatma"
+              className="hover:text-white transition-colors"
+            >
+              {legalDict.kvkkLabel}
+            </Link>
+            <Link
+              href="/gizlilik-politikasi"
+              className="hover:text-white transition-colors"
+            >
+              {legalDict.privacyLabel}
+            </Link>
+            <Link
+              href="/cerez-politikasi"
+              className="hover:text-white transition-colors"
+            >
+              {legalDict.cookieLabel}
+            </Link>
+            <Link
+              href="/kullanim-sartlari"
+              className="hover:text-white transition-colors"
+            >
+              {legalDict.termsLabel}
+            </Link>
+          </nav>
         </div>
       </div>
     </footer>

@@ -146,7 +146,11 @@ export default async function RootLayout({
         <ScrollReveal />
         <Navbar locale={locale} dict={dict.nav} />
         <main className="flex-1">{children}</main>
-        <Footer dict={dict.footer} navDict={dict.nav} />
+        <Footer
+          dict={dict.footer}
+          navDict={dict.nav}
+          legalDict={dict.pages.legal}
+        />
         <FloatingActions />
         {/* AI sohbet asistanı — feature flag arkasında (default KAPALI).
             NEXT_PUBLIC_AI_ASSISTANT_ENABLED=true olmadıkça component null

@@ -304,7 +304,15 @@ export default function CampaignForm() {
         />
         <span>
           Kişisel verilerimin başvurumun değerlendirilmesi amacıyla{" "}
-          <span className="font-semibold text-navy">RE/MAX BOSS</span> tarafından KVKK kapsamında işlenmesini kabul ediyorum.
+          <span className="font-semibold text-navy">RE/MAX BOSS</span> tarafından KVKK kapsamında işlenmesini kabul ediyorum.{" "}
+          <a
+            href="/kvkk-aydinlatma"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-remax-red hover:text-remax-red-hover"
+          >
+            (KVKK Aydınlatma Metni)
+          </a>
         </span>
       </label>
 

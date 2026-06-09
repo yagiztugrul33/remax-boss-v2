@@ -1,0 +1,19 @@
+import type { Metadata } from "next";
+import LegalPageTemplate from "@/components/sections/LegalPageTemplate";
+import { getLegalPage } from "@/lib/legal";
+import { getLocale } from "@/lib/i18n/server";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const page = getLegalPage("kvkk-aydinlatma", locale);
+  if (!page) return {};
+  return {
+    title: page.title,
+    description: page.intro,
+    alternates: { canonical: "/kvkk-aydinlatma" },
+  };
+}
+
+export default function KvkkAydinlatmaPage() {
+  return <LegalPageTemplate slug="kvkk-aydinlatma" />;
+}
