@@ -252,6 +252,37 @@ export interface Dict {
       home: string;
       viewListings: string;
     };
+    career: {
+      meta: { title: string; description: string };
+      og: { title: string; desc: string };
+      whyJoinEyebrow: string;
+      whyJoinTitle: string;
+      processEyebrow: string;
+      processTitle: string;
+      processSubtitle: string;
+      requirementsEyebrow: string;
+      requirementsTitle: string;
+      requirementsFooterNote: string;
+      cautionsEyebrow: string;
+      cautionsTitle: string;
+      incomeEyebrow: string;
+      incomeTitle: string;
+      incomeSubtitle: string;
+      faqEyebrow: string;
+      faqTitle: string;
+      faqSubtitle: string;
+      fitsEyebrow: string;
+      fitsTitle: string;
+      fitsHeading: string;
+      notFitsHeading: string;
+      applyEyebrow: string;
+      applyTitle: string;
+      applyDesc: string;
+      ctaApply: string;
+      ctaHowTo: string;
+      ctaApplyForm: string;
+      ctaWhatsapp: string;
+    };
   };
 
   // ── Formlar ──
@@ -559,6 +590,50 @@ const tr: Dict = {
       desc: "Aradığınız sayfa taşınmış, silinmiş ya da hiç mevcut olmamış olabilir.",
       home: "Anasayfaya Dön",
       viewListings: "İlanları Gör",
+    },
+    career: {
+      meta: {
+        title: "Danışman Ol",
+        description:
+          "RE/MAX BOSS'ta gayrimenkul danışmanlığı kariyerine başla. Kendi işinin patronu ol — eğitim, mentorluk, prestijli Beştepe ofisi ve RE/MAX'in global gücü. Deneyim şart değil.",
+      },
+      og: {
+        title: "Danışman Ol — RE/MAX BOSS",
+        desc: "Kendi işinin patronu ol. RE/MAX BOSS ailesine katıl — eğitim, mentorluk ve emeğinle orantılı kazanç potansiyeli.",
+      },
+      whyJoinEyebrow: "Neden RE/MAX BOSS",
+      whyJoinTitle: "Kariyerini <accent>güçlü bir zeminde</accent> kur.",
+      processEyebrow: "Nasıl Danışman Olunur",
+      processTitle: "Beş adımda <accent>net</accent> bir yol.",
+      processSubtitle:
+        "Süreci muğlak bırakmıyoruz — başvurudan sahaya çıkışa kadar her adımı açıkça anlatıyoruz.",
+      requirementsEyebrow: "Danışman Olma Şartları",
+      requirementsTitle: "Temel <accent>gereklilikler</accent>.",
+      requirementsFooterNote:
+        "RE/MAX BOSS'a özel detaylar ve güncel koşullar tanışma görüşmesinde netleştirilir.",
+      cautionsEyebrow: "Nelere Dikkat Etmeli",
+      cautionsTitle:
+        "Başarılı bir danışman için <accent>ipuçları</accent>.",
+      incomeEyebrow: "Kazanç Fikri",
+      incomeTitle: "\"Üst sınır yok\" <accent>ne demek?</accent>",
+      incomeSubtitle:
+        "Performansa dayalı modelde kazancın senaryona göre değişir. Aşağıda kendi rakamlarınla kaba bir tahmin görebilirsin — bu bir vaat değil, bir fikirdir.",
+      faqEyebrow: "Sıkça Sorulanlar",
+      faqTitle: "Aklındaki <accent>sorular</accent>.",
+      faqSubtitle:
+        "Dürüst yanıtlar — çünkü doğru kararı birlikte vermek istiyoruz.",
+      fitsEyebrow: "Dürüst Bakış",
+      fitsTitle: "Bu kariyer <accent>kimler için?</accent>",
+      fitsHeading: "Uygun",
+      notFitsHeading: "Bu model uygun değil",
+      applyEyebrow: "Başvuru",
+      applyTitle: "İlk adımı at, <accent>hayatını değiştir</accent>.",
+      applyDesc:
+        "Aşağıdaki kanallardan birinden bize ulaş; tanışma görüşmesinde her detayı birlikte konuşalım. Başvuru bir taahhüt değildir.",
+      ctaApply: "Hemen Başvur",
+      ctaHowTo: "Nasıl danışman olunur?",
+      ctaApplyForm: "Başvuru formuna git",
+      ctaWhatsapp: "WhatsApp",
     },
   },
   forms: {
@@ -881,6 +956,49 @@ const en: Dict = {
       desc: "The page you are looking for may have been moved, deleted or never existed.",
       home: "Back to Home",
       viewListings: "View Listings",
+    },
+    career: {
+      meta: {
+        title: "Become an Agent",
+        description:
+          "Start your real estate career at RE/MAX BOSS. Be your own boss — training, mentorship, our prestigious Beştepe office and the global strength of RE/MAX. No experience required.",
+      },
+      og: {
+        title: "Become an Agent — RE/MAX BOSS",
+        desc: "Be your own boss. Join the RE/MAX BOSS family — training, mentorship and earnings that reflect your effort.",
+      },
+      whyJoinEyebrow: "Why RE/MAX BOSS",
+      whyJoinTitle: "Build your career on <accent>solid ground</accent>.",
+      processEyebrow: "How to Become an Agent",
+      processTitle: "A <accent>clear</accent> path in five steps.",
+      processSubtitle:
+        "We don't leave the process vague — from application to going live, every step is explained openly.",
+      requirementsEyebrow: "Eligibility Requirements",
+      requirementsTitle: "Core <accent>requirements</accent>.",
+      requirementsFooterNote:
+        "Specifics for RE/MAX BOSS and current terms are clarified in the introductory meeting.",
+      cautionsEyebrow: "Things to Watch",
+      cautionsTitle: "<accent>Tips</accent> for a successful agent.",
+      incomeEyebrow: "Earning Insight",
+      incomeTitle: "What does \"no upper limit\" <accent>mean?</accent>",
+      incomeSubtitle:
+        "In a performance-based model, your earnings vary with your scenario. Below you can see a rough estimate using your own numbers — this is not a promise, it's an idea.",
+      faqEyebrow: "Frequently Asked",
+      faqTitle: "Your <accent>questions</accent>.",
+      faqSubtitle:
+        "Honest answers — because we want to make the right decision together.",
+      fitsEyebrow: "An Honest Look",
+      fitsTitle: "Who is this <accent>career for?</accent>",
+      fitsHeading: "A good fit",
+      notFitsHeading: "Not the right fit",
+      applyEyebrow: "Apply",
+      applyTitle: "Take the first step, <accent>change your life</accent>.",
+      applyDesc:
+        "Reach out through any of the channels below; we'll go through every detail in an introductory meeting. Applying is not a commitment.",
+      ctaApply: "Apply Now",
+      ctaHowTo: "How to become an agent?",
+      ctaApplyForm: "Go to application form",
+      ctaWhatsapp: "WhatsApp",
     },
   },
   forms: {

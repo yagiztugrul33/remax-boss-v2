@@ -7,7 +7,7 @@ import Reveal from "@/components/ui/reveal";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { careerHero } from "@/lib/career";
-import { getDictionary } from "@/lib/i18n/server";
+import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
 
 const pointIcons = [Globe, GraduationCap, TrendingUp] as const;
@@ -16,7 +16,10 @@ const pointIcons = [Globe, GraduationCap, TrendingUp] as const;
  * Anasayfa — "Danışman Ol" davet bölümü.
  */
 export default async function JoinTeamCta() {
+  const locale = await getLocale();
   const d = (await getDictionary()).pages.home.joinTeamCta;
+  const heroAlt =
+    locale === "en" ? careerHero.image.altEn : careerHero.image.altTr;
 
   return (
     <Section tone="dark" density="normal">
@@ -73,7 +76,7 @@ export default async function JoinTeamCta() {
             <div className="relative min-h-[220px] lg:min-h-full order-first lg:order-last">
               <Image
                 src={careerHero.image.src}
-                alt={careerHero.image.alt}
+                alt={heroAlt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 45vw"
                 className="object-cover"

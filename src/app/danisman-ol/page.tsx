@@ -28,37 +28,30 @@ import IncomeEstimator from "@/components/sections/IncomeEstimator";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { office } from "@/lib/office";
-import {
-  careerHero,
-  whyJoin,
-  applyProcess,
-  requirements,
-  cautions,
-  whoFits,
-  whoNotFits,
-  careerFaq,
-  type CareerIcon,
-} from "@/lib/career";
+import { localizeCareer, type CareerIcon } from "@/lib/career";
+import { getLocale, getDictionary } from "@/lib/i18n/server";
+import { withAccent } from "@/lib/i18n/render";
 
-export const metadata: Metadata = {
-  title: "Danışman Ol",
-  description:
-    "RE/MAX BOSS'ta gayrimenkul danışmanlığı kariyerine başla. Kendi işinin patronu ol — eğitim, mentorluk, prestijli Beştepe ofisi ve RE/MAX'in global gücü. Deneyim şart değil.",
-  alternates: { canonical: "/danisman-ol" },
-  openGraph: {
-    title: "Danışman Ol — RE/MAX BOSS",
-    description:
-      "Kendi işinin patronu ol. RE/MAX BOSS ailesine katıl — eğitim, mentorluk ve emeğinle orantılı kazanç potansiyeli.",
-    images: [
-      {
-        url: "/office/lounge.jpg",
-        width: 2000,
-        height: 1125,
-        alt: "RE/MAX BOSS lounge — kariyer fırsatları",
-      },
-    ],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const d = (await getDictionary()).pages.career;
+  return {
+    title: d.meta.title,
+    description: d.meta.description,
+    alternates: { canonical: "/danisman-ol" },
+    openGraph: {
+      title: d.og.title,
+      description: d.og.desc,
+      images: [
+        {
+          url: "/office/lounge.jpg",
+          width: 2000,
+          height: 1125,
+          alt: "RE/MAX BOSS lounge — kariyer fırsatları",
+        },
+      ],
+    },
+  };
+}
 
 const iconMap: Record<CareerIcon, typeof Building2> = {
   building: Building2,
@@ -75,15 +68,21 @@ const iconMap: Record<CareerIcon, typeof Building2> = {
 
 const waNumber = office.whatsapp.replace(/\D/g, "");
 
-export default function DanismanOlPage() {
+export default async function DanismanOlPage() {
+  const locale = await getLocale();
+  const dict = await getDictionary();
+  const d = dict.pages.career;
+  const dHome = dict.pages.home.joinTeamCta;
+  const c = localizeCareer(locale);
+
   return (
     <>
-      {/* ── 1. ÇARPICI HERO ── */}
+      {/* ── 1. HERO ── */}
       <section className="relative isolate bg-navy-900 text-white overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <Image
-            src={careerHero.image.src}
-            alt={careerHero.image.alt}
+            src={c.hero.image.src}
+            alt={c.hero.image.alt}
             fill
             sizes="100vw"
             className="object-cover opacity-35"
@@ -103,16 +102,14 @@ export default function DanismanOlPage() {
           <div className="max-w-3xl">
             <div className="anim-hero anim-delay-1">
               <Eyebrow tone="white" className="text-white/80">
-                Kariyer · Bize Katıl
+                {dHome.eyebrow}
               </Eyebrow>
             </div>
             <h1 className="mt-5 font-display text-display-xl text-balance anim-hero anim-delay-2">
-              Kendi işinin <span className="accent-mark">patronu</span> ol.
+              {withAccent(dHome.title)}
             </h1>
             <p className="mt-7 text-lg text-white/75 max-w-xl leading-relaxed anim-hero anim-delay-3">
-              RE/MAX BOSS ailesine katıl; girişimcilik, özgürlük ve emeğinle
-              orantılı kazanç potansiyelini, RE/MAX'in global gücü ve ekibimizin
-              desteğiyle birleştir.
+              {c.hero.desc}
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-3 anim-hero anim-delay-4">
               <Link
@@ -122,7 +119,7 @@ export default function DanismanOlPage() {
                   "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-7 text-sm font-semibold tracking-wide btn-glow btn-shine",
                 )}
               >
-                Hemen Başvur
+                {d.ctaApply}
                 <ArrowRight className="h-4 w-4 ms-2" />
               </Link>
               <Link
@@ -132,23 +129,23 @@ export default function DanismanOlPage() {
                   "border-white/25 bg-white/5 text-white hover:bg-white/15 hover:text-white h-12 px-6 text-sm font-semibold tracking-wide",
                 )}
               >
-                Nasıl danışman olunur?
+                {d.ctaHowTo}
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 2. NEDEN RE/MAX BOSS? — Avantajlar ── */}
+      {/* ── 2. NEDEN RE/MAX BOSS ── */}
       <Section tone="light" density="normal">
         <div className="max-w-2xl mb-12">
-          <Eyebrow tone="red">Neden RE/MAX BOSS</Eyebrow>
+          <Eyebrow tone="red">{d.whyJoinEyebrow}</Eyebrow>
           <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-            Kariyerini <span className="accent-mark">güçlü bir zeminde</span> kur.
+            {withAccent(d.whyJoinTitle)}
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {whyJoin.map((p, i) => {
+          {c.whyJoin.map((p, i) => {
             const Icon = iconMap[p.icon];
             return (
               <Reveal
@@ -171,20 +168,19 @@ export default function DanismanOlPage() {
         </div>
       </Section>
 
-      {/* ── 3. NASIL DANIŞMAN OLUNUR? — Net süreç ── */}
+      {/* ── 3. SÜREÇ ── */}
       <Section tone="mist" density="normal">
         <div id="surec" className="max-w-2xl mb-12 scroll-mt-24">
-          <Eyebrow tone="red">Nasıl Danışman Olunur</Eyebrow>
+          <Eyebrow tone="red">{d.processEyebrow}</Eyebrow>
           <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-            Beş adımda <span className="accent-mark">net</span> bir yol.
+            {withAccent(d.processTitle)}
           </h2>
           <p className="mt-4 text-navy/65 leading-relaxed">
-            Süreci muğlak bırakmıyoruz — başvurudan sahaya çıkışa kadar her adımı
-            açıkça anlatıyoruz.
+            {d.processSubtitle}
           </p>
         </div>
         <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {applyProcess.map((s, i) => (
+          {c.applyProcess.map((s, i) => (
             <Reveal
               key={s.step}
               delay={(i % 5) * 80}
@@ -204,17 +200,16 @@ export default function DanismanOlPage() {
         </ol>
       </Section>
 
-      {/* ── 4. ŞARTLAR & NELERE DİKKAT ── */}
+      {/* ── 4. ŞARTLAR & DİKKAT ── */}
       <Section tone="light" density="normal">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-10 lg:gap-14">
-          {/* Şartlar */}
           <div>
-            <Eyebrow tone="red">Danışman Olma Şartları</Eyebrow>
+            <Eyebrow tone="red">{d.requirementsEyebrow}</Eyebrow>
             <h2 className="mt-5 font-display text-display text-navy text-balance">
-              Temel <span className="accent-mark">gereklilikler</span>.
+              {withAccent(d.requirementsTitle)}
             </h2>
             <ul className="mt-7 space-y-4">
-              {requirements.map((r, i) => (
+              {c.requirements.map((r, i) => (
                 <Reveal key={r} delay={i * 70} className="flex items-start gap-3">
                   <BadgeCheck className="h-5 w-5 flex-shrink-0 text-remax-red mt-0.5" aria-hidden />
                   <span className="text-navy/80 leading-relaxed">{r}</span>
@@ -222,23 +217,21 @@ export default function DanismanOlPage() {
               ))}
             </ul>
             <p className="mt-5 text-xs text-navy/45 leading-relaxed">
-              RE/MAX BOSS'a özel detaylar ve güncel koşullar tanışma görüşmesinde
-              netleştirilir.
+              {d.requirementsFooterNote}
             </p>
           </div>
 
-          {/* Nelere dikkat */}
           <div>
-            <Eyebrow tone="red">Nelere Dikkat Etmeli</Eyebrow>
+            <Eyebrow tone="red">{d.cautionsEyebrow}</Eyebrow>
             <h2 className="mt-5 font-display text-display text-navy text-balance">
-              Başarılı bir danışman için <span className="accent-mark">ipuçları</span>.
+              {withAccent(d.cautionsTitle)}
             </h2>
             <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {cautions.map((c, i) => {
-                const Icon = iconMap[c.icon];
+              {c.cautions.map((cau, i) => {
+                const Icon = iconMap[cau.icon];
                 return (
                   <Reveal
-                    key={c.title}
+                    key={cau.title}
                     delay={(i % 2) * 90}
                     className="card-depth rounded-2xl border border-line bg-white p-5"
                   >
@@ -246,10 +239,10 @@ export default function DanismanOlPage() {
                       <Icon className="h-4 w-4" aria-hidden />
                     </span>
                     <h3 className="mt-3 font-display font-bold text-navy text-sm">
-                      {c.title}
+                      {cau.title}
                     </h3>
                     <p className="mt-1.5 text-xs text-navy/60 leading-relaxed">
-                      {c.text}
+                      {cau.text}
                     </p>
                   </Reveal>
                 );
@@ -259,54 +252,52 @@ export default function DanismanOlPage() {
         </div>
       </Section>
 
-      {/* ── 5. İNTERAKTİF GELİR POTANSİYELİ ── */}
+      {/* ── 5. KAZANÇ ── */}
       <Section tone="mist" density="normal">
         <div className="max-w-2xl mb-8">
-          <Eyebrow tone="red">Kazanç Fikri</Eyebrow>
+          <Eyebrow tone="red">{d.incomeEyebrow}</Eyebrow>
           <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-            "Üst sınır yok" <span className="accent-mark">ne demek?</span>
+            {withAccent(d.incomeTitle)}
           </h2>
           <p className="mt-4 text-navy/65 leading-relaxed">
-            Performansa dayalı modelde kazancın senaryona göre değişir. Aşağıda
-            kendi rakamlarınla kaba bir tahmin görebilirsin — bu bir vaat değil,
-            bir fikirdir.
+            {d.incomeSubtitle}
           </p>
         </div>
         <IncomeEstimator />
       </Section>
 
-      {/* ── 6. KAPSAMLI SSS ── */}
+      {/* ── 6. SSS ── */}
       <Section tone="light" density="normal">
         <div className="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-14 items-start">
           <div className="lg:sticky lg:top-28">
-            <Eyebrow tone="red">Sıkça Sorulanlar</Eyebrow>
+            <Eyebrow tone="red">{d.faqEyebrow}</Eyebrow>
             <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-              Aklındaki <span className="accent-mark">sorular</span>.
+              {withAccent(d.faqTitle)}
             </h2>
             <p className="mt-4 text-navy/65 leading-relaxed">
-              Dürüst yanıtlar — çünkü doğru kararı birlikte vermek istiyoruz.
+              {d.faqSubtitle}
             </p>
           </div>
-          <CareerFaq items={careerFaq} />
+          <CareerFaq items={c.careerFaq} />
         </div>
       </Section>
 
-      {/* ── 7. DÜRÜST BEKLENTİ — Bu kariyer kimler için? ── */}
+      {/* ── 7. UYGUN / UYGUN DEĞİL ── */}
       <Section tone="mist" density="normal">
         <div className="max-w-2xl mb-10">
-          <Eyebrow tone="red">Dürüst Bakış</Eyebrow>
+          <Eyebrow tone="red">{d.fitsEyebrow}</Eyebrow>
           <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-            Bu kariyer <span className="accent-mark">kimler için?</span>
+            {withAccent(d.fitsTitle)}
           </h2>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <div className="rounded-3xl border border-emerald-200 bg-emerald-50/60 p-7">
             <h3 className="font-display font-bold text-lg text-navy flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-emerald-600" aria-hidden />
-              Uygun
+              {d.fitsHeading}
             </h3>
             <ul className="mt-4 space-y-3">
-              {whoFits.map((item) => (
+              {c.whoFits.map((item) => (
                 <li key={item} className="flex items-start gap-2.5 text-sm text-navy/75 leading-relaxed">
                   <CheckCircle2 className="h-4 w-4 mt-0.5 flex-shrink-0 text-emerald-600" aria-hidden />
                   {item}
@@ -317,10 +308,10 @@ export default function DanismanOlPage() {
           <div className="rounded-3xl border border-line bg-white p-7">
             <h3 className="font-display font-bold text-lg text-navy flex items-center gap-2">
               <XCircle className="h-5 w-5 text-navy/40" aria-hidden />
-              Bu model uygun değil
+              {d.notFitsHeading}
             </h3>
             <ul className="mt-4 space-y-3">
-              {whoNotFits.map((item) => (
+              {c.whoNotFits.map((item) => (
                 <li key={item} className="flex items-start gap-2.5 text-sm text-navy/60 leading-relaxed">
                   <XCircle className="h-4 w-4 mt-0.5 flex-shrink-0 text-navy/30" aria-hidden />
                   {item}
@@ -331,7 +322,7 @@ export default function DanismanOlPage() {
         </div>
       </Section>
 
-      {/* ── 8. GÜÇLÜ BAŞVURU ── */}
+      {/* ── 8. BAŞVURU ── */}
       <Section tone="dark" density="normal">
         <div
           id="basvuru"
@@ -343,14 +334,13 @@ export default function DanismanOlPage() {
           />
           <div className="relative max-w-2xl">
             <Eyebrow tone="white" className="text-white/70">
-              Başvuru
+              {d.applyEyebrow}
             </Eyebrow>
             <h2 className="mt-5 font-display text-display-lg text-white text-balance">
-              İlk adımı at, <span className="accent-mark">hayatını değiştir</span>.
+              {withAccent(d.applyTitle)}
             </h2>
             <p className="mt-4 text-white/70 leading-relaxed">
-              Aşağıdaki kanallardan birinden bize ulaş; tanışma görüşmesinde her
-              detayı birlikte konuşalım. Başvuru bir taahhüt değildir.
+              {d.applyDesc}
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -361,7 +351,7 @@ export default function DanismanOlPage() {
                   "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-7 text-sm font-semibold tracking-wide btn-glow btn-shine",
                 )}
               >
-                Başvuru formuna git
+                {d.ctaApplyForm}
                 <ArrowRight className="h-4 w-4 ms-2" />
               </Link>
               <a
@@ -374,7 +364,7 @@ export default function DanismanOlPage() {
                 )}
               >
                 <MessageCircle className="h-4 w-4 me-2" aria-hidden />
-                WhatsApp
+                {d.ctaWhatsapp}
               </a>
             </div>
 

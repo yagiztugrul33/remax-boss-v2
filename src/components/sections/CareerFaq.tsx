@@ -3,10 +3,14 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { FaqItem } from "@/lib/career";
+import type { LocalizedFaqItem } from "@/lib/career";
 
 /** Erişilebilir SSS akordeonu (aria-expanded + klavye ile çalışır). */
-export default function CareerFaq({ items }: { items: readonly FaqItem[] }) {
+export default function CareerFaq({
+  items,
+}: {
+  items: readonly LocalizedFaqItem[];
+}) {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
