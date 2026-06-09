@@ -38,6 +38,9 @@ const securityHeaders = [
       "font-src 'self' https://fonts.gstatic.com",
       "base-uri 'self'",
       "form-action 'self'",
+      // PWA: service worker + web manifest
+      "worker-src 'self'",
+      "manifest-src 'self'",
     ]
       .filter(Boolean)
       .join("; "),

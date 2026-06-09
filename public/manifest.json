@@ -1,0 +1,28 @@
+{
+  "name": "RE/MAX BOSS — Ankara Beştepe",
+  "short_name": "RE/MAX BOSS",
+  "description": "Ankara Beştepe merkezli RE/MAX BOSS gayrimenkul ofisi — satılık, kiralık, değerleme.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a1a36",
+  "theme_color": "#0a1a36",
+  "lang": "tr",
+  "dir": "ltr",
+  "categories": ["business", "lifestyle", "finance"],
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

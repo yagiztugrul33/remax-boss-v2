@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Sora, Inter, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -8,6 +8,7 @@ import FloatingActions from "@/components/ui/floating-actions";
 import AiChat from "@/components/ui/ai-chat";
 import CookieBanner from "@/components/ui/cookie-banner";
 import ExitIntent from "@/components/ui/exit-intent";
+import SwRegister from "@/components/ui/sw-register";
 import { office } from "@/lib/office";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { SITE_URL } from "@/lib/site-url";
@@ -43,6 +44,11 @@ const SITE_DESCRIPTION = {
  * Locale-aware metadata: OG locale (tr_TR/en_US) ve description dile göre
  * değişir. Title template marka korunur ("%s | RE/MAX BOSS").
  */
+// PWA viewport — themeColor burada (Metadata'da deprecated).
+export const viewport: Viewport = {
+  themeColor: "#0a1a36",
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const description = SITE_DESCRIPTION[locale];
@@ -55,6 +61,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description,
     applicationName: "RE/MAX BOSS",
+    manifest: "/manifest.json",
     alternates: { canonical: "/" },
     openGraph: {
       type: "website",
@@ -146,6 +153,7 @@ export default async function RootLayout({
         />
         <ScrollProgress />
         <ScrollReveal />
+        <SwRegister />
         <Navbar locale={locale} dict={dict.nav} />
         <main className="flex-1">{children}</main>
         <Footer
