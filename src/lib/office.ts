@@ -95,6 +95,11 @@ export const officeGallery: readonly OfficeGalleryItem[] = [
     altTr: "RE/MAX BOSS binası dış görünüm — açı 2",
     altEn: "RE/MAX BOSS building exterior — angle 2",
   },
+  {
+    src: "/office/ofis-dis-6.jpg",
+    altTr: "RE/MAX BOSS binası dış görünüm — açı 3",
+    altEn: "RE/MAX BOSS building exterior — angle 3",
+  },
   // ── İç mekan ──
   {
     src: "/office/resepsiyon.jpg",
