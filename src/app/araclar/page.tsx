@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
-import { Calculator, Landmark, TrendingUp, PiggyBank } from "lucide-react";
+import {
+  Calculator,
+  Landmark,
+  TrendingUp,
+  PiggyBank,
+  Sparkles,
+} from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import MortgageCalc from "@/components/tools/MortgageCalc";
 import TitleFeeCalc from "@/components/tools/TitleFeeCalc";
 import RentalYieldCalc from "@/components/tools/RentalYieldCalc";
 import BudgetPlanner from "@/components/tools/BudgetPlanner";
-import { getDictionary } from "@/lib/i18n/server";
+import ValuationCalculator from "@/components/tools/ValuationCalculator";
+import { REGIONS, localizeRegion } from "@/lib/regions";
+import { getDictionary, getLocale } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -31,8 +39,21 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AraclarPage() {
-  const d = (await getDictionary()).pages.tools;
+  const locale = await getLocale();
+  const dict = await getDictionary();
+  const d = dict.pages.tools;
+  const dValuation = dict.pages.valuationTool;
+  const regionList = REGIONS.map((r) => {
+    const lr = localizeRegion(r, locale);
+    return { slug: lr.slug, name: lr.name };
+  });
   const tools = [
+    {
+      icon: Sparkles,
+      href: "#degerleme-aracı",
+      title: dValuation.eyebrow,
+      desc: dValuation.subtitle,
+    },
     {
       icon: Calculator,
       href: "#kredi",
@@ -93,7 +114,7 @@ export default async function AraclarPage() {
 
       {/* ARAÇ KARTLARI */}
       <Section tone="light" density="tight">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           {tools.map((t) => (
             <a
               key={t.href}
@@ -116,6 +137,9 @@ export default async function AraclarPage() {
 
       {/* ARAÇLAR */}
       <Section tone="mist" density="normal" innerClassName="space-y-6">
+        <div id="degerleme-aracı" className="scroll-mt-24">
+          <ValuationCalculator dict={dValuation} regions={regionList} />
+        </div>
         <MortgageCalc dict={d.mortgage} common={d.common} />
         <TitleFeeCalc dict={d.titleFee} common={d.common} />
         <RentalYieldCalc dict={d.rentalYield} common={d.common} />

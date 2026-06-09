@@ -498,6 +498,54 @@ export interface Dict {
       notFoundTitle: string;
       notFoundDesc: string;
     };
+    valuationTool: {
+      eyebrow: string;
+      title: string;
+      subtitle: string;
+      // Adım etiketleri
+      stepRegion: string;
+      stepType: string;
+      stepArea: string;
+      stepRoom: string;
+      stepAge: string;
+      // Form alanları
+      regionLabel: string;
+      regionPlaceholder: string;
+      typeLabel: string;
+      typeOptions: {
+        daire: string;
+        mustakil: string;
+        villa: string;
+        isyeri: string;
+        arsa: string;
+      };
+      areaLabel: string;
+      areaPlaceholder: string;
+      roomLabel: string;
+      roomOptions: [string, string, string, string, string, string];
+      ageLabel: string;
+      ageOptions: {
+        yeni: string;
+        kucukYas: string;
+        ortaYas: string;
+        eskiYas: string;
+        cokEski: string;
+      };
+      // Sonuç
+      calculateBtn: string;
+      resetBtn: string;
+      resultEyebrow: string;
+      resultTitle: string;
+      resultDisclaimerTitle: string;
+      resultDisclaimerBody: string;
+      coefficientNote: string;
+      // CTA
+      ctaTitle: string;
+      ctaBody: string;
+      ctaButton: string;
+      // Validasyon
+      errorAreaRequired: string;
+    };
     regions: {
       // Liste sayfası /bolgeler
       indexEyebrow: string;
@@ -1163,6 +1211,53 @@ const tr: Dict = {
       notFoundTitle: "Bu profil bulunamadı.",
       notFoundDesc:
         "Aradığınız danışman ekibimizden ayrılmış veya bağlantı geçersiz olabilir. Ekibimiz sayfasından güncel listeyi görebilirsiniz.",
+    },
+    valuationTool: {
+      eyebrow: "İnteraktif Değerleme",
+      title: "Mülkünüz için örnek bir değer aralığı hesaplayın",
+      subtitle:
+        "Bilgileri doldurun, örnek katsayılarla genel bir aralık görün. Kesin değer için ücretsiz uzman değerlemesi gerekir.",
+      stepRegion: "Bölge",
+      stepType: "Mülk tipi",
+      stepArea: "Brüt m²",
+      stepRoom: "Oda sayısı",
+      stepAge: "Bina yaşı",
+      regionLabel: "Bölge",
+      regionPlaceholder: "Bölge seçin…",
+      typeLabel: "Mülk tipi",
+      typeOptions: {
+        daire: "Daire",
+        mustakil: "Müstakil",
+        villa: "Villa",
+        isyeri: "İş Yeri",
+        arsa: "Arsa",
+      },
+      areaLabel: "Brüt m² (yaklaşık)",
+      areaPlaceholder: "örn. 120",
+      roomLabel: "Oda sayısı",
+      roomOptions: ["1+1", "2+1", "3+1", "4+1", "5+1", "Belirtmek istemiyorum"],
+      ageLabel: "Bina yaşı",
+      ageOptions: {
+        yeni: "Sıfır / yeni (0)",
+        kucukYas: "1-5 yaş",
+        ortaYas: "6-15 yaş",
+        eskiYas: "16-25 yaş",
+        cokEski: "26+ yaş",
+      },
+      calculateBtn: "Örnek aralığı göster",
+      resetBtn: "Sıfırla",
+      resultEyebrow: "Örnek Aralık",
+      resultTitle: "Profilinize uygun yaklaşık örnek aralık",
+      resultDisclaimerTitle: "Bu hesap ÖRNEK katsayılara dayanır — kesin değer DEĞİLDİR.",
+      resultDisclaimerBody:
+        "Aşağıdaki rakam yalnız bilgilendirme amaçlıdır. Gerçek piyasa değeri; bölgenin alt-bölgesi, manzara, kat, donatı, yapı kalitesi, kullanım durumu ve güncel piyasa koşullarına göre önemli ölçüde değişir. Uzman değerlemesi ekspertiz raporuyla belirlenir.",
+      coefficientNote:
+        "Kullanılan katsayılar: bölge tipine göre seçilen örnek alt/üst m² katsayısı × bina yaşı düzeltmesi. Tüm katsayılar 'örnek/değişken' notludur ve piyasa değeri vaadi içermez.",
+      ctaTitle: "Mülkünüz için gerçek değerleme isteyin",
+      ctaBody:
+        "Uzmanımız mülkünüzü inceleyip 1 iş günü içinde detaylı, ücretsiz bir değerleme önerisi sunar.",
+      ctaButton: "Ücretsiz uzman değerlemesi al",
+      errorAreaRequired: "Lütfen brüt m² değerini girin (1–9999 arası).",
     },
     regions: {
       indexEyebrow: "Hizmet Bölgeleri",
@@ -1845,6 +1940,53 @@ const en: Dict = {
       notFoundTitle: "Profile not found.",
       notFoundDesc:
         "The agent you're looking for may have left the team or the link may be invalid. See our Team page for the up-to-date list.",
+    },
+    valuationTool: {
+      eyebrow: "Interactive Valuation",
+      title: "Get an indicative value range for your property",
+      subtitle:
+        "Fill in the details and see a general range based on example coefficients. A precise figure requires a free expert valuation.",
+      stepRegion: "Area",
+      stepType: "Property type",
+      stepArea: "Gross m²",
+      stepRoom: "Rooms",
+      stepAge: "Building age",
+      regionLabel: "Area",
+      regionPlaceholder: "Select an area…",
+      typeLabel: "Property type",
+      typeOptions: {
+        daire: "Apartment",
+        mustakil: "Detached",
+        villa: "Villa",
+        isyeri: "Commercial",
+        arsa: "Land",
+      },
+      areaLabel: "Gross m² (approx.)",
+      areaPlaceholder: "e.g. 120",
+      roomLabel: "Rooms",
+      roomOptions: ["1+1", "2+1", "3+1", "4+1", "5+1", "Prefer not to say"],
+      ageLabel: "Building age",
+      ageOptions: {
+        yeni: "New / 0",
+        kucukYas: "1-5 years",
+        ortaYas: "6-15 years",
+        eskiYas: "16-25 years",
+        cokEski: "26+ years",
+      },
+      calculateBtn: "Show indicative range",
+      resetBtn: "Reset",
+      resultEyebrow: "Indicative Range",
+      resultTitle: "Approximate range for your profile",
+      resultDisclaimerTitle: "This estimate is based on EXAMPLE coefficients — NOT a final value.",
+      resultDisclaimerBody:
+        "The figure below is for informational purposes only. The real market value varies materially with sub-area, view, floor, amenities, build quality, occupancy and current market conditions. A definitive value is determined by an official appraisal.",
+      coefficientNote:
+        "Coefficients used: an example low/high m² coefficient selected by area and property type × a building-age adjustment. All coefficients are labelled 'example/variable' and imply no market-value promise.",
+      ctaTitle: "Request a real valuation for your property",
+      ctaBody:
+        "Our expert reviews your property and shares a detailed, free valuation proposal within 1 business day.",
+      ctaButton: "Get a free expert valuation",
+      errorAreaRequired: "Please enter gross m² (between 1 and 9999).",
     },
     regions: {
       indexEyebrow: "Service Areas",
