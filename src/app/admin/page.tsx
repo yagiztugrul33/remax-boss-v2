@@ -13,6 +13,8 @@ import {
   CheckCircle2,
   Info,
   Coins,
+  Calculator,
+  Search,
 } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
@@ -23,6 +25,10 @@ import { requireAdmin } from "@/lib/admin/guard";
 import { getAllListingsAdmin } from "@/lib/admin/queries";
 import { getUnreadMessageCount } from "@/lib/admin/leads";
 import { getNewCampaignCount } from "@/lib/admin/campaign";
+import {
+  getNewValuationCount,
+  getNewBuyerCount,
+} from "@/lib/admin/lead-forms";
 import { deleteListing } from "@/lib/admin/actions";
 import { formatLocation, formatPrice } from "@/lib/listings";
 
@@ -94,6 +100,19 @@ export default async function AdminHomePage({ searchParams }: PageProps) {
     newCampaign = await getNewCampaignCount();
   } catch {
     newCampaign = 0;
+  }
+  // Migration 0005 uygulanmadıysa güvenle 0 → admin panel asla kırılmaz.
+  let newValuation = 0;
+  try {
+    newValuation = await getNewValuationCount();
+  } catch {
+    newValuation = 0;
+  }
+  let newBuyer = 0;
+  try {
+    newBuyer = await getNewBuyerCount();
+  } catch {
+    newBuyer = 0;
   }
 
   return (
@@ -204,6 +223,36 @@ export default async function AdminHomePage({ searchParams }: PageProps) {
               {newCampaign > 0 && (
                 <span className="ms-2 inline-flex items-center justify-center rounded-full bg-remax-red text-white text-[11px] font-bold min-w-5 h-5 px-1.5">
                   {newCampaign}
+                </span>
+              )}
+            </Link>
+            <Link
+              href="/admin/degerleme"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "relative h-12 px-5 text-sm font-semibold tracking-wide",
+              )}
+            >
+              <Calculator className="h-4 w-4 me-2" />
+              Değerleme
+              {newValuation > 0 && (
+                <span className="ms-2 inline-flex items-center justify-center rounded-full bg-remax-red text-white text-[11px] font-bold min-w-5 h-5 px-1.5">
+                  {newValuation}
+                </span>
+              )}
+            </Link>
+            <Link
+              href="/admin/alici-kayit"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "relative h-12 px-5 text-sm font-semibold tracking-wide",
+              )}
+            >
+              <Search className="h-4 w-4 me-2" />
+              Alıcılar
+              {newBuyer > 0 && (
+                <span className="ms-2 inline-flex items-center justify-center rounded-full bg-remax-red text-white text-[11px] font-bold min-w-5 h-5 px-1.5">
+                  {newBuyer}
                 </span>
               )}
             </Link>

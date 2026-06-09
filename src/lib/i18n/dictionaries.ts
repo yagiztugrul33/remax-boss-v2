@@ -454,6 +454,26 @@ export interface Dict {
       details: string;
       close: string;
     };
+    valuation: {
+      eyebrow: string;
+      title: string;
+      subtitle: string;
+      bullet1: string;
+      bullet2: string;
+      bullet3: string;
+      formTitle: string;
+      formNote: string;
+    };
+    buyer: {
+      eyebrow: string;
+      title: string;
+      subtitle: string;
+      bullet1: string;
+      bullet2: string;
+      bullet3: string;
+      formTitle: string;
+      formNote: string;
+    };
   };
 
   // ── Formlar ──
@@ -1045,6 +1065,31 @@ const tr: Dict = {
       reject: "Reddet",
       details: "Detaylar",
       close: "Kapat",
+    },
+    valuation: {
+      eyebrow: "Ücretsiz Değerleme",
+      title: "Mülkünüzün gerçek piyasa değerini öğrenin",
+      subtitle:
+        "Ankara piyasasını günlük takip eden ekibimiz, mülkünüzü kayıt altına aldıktan sonra rayiç fiyat aralığını ve önerimizi sizinle paylaşır.",
+      bullet1: "Beştepe merkezli ofisten Ankara'nın her ilçesine ulaşırız.",
+      bullet2: "Değerleme yalnız bilgi amaçlıdır; satış için sizi zorlamayız.",
+      bullet3:
+        "Talebiniz KVKK kapsamında saklanır, sadece danışmanlık için kullanılır.",
+      formTitle: "Mülk bilgilerinizi paylaşın",
+      formNote:
+        "Aşağıdaki bilgileri doldurun. Detaylı analiz için bir danışmanımız sizi 1 iş günü içinde arar.",
+    },
+    buyer: {
+      eyebrow: "Alıcı Kaydı",
+      title: "Aradığınız mülkü sizin yerinize bulalım",
+      subtitle:
+        "Kriterlerinizi paylaşın; portföyümüze ve Ankara'daki RE/MAX ağına uygun mülk geldiğinde ilk siz haberdar olun.",
+      bullet1: "Yeni ilan eklendiğinde size özel önce bilgi gider.",
+      bullet2: "Aradığınız bölgede yoksa ofislerle aktif eşleme yaparız.",
+      bullet3: "İstediğiniz zaman kaydınızı kapatma hakkınız vardır.",
+      formTitle: "Aradığınız mülkün kriterlerini yazın",
+      formNote:
+        "Kriterlerinizi olabildiğince net yazın — eşleme kalitesi buna bağlı.",
     },
   },
   forms: {
@@ -1650,6 +1695,32 @@ const en: Dict = {
       reject: "Reject",
       details: "Details",
       close: "Close",
+    },
+    valuation: {
+      eyebrow: "Free Valuation",
+      title: "Find out your property's true market value",
+      subtitle:
+        "Our team tracks the Ankara market daily; once your property is registered, we share the indicative price range and our recommendation with you.",
+      bullet1: "From our Beştepe office, we cover every district of Ankara.",
+      bullet2: "The valuation is informational; we never pressure you to sell.",
+      bullet3:
+        "Your request is stored under KVKK rules and used only for advisory purposes.",
+      formTitle: "Share your property details",
+      formNote:
+        "Fill in the details below. One of our agents will call you within 1 business day for a detailed analysis.",
+    },
+    buyer: {
+      eyebrow: "Buyer Registration",
+      title: "Let us find the property you're looking for",
+      subtitle:
+        "Share your criteria; you'll be the first to know when a matching property reaches our portfolio or the RE/MAX network in Ankara.",
+      bullet1: "Get a priority heads-up the moment a new listing is added.",
+      bullet2:
+        "If it's not in our portfolio, we actively match across other RE/MAX offices.",
+      bullet3: "You can close your registration any time you wish.",
+      formTitle: "Tell us what you're looking for",
+      formNote:
+        "Write your criteria as clearly as possible — the match quality depends on it.",
     },
   },
   forms: {
