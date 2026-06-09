@@ -6,6 +6,7 @@ import ScrollProgress from "@/components/ui/scroll-progress";
 import ScrollReveal from "@/components/ui/scroll-reveal";
 import FloatingActions from "@/components/ui/floating-actions";
 import AiChat from "@/components/ui/ai-chat";
+import CookieBanner from "@/components/ui/cookie-banner";
 import { office } from "@/lib/office";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { SITE_URL } from "@/lib/site-url";
@@ -156,6 +157,8 @@ export default async function RootLayout({
             NEXT_PUBLIC_AI_ASSISTANT_ENABLED=true olmadıkça component null
             döner, sitede HİÇBİR şey görünmez. */}
         <AiChat />
+        {/* KVKK uyumlu çerez bildirim banner — localStorage'da karar yoksa görünür. */}
+        <CookieBanner dict={dict.pages.cookieBanner} />
       </body>
     </html>
   );

@@ -441,11 +441,18 @@ export interface Dict {
       placeholderNoticeBody: string;
       lastUpdated: string;
       footerHeading: string;
-      // Footer link etiketleri için kısa adlar
       kvkkLabel: string;
       privacyLabel: string;
       cookieLabel: string;
       termsLabel: string;
+    };
+    cookieBanner: {
+      title: string;
+      body: string;
+      accept: string;
+      reject: string;
+      details: string;
+      close: string;
     };
   };
 
@@ -1030,6 +1037,14 @@ const tr: Dict = {
       privacyLabel: "Gizlilik Politikası",
       cookieLabel: "Çerez Politikası",
       termsLabel: "Kullanım Şartları",
+    },
+    cookieBanner: {
+      title: "Çerez bildirimi",
+      body: "Sitemizin doğru çalışması için zorunlu çerezleri kullanıyoruz. Tercihlerinizi her zaman değiştirebilirsiniz.",
+      accept: "Kabul Et",
+      reject: "Reddet",
+      details: "Detaylar",
+      close: "Kapat",
     },
   },
   forms: {
@@ -1627,6 +1642,14 @@ const en: Dict = {
       privacyLabel: "Privacy Policy",
       cookieLabel: "Cookie Policy",
       termsLabel: "Terms of Use",
+    },
+    cookieBanner: {
+      title: "Cookie notice",
+      body: "We use essential cookies for our site to work properly. You can change your preferences at any time.",
+      accept: "Accept",
+      reject: "Reject",
+      details: "Details",
+      close: "Close",
     },
   },
   forms: {
