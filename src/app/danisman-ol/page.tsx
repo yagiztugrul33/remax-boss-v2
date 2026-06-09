@@ -73,6 +73,7 @@ export default async function DanismanOlPage() {
   const dict = await getDictionary();
   const d = dict.pages.career;
   const dHome = dict.pages.home.joinTeamCta;
+  const dTools = dict.pages.tools;
   const c = localizeCareer(locale);
 
   return (
@@ -263,7 +264,7 @@ export default async function DanismanOlPage() {
             {d.incomeSubtitle}
           </p>
         </div>
-        <IncomeEstimator />
+        <IncomeEstimator dict={dTools.income} common={dTools.common} />
       </Section>
 
       {/* ── 6. SSS ── */}

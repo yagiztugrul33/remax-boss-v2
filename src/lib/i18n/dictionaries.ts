@@ -296,14 +296,14 @@ export interface Dict {
       };
       heroSlogan: string;
       heroDesc: string;
-      quotaSuffixTemplate: string; // "/ {total} onaylı mülk hakkı kaldı"
+      quotaSuffixTemplate: string;
       statusFull: string;
       statusComingSoon: string;
       ctaApplyNow: string;
       conditionsEyebrow: string;
       conditionsTitle: string;
       conditionsSubtitle: string;
-      conditions: readonly string[]; // 7 öğe
+      conditions: readonly string[];
       applyEyebrow: string;
       applyTitle: string;
       applyDescBefore: string;
@@ -315,6 +315,102 @@ export interface Dict {
       closedContact: string;
       faqHeading: string;
       faqs: readonly { q: string; a: string }[];
+    };
+    tools: {
+      meta: { title: string; description: string };
+      og: { title: string; desc: string; imageAlt: string };
+      heroEyebrow: string;
+      heroTitle: string;
+      heroSubtitle: string;
+      cards: {
+        mortgageTitle: string;
+        mortgageDesc: string;
+        titleFeeTitle: string;
+        titleFeeDesc: string;
+        rentalTitle: string;
+        rentalDesc: string;
+        budgetTitle: string;
+        budgetDesc: string;
+      };
+      common: {
+        disclaimerBase: string;
+        ctaContact: string;
+        suffixTL: string;
+        suffixPct: string;
+        suffixYear: string;
+        suffixMonth: string;
+        suffixCount: string;
+        suffixPerMonth: string;
+      };
+      mortgage: {
+        title: string;
+        desc: string;
+        priceLabel: string;
+        downLabel: string;
+        yearsLabel: string;
+        rateLabel: string;
+        rateHint: string;
+        loanHeading: string;
+        loanLabel: string;
+        paymentLabel: string;
+        totalLabel: string;
+        interestLabel: string;
+        principalLabel: string;
+        interestLegend: string;
+        disclaimerExtra: string;
+      };
+      titleFee: {
+        title: string;
+        desc: string;
+        priceLabel: string;
+        rateLabel: string;
+        importantNote: string;
+        totalLabel: string;
+        buyerLabel: string;
+        sellerLabel: string;
+        disclaimerExtra: string;
+      };
+      rentalYield: {
+        title: string;
+        desc: string;
+        valueLabel: string;
+        rentLabel: string;
+        hint: string;
+        yieldLabel: string;
+        annualLabel: string;
+        paybackLabel: string;
+        paybackUnit: string;
+        disclaimerExtra: string;
+      };
+      budget: {
+        title: string;
+        desc: string;
+        targetLabel: string;
+        savingsLabel: string;
+        monthlyLabel: string;
+        hint: string;
+        downPctLabel: string;
+        remainingLabel: string;
+        timeLabel: string;
+        goalMet: string;
+        timeTemplate: string; // "{months} ay (≈ {years} yıl)"
+        disclaimerExtra: string;
+      };
+      income: {
+        title: string;
+        subtitle: string;
+        txLabel: string;
+        valLabel: string;
+        commLabel: string;
+        shareLabel: string;
+        hint: string;
+        grossLabel: string;
+        monthlyLabel: string;
+        yearlyLabel: string;
+        warningPrefix: string;
+        warningBody: string;
+        warningTail: string;
+      };
     };
   };
 
@@ -740,6 +836,118 @@ const tr: Dict = {
           a: "Kampanya bir ödül vaadi değildir. Uygunluk ve onay kararı ofise aittir. Gram altın yetki sözleşmesi imzalandığında, çeyrek altın ise satış tapuda tamamlandığında verilir.",
         },
       ],
+    },
+    tools: {
+      meta: {
+        title: "Hesaplama Araçları",
+        description:
+          "Konut kredisi taksiti, tapu harcı, kira getirisi ve bütçe planlama — RE/MAX BOSS'un ücretsiz, anlık gayrimenkul hesaplama araçları.",
+      },
+      og: {
+        title: "Hesaplama Araçları — RE/MAX BOSS",
+        desc: "Kredi taksiti, tapu harcı, kira getirisi, bütçe planlayıcı — ücretsiz ve anlık. Bağlayıcı değildir.",
+        imageAlt: "RE/MAX BOSS — hesaplama araçları",
+      },
+      heroEyebrow: "Hesaplama Araçları",
+      heroTitle: "Kararını <accent>rakamlarla</accent> ver.",
+      heroSubtitle:
+        "Kredi taksitinden tapu harcına, kira getirisinden bütçe planına — anlık ve ücretsiz hesaplayın. Tüm sonuçlar tahminidir.",
+      cards: {
+        mortgageTitle: "Konut Kredisi",
+        mortgageDesc: "Aylık taksit, toplam ödeme ve faiz.",
+        titleFeeTitle: "Tapu Harcı / Masraf",
+        titleFeeDesc: "Satış bedeline göre yaklaşık harç.",
+        rentalTitle: "Kira Getirisi",
+        rentalDesc: "Brüt yıllık getiri ve amortisman.",
+        budgetTitle: "Bütçe Planlayıcı",
+        budgetDesc: "Peşinat oranı ve biriktirme süresi.",
+      },
+      common: {
+        disclaimerBase:
+          "Bu hesaplama tahmini ve bilgilendirme amaçlıdır; bağlayıcı değildir. Kesin bilgi için RE/MAX BOSS ile görüşün veya ilgili kuruma danışın.",
+        ctaContact: "RE/MAX BOSS ile görüşün",
+        suffixTL: "₺",
+        suffixPct: "%",
+        suffixYear: "yıl",
+        suffixMonth: "ay",
+        suffixCount: "adet",
+        suffixPerMonth: "₺/ay",
+      },
+      mortgage: {
+        title: "Konut Kredisi Hesaplama",
+        desc: "Eşit taksitli (anüite) kredi için aylık taksiti, toplam geri ödemeyi ve toplam faizi hesaplar. Faiz oranını siz girersiniz.",
+        priceLabel: "Konut bedeli",
+        downLabel: "Peşinat",
+        yearsLabel: "Vade",
+        rateLabel: "Aylık faiz (örnek)",
+        rateHint:
+          "Faiz oranı örnektir — güncel oran için bankanızla görüşün.",
+        loanHeading: "Kredi tutarı",
+        loanLabel: "Çekilecek kredi",
+        paymentLabel: "Aylık taksit",
+        totalLabel: "Toplam geri ödeme",
+        interestLabel: "Toplam faiz",
+        principalLabel: "Anapara",
+        interestLegend: "Faiz",
+        disclaimerExtra: "Faiz oranı ve koşullar bankaya göre değişir.",
+      },
+      titleFee: {
+        title: "Tapu Harcı / Masraf Hesaplama",
+        desc: "Satış bedeli üzerinden yaklaşık tapu harcını hesaplar. Harç genelde alıcı ve satıcı arasında paylaşılır.",
+        priceLabel: "Satış bedeli",
+        rateLabel: "Toplam harç oranı (örnek)",
+        importantNote:
+          "Önemli: Tapu harcı oranı yasal düzenlemeyle değişebilir (yaygın uygulama toplam %4 — alıcı %2 + satıcı %2). Güncel oranı tapu müdürlüğü / resmi kaynaktan teyit edin. Ayrıca döner sermaye, noter ve ekspertiz gibi ek sabit kalemler oluşabilir.",
+        totalLabel: "Toplam tapu harcı",
+        buyerLabel: "Alıcı payı (≈ yarısı)",
+        sellerLabel: "Satıcı payı (≈ yarısı)",
+        disclaimerExtra:
+          "Oranlar değişebilir; ek masraf kalemleri bu hesaba dahil değildir.",
+      },
+      rentalYield: {
+        title: "Kira Getirisi / Amortisman",
+        desc: "Mülk değeri ve aylık kira ile brüt yıllık getiriyi ve mülkün kaç yılda kendini amorti ettiğini hesaplar.",
+        valueLabel: "Mülk değeri",
+        rentLabel: "Aylık kira",
+        hint: "Brüt hesap — vergi, aidat, bakım ve boşluk dönemleri hariçtir.",
+        yieldLabel: "Brüt yıllık getiri",
+        annualLabel: "Yıllık kira geliri",
+        paybackLabel: "Amortisman süresi",
+        paybackUnit: "yıl",
+        disclaimerExtra:
+          "Brüt getiri; gerçek net getiri vergi ve giderlerle düşer.",
+      },
+      budget: {
+        title: "Peşinat / Bütçe Planlayıcı",
+        desc: "Hedef konut bedeline göre mevcut peşinat oranınızı, kalan tutarı ve yalnızca biriktirerek ne kadar sürede ulaşabileceğinizi gösterir.",
+        targetLabel: "Hedef konut bedeli",
+        savingsLabel: "Mevcut birikim",
+        monthlyLabel: "Aylık ayırabileceğin",
+        hint: "Kalan tutar için kredi de kullanılabilir — Kredi aracıyla taksiti hesaplayabilirsiniz.",
+        downPctLabel: "Peşinat oranın",
+        remainingLabel: "Kalan tutar",
+        timeLabel: "Yalnızca biriktirerek süre",
+        goalMet: "Hedefe ulaştınız 🎉",
+        timeTemplate: "{months} ay (≈ {years} yıl)",
+        disclaimerExtra:
+          "Faiz/enflasyon ve fiyat değişimi hariç, basit bir plandır.",
+      },
+      income: {
+        title: "Gelir Potansiyeli Göstergesi",
+        subtitle: "Kendi senaryonu gir, kaba bir fikir edin.",
+        txLabel: "Aylık işlem sayısı",
+        valLabel: "Ortalama mülk değeri",
+        commLabel: "Komisyon oranı (örnek)",
+        shareLabel: "Danışman payı (örnek)",
+        hint: "Komisyon oranı ve danışman payı örnektir — gerçek oranlar ofis ve işleme göre değişir, tanışma görüşmesinde netleşir.",
+        grossLabel: "Tahmini brüt kazanç",
+        monthlyLabel: "Aylık",
+        yearlyLabel: "Yıllık",
+        warningPrefix: "Bu yalnızca bir tahmindir.",
+        warningBody:
+          " Gerçek kazanç performansa, piyasaya ve çalışmana bağlıdır; hiçbir gelir garantisi",
+        warningTail: " değildir.",
+      },
     },
   },
   forms: {
@@ -1178,6 +1386,118 @@ const en: Dict = {
           a: "The campaign is not a promise of reward. Eligibility and approval decisions rest with the office. The gram of gold is given upon signing the mandate; the quarter gold coin is given when the sale is completed at the title deed.",
         },
       ],
+    },
+    tools: {
+      meta: {
+        title: "Calculation Tools",
+        description:
+          "Mortgage installment, title deed fee, rental yield and budget planning — RE/MAX BOSS's free, instant real estate calculation tools.",
+      },
+      og: {
+        title: "Calculation Tools — RE/MAX BOSS",
+        desc: "Mortgage installment, title deed fee, rental yield, budget planner — free and instant. Not binding.",
+        imageAlt: "RE/MAX BOSS — calculation tools",
+      },
+      heroEyebrow: "Calculation Tools",
+      heroTitle: "Make your decision with the <accent>numbers</accent>.",
+      heroSubtitle:
+        "From mortgage installments to title deed fees, from rental yield to budget planning — calculate instantly and free of charge. All results are estimates.",
+      cards: {
+        mortgageTitle: "Mortgage",
+        mortgageDesc: "Monthly installment, total payment and interest.",
+        titleFeeTitle: "Title Deed Fee / Cost",
+        titleFeeDesc: "Approximate fee based on the sale price.",
+        rentalTitle: "Rental Yield",
+        rentalDesc: "Gross annual yield and payback period.",
+        budgetTitle: "Budget Planner",
+        budgetDesc: "Down payment ratio and time to save.",
+      },
+      common: {
+        disclaimerBase:
+          "This calculation is an estimate for informational purposes only; it is not binding. For definitive information, speak with RE/MAX BOSS or consult the relevant authority.",
+        ctaContact: "Talk to RE/MAX BOSS",
+        suffixTL: "TL",
+        suffixPct: "%",
+        suffixYear: "yr",
+        suffixMonth: "mo",
+        suffixCount: "items",
+        suffixPerMonth: "TL/mo",
+      },
+      mortgage: {
+        title: "Mortgage Calculator",
+        desc: "For an equal-installment (annuity) mortgage, calculates the monthly installment, total repayment and total interest. You enter the interest rate.",
+        priceLabel: "Home price",
+        downLabel: "Down payment",
+        yearsLabel: "Term",
+        rateLabel: "Monthly interest (example)",
+        rateHint:
+          "Interest rate is an example — check with your bank for current rates.",
+        loanHeading: "Loan amount",
+        loanLabel: "Loan to be drawn",
+        paymentLabel: "Monthly installment",
+        totalLabel: "Total repayment",
+        interestLabel: "Total interest",
+        principalLabel: "Principal",
+        interestLegend: "Interest",
+        disclaimerExtra: "Rates and conditions vary by bank.",
+      },
+      titleFee: {
+        title: "Title Deed Fee / Cost Calculator",
+        desc: "Calculates the approximate title deed fee based on the sale price. The fee is usually shared between buyer and seller.",
+        priceLabel: "Sale price",
+        rateLabel: "Total fee rate (example)",
+        importantNote:
+          "Important: The title deed fee rate may change by regulation (a common practice is 4% total — buyer 2% + seller 2%). Confirm the current rate with the land registry office or an official source. Additional fixed items such as the revolving fund, notary and valuation fees may also apply.",
+        totalLabel: "Total title deed fee",
+        buyerLabel: "Buyer share (≈ half)",
+        sellerLabel: "Seller share (≈ half)",
+        disclaimerExtra:
+          "Rates may change; additional cost items are not included.",
+      },
+      rentalYield: {
+        title: "Rental Yield / Payback",
+        desc: "Given the property value and monthly rent, calculates gross annual yield and how many years it would take for the property to pay back.",
+        valueLabel: "Property value",
+        rentLabel: "Monthly rent",
+        hint: "Gross calculation — excludes tax, management fee, maintenance and vacancy periods.",
+        yieldLabel: "Gross annual yield",
+        annualLabel: "Annual rental income",
+        paybackLabel: "Payback period",
+        paybackUnit: "yr",
+        disclaimerExtra:
+          "Gross yield; the real net yield is reduced by taxes and expenses.",
+      },
+      budget: {
+        title: "Down Payment / Budget Planner",
+        desc: "For your target home price, shows your current down payment ratio, the remaining amount and how long it would take to reach the target through savings alone.",
+        targetLabel: "Target home price",
+        savingsLabel: "Current savings",
+        monthlyLabel: "Amount you can set aside monthly",
+        hint: "A mortgage can be used for the remaining amount — calculate the installment with the Mortgage tool.",
+        downPctLabel: "Your down payment ratio",
+        remainingLabel: "Remaining amount",
+        timeLabel: "Time by saving only",
+        goalMet: "You've reached your goal 🎉",
+        timeTemplate: "{months} months (≈ {years} years)",
+        disclaimerExtra:
+          "A simple plan that excludes interest/inflation and price changes.",
+      },
+      income: {
+        title: "Earning Potential Indicator",
+        subtitle: "Enter your own scenario for a rough idea.",
+        txLabel: "Monthly transaction count",
+        valLabel: "Average property value",
+        commLabel: "Commission rate (example)",
+        shareLabel: "Advisor share (example)",
+        hint: "Commission rate and advisor share are examples — actual rates vary by office and transaction and are clarified in the introductory meeting.",
+        grossLabel: "Estimated gross earning",
+        monthlyLabel: "Monthly",
+        yearlyLabel: "Annual",
+        warningPrefix: "This is only an estimate.",
+        warningBody:
+          " Real earnings depend on performance, the market and your effort; no income is",
+        warningTail: " guaranteed.",
+      },
     },
   },
   forms: {

@@ -8,9 +8,29 @@ import {
   Disclaimer,
   ToolCTA,
   ToolShell,
+  type CommonToolsDict,
 } from "@/components/tools/parts";
 
-export default function RentalYieldCalc() {
+export interface RentalYieldDict {
+  title: string;
+  desc: string;
+  valueLabel: string;
+  rentLabel: string;
+  hint: string;
+  yieldLabel: string;
+  annualLabel: string;
+  paybackLabel: string;
+  paybackUnit: string;
+  disclaimerExtra: string;
+}
+
+export default function RentalYieldCalc({
+  dict,
+  common,
+}: {
+  dict: RentalYieldDict;
+  common: CommonToolsDict;
+}) {
   const [value, setValue] = useState<number | "">(3_000_000);
   const [rent, setRent] = useState<number | "">(15_000);
 
@@ -21,32 +41,28 @@ export default function RentalYieldCalc() {
 
   const payback =
     res.paybackYears > 0 && Number.isFinite(res.paybackYears)
-      ? `${res.paybackYears.toLocaleString("tr-TR", { maximumFractionDigits: 1 })} yıl`
+      ? `${res.paybackYears.toLocaleString("en-US", { maximumFractionDigits: 1 })} ${dict.paybackUnit}`
       : "—";
 
   return (
     <ToolShell
       id="kira"
-      title="Kira Getirisi / Amortisman"
-      desc="Mülk değeri ve aylık kira ile brüt yıllık getiriyi ve mülkün kaç yılda kendini amorti ettiğini hesaplar."
+      title={dict.title}
+      desc={dict.desc}
       inputs={
         <>
-          <NumberField label="Mülk değeri" value={value} onChange={setValue} suffix="₺" step={50000} />
-          <NumberField label="Aylık kira" value={rent} onChange={setRent} suffix="₺" step={500} />
-          <p className="text-xs text-navy/45">
-            Brüt hesap — vergi, aidat, bakım ve boşluk dönemleri hariçtir.
-          </p>
+          <NumberField label={dict.valueLabel} value={value} onChange={setValue} suffix={common.suffixTL} step={50000} />
+          <NumberField label={dict.rentLabel} value={rent} onChange={setRent} suffix={common.suffixTL} step={500} />
+          <p className="text-xs text-navy/45">{dict.hint}</p>
         </>
       }
       result={
         <>
-          <ResultRow label="Brüt yıllık getiri" value={formatPct(res.grossYieldPct)} strong />
-          <ResultRow label="Yıllık kira geliri" value={formatTL((Number(rent) || 0) * 12)} />
-          <ResultRow label="Amortisman süresi" value={payback} />
-          <Disclaimer>
-            Brüt getiri; gerçek net getiri vergi ve giderlerle düşer.
-          </Disclaimer>
-          <ToolCTA />
+          <ResultRow label={dict.yieldLabel} value={formatPct(res.grossYieldPct)} strong />
+          <ResultRow label={dict.annualLabel} value={formatTL((Number(rent) || 0) * 12)} />
+          <ResultRow label={dict.paybackLabel} value={payback} />
+          <Disclaimer baseText={common.disclaimerBase}>{dict.disclaimerExtra}</Disclaimer>
+          <ToolCTA label={common.ctaContact} />
         </>
       }
     />

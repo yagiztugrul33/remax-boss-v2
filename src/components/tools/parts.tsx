@@ -91,20 +91,30 @@ export function ResultRow({
   );
 }
 
-export function Disclaimer({ children }: { children?: React.ReactNode }) {
+/**
+ * Disclaimer — tahmini/bağlayıcı değil uyarısı.
+ * baseText: dictionary'den gelen ortak metin (bilingual).
+ * children: opsiyonel araç-özel ek metin.
+ */
+export function Disclaimer({
+  baseText,
+  children,
+}: {
+  baseText: string;
+  children?: React.ReactNode;
+}) {
   return (
     <div className="mt-4 flex items-start gap-2.5 rounded-xl bg-amber-50 border border-amber-100 p-3 text-xs text-navy/65 leading-relaxed">
       <Info className="h-4 w-4 mt-0.5 flex-shrink-0 text-amber-500" aria-hidden />
       <span>
         {children}{" "}
-        Bu hesaplama tahmini ve bilgilendirme amaçlıdır; bağlayıcı değildir.
-        Kesin bilgi için RE/MAX BOSS ile görüşün veya ilgili kuruma danışın.
+        {baseText}
       </span>
     </div>
   );
 }
 
-export function ToolCTA() {
+export function ToolCTA({ label }: { label: string }) {
   return (
     <div className="mt-4 flex flex-wrap items-center gap-3">
       <Link
@@ -114,7 +124,7 @@ export function ToolCTA() {
           "bg-remax-red hover:bg-remax-red-hover text-white h-11 px-5 text-sm font-semibold tracking-wide",
         )}
       >
-        RE/MAX BOSS ile görüşün
+        {label}
         <ArrowRight className="h-4 w-4 ms-2" />
       </Link>
       <a
@@ -159,4 +169,18 @@ export function ToolShell({
       </div>
     </div>
   );
+}
+
+/**
+ * Tipler — tools sözlüğünden gelecek prop yapıları.
+ */
+export interface CommonToolsDict {
+  disclaimerBase: string;
+  ctaContact: string;
+  suffixTL: string;
+  suffixPct: string;
+  suffixYear: string;
+  suffixMonth: string;
+  suffixCount: string;
+  suffixPerMonth: string;
 }

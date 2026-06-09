@@ -6,35 +6,59 @@ import MortgageCalc from "@/components/tools/MortgageCalc";
 import TitleFeeCalc from "@/components/tools/TitleFeeCalc";
 import RentalYieldCalc from "@/components/tools/RentalYieldCalc";
 import BudgetPlanner from "@/components/tools/BudgetPlanner";
+import { getDictionary } from "@/lib/i18n/server";
+import { withAccent } from "@/lib/i18n/render";
 
-export const metadata: Metadata = {
-  title: "Hesaplama Araçları",
-  description:
-    "Konut kredisi taksiti, tapu harcı, kira getirisi ve bütçe planlama — RE/MAX BOSS'un ücretsiz, anlık gayrimenkul hesaplama araçları.",
-  alternates: { canonical: "/araclar" },
-  openGraph: {
-    title: "Hesaplama Araçları — RE/MAX BOSS",
-    description:
-      "Kredi taksiti, tapu harcı, kira getirisi, bütçe planlayıcı — ücretsiz ve anlık. Bağlayıcı değildir.",
-    images: [
-      {
-        url: "/office/acik-ofis-3.jpg",
-        width: 2000,
-        height: 1125,
-        alt: "RE/MAX BOSS — hesaplama araçları",
-      },
-    ],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const d = (await getDictionary()).pages.tools;
+  return {
+    title: d.meta.title,
+    description: d.meta.description,
+    alternates: { canonical: "/araclar" },
+    openGraph: {
+      title: d.og.title,
+      description: d.og.desc,
+      images: [
+        {
+          url: "/office/acik-ofis-3.jpg",
+          width: 2000,
+          height: 1125,
+          alt: d.og.imageAlt,
+        },
+      ],
+    },
+  };
+}
 
-const tools = [
-  { icon: Calculator, href: "#kredi", title: "Konut Kredisi", desc: "Aylık taksit, toplam ödeme ve faiz." },
-  { icon: Landmark, href: "#tapu", title: "Tapu Harcı / Masraf", desc: "Satış bedeline göre yaklaşık harç." },
-  { icon: TrendingUp, href: "#kira", title: "Kira Getirisi", desc: "Brüt yıllık getiri ve amortisman." },
-  { icon: PiggyBank, href: "#butce", title: "Bütçe Planlayıcı", desc: "Peşinat oranı ve biriktirme süresi." },
-];
+export default async function AraclarPage() {
+  const d = (await getDictionary()).pages.tools;
+  const tools = [
+    {
+      icon: Calculator,
+      href: "#kredi",
+      title: d.cards.mortgageTitle,
+      desc: d.cards.mortgageDesc,
+    },
+    {
+      icon: Landmark,
+      href: "#tapu",
+      title: d.cards.titleFeeTitle,
+      desc: d.cards.titleFeeDesc,
+    },
+    {
+      icon: TrendingUp,
+      href: "#kira",
+      title: d.cards.rentalTitle,
+      desc: d.cards.rentalDesc,
+    },
+    {
+      icon: PiggyBank,
+      href: "#butce",
+      title: d.cards.budgetTitle,
+      desc: d.cards.budgetDesc,
+    },
+  ];
 
-export default function AraclarPage() {
   return (
     <>
       {/* HERO */}
@@ -55,14 +79,13 @@ export default function AraclarPage() {
         <div className="container-page py-20 md:py-28">
           <div className="max-w-2xl">
             <Eyebrow tone="white" className="text-white/80">
-              Hesaplama Araçları
+              {d.heroEyebrow}
             </Eyebrow>
             <h1 className="mt-5 font-display text-display-xl text-balance">
-              Kararını <span className="accent-mark">rakamlarla</span> ver.
+              {withAccent(d.heroTitle)}
             </h1>
             <p className="mt-7 text-lg text-white/70 max-w-xl leading-relaxed">
-              Kredi taksitinden tapu harcına, kira getirisinden bütçe planına —
-              anlık ve ücretsiz hesaplayın. Tüm sonuçlar tahminidir.
+              {d.heroSubtitle}
             </p>
           </div>
         </div>
@@ -93,10 +116,10 @@ export default function AraclarPage() {
 
       {/* ARAÇLAR */}
       <Section tone="mist" density="normal" innerClassName="space-y-6">
-        <MortgageCalc />
-        <TitleFeeCalc />
-        <RentalYieldCalc />
-        <BudgetPlanner />
+        <MortgageCalc dict={d.mortgage} common={d.common} />
+        <TitleFeeCalc dict={d.titleFee} common={d.common} />
+        <RentalYieldCalc dict={d.rentalYield} common={d.common} />
+        <BudgetPlanner dict={d.budget} common={d.common} />
       </Section>
     </>
   );
