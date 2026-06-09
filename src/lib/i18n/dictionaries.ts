@@ -283,6 +283,39 @@ export interface Dict {
       ctaApplyForm: string;
       ctaWhatsapp: string;
     };
+    campaign: {
+      meta: { title: string; description: string };
+      og: { title: string; desc: string; imageAlt: string };
+      heroBadge: string;
+      heroTitle: {
+        lead: string;
+        amber1: string;
+        middle: string;
+        amber2: string;
+        tail: string;
+      };
+      heroSlogan: string;
+      heroDesc: string;
+      quotaSuffixTemplate: string; // "/ {total} onaylı mülk hakkı kaldı"
+      statusFull: string;
+      statusComingSoon: string;
+      ctaApplyNow: string;
+      conditionsEyebrow: string;
+      conditionsTitle: string;
+      conditionsSubtitle: string;
+      conditions: readonly string[]; // 7 öğe
+      applyEyebrow: string;
+      applyTitle: string;
+      applyDescBefore: string;
+      applyDescAfter: string;
+      closedFullTitle: string;
+      closedSoonTitle: string;
+      closedFullDesc: string;
+      closedSoonDesc: string;
+      closedContact: string;
+      faqHeading: string;
+      faqs: readonly { q: string; a: string }[];
+    };
   };
 
   // ── Formlar ──
@@ -634,6 +667,79 @@ const tr: Dict = {
       ctaHowTo: "Nasıl danışman olunur?",
       ctaApplyForm: "Başvuru formuna git",
       ctaWhatsapp: "WhatsApp",
+    },
+    campaign: {
+      meta: {
+        title: "Altın Kampanyası",
+        description:
+          "RE/MAX BOSS açılışına özel iki aşamalı ödül: uygun mülkünüzü münhasır yetkiyle verdiğinizde 1 gram altın, mülk satıldığında çeyrek altın. Şeffaf koşullar, sınırlı kontenjan. Başvurun, ekibimiz değerlendirsin.",
+      },
+      og: {
+        title: "Altın Kampanyası — RE/MAX BOSS",
+        desc: "İki aşamalı ödül: yetki anında 1 gram altın, satışta çeyrek altın. Şeffaf koşullar, sınırlı kontenjan.",
+        imageAlt: "RE/MAX BOSS — Altın Kampanyası",
+      },
+      heroBadge: "Açılışa Özel Kampanya",
+      heroTitle: {
+        lead: "Yetki verin",
+        amber1: "gram altın",
+        middle: ", mülkünüz satılsın",
+        amber2: "çeyrek altın",
+        tail: ".",
+      },
+      heroSlogan:
+        "İki aşamalı kazanç: yetkide 1 gram altın, satışta çeyrek altın.",
+      heroDesc:
+        "RE/MAX BOSS açılışına özel: 10.000.000 TL ve üzeri uygun mülkünüzü ofisimize 3 ay münhasır yetkiyle verdiğinizde 1 gram altın, mülk bizimle satıldığında çeyrek altın. Şeffaf koşullar, sınırlı kontenjan — başvurun, ekibimiz değerlendirsin.",
+      quotaSuffixTemplate: "/ {total} onaylı mülk hakkı kaldı",
+      statusFull:
+        "Kontenjan doldu — başvurular kapandı. İlginiz için teşekkürler.",
+      statusComingSoon: "Çok yakında — kampanya başlamak üzere.",
+      ctaApplyNow: "Hemen Başvur",
+      conditionsEyebrow: "Şeffaf Koşullar",
+      conditionsTitle: "Net ve <accent>dürüst</accent> kurallar.",
+      conditionsSubtitle:
+        "Sürpriz yok. Aşağıdaki koşullar sağlandığında ödül iki aşamada hak edilir: münhasır yetki sözleşmesiyle 1 gram altın, satış tapuda tamamlandığında çeyrek altın. Başvuru tek başına ödül doğurmaz.",
+      conditions: [
+        "Mülk değeri 10.000.000 TL ve üzeri (değerlemeyi ofis onaylar).",
+        "En az 3 ay münhasır (tek yetkili) satış yetkisi.",
+        "Açılışa özel ilk 50 ONAYLI mülk ile sınırlıdır.",
+        "Uygunluk kararı tamamen ofise aittir.",
+        "1. Aşama — Yetki: münhasır satış yetkisi sözleşmesi imzalandığında 1 gram altın.",
+        "2. Aşama — Satış: mülk tapuda devredildiğinde çeyrek altın.",
+        "Başvuru, ödül hakkı doğurmaz; değerlendirme talebidir.",
+      ],
+      applyEyebrow: "Başvuru",
+      applyTitle: "Mülkünüzü <accent>değerlendirelim</accent>.",
+      applyDescBefore:
+        "Aşağıdaki formu doldurun; ekibimiz mülkünüzü ve uygunluğu inceleyip size dönsün. Dilerseniz doğrudan arayın: ",
+      applyDescAfter: ".",
+      closedFullTitle: "Kontenjan doldu",
+      closedSoonTitle: "Kampanya çok yakında",
+      closedFullDesc:
+        "Başvurular şu an kapalı. Yine de mülkünüzü değerlendirmek için bizimle iletişime geçebilirsiniz.",
+      closedSoonDesc:
+        "Başvurular açıldığında bu sayfada duyuracağız. Bilgi için bizi arayabilirsiniz.",
+      closedContact: "İletişime geç",
+      faqHeading: "Sıkça Sorulan Sorular",
+      faqs: [
+        {
+          q: "Altını ne zaman alırım?",
+          a: "Ödül iki aşamalıdır: Münhasır satış yetkisi sözleşmesi imzalandığında 1 gram altın; mülkünüz ofisimiz aracılığıyla satılıp tapu devri tamamlandığında çeyrek altın hak edilir. Önceden ödeme yapılmaz; başvuru tek başına ödül doğurmaz.",
+        },
+        {
+          q: "Hangi mülkler uygun?",
+          a: "10.000.000 TL ve üzeri değerdeki, ofisimize en az 3 ay münhasır yetkiyle verilen ve değerlemesi ekibimizce onaylanan mülkler.",
+        },
+        {
+          q: "Kaç kişi faydalanabilir?",
+          a: "Açılışa özel olarak ilk 50 onaylı mülk ile sınırlıdır. Kontenjan dolduğunda kampanya kapanır.",
+        },
+        {
+          q: "Kazancım garanti mi?",
+          a: "Kampanya bir ödül vaadi değildir. Uygunluk ve onay kararı ofise aittir. Gram altın yetki sözleşmesi imzalandığında, çeyrek altın ise satış tapuda tamamlandığında verilir.",
+        },
+      ],
     },
   },
   forms: {
@@ -999,6 +1105,79 @@ const en: Dict = {
       ctaHowTo: "How to become an agent?",
       ctaApplyForm: "Go to application form",
       ctaWhatsapp: "WhatsApp",
+    },
+    campaign: {
+      meta: {
+        title: "Gold Campaign",
+        description:
+          "A two-stage reward exclusive to the RE/MAX BOSS opening: 1 gram of gold when you give us an exclusive sales mandate for an eligible property, a quarter gold coin when the property is sold. Transparent conditions, limited quota. Submit your application; our team will review.",
+      },
+      og: {
+        title: "Gold Campaign — RE/MAX BOSS",
+        desc: "A two-stage reward: 1 gram of gold on the mandate, a quarter gold coin on the sale. Transparent conditions, limited quota.",
+        imageAlt: "RE/MAX BOSS — Gold Campaign",
+      },
+      heroBadge: "Opening Special Campaign",
+      heroTitle: {
+        lead: "Sign the mandate —",
+        amber1: "a gram of gold",
+        middle: ". Complete the sale —",
+        amber2: "a quarter gold coin",
+        tail: ".",
+      },
+      heroSlogan:
+        "A two-stage reward: 1 gram of gold on the mandate, a quarter gold coin on the sale.",
+      heroDesc:
+        "Exclusive to the RE/MAX BOSS opening: when you give us a 3-month exclusive sales mandate for an eligible property valued at 10,000,000 TL or above, you receive 1 gram of gold; when the property is sold through our office, a quarter gold coin. Transparent conditions, limited quota — submit your application, and our team will review.",
+      quotaSuffixTemplate: "/ {total} approved property slots left",
+      statusFull:
+        "Quota filled — applications are closed. Thank you for your interest.",
+      statusComingSoon: "Coming soon — the campaign is about to launch.",
+      ctaApplyNow: "Apply Now",
+      conditionsEyebrow: "Transparent Conditions",
+      conditionsTitle: "Clear and <accent>honest</accent> rules.",
+      conditionsSubtitle:
+        "No surprises. When the conditions below are met, the reward is earned in two stages: 1 gram of gold with the exclusive sales mandate, a quarter gold coin when the sale is completed at the title deed. Application alone does not create a right to the reward.",
+      conditions: [
+        "Property value of 10,000,000 TL or above (valuation approved by the office).",
+        "At least a 3-month exclusive (sole) sales mandate.",
+        "Limited to the first 50 APPROVED properties as an opening special.",
+        "Eligibility decisions rest entirely with the office.",
+        "Stage 1 — Mandate: 1 gram of gold upon signing the exclusive sales mandate.",
+        "Stage 2 — Sale: a quarter gold coin when the property is transferred at the title deed.",
+        "Application alone does not create a right to the reward; it is a request for review.",
+      ],
+      applyEyebrow: "Apply",
+      applyTitle: "Let's <accent>review</accent> your property.",
+      applyDescBefore:
+        "Fill in the form below; our team will review your property and eligibility and get back to you. Or call us directly: ",
+      applyDescAfter: ".",
+      closedFullTitle: "Quota filled",
+      closedSoonTitle: "Campaign coming soon",
+      closedFullDesc:
+        "Applications are currently closed. You can still contact us to have your property reviewed.",
+      closedSoonDesc:
+        "We'll announce here when applications open. You can call us for information.",
+      closedContact: "Get in touch",
+      faqHeading: "Frequently Asked Questions",
+      faqs: [
+        {
+          q: "When will I receive the gold?",
+          a: "The reward is two-stage: 1 gram of gold upon signing the exclusive sales mandate; a quarter gold coin is earned when your property is sold through our office and the title deed transfer is completed. No payment is made in advance; application alone does not create a right to the reward.",
+        },
+        {
+          q: "Which properties are eligible?",
+          a: "Properties valued at 10,000,000 TL or above that are given to our office under at least a 3-month exclusive mandate and whose valuation is approved by our team.",
+        },
+        {
+          q: "How many people can benefit?",
+          a: "Limited to the first 50 approved properties as an opening special. The campaign closes when the quota is filled.",
+        },
+        {
+          q: "Is my earning guaranteed?",
+          a: "The campaign is not a promise of reward. Eligibility and approval decisions rest with the office. The gram of gold is given upon signing the mandate; the quarter gold coin is given when the sale is completed at the title deed.",
+        },
+      ],
     },
   },
   forms: {

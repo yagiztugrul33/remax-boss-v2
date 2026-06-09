@@ -8,6 +8,7 @@ import {
   FileSignature,
   Trophy,
   Info,
+  type LucideIcon,
 } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
@@ -18,62 +19,52 @@ import { cn } from "@/lib/utils";
 import { office } from "@/lib/office";
 import { getCampaignSettings } from "@/lib/campaign-queries";
 import { remainingQuota } from "@/lib/campaign";
+import { getDictionary } from "@/lib/i18n/server";
+import { withAccent } from "@/lib/i18n/render";
 
-export const metadata: Metadata = {
-  title: "Altın Kampanyası",
-  description:
-    "RE/MAX BOSS açılışına özel iki aşamalı ödül: uygun mülkünüzü münhasır yetkiyle verdiğinizde 1 gram altın, mülk satıldığında çeyrek altın. Şeffaf koşullar, sınırlı kontenjan. Başvurun, ekibimiz değerlendirsin.",
-  openGraph: {
-    title: "Altın Kampanyası — RE/MAX BOSS",
-    description:
-      "İki aşamalı ödül: yetki anında 1 gram altın, satışta çeyrek altın. Şeffaf koşullar, sınırlı kontenjan.",
-    images: [
-      {
-        url: "/office/duvar-logo.jpg",
-        width: 2000,
-        height: 1125,
-        alt: "RE/MAX BOSS — Altın Kampanyası",
-      },
-    ],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const d = (await getDictionary()).pages.campaign;
+  return {
+    title: d.meta.title,
+    description: d.meta.description,
+    openGraph: {
+      title: d.og.title,
+      description: d.og.desc,
+      images: [
+        {
+          url: "/office/duvar-logo.jpg",
+          width: 2000,
+          height: 1125,
+          alt: d.og.imageAlt,
+        },
+      ],
+    },
+  };
+}
 
 export const dynamic = "force-dynamic";
 
-const conditions = [
-  { icon: Home, text: "Mülk değeri 10.000.000 TL ve üzeri (değerlemeyi ofis onaylar)." },
-  { icon: FileSignature, text: "En az 3 ay münhasır (tek yetkili) satış yetkisi." },
-  { icon: Trophy, text: "Açılışa özel ilk 50 ONAYLI mülk ile sınırlıdır." },
-  { icon: ShieldCheck, text: "Uygunluk kararı tamamen ofise aittir." },
-  // ── Ödül iki aşamalı ──
-  { icon: Coins, text: "1. Aşama — Yetki: münhasır satış yetkisi sözleşmesi imzalandığında 1 gram altın." },
-  { icon: Coins, text: "2. Aşama — Satış: mülk tapuda devredildiğinde çeyrek altın." },
-  { icon: Info, text: "Başvuru, ödül hakkı doğurmaz; değerlendirme talebidir." },
-];
-
-const faq = [
-  {
-    q: "Altını ne zaman alırım?",
-    a: "Ödül iki aşamalıdır: Münhasır satış yetkisi sözleşmesi imzalandığında 1 gram altın; mülkünüz ofisimiz aracılığıyla satılıp tapu devri tamamlandığında çeyrek altın hak edilir. Önceden ödeme yapılmaz; başvuru tek başına ödül doğurmaz.",
-  },
-  {
-    q: "Hangi mülkler uygun?",
-    a: "10.000.000 TL ve üzeri değerdeki, ofisimize en az 3 ay münhasır yetkiyle verilen ve değerlemesi ekibimizce onaylanan mülkler.",
-  },
-  {
-    q: "Kaç kişi faydalanabilir?",
-    a: "Açılışa özel olarak ilk 50 onaylı mülk ile sınırlıdır. Kontenjan dolduğunda kampanya kapanır.",
-  },
-  {
-    q: "Kazancım garanti mi?",
-    a: "Kampanya bir ödül vaadi değildir. Uygunluk ve onay kararı ofise aittir. Gram altın yetki sözleşmesi imzalandığında, çeyrek altın ise satış tapuda tamamlandığında verilir.",
-  },
+// 7 koşula 1:1 eşleşen ikonlar (sözlük indeksiyle).
+const CONDITION_ICONS: readonly LucideIcon[] = [
+  Home,
+  FileSignature,
+  Trophy,
+  ShieldCheck,
+  Coins, // Stage 1
+  Coins, // Stage 2
+  Info,
 ];
 
 export default async function KampanyaPage() {
+  const d = (await getDictionary()).pages.campaign;
   const settings = await getCampaignSettings();
   const remaining = remainingQuota(settings);
   const isOpen = settings.aktif && remaining > 0;
+
+  const quotaSuffix = d.quotaSuffixTemplate.replace(
+    "{total}",
+    String(settings.toplam_kontenjan),
+  );
 
   return (
     <>
@@ -101,27 +92,24 @@ export default async function KampanyaPage() {
           <div className="max-w-3xl">
             <div className="anim-hero anim-delay-1 inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-amber-300">
               <Coins className="h-3.5 w-3.5" aria-hidden />
-              Açılışa Özel Kampanya
+              {d.heroBadge}
             </div>
             <h1 className="mt-5 font-display text-display-xl text-balance anim-hero anim-delay-2">
-              Yetki verin{" "}
+              {d.heroTitle.lead}{" "}
               <span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">
-                gram altın
+                {d.heroTitle.amber1}
               </span>
-              , mülkünüz satılsın{" "}
+              {d.heroTitle.middle}{" "}
               <span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">
-                çeyrek altın
+                {d.heroTitle.amber2}
               </span>
-              .
+              {d.heroTitle.tail}
             </h1>
             <p className="mt-4 text-base md:text-lg font-semibold text-amber-200 anim-hero anim-delay-3">
-              İki aşamalı kazanç: yetkide 1 gram altın, satışta çeyrek altın.
+              {d.heroSlogan}
             </p>
             <p className="mt-5 text-lg text-white/75 max-w-xl leading-relaxed anim-hero anim-delay-3">
-              RE/MAX BOSS açılışına özel: 10.000.000 TL ve üzeri uygun mülkünüzü
-              ofisimize 3 ay münhasır yetkiyle verdiğinizde 1 gram altın, mülk
-              bizimle satıldığında çeyrek altın. Şeffaf koşullar, sınırlı kontenjan —
-              başvurun, ekibimiz değerlendirsin.
+              {d.heroDesc}
             </p>
 
             {/* Canlı kontenjan / durum */}
@@ -133,19 +121,17 @@ export default async function KampanyaPage() {
                       {remaining}
                     </span>
                     <span className="text-sm text-white/70 leading-tight">
-                      / {settings.toplam_kontenjan} onaylı mülk hakkı
-                      <br />
-                      kaldı
+                      {quotaSuffix}
                     </span>
                   </div>
                 ) : (
                   <div className="inline-flex items-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-5 py-3 text-sm text-white/75">
-                    Kontenjan doldu — başvurular kapandı. İlginiz için teşekkürler.
+                    {d.statusFull}
                   </div>
                 )
               ) : (
                 <div className="inline-flex items-center gap-2 rounded-2xl border border-amber-400/30 bg-amber-400/10 px-5 py-3 text-sm font-semibold text-amber-200">
-                  Çok yakında — kampanya başlamak üzere.
+                  {d.statusComingSoon}
                 </div>
               )}
             </div>
@@ -159,7 +145,7 @@ export default async function KampanyaPage() {
                     "bg-amber-500 hover:bg-amber-400 text-navy-900 h-12 px-7 text-sm font-bold tracking-wide btn-shine",
                   )}
                 >
-                  Hemen Başvur
+                  {d.ctaApplyNow}
                 </Link>
               </div>
             )}
@@ -170,29 +156,30 @@ export default async function KampanyaPage() {
       {/* ── KOŞULLAR ── */}
       <Section tone="light" density="normal">
         <div className="max-w-2xl mb-10">
-          <Eyebrow tone="red">Şeffaf Koşullar</Eyebrow>
+          <Eyebrow tone="red">{d.conditionsEyebrow}</Eyebrow>
           <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-            Net ve <span className="accent-mark">dürüst</span> kurallar.
+            {withAccent(d.conditionsTitle)}
           </h2>
           <p className="mt-4 text-navy/65 leading-relaxed">
-            Sürpriz yok. Aşağıdaki koşullar sağlandığında ödül iki aşamada hak
-            edilir: münhasır yetki sözleşmesiyle 1 gram altın, satış tapuda
-            tamamlandığında çeyrek altın. Başvuru tek başına ödül doğurmaz.
+            {d.conditionsSubtitle}
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {conditions.map((c, i) => (
-            <Reveal
-              key={c.text}
-              delay={(i % 3) * 80}
-              className="card-depth h-full rounded-2xl border border-line bg-white p-5 flex gap-3"
-            >
-              <span className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600 border border-amber-100">
-                <c.icon className="h-5 w-5" aria-hidden />
-              </span>
-              <p className="text-sm text-navy/75 leading-relaxed">{c.text}</p>
-            </Reveal>
-          ))}
+          {d.conditions.map((text, i) => {
+            const Icon = CONDITION_ICONS[i] ?? Info;
+            return (
+              <Reveal
+                key={text}
+                delay={(i % 3) * 80}
+                className="card-depth h-full rounded-2xl border border-line bg-white p-5 flex gap-3"
+              >
+                <span className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600 border border-amber-100">
+                  <Icon className="h-5 w-5" aria-hidden />
+                </span>
+                <p className="text-sm text-navy/75 leading-relaxed">{text}</p>
+              </Reveal>
+            );
+          })}
         </div>
       </Section>
 
@@ -200,13 +187,12 @@ export default async function KampanyaPage() {
       <Section tone="mist" density="normal">
         <div id="basvuru" className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-10 lg:gap-14 items-start scroll-mt-24">
           <div>
-            <Eyebrow tone="red">Başvuru</Eyebrow>
+            <Eyebrow tone="red">{d.applyEyebrow}</Eyebrow>
             <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
-              Mülkünüzü <span className="accent-mark">değerlendirelim</span>.
+              {withAccent(d.applyTitle)}
             </h2>
             <p className="mt-4 text-navy/65 leading-relaxed max-w-md">
-              Aşağıdaki formu doldurun; ekibimiz mülkünüzü ve uygunluğu inceleyip
-              size dönsün. Dilerseniz doğrudan arayın:{" "}
+              {d.applyDescBefore}
               <a
                 href={`tel:${office.phone}`}
                 className="font-semibold text-remax-red hover:underline"
@@ -214,7 +200,7 @@ export default async function KampanyaPage() {
               >
                 {office.phone}
               </a>
-              .
+              {d.applyDescAfter}
             </p>
 
             <div className="mt-8">
@@ -226,12 +212,10 @@ export default async function KampanyaPage() {
                     <Coins className="h-6 w-6" aria-hidden />
                   </span>
                   <p className="mt-4 font-display font-bold text-navy">
-                    {settings.aktif ? "Kontenjan doldu" : "Kampanya çok yakında"}
+                    {settings.aktif ? d.closedFullTitle : d.closedSoonTitle}
                   </p>
                   <p className="mt-2 text-sm text-navy/60">
-                    {settings.aktif
-                      ? "Başvurular şu an kapalı. Yine de mülkünüzü değerlendirmek için bizimle iletişime geçebilirsiniz."
-                      : "Başvurular açıldığında bu sayfada duyuracağız. Bilgi için bizi arayabilirsiniz."}
+                    {settings.aktif ? d.closedFullDesc : d.closedSoonDesc}
                   </p>
                   <Link
                     href="/iletisim"
@@ -240,7 +224,7 @@ export default async function KampanyaPage() {
                       "mt-5 h-11 px-5 text-sm font-semibold",
                     )}
                   >
-                    İletişime geç
+                    {d.closedContact}
                   </Link>
                 </div>
               )}
@@ -249,10 +233,10 @@ export default async function KampanyaPage() {
 
           <div className="lg:pt-14">
             <h3 className="font-display font-extrabold text-navy text-xl mb-5">
-              Sıkça Sorulan Sorular
+              {d.faqHeading}
             </h3>
             <div className="space-y-3">
-              {faq.map((f) => (
+              {d.faqs.map((f) => (
                 <div
                   key={f.q}
                   className="rounded-2xl border border-line bg-white p-5"
