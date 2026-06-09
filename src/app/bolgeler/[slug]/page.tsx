@@ -18,6 +18,7 @@ import {
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import Reveal from "@/components/ui/reveal";
+import SubscribeSection from "@/components/sections/SubscribeSection";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { office } from "@/lib/office";
@@ -370,6 +371,9 @@ export default async function BolgeDetayPage({ params }: PageProps) {
           </div>
         </div>
       </Section>
+
+      {/* YENİ İLAN BİLDİRİMİ */}
+      <SubscribeSection tone="light" />
     </>
   );
 }

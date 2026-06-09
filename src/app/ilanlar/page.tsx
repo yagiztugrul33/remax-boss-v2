@@ -4,6 +4,7 @@ import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import ListingCard from "@/components/sections/ListingCard";
 import ListingsRedirect from "@/components/sections/ListingsRedirect";
+import SubscribeSection from "@/components/sections/SubscribeSection";
 import { getPublishedListings } from "@/lib/queries";
 
 export const metadata: Metadata = {
@@ -123,6 +124,9 @@ export default async function IlanlarPage() {
           <ListingsRedirect />
         )}
       </Section>
+
+      {/* YENİ İLAN BİLDİRİMİ — lead toplama */}
+      <SubscribeSection tone="mist" />
     </>
   );
 }

@@ -8,6 +8,7 @@ import OfficeGallerySection from "@/components/sections/OfficeGallerySection";
 import FeaturedListings from "@/components/sections/FeaturedListings";
 import ContactStrip from "@/components/sections/ContactStrip";
 import ClosingCta from "@/components/sections/ClosingCta";
+import SubscribeSection from "@/components/sections/SubscribeSection";
 
 export const metadata: Metadata = {
   description:
@@ -30,6 +31,7 @@ export default function HomePage() {
       <OfficeShowcase />
       <OfficeGallerySection />
       <FeaturedListings />
+      <SubscribeSection tone="mist" />
       <ContactStrip />
       <ClosingCta />
     </>

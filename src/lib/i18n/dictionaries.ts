@@ -498,6 +498,34 @@ export interface Dict {
       notFoundTitle: string;
       notFoundDesc: string;
     };
+    subscribe: {
+      eyebrow: string;
+      title: string;
+      subtitle: string;
+      emailLabel: string;
+      emailPlaceholder: string;
+      criteriaToggle: string;
+      regionLabel: string;
+      regionPlaceholder: string;
+      typeLabel: string;
+      typeOptionAll: string;
+      islemLabel: string;
+      islemOptionAll: string;
+      butceLabel: string;
+      butcePlaceholder: string;
+      kvkkBefore: string;
+      kvkkBrand: string;
+      kvkkAfter: string;
+      submitBtn: string;
+      sendingBtn: string;
+      successTitle: string;
+      successBody: string;
+      alreadyTitle: string;
+      alreadyBody: string;
+      errorGeneric: string;
+      compactTitle: string;
+      compactBody: string;
+    };
     valuationTool: {
       eyebrow: string;
       title: string;
@@ -1211,6 +1239,40 @@ const tr: Dict = {
       notFoundTitle: "Bu profil bulunamadı.",
       notFoundDesc:
         "Aradığınız danışman ekibimizden ayrılmış veya bağlantı geçersiz olabilir. Ekibimiz sayfasından güncel listeyi görebilirsiniz.",
+    },
+    subscribe: {
+      eyebrow: "Yeni İlan Bildirimi",
+      title: "Yeni ilanlardan ilk siz haberdar olun",
+      subtitle:
+        "E-postanızı bırakın; tercih ettiğiniz bölge ve mülk tipinde yeni ilan eklendiğinde size haber verelim.",
+      emailLabel: "E-posta",
+      emailPlaceholder: "ornek@eposta.com",
+      criteriaToggle: "Kriterlerimi belirt (opsiyonel)",
+      regionLabel: "İlgi bölgeleri",
+      regionPlaceholder: "örn. Beştepe, Oran",
+      typeLabel: "Mülk tipi",
+      typeOptionAll: "Hepsi",
+      islemLabel: "İşlem tipi",
+      islemOptionAll: "Hepsi",
+      butceLabel: "Max bütçe (TL)",
+      butcePlaceholder: "örn. 10.000.000",
+      kvkkBefore: "E-posta adresimin yeni ilan bildirimleri amacıyla ",
+      kvkkBrand: "RE/MAX BOSS",
+      kvkkAfter:
+        " tarafından KVKK kapsamında işlenmesini kabul ediyorum.",
+      submitBtn: "Kayıt ol",
+      sendingBtn: "Gönderiliyor…",
+      successTitle: "Kaydınız alındı",
+      successBody:
+        "Tercihlerinize uygun yeni ilan eklendiğinde size haber vereceğiz. İlginiz için teşekkürler.",
+      alreadyTitle: "Bu e-posta zaten kayıtlı",
+      alreadyBody:
+        "Sizi listemizde bulduk. Tercihlerinizi güncellemek isterseniz info@remaxboss.com.tr üzerinden ulaşabilirsiniz.",
+      errorGeneric:
+        "Kayıt tamamlanamadı. Lütfen tekrar deneyin veya bizi telefonla arayın.",
+      compactTitle: "Yeni ilanlardan haberdar olun",
+      compactBody:
+        "E-posta bırakın; tercihinize uygun yeni ilan eklenince haber verelim.",
     },
     valuationTool: {
       eyebrow: "İnteraktif Değerleme",
@@ -1940,6 +2002,40 @@ const en: Dict = {
       notFoundTitle: "Profile not found.",
       notFoundDesc:
         "The agent you're looking for may have left the team or the link may be invalid. See our Team page for the up-to-date list.",
+    },
+    subscribe: {
+      eyebrow: "New Listing Alerts",
+      title: "Be the first to know about new listings",
+      subtitle:
+        "Leave your email; when a new listing matches your preferred area and property type, we'll let you know.",
+      emailLabel: "Email",
+      emailPlaceholder: "you@example.com",
+      criteriaToggle: "Specify my preferences (optional)",
+      regionLabel: "Preferred areas",
+      regionPlaceholder: "e.g. Beştepe, Oran",
+      typeLabel: "Property type",
+      typeOptionAll: "All",
+      islemLabel: "Listing type",
+      islemOptionAll: "All",
+      butceLabel: "Max budget (TL)",
+      butcePlaceholder: "e.g. 10,000,000",
+      kvkkBefore: "I consent to my email being processed by ",
+      kvkkBrand: "RE/MAX BOSS",
+      kvkkAfter:
+        " under KVKK for new-listing notifications.",
+      submitBtn: "Subscribe",
+      sendingBtn: "Sending…",
+      successTitle: "You're subscribed",
+      successBody:
+        "When a new matching listing is added, we'll let you know. Thank you for your interest.",
+      alreadyTitle: "This email is already subscribed",
+      alreadyBody:
+        "We've found you on our list. To update preferences, reach us at info@remaxboss.com.tr.",
+      errorGeneric:
+        "Subscription could not be completed. Please try again or call us.",
+      compactTitle: "Subscribe to new listings",
+      compactBody:
+        "Leave your email; we'll let you know when a matching listing is added.",
     },
     valuationTool: {
       eyebrow: "Interactive Valuation",

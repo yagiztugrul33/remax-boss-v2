@@ -15,6 +15,7 @@ import {
   Coins,
   Calculator,
   Search,
+  Bell,
 } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
@@ -29,6 +30,7 @@ import {
   getNewValuationCount,
   getNewBuyerCount,
 } from "@/lib/admin/lead-forms";
+import { getActiveSubscriberCount } from "@/lib/admin/subscribers";
 import { deleteListing } from "@/lib/admin/actions";
 import { formatLocation, formatPrice } from "@/lib/listings";
 
@@ -113,6 +115,12 @@ export default async function AdminHomePage({ searchParams }: PageProps) {
     newBuyer = await getNewBuyerCount();
   } catch {
     newBuyer = 0;
+  }
+  let aktifAbone = 0;
+  try {
+    aktifAbone = await getActiveSubscriberCount();
+  } catch {
+    aktifAbone = 0;
   }
 
   return (
@@ -253,6 +261,21 @@ export default async function AdminHomePage({ searchParams }: PageProps) {
               {newBuyer > 0 && (
                 <span className="ms-2 inline-flex items-center justify-center rounded-full bg-remax-red text-white text-[11px] font-bold min-w-5 h-5 px-1.5">
                   {newBuyer}
+                </span>
+              )}
+            </Link>
+            <Link
+              href="/admin/aboneler"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "relative h-12 px-5 text-sm font-semibold tracking-wide",
+              )}
+            >
+              <Bell className="h-4 w-4 me-2" />
+              Aboneler
+              {aktifAbone > 0 && (
+                <span className="ms-2 inline-flex items-center justify-center rounded-full bg-emerald-600 text-white text-[11px] font-bold min-w-5 h-5 px-1.5">
+                  {aktifAbone}
                 </span>
               )}
             </Link>
