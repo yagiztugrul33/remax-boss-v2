@@ -45,6 +45,13 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Workspace root'u explicit belirt — ev dizininde başka bir
+  // package-lock.json var (ihaleal projesi). Next bunu tespit edip
+  // workspace root'u yanlış seçebiliyor → bu satır turbopack'i mevcut
+  // projenin köküne sabitler, build uyarısı temizlenir.
+  turbopack: {
+    root: process.cwd(),
+  },
   async headers() {
     return [
       {

@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
+// Anasayfa cookies() kullanıyor (i18n locale + Supabase). Next static render
+// denemesini DYNAMIC_SERVER_USAGE log'uyla bırakıyor → explicit force-dynamic
+// log gürültüsünü temizler. Davranış değişmiyor: zaten `ƒ /` dynamic'ti.
+export const dynamic = "force-dynamic";
+
 export default function HomePage() {
   return (
     <>

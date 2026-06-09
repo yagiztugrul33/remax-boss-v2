@@ -5,8 +5,12 @@ import { NextResponse, type NextRequest } from "next/server";
  * Supabase oturum cookie'sini tazeler — Server Components'in
  * createClient()'inin doğru oturumu görebilmesi için kanonik desen.
  * Burada yetkilendirme YAPILMAZ; o iş /admin sayfasının server guard'ında.
+ *
+ * Next 16: `middleware` file convention deprecated → `proxy` adına geçildi
+ * (dosya adı + export adı). Davranış aynı, sadece isim değişti.
+ * Ref: node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/proxy.md
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
