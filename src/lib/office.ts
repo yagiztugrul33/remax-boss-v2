@@ -86,21 +86,17 @@ export interface OfficeGalleryItem {
  * (OfficeGallerySection + /hakkimizda) locale'a göre map'leyip geçer.
  */
 export const officeGallery: readonly OfficeGalleryItem[] = [
-  // ── Dış cephe açıları (öne) ──
-  {
-    src: "/office/ofis-dis-3.jpg",
-    altTr: "RE/MAX BOSS binası dış görünüm — açı 1",
-    altEn: "RE/MAX BOSS building exterior — angle 1",
-  },
-  {
-    src: "/office/ofis-dis-4.jpg",
-    altTr: "RE/MAX BOSS binası dış görünüm — açı 2",
-    altEn: "RE/MAX BOSS building exterior — angle 2",
-  },
+  // ── Dış cephe (öne) ──
+  // ofis-dis-3.jpg ve ofis-dis-4.jpg ÇIKARILDI — kullanıcı talebi: bu iki
+  // görsel birbiriyle (ve zip'teki kullanıcı-onaylı versiyonlarıyla) aynı
+  // sahneydi. ofis-dis-6 tek dış cephe açısı olarak galeride kaldı.
+  // Hero (ofis-dis-cephe.jpg) ve Showcase (ofis-dis-cephe-2.jpg) zaten
+  // farklı dış cephe açılarını gösteriyor — yeterli çeşitlilik var.
+  // Dosyalar public/office/'ta KORUNDU (gerekirse geri eklenir).
   {
     src: "/office/ofis-dis-6.jpg",
-    altTr: "RE/MAX BOSS binası dış görünüm — açı 3",
-    altEn: "RE/MAX BOSS building exterior — angle 3",
+    altTr: "RE/MAX BOSS binası dış görünüm",
+    altEn: "RE/MAX BOSS building exterior",
   },
   // ── İç mekan ──
   {
