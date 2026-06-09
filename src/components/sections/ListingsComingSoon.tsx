@@ -16,8 +16,8 @@ import { office } from "@/lib/office";
  * compact=true → anasayfa "Öne Çıkan İlanlar" için kısa varyant.
  */
 const cover = {
-  src: "/office/teras.jpg",
-  alt: "RE/MAX BOSS Beştepe ofisi — teras ve şehir manzarası",
+  src: "/office/toplanti-2.jpg",
+  alt: "RE/MAX BOSS toplantı odası — ahşap masa, Türk bayrağı ve RE/MAX BOSS bayrakları",
 };
 
 const steps = [
