@@ -16,8 +16,10 @@ export const office = {
   },
   // Sosyal medya — UYDURMA URL YOK. Doğrulanmış hesap adresi girilince
   // ilgili ikon footer/iletişimde OTOMATİK görünür; boş kalan gizlenir.
+  // (Instagram URL'i kullanıcı tarafından sağlandı; tracking parametreleri
+  // temizlendi.)
   social: {
-    instagram: "",
+    instagram: "https://www.instagram.com/remaxbossofficial",
     facebook: "",
     linkedin: "",
     youtube: "",
@@ -161,16 +163,8 @@ export const officeGallery: readonly OfficeGalleryItem[] = [
     altTr: "RE/MAX BOSS ofis genel görünüm",
     altEn: "RE/MAX BOSS office overview",
   },
-  {
-    src: "/office/duvar-logo-wide.jpg",
-    altTr: "RE/MAX BOSS LED ekran geniş açı",
-    altEn: "RE/MAX BOSS LED screen wide angle",
-  },
-  {
-    src: "/office/kulliye-2.jpg",
-    altTr: "Beştepe külliyesi manzarası 2",
-    altEn: "Beştepe Presidential Complex view 2",
-  },
+  // duvar-logo-wide.jpg ve kulliye-2.jpg ÇIKARILDI — galeri başı duplicate
+  // temizliği. Dosyalar public/office/'ta KORUNDU.
 ] as const;
 
 // ════════════════════ EKİP ════════════════════
