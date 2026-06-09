@@ -13,11 +13,11 @@ export default async function OfficeShowcase() {
 
   const blocks = [
     {
-      src: "/office/lounge.jpg",
+      src: "/office/ofis-acik-alan.jpg",
       alt:
         locale === "en"
-          ? "RE/MAX BOSS coffee lounge"
-          : "RE/MAX BOSS kahve lounge alanı",
+          ? "RE/MAX BOSS open office area — RE/MAX BOSS LED wall and work desks"
+          : "RE/MAX BOSS açık ofis alanı — RE/MAX BOSS LED duvar ve çalışma masaları",
       badge: d.block1Badge,
       heading: d.block1Heading,
       body: paragraphs[0],
