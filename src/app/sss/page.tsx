@@ -5,7 +5,7 @@ import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { getLocalizedFaq, FAQ_CATEGORIES } from "@/lib/faq";
+import { getLocalizedFaq } from "@/lib/faq";
 import { getDictionary, getLocale } from "@/lib/i18n/server";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -162,5 +162,3 @@ export default async function SssPage() {
   );
 }
 
-// generateStaticParams için tip uyumu
-void FAQ_CATEGORIES;
