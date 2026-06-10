@@ -168,7 +168,15 @@ export async function POST(req: NextRequest) {
       kvkk_onay: kvkk,
     });
     if (dbError) {
-      console.error("[api/buyer-request] insert error", dbError.code ?? "");
+      const code = dbError.code ?? "";
+      // Tablo henüz yoksa (migration 0005 uygulanmamış) → graceful 503.
+      if (code === "42P01") {
+        return jsonError(
+          "Bu form şu an hazırlanıyor. Lütfen bizi +90 312 598 00 00 üzerinden arayın veya info@remaxboss.com.tr adresine yazın.",
+          503,
+        );
+      }
+      console.error("[api/buyer-request] insert error", code);
       return jsonError(
         "Talebiniz gönderilemedi. Lütfen tekrar deneyin veya bizi telefonla arayın.",
         500,

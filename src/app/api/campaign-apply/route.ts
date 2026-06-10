@@ -123,7 +123,14 @@ export async function POST(req: NextRequest) {
         kvkk_onay: kvkk,
       });
     if (dbError) {
-      console.error("[api/campaign-apply] insert error", dbError.code ?? "");
+      const code = dbError.code ?? "";
+      if (code === "42P01") {
+        return jsonError(
+          "Kampanya başvuru sistemi şu an hazırlanıyor. Lütfen bizi +90 312 598 00 00 üzerinden arayın.",
+          503,
+        );
+      }
+      console.error("[api/campaign-apply] insert error", code);
       return jsonError(
         "Başvuru gönderilemedi. Lütfen tekrar deneyin veya bizi telefonla arayın.",
         500,
