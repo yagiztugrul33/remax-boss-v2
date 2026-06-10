@@ -9,6 +9,7 @@ import AiChat from "@/components/ui/ai-chat";
 import CookieBanner from "@/components/ui/cookie-banner";
 import ExitIntent from "@/components/ui/exit-intent";
 import SwRegister from "@/components/ui/sw-register";
+import Analytics from "@/components/ui/analytics";
 import { office } from "@/lib/office";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { SITE_URL } from "@/lib/site-url";
@@ -63,6 +64,14 @@ export async function generateMetadata(): Promise<Metadata> {
     applicationName: "RE/MAX BOSS",
     manifest: "/manifest.json",
     alternates: { canonical: "/" },
+    // Google Search Console doğrulama — env yoksa hiç eklenmez
+    ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION
+      ? {
+          verification: {
+            google: process.env.NEXT_PUBLIC_GSC_VERIFICATION,
+          },
+        }
+      : {}),
     openGraph: {
       type: "website",
       locale: ogLocale,
@@ -154,6 +163,8 @@ export default async function RootLayout({
         <ScrollProgress />
         <ScrollReveal />
         <SwRegister />
+        {/* GA4 — env GA_ID + çerez onayı (KVKK fail-closed) varsa yüklenir. */}
+        <Analytics />
         <Navbar locale={locale} dict={dict.nav} />
         <main className="flex-1">{children}</main>
         <Footer
