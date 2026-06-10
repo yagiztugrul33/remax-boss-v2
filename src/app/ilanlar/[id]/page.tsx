@@ -40,13 +40,31 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "İlan bulunamadı" };
   }
   const loc = formatLocation(listing);
+  const desc =
+    listing.description ??
+    `${listing.listingType === "satilik" ? "Satılık" : "Kiralık"} ${
+      listing.propertyType ?? "mülk"
+    } · ${loc} · ${formatPrice(listing.price, listing.currency)}`;
+  const firstImage = listing.imageUrls?.[0];
   return {
     title: listing.title,
-    description:
-      listing.description ??
-      `${listing.listingType === "satilik" ? "Satılık" : "Kiralık"} ${
-        listing.propertyType ?? "mülk"
-      } · ${loc} · ${formatPrice(listing.price, listing.currency)}`,
+    description: desc,
+    alternates: { canonical: `/ilanlar/${id}` },
+    openGraph: {
+      title: listing.title,
+      description: desc,
+      type: "article",
+      ...(firstImage
+        ? {
+            images: [
+              {
+                url: firstImage,
+                alt: listing.title,
+              },
+            ],
+          }
+        : {}),
+    },
   };
 }
 

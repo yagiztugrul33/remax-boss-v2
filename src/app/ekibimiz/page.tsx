@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   title: "Ekibimiz",
   description:
     "RE/MAX BOSS ekibi — Beştepe ofisimizin brokerları, gayrimenkul danışmanları ve destek kadrosu. Deneyimli kadromuzla tanışın.",
+  alternates: { canonical: "/ekibimiz" },
   openGraph: {
     title: "Ekibimiz — RE/MAX BOSS",
     description:

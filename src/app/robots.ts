@@ -7,8 +7,15 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        // Yönetim ve giriş sayfaları indexlenmez.
-        disallow: ["/admin", "/admin/", "/login"],
+        // Yönetim, giriş, API endpoint'leri ve KVKK silme talep akışı
+        // indexlenmez. /admin* tüm alt rotaları kapsar.
+        disallow: [
+          "/admin",
+          "/admin/",
+          "/login",
+          "/api",
+          "/api/",
+        ],
       },
     ],
     sitemap: `${siteUrl}/sitemap.xml`,

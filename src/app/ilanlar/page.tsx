@@ -11,6 +11,20 @@ export const metadata: Metadata = {
   title: "İlanlar",
   description:
     "RE/MAX BOSS Ankara portföyündeki tüm satılık ve kiralık gayrimenkul ilanları.",
+  alternates: { canonical: "/ilanlar" },
+  openGraph: {
+    title: "İlanlar — RE/MAX BOSS",
+    description:
+      "RE/MAX BOSS Ankara portföyündeki tüm satılık ve kiralık gayrimenkul ilanları.",
+    images: [
+      {
+        url: "/office/resepsiyon.jpg",
+        width: 2000,
+        height: 1125,
+        alt: "RE/MAX BOSS — Ankara portföyü",
+      },
+    ],
+  },
 };
 
 // DB'den okuduğumuz için sayfa dinamik — her isteğin güncel veriyi göstermesi için.

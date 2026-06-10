@@ -70,8 +70,29 @@ export default async function RehberDetayPage({ params }: PageProps) {
   const d = (await getDictionary()).pages.guides;
   const Icon = ICONS[lg.icon];
 
+  // JSON-LD Article — pratik adım-adım rehber, organization yazar.
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: lg.title,
+    description: lg.excerpt,
+    inLanguage: locale === "en" ? "en" : "tr",
+    author: {
+      "@type": "Organization",
+      name: "RE/MAX BOSS",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "RE/MAX BOSS",
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* HERO */}
       <section className="relative isolate bg-navy-900 text-white overflow-hidden">
         <div
