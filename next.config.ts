@@ -20,17 +20,24 @@ const securityHeaders = [
   { key: "X-Frame-Options", value: "DENY" },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+  {
+    key: "Permissions-Policy",
+    value:
+      "camera=(), microphone=(), geolocation=(), interest-cohort=(), payment=(), usb=()",
+  },
+  // Cross-Origin protection (modern, defense-in-depth)
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
   {
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
       // Next.js inline scripts + eval (RSC payload, turbopack HMR)
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-      // Supabase API + Google Maps embed
-      `connect-src 'self' https://*.supabase.co wss://*.supabase.co https://maps.googleapis.com`,
-      // Supabase Storage görselleri + kendi origin
-      `img-src 'self' data: blob: ${supabaseHost ? `https://${supabaseHost}` : ""}`,
+      // + Google Analytics (GA4 / gtag) production yüklemesi
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
+      // Supabase API + Google Maps + Google Analytics ölçüm endpoint'leri
+      `connect-src 'self' https://*.supabase.co wss://*.supabase.co https://maps.googleapis.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com`,
+      // Supabase Storage görselleri + GA tracking pixel + kendi origin
+      `img-src 'self' data: blob: https://www.google-analytics.com https://*.google-analytics.com ${supabaseHost ? `https://${supabaseHost}` : ""}`,
       // Tailwind CSS-in-JS inline style
       "style-src 'self' 'unsafe-inline'",
       // Google Maps iframe
@@ -41,6 +48,10 @@ const securityHeaders = [
       // PWA: service worker + web manifest
       "worker-src 'self'",
       "manifest-src 'self'",
+      // Modern sıkılaştırma:
+      "object-src 'none'", // Flash/Java/applet engelle
+      "frame-ancestors 'none'", // X-Frame-Options'tan güçlü clickjacking koruması
+      "upgrade-insecure-requests", // HTTP → HTTPS otomatik
     ]
       .filter(Boolean)
       .join("; "),
