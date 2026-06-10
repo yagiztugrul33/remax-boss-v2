@@ -98,7 +98,7 @@ export default async function IletisimPage() {
           className="absolute -top-32 -end-20 w-[24rem] h-[24rem] rounded-full bg-remax-red/25 blur-3xl -z-10"
         />
 
-        <div className="container-page py-20 md:py-28">
+        <div className="container-page py-16 md:py-20">
           <div className="max-w-3xl">
             <Eyebrow tone="white" className="text-white/80">
               {d.heroEyebrow}

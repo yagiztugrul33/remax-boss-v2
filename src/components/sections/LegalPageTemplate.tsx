@@ -35,7 +35,7 @@ export default async function LegalPageTemplate({
           aria-hidden
           className="absolute -top-32 -end-20 w-[24rem] h-[24rem] rounded-full bg-remax-red/15 blur-3xl -z-10"
         />
-        <div className="container-page py-16 md:py-24">
+        <div className="container-page py-14 md:py-20">
           <div className="max-w-3xl">
             <Eyebrow tone="white" className="text-white/80">
               {d.eyebrow}

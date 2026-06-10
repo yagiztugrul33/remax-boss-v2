@@ -104,7 +104,7 @@ export default async function BlogPostPage({
           aria-hidden
           className="absolute inset-0 -z-10 bg-gradient-to-b from-navy-900/75 via-navy-900/85 to-navy-900"
         />
-        <div className="container-page py-20 md:py-28">
+        <div className="container-page py-16 md:py-20">
           <Link
             href="/blog"
             className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors mb-6"

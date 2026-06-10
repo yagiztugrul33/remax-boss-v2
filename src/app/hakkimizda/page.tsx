@@ -91,7 +91,7 @@ export default async function HakkimizdaPage() {
           className="absolute -top-32 -end-20 w-[26rem] h-[26rem] rounded-full bg-remax-red/20 blur-3xl -z-10"
         />
 
-        <div className="container-page py-24 md:py-32">
+        <div className="container-page py-16 md:py-20">
           <div className="max-w-3xl">
             <Eyebrow tone="white" className="text-white/80">
               {d.heroEyebrow}

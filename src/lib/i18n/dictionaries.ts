@@ -197,6 +197,33 @@ export interface Dict {
       heroSubtitle: string;
       primaryServiceBadge: string;
       detailsCta: string;
+      // Güven şeridi — gerçek bilgi (RE/MAX bağı + ofis + saatler)
+      trustEyebrow: string;
+      trustTitle: string;
+      trustItems: {
+        networkTitle: string;
+        networkBody: string;
+        officeTitle: string;
+        officeBody: string;
+        systemsTitle: string;
+        systemsBody: string;
+        hoursTitle: string;
+        hoursBody: string;
+      };
+      // İşbirliği akışı — sürecin sade özeti
+      flowEyebrow: string;
+      flowTitle: string;
+      flowSteps: [
+        { title: string; body: string },
+        { title: string; body: string },
+        { title: string; body: string },
+        { title: string; body: string },
+      ];
+      // Alt iletişim CTA (hizmetler listesi sonunda)
+      contactBlockTitle: string;
+      contactBlockBody: string;
+      contactBlockCta: string;
+      contactBlockCallLabel: string;
     };
 
     serviceDetail: {
@@ -869,6 +896,48 @@ const tr: Dict = {
         "Hizmetlerimiz RE/MAX Türkiye standartları üzerine kuruludur ve Beştepe ofisimizden Ankara'nın tüm bölgelerine ulaşır.",
       primaryServiceBadge: "Birincil hizmet",
       detailsCta: "Detayları gör",
+      trustEyebrow: "Güvence",
+      trustTitle:
+        "Neden RE/MAX BOSS? Gerçek altyapı, görünür ofis, sade süreç.",
+      trustItems: {
+        networkTitle: "RE/MAX Türkiye ağı",
+        networkBody:
+          "Bağımsız sahipli ve işletmeli ofis olarak Türkiye'nin RE/MAX ağı içinde çalışır; ulusal portföy ve uluslararası tecrübenin avantajını size yansıtırız.",
+        officeTitle: "Beştepe'de fiziksel ofis",
+        officeBody:
+          "Yenimahalle / Beştepe'deki ofisimize gelin, danışmanınızla yüz yüze görüşün. Süreç telefon değil, masa başında planlanır.",
+        systemsTitle: "MAXX ve RAPP sistemleri",
+        systemsBody:
+          "Deneyimli (MAXX) ve gelişen (RAPP) danışmanlık modelleri — her mülk tipine ve süreç karmaşıklığına uygun ekip eşleştirmesi.",
+        hoursTitle: "Sabit çalışma saatleri",
+        hoursBody:
+          "Hafta içi 09:00–19:00, Cumartesi 10:00–17:00 saatlerinde ofiste hizmet veriyoruz. Acil durumlarda danışmanınıza ulaşabilirsiniz.",
+      },
+      flowEyebrow: "Nasıl Çalışırız",
+      flowTitle: "Sade, şeffaf bir süreç",
+      flowSteps: [
+        {
+          title: "1 · İlk görüşme",
+          body: "Telefon veya ofiste 30 dakikalık ücretsiz ön görüşme. İhtiyacınızı netleştiririz; uygun hizmeti birlikte seçeriz.",
+        },
+        {
+          title: "2 · Strateji",
+          body: "Mülk + bölge + güncel piyasa koşulları çerçevesinde yazılı bir plan: fiyat, pazarlama, zaman çizelgesi.",
+        },
+        {
+          title: "3 · Yürütme",
+          body: "Profesyonel görseller, ilan yayını, RE/MAX ağı, ön elemeli gezi, müzakere — süreci biz yönetiriz.",
+        },
+        {
+          title: "4 · Sonuç",
+          body: "Sözleşme, kapora, tapu randevusu ve teslim. İşlem sonrası destek de bu hizmete dahildir.",
+        },
+      ],
+      contactBlockTitle: "Bir hizmet düşünüyorsanız, ilk görüşme bizden.",
+      contactBlockBody:
+        "Mülk bilgilerinizi paylaşın; uygun olan hizmeti birlikte seçelim. Bağlayıcı değildir, ücretsizdir.",
+      contactBlockCta: "İletişime geç",
+      contactBlockCallLabel: "Doğrudan ara",
     },
     serviceDetail: {
       backLink: "Tüm hizmetler",
@@ -1653,6 +1722,48 @@ const en: Dict = {
         "Our services are built on RE/MAX Türkiye standards and reach every district of Ankara from our Beştepe office.",
       primaryServiceBadge: "Primary service",
       detailsCta: "View details",
+      trustEyebrow: "Assurance",
+      trustTitle:
+        "Why RE/MAX BOSS? Real infrastructure, a visible office, a clean process.",
+      trustItems: {
+        networkTitle: "RE/MAX Türkiye network",
+        networkBody:
+          "As an independently owned and operated office within RE/MAX Türkiye, we pass on the advantages of national reach and international experience.",
+        officeTitle: "A physical office in Beştepe",
+        officeBody:
+          "Visit us in Yenimahalle / Beştepe and meet your agent face to face. The process is planned at the table, not just on the phone.",
+        systemsTitle: "MAXX and RAPP systems",
+        systemsBody:
+          "Experienced (MAXX) and emerging (RAPP) advisory models — the right team is matched to every property type and process complexity.",
+        hoursTitle: "Fixed working hours",
+        hoursBody:
+          "We're at the office weekdays 09:00–19:00 and Saturdays 10:00–17:00. For urgent matters, you can reach your agent directly.",
+      },
+      flowEyebrow: "How We Work",
+      flowTitle: "A clean, transparent process",
+      flowSteps: [
+        {
+          title: "1 · First conversation",
+          body: "A 30-minute free initial meeting by phone or at the office. We clarify your needs and choose the right service together.",
+        },
+        {
+          title: "2 · Strategy",
+          body: "A written plan grounded in property, area and current market conditions: price, marketing, timeline.",
+        },
+        {
+          title: "3 · Execution",
+          body: "Professional photos, listing publication, RE/MAX network, pre-screened viewings, negotiation — we run the process.",
+        },
+        {
+          title: "4 · Closing",
+          body: "Contract, deposit, title-transfer appointment and hand-over. Post-transaction support is part of this service.",
+        },
+      ],
+      contactBlockTitle: "Thinking about a service? First conversation is on us.",
+      contactBlockBody:
+        "Share a few details about your property; we'll choose the right service together. Non-binding and free of charge.",
+      contactBlockCta: "Get in touch",
+      contactBlockCallLabel: "Call directly",
     },
     serviceDetail: {
       backLink: "All services",

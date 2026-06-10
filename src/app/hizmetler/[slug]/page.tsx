@@ -12,6 +12,9 @@ import {
   Phone,
   Check,
   ShieldCheck,
+  Globe2,
+  MapPin,
+  Clock,
   type LucideIcon,
 } from "lucide-react";
 import Section from "@/components/ui/section";
@@ -82,6 +85,23 @@ export default async function ServiceDetailPage({
     .filter((x) => x.slug !== s.slug)
     .map((x) => localizeService(x, locale));
 
+  // Hero altı kompakt güven şeridi — /hizmetler dict'inden ortak değerler
+  const servicesDict = (await getDictionary()).pages.services;
+  const compactTrust = [
+    {
+      icon: Globe2,
+      title: servicesDict.trustItems.networkTitle,
+    },
+    {
+      icon: MapPin,
+      title: servicesDict.trustItems.officeTitle,
+    },
+    {
+      icon: Clock,
+      title: servicesDict.trustItems.hoursTitle,
+    },
+  ];
+
   return (
     <>
       <section className="relative isolate bg-navy-900 text-white overflow-hidden">
@@ -99,7 +119,7 @@ export default async function ServiceDetailPage({
           aria-hidden
           className="absolute inset-0 -z-10 bg-gradient-to-b from-navy-900/75 via-navy-900/85 to-navy-900"
         />
-        <div className="container-page py-20 md:py-28">
+        <div className="container-page py-16 md:py-20">
           <Link
             href="/hizmetler"
             className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors mb-6"
@@ -123,12 +143,28 @@ export default async function ServiceDetailPage({
             <p className="mt-6 text-lg text-white/75 max-w-xl leading-relaxed">
               {s.intro}
             </p>
+
+            {/* Hero altı kompakt güven şeridi — 3 gerçek sinyal */}
+            <ul className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+              {compactTrust.map((t) => (
+                <li
+                  key={t.title}
+                  className="inline-flex items-center gap-1.5 text-white/75"
+                >
+                  <t.icon
+                    className="h-3.5 w-3.5 flex-shrink-0 text-remax-red"
+                    aria-hidden
+                  />
+                  <span className="font-medium">{t.title}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
 
       <Section tone="light" density="normal">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-10 lg:gap-14 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-8 lg:gap-12 items-start">
           <div className="lg:sticky lg:top-28">
             <Eyebrow tone="red">{d.whatWeDoEyebrow}</Eyebrow>
             <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
@@ -180,7 +216,7 @@ export default async function ServiceDetailPage({
       </Section>
 
       <Section tone="light" density="normal">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           <div>
             <Eyebrow tone="red">{d.benefitsEyebrow}</Eyebrow>
             <h2 className="mt-5 font-display text-display text-navy text-balance">

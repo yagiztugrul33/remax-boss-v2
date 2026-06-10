@@ -38,7 +38,7 @@ export default async function AliciKayitPage() {
           aria-hidden
           className="absolute -bottom-32 -start-16 w-[22rem] h-[22rem] rounded-full bg-remax-red/15 blur-3xl -z-10"
         />
-        <div className="container-page py-20 md:py-28">
+        <div className="container-page py-16 md:py-20">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold tracking-wide text-white/80">
               <Search className="h-3.5 w-3.5" aria-hidden />

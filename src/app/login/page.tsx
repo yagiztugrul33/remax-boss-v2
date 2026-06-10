@@ -30,7 +30,7 @@ export default function LoginPage() {
         className="absolute -top-32 -end-20 w-[24rem] h-[24rem] rounded-full bg-remax-red/20 blur-3xl -z-10"
       />
 
-      <div className="container-page py-16 md:py-24">
+      <div className="container-page py-12 md:py-16">
         <div className="mx-auto max-w-md">
           <div className="text-center">
             <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-remax-red/15 border border-remax-red/30 text-remax-red mb-6">

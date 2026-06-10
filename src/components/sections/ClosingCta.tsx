@@ -28,7 +28,7 @@ export default async function ClosingCta() {
         className="absolute -top-24 -start-16 w-[18rem] h-[18rem] rounded-full bg-navy/30 blur-3xl"
       />
 
-      <div className="relative container-page py-20 md:py-28">
+      <div className="relative container-page py-16 md:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-12 items-end">
           <div>
             <Eyebrow tone="white">

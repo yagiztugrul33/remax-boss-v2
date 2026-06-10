@@ -88,7 +88,7 @@ export default async function KampanyaPage() {
           className="absolute -bottom-32 -start-16 w-[20rem] h-[20rem] rounded-full bg-remax-red/15 blur-3xl -z-10"
         />
 
-        <div className="container-page py-24 md:py-32">
+        <div className="container-page py-16 md:py-20">
           <div className="max-w-3xl">
             <div className="anim-hero anim-delay-1 inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-amber-300">
               <Coins className="h-3.5 w-3.5" aria-hidden />

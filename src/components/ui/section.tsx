@@ -32,10 +32,14 @@ export default function Section({
     dark: "bg-navy-900 text-white",
   };
 
+  // 2026-06-10 — Sıkılaştırma: tüm site "havada" hissinden kurtulsun.
+  // Önceki: tight py-12 md:py-16 · normal py-16 md:py-24 · loose py-20 md:py-32
+  // Yeni:   tight py-10 md:py-14 · normal py-12 md:py-20 · loose py-16 md:py-24
+  // Mobilde daha sıkı; masaüstünde ferah ama dolu.
   const densities: Record<Density, string> = {
-    tight: "py-12 md:py-16",
-    normal: "py-16 md:py-24",
-    loose: "py-20 md:py-32",
+    tight: "py-10 md:py-14",
+    normal: "py-12 md:py-20",
+    loose: "py-16 md:py-24",
   };
 
   return (
