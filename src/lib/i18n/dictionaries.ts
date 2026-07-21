@@ -537,6 +537,8 @@ export interface Dict {
       checklistHeading: string;
       warningLabel: string;
       ctaCallout: string;
+      downloadHeading: string;
+      downloadIndexBadge: string;
     };
     exitIntent: {
       eyebrow: string;
@@ -1357,6 +1359,8 @@ const tr: Dict = {
       checklistHeading: "Hızlı kontrol listesi",
       warningLabel: "Dikkat",
       ctaCallout: "Süreç hakkında destek mi gerek?",
+      downloadHeading: "PDF olarak indir",
+      downloadIndexBadge: "PDF indirilebilir",
     },
     subscribe: {
       eyebrow: "Yeni İlan Bildirimi",
@@ -2191,6 +2195,8 @@ const en: Dict = {
       backLabel: "← All guides",
       stepsHeading: "Steps",
       checklistHeading: "Quick checklist",
+      downloadHeading: "Download as PDF",
+      downloadIndexBadge: "PDF available",
       warningLabel: "Heads up",
       ctaCallout: "Need support with the process?",
     },

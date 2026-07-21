@@ -15,6 +15,7 @@ import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import GuideDownloadForm from "@/components/sections/GuideDownloadForm";
 import {
   getGuideBySlug,
   getAllGuideSlugs,
@@ -202,25 +203,34 @@ export default async function RehberDetayPage({ params }: PageProps) {
             )}
           </div>
 
-          {/* Yan CTA kartı */}
-          <aside className="rounded-3xl border border-line bg-white p-6 shadow-card lg:sticky lg:top-24 lg:self-start">
-            <Eyebrow tone="red">{d.ctaCallout}</Eyebrow>
-            <h3 className="mt-4 font-display font-extrabold text-navy text-lg">
-              {lg.ctaTitle}
-            </h3>
-            <p className="mt-2 text-sm text-navy/65 leading-relaxed">
-              {lg.ctaBody}
-            </p>
-            <Link
-              href={lg.ctaHref}
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "mt-5 w-full bg-remax-red hover:bg-remax-red-hover text-white h-11 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)]",
-              )}
-            >
-              {d.ctaCallout}
-              <ArrowRight className="h-4 w-4 ms-2" aria-hidden />
-            </Link>
+          {/* Yan sticky panel — CTA kartı + PDF indirme formu */}
+          <aside className="lg:sticky lg:top-24 lg:self-start space-y-5">
+            <div className="rounded-3xl border border-line bg-white p-6 shadow-card">
+              <Eyebrow tone="red">{d.ctaCallout}</Eyebrow>
+              <h3 className="mt-4 font-display font-extrabold text-navy text-lg">
+                {lg.ctaTitle}
+              </h3>
+              <p className="mt-2 text-sm text-navy/65 leading-relaxed">
+                {lg.ctaBody}
+              </p>
+              <Link
+                href={lg.ctaHref}
+                className={cn(
+                  buttonVariants({ size: "lg" }),
+                  "mt-5 w-full bg-remax-red hover:bg-remax-red-hover text-white h-11 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)]",
+                )}
+              >
+                {d.ctaCallout}
+                <ArrowRight className="h-4 w-4 ms-2" aria-hidden />
+              </Link>
+            </div>
+
+            <div>
+              <Eyebrow tone="red">{d.downloadHeading}</Eyebrow>
+              <div className="mt-3">
+                <GuideDownloadForm slug={slug} locale={locale} />
+              </div>
+            </div>
           </aside>
         </div>
       </Section>
