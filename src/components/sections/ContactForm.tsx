@@ -4,6 +4,7 @@ import { useId, useState, type FormEvent } from "react";
 import { Send, CheckCircle2, Loader2 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { fireNotify } from "@/lib/i18n/client";
 import type { Dict } from "@/lib/i18n/dictionaries";
 
 type Status = "idle" | "sending" | "success" | "error";
@@ -99,6 +100,10 @@ export default function ContactForm({
       };
       if (!res.ok) {
         throw new Error(result.error || dict.errors.sendFailed);
+      }
+      // Otomatik teşekkür e-postası — best-effort, RESEND yoksa no-op.
+      if (email) {
+        fireNotify({ kind: "contact", email, name });
       }
       form.reset();
       setStatus("success");

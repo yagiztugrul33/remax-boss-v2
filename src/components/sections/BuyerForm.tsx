@@ -4,6 +4,7 @@ import { useId, useState, type FormEvent } from "react";
 import { Send, CheckCircle2, Loader2 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { fireNotify } from "@/lib/i18n/client";
 
 type Status = "idle" | "sending" | "success" | "error";
 type FieldName =
@@ -134,6 +135,14 @@ export default function BuyerForm() {
           result.error ||
             "Talebiniz gönderilemedi. Lütfen tekrar deneyin veya bizi telefonla arayın.",
         );
+      }
+      // Otomatik teşekkür e-postası — best-effort, RESEND yoksa no-op.
+      if (payload.email) {
+        fireNotify({
+          kind: "buyer",
+          email: payload.email,
+          name: payload.ad_soyad,
+        });
       }
       form.reset();
       setStatus("success");

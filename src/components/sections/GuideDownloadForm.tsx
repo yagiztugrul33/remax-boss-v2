@@ -5,6 +5,7 @@ import { Download, Loader2, CheckCircle2 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { fireNotify } from "@/lib/i18n/client";
 import type { Locale } from "@/lib/i18n/config";
 
 type Status = "idle" | "sending" | "success";
@@ -114,6 +115,9 @@ export default function GuideDownloadForm({
       // DB fail olsa bile kullanıcıya rehberi ver.
       console.warn("[guide-form] subscriber insert failed:", err);
     }
+
+    // Otomatik teşekkür e-postası — best-effort, RESEND yoksa no-op.
+    fireNotify({ kind: "subscribe", email, locale });
 
     setStatus("success");
     if (typeof window !== "undefined") {

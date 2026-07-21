@@ -4,6 +4,7 @@ import { useId, useState, type FormEvent } from "react";
 import { Send, CheckCircle2, Loader2, Mail, ChevronDown } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { fireNotify } from "@/lib/i18n/client";
 import type { Dict } from "@/lib/i18n/dictionaries";
 
 type Status = "idle" | "sending" | "success" | "error" | "already";
@@ -91,6 +92,11 @@ export default function SubscribeForm({
       };
       if (!res.ok) {
         throw new Error(result.error || dict.errorGeneric);
+      }
+      // Otomatik teşekkür e-postası — yalnız YENİ aboneler için gönder
+      // (zaten kayıtlı kullanıcılar tekrar tekrar spam almamalı).
+      if (!result.alreadySubscribed) {
+        fireNotify({ kind: "subscribe", email });
       }
       form.reset();
       setStatus(result.alreadySubscribed ? "already" : "success");
