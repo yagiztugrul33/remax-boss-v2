@@ -16,6 +16,7 @@ import {
   Calculator,
   Search,
   Bell,
+  Upload,
 } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
@@ -278,6 +279,16 @@ export default async function AdminHomePage({ searchParams }: PageProps) {
                   {aktifAbone}
                 </span>
               )}
+            </Link>
+            <Link
+              href="/admin/ilan/import"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "h-12 px-5 text-sm font-semibold tracking-wide",
+              )}
+            >
+              <Upload className="h-4 w-4 me-2" />
+              Toplu İçe Aktar
             </Link>
             <Link
               href="/admin/ilan/yeni"
