@@ -139,6 +139,51 @@ export async function searchListings(
   );
 }
 
+/**
+ * Benzer ilanlar — aynı işlem tipinde, öncelik aynı ilçede; yeterli sonuç
+ * yoksa işlem tipi eşleşenlerle tamamlanır. Kendisi hariç.
+ */
+export async function getSimilarListings(
+  listing: Listing,
+  limit = 3,
+): Promise<Listing[]> {
+  return safeRun(async () => {
+    const supabase = await createClient();
+
+    const base = () =>
+      supabase
+        .from("listings")
+        .select(LISTING_COLUMNS)
+        .eq("status", "published")
+        .eq("listing_type", listing.listingType)
+        .neq("id", listing.id)
+        .order("created_at", { ascending: false });
+
+    const out: Listing[] = [];
+    if (listing.district) {
+      const { data, error } = await base()
+        .ilike("district", `%${listing.district}%`)
+        .limit(limit);
+      if (error) throw error;
+      out.push(...(data ?? []).map(rowToListing));
+    }
+    if (out.length < limit) {
+      const { data, error } = await base().limit(limit + out.length);
+      if (error) throw error;
+      const seen = new Set(out.map((l) => l.id));
+      for (const row of data ?? []) {
+        const l = rowToListing(row);
+        if (!seen.has(l.id)) {
+          out.push(l);
+          seen.add(l.id);
+        }
+        if (out.length >= limit) break;
+      }
+    }
+    return out.slice(0, limit);
+  }, [] as Listing[]);
+}
+
 /** Tek ilan — yalnız published. Bulunamaz/draft → null. */
 export async function getListingById(id: string): Promise<Listing | null> {
   return safeRun(async () => {

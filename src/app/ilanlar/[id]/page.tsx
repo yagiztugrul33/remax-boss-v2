@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -16,15 +15,17 @@ import {
 } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
+import ListingCard from "@/components/sections/ListingCard";
+import ListingGallery from "@/components/sections/ListingGallery";
+import ListingShare from "@/components/sections/ListingShare";
+import ListingInquiryForm from "@/components/sections/ListingInquiryForm";
+import MapEmbed from "@/components/sections/MapEmbed";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import {
-  formatLocation,
-  formatPrice,
-  type Listing,
-} from "@/lib/listings";
-import { getListingById } from "@/lib/queries";
+import { formatLocation, formatPrice } from "@/lib/listings";
+import { getListingById, getSimilarListings } from "@/lib/queries";
 import { office } from "@/lib/office";
+import { SITE_URL } from "@/lib/site-url";
 
 // DB'den okur — dinamik.
 export const dynamic = "force-dynamic";
@@ -90,77 +91,21 @@ function PropertyFact({
   );
 }
 
-function Gallery({ listing }: { listing: Listing }) {
-  const imgs = listing.imageUrls;
-  // Hiç görsel yoksa: marka gradient fallback (Faz 4 deseni)
-  if (imgs.length === 0) {
-    return (
-      <div className="relative aspect-[16/10] rounded-3xl overflow-hidden bg-gradient-to-br from-navy-700 via-remax-blue to-remax-red">
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.6) 1px, transparent 0)",
-            backgroundSize: "24px 24px",
-          }}
-        />
-        <div className="absolute inset-x-5 bottom-5">
-          <div className="inline-flex items-center rounded-full bg-white/95 px-3 py-1 text-eyebrow font-display text-navy">
-            Görsel yakında eklenecek
-          </div>
-        </div>
-      </div>
-    );
+/** listings.property_type → buyer_requests.mulk_tipi enum eşlemesi. */
+function toBuyerMulkTipi(propertyType: string | null): string {
+  switch (propertyType) {
+    case "daire":
+    case "mustakil":
+    case "villa":
+    case "arsa":
+      return propertyType;
+    case "ofis":
+    case "dukkan":
+    case "isyeri":
+      return "isyeri";
+    default:
+      return "diger";
   }
-  // Tek görsel → tam genişlik
-  if (imgs.length === 1) {
-    return (
-      <div className="relative aspect-[16/10] rounded-3xl overflow-hidden bg-mist">
-        <Image
-          src={imgs[0]}
-          alt={listing.title}
-          fill
-          sizes="(max-width: 1024px) 100vw, 1024px"
-          className="object-cover"
-          priority
-        />
-      </div>
-    );
-  }
-  // 2+ görsel → büyük + küçükler grid (mobilde stack)
-  const [hero, ...rest] = imgs;
-  const thumbs = rest.slice(0, 4);
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-3">
-      <div className="relative aspect-[16/10] lg:aspect-auto rounded-3xl overflow-hidden bg-mist">
-        <Image
-          src={hero}
-          alt={`${listing.title} — 1`}
-          fill
-          sizes="(max-width: 1024px) 100vw, 66vw"
-          className="object-cover"
-          priority
-        />
-      </div>
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-1">
-        {thumbs.map((src, i) => (
-          <div
-            key={src + i}
-            className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-mist"
-          >
-            <Image
-              src={src}
-              alt={`${listing.title} — ${i + 2}`}
-              fill
-              sizes="(max-width: 1024px) 50vw, 33vw"
-              className="object-cover"
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
 }
 
 export default async function ListingDetailPage({ params }: PageProps) {
@@ -170,8 +115,49 @@ export default async function ListingDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  const similar = await getSimilarListings(listing, 3);
+
   const kindLabel =
     listing.listingType === "satilik" ? "Satılık" : "Kiralık";
+
+  // Konum haritası sorgusu — açık adres varsa o, yoksa semt/ilçe/şehir.
+  const mapQuery =
+    listing.address ??
+    [listing.neighborhood, listing.district, listing.city]
+      .filter(Boolean)
+      .join(" ");
+
+  // JSON-LD — RealEstateListing + Offer (yalnız GERÇEK ilan verisinden).
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    name: listing.title,
+    url: `${SITE_URL}/ilanlar/${listing.id}`,
+    ...(listing.description ? { description: listing.description } : {}),
+    ...(listing.imageUrls.length > 0 ? { image: listing.imageUrls } : {}),
+    datePosted: listing.createdAt,
+    offers: {
+      "@type": "Offer",
+      price: listing.price,
+      priceCurrency: listing.currency,
+      availability: "https://schema.org/InStock",
+      seller: {
+        "@type": "RealEstateAgent",
+        name: office.name,
+        telephone: office.phone,
+        email: office.email,
+      },
+    },
+    address: {
+      "@type": "PostalAddress",
+      ...(listing.neighborhood
+        ? { streetAddress: listing.neighborhood }
+        : {}),
+      ...(listing.district ? { addressLocality: listing.district } : {}),
+      addressRegion: listing.city,
+      addressCountry: "TR",
+    },
+  };
   const facts: { icon: typeof Bed; label: string; value: string }[] = [];
   if (listing.rooms)
     facts.push({ icon: Bed, label: "Oda", value: listing.rooms });
@@ -213,6 +199,11 @@ export default async function ListingDetailPage({ params }: PageProps) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       {/* GERİ + üst meta */}
       <Section tone="light" density="tight">
         <Link
@@ -224,9 +215,9 @@ export default async function ListingDetailPage({ params }: PageProps) {
         </Link>
       </Section>
 
-      {/* GALERİ */}
+      {/* GALERİ — lightbox'lı */}
       <Section tone="light" density="tight">
-        <Gallery listing={listing} />
+        <ListingGallery title={listing.title} imageUrls={listing.imageUrls} />
       </Section>
 
       {/* BAŞLIK + FİYAT + KONUM + CTA */}
@@ -256,6 +247,9 @@ export default async function ListingDetailPage({ params }: PageProps) {
             {listing.address && (
               <p className="mt-2 text-sm text-navy/55">{listing.address}</p>
             )}
+            <div className="mt-5">
+              <ListingShare title={listing.title} />
+            </div>
           </div>
 
           {/* FİYAT KARTI + İLETİŞİM */}
@@ -349,6 +343,56 @@ export default async function ListingDetailPage({ params }: PageProps) {
             <div className="mt-6 whitespace-pre-line text-navy/70 leading-relaxed">
               {listing.description}
             </div>
+          </div>
+        </Section>
+      )}
+
+      {/* KONUM + TALEP FORMU */}
+      <Section tone="mist" density="normal">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-8 items-start">
+          <div>
+            <Eyebrow tone="blue">Konum</Eyebrow>
+            <h2 className="mt-4 font-display text-display text-navy">
+              {formatLocation(listing)}
+            </h2>
+            <MapEmbed
+              query={mapQuery}
+              title={`${listing.title} — konum haritası`}
+              className="mt-6 min-h-[360px]"
+            />
+            <p className="mt-3 text-xs text-navy/50">
+              Harita, ilanın semt/adres bilgisine göre yaklaşık konumu gösterir.
+            </p>
+          </div>
+
+          <div className="lg:sticky lg:top-24">
+            <Eyebrow tone="red">Bu ilan hakkında bilgi alın</Eyebrow>
+            <p className="mt-3 mb-4 text-sm text-navy/65 leading-relaxed">
+              Bilgilerinizi bırakın; bölge uzmanımız bu ilanla ilgili sizinle
+              iletişime geçsin.
+            </p>
+            <ListingInquiryForm
+              listingRef={listing.listingNo ?? listing.id}
+              listingTitle={listing.title}
+              listingType={listing.listingType}
+              mulkTipi={toBuyerMulkTipi(listing.propertyType)}
+              ilce={listing.district ?? listing.city}
+            />
+          </div>
+        </div>
+      </Section>
+
+      {/* BENZER İLANLAR */}
+      {similar.length > 0 && (
+        <Section tone="light" density="normal">
+          <Eyebrow tone="red">Benzer İlanlar</Eyebrow>
+          <h2 className="mt-4 font-display text-display text-navy">
+            İlginizi çekebilecek diğer mülkler.
+          </h2>
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {similar.map((l, i) => (
+              <ListingCard key={l.id} listing={l} index={i} />
+            ))}
           </div>
         </Section>
       )}
