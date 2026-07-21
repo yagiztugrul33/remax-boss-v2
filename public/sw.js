@@ -2,13 +2,19 @@
 /**
  * RE/MAX BOSS — Service Worker (manuel, Workbox'sız)
  *
- * 🔴 DİNAMİK / HASSAS VERİ AGRESİF CACHE EDİLMEZ:
- *  - /api/*       → NetworkOnly (form gönderimleri, chat, abone vs.)
- *  - /admin/*     → NetworkOnly (oturum gerekli)
- *  - /login       → NetworkOnly
- *  - /ilanlar*    → NetworkOnly (fiyat/portföy dinamik)
- *  - /degerleme   → NetworkOnly (lead formu)
- *  - /alici-kayit → NetworkOnly (lead formu)
+ * 🔴 DİNAMİK / HASSAS VERİ AGRESİF CACHE EDİLMEZ (TR kök + /en prefix):
+ *  - /api/*        → NetworkOnly (form gönderimleri, chat, abone vs.)
+ *  - /admin*       → NetworkOnly (oturum gerekli)
+ *  - /login        → NetworkOnly
+ *  - /ilanlar*     → NetworkOnly (fiyat/portföy dinamik)
+ *  - /degerleme    → NetworkOnly (lead formu)
+ *  - /alici-kayit  → NetworkOnly (lead formu)
+ *  - /kampanya     → NetworkOnly (kontenjan dinamik + başvuru formu)
+ *  - /iletisim     → NetworkOnly (iletişim formu)
+ *  - /danisman-ol  → NetworkOnly (başvuru formu)
+ *
+ * i18n route prefix (/en/*) sonrası tüm desenler opsiyonel (en\/)? önekiyle
+ * eşleşir — /en/degerleme de /degerleme gibi NetworkOnly'dir.
  *
  * Diğer sayfalar (statik kalan içerik):
  *  - HTML        → NetworkFirst (güncel kalsın, offline'da cache fallback)
@@ -17,19 +23,24 @@
  *  - Diğer (font/asset) → StaleWhileRevalidate
  */
 
-const VERSION = "v3";
+// v4: /en prefix desteği — eski (prefix'siz desenli) cache'ler activate'te silinir.
+const VERSION = "v4";
 const RUNTIME_CACHE = `runtime-${VERSION}`;
 const STATIC_CACHE = `static-${VERSION}`;
 const HTML_CACHE = `html-${VERSION}`;
 
 // Hiç offline cache'lenmesin — kullanıcı her zaman güncel veriyle çalışsın.
+// (en\/)? → hem TR kök hem /en prefix'li URL eşleşir.
 const NETWORK_ONLY_PATTERNS = [
-  /^\/api\//,
-  /^\/admin\//,
-  /^\/login(\/|$)/,
-  /^\/ilanlar(\/|$)/,
-  /^\/degerleme(\/|$)/,
-  /^\/alici-kayit(\/|$)/,
+  /^\/(en\/)?api\//,
+  /^\/(en\/)?admin(\/|$)/,
+  /^\/(en\/)?login(\/|$)/,
+  /^\/(en\/)?ilanlar(\/|$)/,
+  /^\/(en\/)?degerleme(\/|$)/,
+  /^\/(en\/)?alici-kayit(\/|$)/,
+  /^\/(en\/)?kampanya(\/|$)/,
+  /^\/(en\/)?iletisim(\/|$)/,
+  /^\/(en\/)?danisman-ol(\/|$)/,
 ];
 
 // Statik immutable asset'ler (Next.js hash'li dosyalar)
