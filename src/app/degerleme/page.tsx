@@ -85,7 +85,7 @@ export default async function ValuationPage() {
           </div>
 
           <div>
-            <ValuationForm />
+            <ValuationForm locale={locale} />
           </div>
         </div>
       </Section>

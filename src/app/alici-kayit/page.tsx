@@ -85,7 +85,7 @@ export default async function AliciKayitPage() {
           </div>
 
           <div>
-            <BuyerForm />
+            <BuyerForm locale={locale} />
           </div>
         </div>
       </Section>

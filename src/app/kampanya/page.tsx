@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 import { office } from "@/lib/office";
 import { getCampaignSettings } from "@/lib/campaign-queries";
 import { remainingQuota } from "@/lib/campaign";
-import { getDictionary } from "@/lib/i18n/server";
+import { getDictionary, getLocale } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -58,6 +58,7 @@ const CONDITION_ICONS: readonly LucideIcon[] = [
 
 export default async function KampanyaPage() {
   const d = (await getDictionary()).pages.campaign;
+  const locale = await getLocale();
   const settings = await getCampaignSettings();
   const remaining = remainingQuota(settings);
   const isOpen = settings.aktif && remaining > 0;
@@ -206,7 +207,7 @@ export default async function KampanyaPage() {
 
             <div className="mt-8">
               {isOpen ? (
-                <CampaignForm />
+                <CampaignForm locale={locale} />
               ) : (
                 <div className="rounded-3xl border border-line bg-white p-8 text-center shadow-card">
                   <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 border border-amber-100">

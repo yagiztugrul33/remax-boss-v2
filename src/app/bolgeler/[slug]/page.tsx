@@ -361,7 +361,9 @@ export default async function BolgeDetayPage({ params }: PageProps) {
       {neighborRegions.length > 0 && (
         <Section tone="mist" density="normal">
           <div className="max-w-2xl mb-8">
-            <Eyebrow tone="red">{d.neighborsHeading}</Eyebrow>
+            <h2>
+              <Eyebrow tone="red">{d.neighborsHeading}</Eyebrow>
+            </h2>
             <p className="mt-3 text-navy/65 leading-relaxed">
               {d.neighborsSubtitle}
             </p>

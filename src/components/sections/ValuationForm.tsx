@@ -5,6 +5,7 @@ import { Send, CheckCircle2, Loader2 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { fireNotify } from "@/lib/i18n/client";
+import type { Locale } from "@/lib/i18n/config";
 
 type Status = "idle" | "sending" | "success" | "error";
 type FieldName =
@@ -25,6 +26,126 @@ const MAX_EMAIL = 200;
 const MAX_TEXT = 300;
 const MAX_NOT = 2000;
 
+/** Form metinleri — TR + EN (host sayfa bilingual; form da uyumlu olmalı). */
+const COPY = {
+  tr: {
+    optional: "(opsiyonel)",
+    nameLabel: "Ad Soyad",
+    namePlaceholder: "Adınız Soyadınız",
+    phoneLabel: "Telefon",
+    emailLabel: "E-posta",
+    emailPlaceholder: "ornek@eposta.com",
+    mulkTipiLabel: "Mülk Tipi",
+    selectPlaceholder: "Seçiniz…",
+    mulkOptions: {
+      daire: "Daire",
+      mustakil: "Müstakil",
+      villa: "Villa",
+      isyeri: "İş Yeri",
+      arsa: "Arsa",
+      diger: "Diğer",
+    },
+    amacLabel: "Amacınız",
+    amacOptions: {
+      sadece_ogrenmek: "Sadece değer öğrenmek",
+      satis: "Satış düşünüyorum",
+      kiralama: "Kiraya verme düşünüyorum",
+    },
+    ilceLabel: "İlçe",
+    ilcePlaceholder: "örn. Çankaya",
+    mahalleLabel: "Mahalle",
+    mahallePlaceholder: "örn. Beştepe",
+    odaLabel: "Oda",
+    brutLabel: "Brüt m²",
+    netLabel: "Net m²",
+    yasLabel: "Bina Yaşı",
+    katLabel: "Kat / Konum",
+    katPlaceholder: "örn. 3. kat / zemin / bahçe katı",
+    notLabel: "Not / Eklemek istedikleriniz",
+    notPlaceholder: "Mülkünüz hakkında eklemek istediğiniz detaylar…",
+    kvkkBefore: "Kişisel verilerimin değerleme talebimin değerlendirilmesi amacıyla ",
+    kvkkBrand: "RE/MAX BOSS",
+    kvkkAfter: " tarafından KVKK kapsamında işlenmesini kabul ediyorum. ",
+    kvkkLink: "(KVKK Aydınlatma Metni)",
+    footnote:
+      "* zorunlu. Değerleme yalnız bilgi amaçlıdır; kesin değer ekspertiz raporuyla belirlenir.",
+    submitBtn: "Talebi Gönder",
+    sendingBtn: "Gönderiliyor…",
+    successTitle: "Talebiniz alındı",
+    successBody:
+      "Ekibimiz değerleme talebinizi inceleyip 1 iş günü içinde sizinle iletişime geçecek. İlginiz için teşekkürler.",
+    errors: {
+      name: "Lütfen ad soyad girin.",
+      phone: "Lütfen geçerli bir telefon numarası girin.",
+      email: "Girdiğiniz e-posta adresi geçersiz görünüyor.",
+      mulkTipi: "Lütfen mülk tipini seçin.",
+      ilce: "Lütfen ilçeyi yazın.",
+      amac: "Lütfen amacı seçin.",
+      kvkk: "Lütfen KVKK aydınlatma onayını işaretleyin.",
+      sendFailed:
+        "Talebiniz gönderilemedi. Lütfen tekrar deneyin veya bizi telefonla arayın.",
+    },
+  },
+  en: {
+    optional: "(optional)",
+    nameLabel: "Full Name",
+    namePlaceholder: "Your full name",
+    phoneLabel: "Phone",
+    emailLabel: "Email",
+    emailPlaceholder: "you@example.com",
+    mulkTipiLabel: "Property Type",
+    selectPlaceholder: "Select…",
+    mulkOptions: {
+      daire: "Apartment",
+      mustakil: "Detached House",
+      villa: "Villa",
+      isyeri: "Commercial",
+      arsa: "Land",
+      diger: "Other",
+    },
+    amacLabel: "Your Goal",
+    amacOptions: {
+      sadece_ogrenmek: "Just curious about the value",
+      satis: "Considering selling",
+      kiralama: "Considering renting out",
+    },
+    ilceLabel: "District",
+    ilcePlaceholder: "e.g. Çankaya",
+    mahalleLabel: "Neighbourhood",
+    mahallePlaceholder: "e.g. Beştepe",
+    odaLabel: "Rooms",
+    brutLabel: "Gross m²",
+    netLabel: "Net m²",
+    yasLabel: "Building Age",
+    katLabel: "Floor / Position",
+    katPlaceholder: "e.g. 3rd floor / ground / garden level",
+    notLabel: "Notes / anything to add",
+    notPlaceholder: "Any details you'd like to share about your property…",
+    kvkkBefore: "I agree that my personal data will be processed by ",
+    kvkkBrand: "RE/MAX BOSS",
+    kvkkAfter: " under KVKK for the purpose of evaluating my valuation request. ",
+    kvkkLink: "(KVKK Notice)",
+    footnote:
+      "* required. The valuation is for information only; the definitive value is determined by an official appraisal report.",
+    submitBtn: "Send Request",
+    sendingBtn: "Sending…",
+    successTitle: "Request received",
+    successBody:
+      "Our team will review your valuation request and contact you within 1 business day. Thank you for your interest.",
+    errors: {
+      name: "Please enter your full name.",
+      phone: "Please enter a valid phone number.",
+      email: "The email address you entered looks invalid.",
+      mulkTipi: "Please select a property type.",
+      ilce: "Please enter the district.",
+      amac: "Please select your goal.",
+      kvkk: "Please tick the KVKK consent to continue.",
+      sendFailed:
+        "Your request could not be sent. Please try again or call us.",
+    },
+  },
+} as const;
+
 /**
  * Ücretsiz değerleme talep formu — /api/valuation-request üzerinden
  * valuation_requests tablosuna anon INSERT (RLS). Server endpoint'inde
@@ -35,7 +156,12 @@ const MAX_NOT = 2000;
  *
  * A11y: hatalı alana aria-invalid + aria-describedby.
  */
-export default function ValuationForm() {
+export default function ValuationForm({
+  locale = "tr",
+}: {
+  locale?: Locale;
+}) {
+  const c = COPY[locale];
   const ids = {
     ad: useId(),
     tel: useId(),
@@ -93,17 +219,17 @@ export default function ValuationForm() {
     setError(null);
     setErrorField(null);
 
-    if (!payload.ad_soyad) return reportError("ad", "Lütfen ad soyad girin.");
+    if (!payload.ad_soyad) return reportError("ad", c.errors.name);
     if (!payload.telefon || !PHONE_RE.test(payload.telefon))
-      return reportError("tel", "Lütfen geçerli bir telefon numarası girin.");
+      return reportError("tel", c.errors.phone);
     if (payload.email && !EMAIL_RE.test(payload.email))
-      return reportError("email", "Girdiğiniz e-posta adresi geçersiz görünüyor.");
+      return reportError("email", c.errors.email);
     if (!payload.mulk_tipi)
-      return reportError("mulk_tipi", "Lütfen mülk tipini seçin.");
-    if (!payload.ilce) return reportError("ilce", "Lütfen ilçeyi yazın.");
-    if (!payload.amac) return reportError("amac", "Lütfen amacı seçin.");
+      return reportError("mulk_tipi", c.errors.mulkTipi);
+    if (!payload.ilce) return reportError("ilce", c.errors.ilce);
+    if (!payload.amac) return reportError("amac", c.errors.amac);
     if (!payload.kvkk)
-      return reportError("kvkk", "Lütfen KVKK aydınlatma onayını işaretleyin.");
+      return reportError("kvkk", c.errors.kvkk);
 
     setStatus("sending");
     try {
@@ -117,10 +243,7 @@ export default function ValuationForm() {
         error?: string;
       };
       if (!res.ok) {
-        throw new Error(
-          result.error ||
-            "Talebiniz gönderilemedi. Lütfen tekrar deneyin veya bizi telefonla arayın.",
-        );
+        throw new Error(result.error || c.errors.sendFailed);
       }
       // Otomatik teşekkür e-postası — best-effort, RESEND yoksa no-op.
       if (payload.email) {
@@ -134,11 +257,7 @@ export default function ValuationForm() {
       setStatus("success");
     } catch (err) {
       setStatus("error");
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Talebiniz gönderilemedi. Lütfen tekrar deneyin veya bizi telefonla arayın.",
-      );
+      setError(err instanceof Error ? err.message : c.errors.sendFailed);
     }
   }
 
@@ -156,10 +275,10 @@ export default function ValuationForm() {
           <CheckCircle2 className="h-7 w-7" aria-hidden />
         </span>
         <h3 className="mt-5 font-display font-bold text-xl text-navy">
-          Talebiniz alındı
+          {c.successTitle}
         </h3>
         <p className="mt-2 text-sm text-navy/65 leading-relaxed max-w-sm mx-auto">
-          Ekibimiz değerleme talebinizi inceleyip 1 iş günü içinde sizinle iletişime geçecek. İlginiz için teşekkürler.
+          {c.successBody}
         </p>
       </div>
     );
@@ -187,7 +306,7 @@ export default function ValuationForm() {
             htmlFor={ids.ad}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Ad Soyad <span className="text-remax-red">*</span>
+            {c.nameLabel} <span className="text-remax-red">*</span>
           </label>
           <input
             id={ids.ad}
@@ -195,7 +314,7 @@ export default function ValuationForm() {
             required
             type="text"
             autoComplete="name"
-            placeholder="Adınız Soyadınız"
+            placeholder={c.namePlaceholder}
             maxLength={MAX_NAME}
             aria-invalid={errorField === "ad" || undefined}
             aria-describedby={errorField === "ad" ? errId : undefined}
@@ -207,7 +326,7 @@ export default function ValuationForm() {
             htmlFor={ids.tel}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Telefon <span className="text-remax-red">*</span>
+            {c.phoneLabel} <span className="text-remax-red">*</span>
           </label>
           <input
             id={ids.tel}
@@ -231,14 +350,15 @@ export default function ValuationForm() {
           htmlFor={ids.email}
           className="block text-sm font-semibold text-navy mb-1.5"
         >
-          E-posta <span className="text-navy/40 font-normal">(opsiyonel)</span>
+          {c.emailLabel}{" "}
+          <span className="text-navy/40 font-normal">{c.optional}</span>
         </label>
         <input
           id={ids.email}
           name="email"
           type="email"
           autoComplete="email"
-          placeholder="ornek@eposta.com"
+          placeholder={c.emailPlaceholder}
           maxLength={MAX_EMAIL}
           aria-invalid={errorField === "email" || undefined}
           aria-describedby={errorField === "email" ? errId : undefined}
@@ -252,7 +372,7 @@ export default function ValuationForm() {
             htmlFor={ids.mulk_tipi}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Mülk Tipi <span className="text-remax-red">*</span>
+            {c.mulkTipiLabel} <span className="text-remax-red">*</span>
           </label>
           <select
             id={ids.mulk_tipi}
@@ -264,14 +384,14 @@ export default function ValuationForm() {
             className={inputClass}
           >
             <option value="" disabled>
-              Seçiniz…
+              {c.selectPlaceholder}
             </option>
-            <option value="daire">Daire</option>
-            <option value="mustakil">Müstakil</option>
-            <option value="villa">Villa</option>
-            <option value="isyeri">İş Yeri</option>
-            <option value="arsa">Arsa</option>
-            <option value="diger">Diğer</option>
+            <option value="daire">{c.mulkOptions.daire}</option>
+            <option value="mustakil">{c.mulkOptions.mustakil}</option>
+            <option value="villa">{c.mulkOptions.villa}</option>
+            <option value="isyeri">{c.mulkOptions.isyeri}</option>
+            <option value="arsa">{c.mulkOptions.arsa}</option>
+            <option value="diger">{c.mulkOptions.diger}</option>
           </select>
         </div>
         <div>
@@ -279,7 +399,7 @@ export default function ValuationForm() {
             htmlFor={ids.amac}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Amacınız <span className="text-remax-red">*</span>
+            {c.amacLabel} <span className="text-remax-red">*</span>
           </label>
           <select
             id={ids.amac}
@@ -290,9 +410,11 @@ export default function ValuationForm() {
             aria-describedby={errorField === "amac" ? errId : undefined}
             className={inputClass}
           >
-            <option value="sadece_ogrenmek">Sadece değer öğrenmek</option>
-            <option value="satis">Satış düşünüyorum</option>
-            <option value="kiralama">Kiraya verme düşünüyorum</option>
+            <option value="sadece_ogrenmek">
+              {c.amacOptions.sadece_ogrenmek}
+            </option>
+            <option value="satis">{c.amacOptions.satis}</option>
+            <option value="kiralama">{c.amacOptions.kiralama}</option>
           </select>
         </div>
       </div>
@@ -303,14 +425,14 @@ export default function ValuationForm() {
             htmlFor={ids.ilce}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            İlçe <span className="text-remax-red">*</span>
+            {c.ilceLabel} <span className="text-remax-red">*</span>
           </label>
           <input
             id={ids.ilce}
             name="ilce"
             required
             type="text"
-            placeholder="örn. Çankaya"
+            placeholder={c.ilcePlaceholder}
             maxLength={MAX_TEXT}
             aria-invalid={errorField === "ilce" || undefined}
             aria-describedby={errorField === "ilce" ? errId : undefined}
@@ -322,14 +444,14 @@ export default function ValuationForm() {
             htmlFor={ids.mahalle}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Mahalle{" "}
-            <span className="text-navy/40 font-normal">(opsiyonel)</span>
+            {c.mahalleLabel}{" "}
+            <span className="text-navy/40 font-normal">{c.optional}</span>
           </label>
           <input
             id={ids.mahalle}
             name="mahalle"
             type="text"
-            placeholder="örn. Beştepe"
+            placeholder={c.mahallePlaceholder}
             maxLength={MAX_TEXT}
             className={inputClass}
           />
@@ -342,7 +464,7 @@ export default function ValuationForm() {
             htmlFor={ids.oda}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Oda
+            {c.odaLabel}
           </label>
           <input
             id={ids.oda}
@@ -358,7 +480,7 @@ export default function ValuationForm() {
             htmlFor={ids.brut}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Brüt m²
+            {c.brutLabel}
           </label>
           <input
             id={ids.brut}
@@ -376,7 +498,7 @@ export default function ValuationForm() {
             htmlFor={ids.net}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Net m²
+            {c.netLabel}
           </label>
           <input
             id={ids.net}
@@ -394,7 +516,7 @@ export default function ValuationForm() {
             htmlFor={ids.yas}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Bina Yaşı
+            {c.yasLabel}
           </label>
           <input
             id={ids.yas}
@@ -414,14 +536,14 @@ export default function ValuationForm() {
           htmlFor={ids.kat}
           className="block text-sm font-semibold text-navy mb-1.5"
         >
-          Kat / Konum{" "}
-          <span className="text-navy/40 font-normal">(opsiyonel)</span>
+          {c.katLabel}{" "}
+          <span className="text-navy/40 font-normal">{c.optional}</span>
         </label>
         <input
           id={ids.kat}
           name="kat"
           type="text"
-          placeholder="örn. 3. kat / zemin / bahçe katı"
+          placeholder={c.katPlaceholder}
           maxLength={50}
           className={inputClass}
         />
@@ -432,14 +554,14 @@ export default function ValuationForm() {
           htmlFor={ids.not}
           className="block text-sm font-semibold text-navy mb-1.5"
         >
-          Not / Eklemek istedikleriniz{" "}
-          <span className="text-navy/40 font-normal">(opsiyonel)</span>
+          {c.notLabel}{" "}
+          <span className="text-navy/40 font-normal">{c.optional}</span>
         </label>
         <textarea
           id={ids.not}
           name="not_text"
           rows={3}
-          placeholder="Mülkünüz hakkında eklemek istediğiniz detaylar…"
+          placeholder={c.notPlaceholder}
           maxLength={MAX_NOT}
           className={`${inputClass} resize-y`}
         />
@@ -458,16 +580,16 @@ export default function ValuationForm() {
           className="mt-0.5 h-4 w-4 flex-shrink-0 accent-remax-red"
         />
         <span>
-          Kişisel verilerimin değerleme talebimin değerlendirilmesi amacıyla{" "}
-          <span className="font-semibold text-navy">RE/MAX BOSS</span>{" "}
-          tarafından KVKK kapsamında işlenmesini kabul ediyorum.{" "}
+          {c.kvkkBefore}
+          <span className="font-semibold text-navy">{c.kvkkBrand}</span>
+          {c.kvkkAfter}
           <a
             href="/kvkk-aydinlatma"
             target="_blank"
             rel="noopener noreferrer"
             className="underline text-remax-red hover:text-remax-red-hover"
           >
-            (KVKK Aydınlatma Metni)
+            {c.kvkkLink}
           </a>
         </span>
       </label>
@@ -483,10 +605,7 @@ export default function ValuationForm() {
       )}
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
-        <p className="text-xs text-navy/55">
-          <span className="text-remax-red">*</span> zorunlu. Değerleme yalnız
-          bilgi amaçlıdır; kesin değer ekspertiz raporuyla belirlenir.
-        </p>
+        <p className="text-xs text-navy/55">{c.footnote}</p>
         <button
           type="submit"
           disabled={status === "sending"}
@@ -498,11 +617,11 @@ export default function ValuationForm() {
           {status === "sending" ? (
             <>
               <Loader2 className="h-4 w-4 me-2 animate-spin" aria-hidden />{" "}
-              Gönderiliyor…
+              {c.sendingBtn}
             </>
           ) : (
             <>
-              <Send className="h-4 w-4 me-2" aria-hidden /> Talebi Gönder
+              <Send className="h-4 w-4 me-2" aria-hidden /> {c.submitBtn}
             </>
           )}
         </button>

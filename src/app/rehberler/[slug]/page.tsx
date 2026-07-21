@@ -135,7 +135,10 @@ export default async function RehberDetayPage({ params }: PageProps) {
       <Section tone="light" density="normal">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10 lg:gap-14 items-start">
           <div>
-            <Eyebrow tone="red">{d.stepsHeading}</Eyebrow>
+            {/* h1→h3 atlamasını önlemek için bölüm başlığı semantik h2. */}
+            <h2>
+              <Eyebrow tone="red">{d.stepsHeading}</Eyebrow>
+            </h2>
             <ol className="mt-6 space-y-5">
               {lg.steps.map((step) => (
                 <li

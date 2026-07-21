@@ -3,6 +3,7 @@ import { posts } from "@/lib/blog";
 import { services } from "@/lib/services";
 import { REGIONS } from "@/lib/regions";
 import { GUIDES } from "@/lib/guides";
+import { teamDetails } from "@/lib/team-detail";
 import { SITE_URL as siteUrl } from "@/lib/site-url";
 
 // Yayında olan statik rotalar. İlan detay sayfaları veri-bağımlı olduğundan
@@ -27,6 +28,11 @@ const routes: {
   { path: "/sss", priority: 0.7, changeFrequency: "monthly" },
   { path: "/degerleme", priority: 0.85, changeFrequency: "monthly" },
   { path: "/alici-kayit", priority: 0.85, changeFrequency: "monthly" },
+  // Yasal sayfalar — düşük öncelik ama indekslenebilir.
+  { path: "/kvkk-aydinlatma", priority: 0.3, changeFrequency: "monthly" },
+  { path: "/gizlilik-politikasi", priority: 0.3, changeFrequency: "monthly" },
+  { path: "/cerez-politikasi", priority: 0.3, changeFrequency: "monthly" },
+  { path: "/kullanim-sartlari", priority: 0.3, changeFrequency: "monthly" },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -70,11 +76,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
+  // Danışman detay sayfaları.
+  const teamEntries: MetadataRoute.Sitemap = teamDetails.map((t) => ({
+    url: `${siteUrl}/ekibimiz/${t.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.5,
+  }));
+
   return [
     ...staticEntries,
     ...serviceEntries,
     ...regionEntries,
     ...guideEntries,
+    ...teamEntries,
     ...blogEntries,
   ];
 }

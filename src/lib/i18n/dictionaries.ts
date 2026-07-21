@@ -28,6 +28,7 @@ export interface Dict {
     about: string;
     team: string;
     campaign: string;
+    regions: string;
     blog: string;
     tools: string;
     contact: string;
@@ -701,7 +702,8 @@ const tr: Dict = {
     about: "Hakkımızda",
     team: "Ekibimiz",
     campaign: "Kampanya",
-    blog: "Rehber",
+    regions: "Bölgeler",
+    blog: "Blog",
     tools: "Araçlar",
     contact: "İletişim",
     advisor: "Danışman Ol",
@@ -1534,7 +1536,8 @@ const en: Dict = {
     about: "About",
     team: "Our Team",
     campaign: "Campaign",
-    blog: "Guides",
+    regions: "Regions",
+    blog: "Blog",
     tools: "Tools",
     contact: "Contact",
     advisor: "Become an Agent",

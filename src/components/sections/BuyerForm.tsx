@@ -5,6 +5,7 @@ import { Send, CheckCircle2, Loader2 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { fireNotify } from "@/lib/i18n/client";
+import type { Locale } from "@/lib/i18n/config";
 
 type Status = "idle" | "sending" | "success" | "error";
 type FieldName =
@@ -28,6 +29,144 @@ const MAX_LIST_TEXT = 600;
 const MAX_NOT = 2000;
 const MAX_BUTCE_DIGITS = 16;
 
+/** Form metinleri — TR + EN (host sayfa bilingual; form da uyumlu olmalı). */
+const COPY = {
+  tr: {
+    optional: "(opsiyonel)",
+    commaHint: "(virgülle)",
+    nameLabel: "Ad Soyad",
+    namePlaceholder: "Adınız Soyadınız",
+    phoneLabel: "Telefon",
+    emailLabel: "E-posta",
+    emailPlaceholder: "ornek@eposta.com",
+    islemLabel: "İşlem Tipi",
+    islemOptions: { satilik: "Satılık", kiralik: "Kiralık" },
+    mulkLabel: "Mülk Tipi",
+    selectPlaceholder: "Seçiniz…",
+    mulkOptions: {
+      daire: "Daire",
+      mustakil: "Müstakil",
+      villa: "Villa",
+      isyeri: "İş Yeri",
+      arsa: "Arsa",
+      diger: "Diğer",
+    },
+    ilceLabel: "İlçe",
+    ilcePlaceholder: "örn. Çankaya",
+    mahallelerLabel: "Mahalleler",
+    mahallelerPlaceholder: "Beştepe, Bahçelievler, Emek",
+    odaLabel: "Oda",
+    odaPlaceholder: "2+1 / 3+1",
+    minM2Label: "Min m²",
+    maxM2Label: "Max m²",
+    minButceLabel: "Min Bütçe (TL)",
+    maxButceLabel: "Max Bütçe (TL)",
+    minButcePlaceholder: "örn. 5.000.000",
+    maxButcePlaceholder: "örn. 12.000.000",
+    ihtiyacLabel: "İhtiyaç ve Tercihler",
+    ihtiyacPlaceholder: "örn. asansör + 2 otopark + bahçe + güvenlik",
+    zamanLabel: "Zaman Planlaması",
+    zamanOptions: {
+      hemen: "Hemen alacağım",
+      "1_3_ay": "1-3 ay içinde",
+      "3_6_ay": "3-6 ay içinde",
+      esnek: "Esnek / uygun fırsatla",
+    },
+    notLabel: "Not / Eklemek istedikleriniz",
+    notPlaceholder: "Aradığınız mülk hakkında detaylar…",
+    kvkkBefore: "Kişisel verilerimin alıcı kaydımın yönetilmesi amacıyla ",
+    kvkkBrand: "RE/MAX BOSS",
+    kvkkAfter: " tarafından KVKK kapsamında işlenmesini kabul ediyorum. ",
+    kvkkLink: "(KVKK Aydınlatma Metni)",
+    footnote:
+      "* zorunlu. Kayıt eşleme niyet kaydıdır; uygunluk kararı ofise aittir.",
+    submitBtn: "Talebi Gönder",
+    sendingBtn: "Gönderiliyor…",
+    successTitle: "Talebiniz alındı",
+    successBody:
+      "Kriterlerinize uygun mülk geldiğinde size haber vereceğiz. İlginiz için teşekkürler.",
+    errors: {
+      name: "Lütfen ad soyad girin.",
+      phone: "Lütfen geçerli bir telefon numarası girin.",
+      email: "Girdiğiniz e-posta adresi geçersiz görünüyor.",
+      islem: "Lütfen satılık mı kiralık mı seçin.",
+      mulk: "Lütfen mülk tipini seçin.",
+      ilce: "Lütfen aradığınız ilçeyi yazın.",
+      zaman: "Lütfen zaman planlamasını seçin.",
+      kvkk: "Lütfen KVKK aydınlatma onayını işaretleyin.",
+      sendFailed:
+        "Talebiniz gönderilemedi. Lütfen tekrar deneyin veya bizi telefonla arayın.",
+    },
+  },
+  en: {
+    optional: "(optional)",
+    commaHint: "(comma separated)",
+    nameLabel: "Full Name",
+    namePlaceholder: "Your full name",
+    phoneLabel: "Phone",
+    emailLabel: "Email",
+    emailPlaceholder: "you@example.com",
+    islemLabel: "Transaction Type",
+    islemOptions: { satilik: "For Sale", kiralik: "For Rent" },
+    mulkLabel: "Property Type",
+    selectPlaceholder: "Select…",
+    mulkOptions: {
+      daire: "Apartment",
+      mustakil: "Detached House",
+      villa: "Villa",
+      isyeri: "Commercial",
+      arsa: "Land",
+      diger: "Other",
+    },
+    ilceLabel: "District",
+    ilcePlaceholder: "e.g. Çankaya",
+    mahallelerLabel: "Neighbourhoods",
+    mahallelerPlaceholder: "Beştepe, Bahçelievler, Emek",
+    odaLabel: "Rooms",
+    odaPlaceholder: "2+1 / 3+1",
+    minM2Label: "Min m²",
+    maxM2Label: "Max m²",
+    minButceLabel: "Min Budget (TL)",
+    maxButceLabel: "Max Budget (TL)",
+    minButcePlaceholder: "e.g. 5,000,000",
+    maxButcePlaceholder: "e.g. 12,000,000",
+    ihtiyacLabel: "Needs & Preferences",
+    ihtiyacPlaceholder: "e.g. elevator + 2 parking + garden + security",
+    zamanLabel: "Timeline",
+    zamanOptions: {
+      hemen: "Buying immediately",
+      "1_3_ay": "Within 1-3 months",
+      "3_6_ay": "Within 3-6 months",
+      esnek: "Flexible / with the right opportunity",
+    },
+    notLabel: "Notes / anything to add",
+    notPlaceholder: "Details about the property you're looking for…",
+    kvkkBefore: "I agree that my personal data will be processed by ",
+    kvkkBrand: "RE/MAX BOSS",
+    kvkkAfter: " under KVKK for the purpose of managing my buyer registration. ",
+    kvkkLink: "(KVKK Notice)",
+    footnote:
+      "* required. Registration is a statement of intent for matching; suitability is at the office's discretion.",
+    submitBtn: "Send Request",
+    sendingBtn: "Sending…",
+    successTitle: "Request received",
+    successBody:
+      "We'll let you know when a property matching your criteria becomes available. Thank you for your interest.",
+    errors: {
+      name: "Please enter your full name.",
+      phone: "Please enter a valid phone number.",
+      email: "The email address you entered looks invalid.",
+      islem: "Please choose for sale or for rent.",
+      mulk: "Please select a property type.",
+      ilce: "Please enter the district you're looking in.",
+      zaman: "Please select a timeline.",
+      kvkk: "Please tick the KVKK consent to continue.",
+      sendFailed:
+        "Your request could not be sent. Please try again or call us.",
+    },
+  },
+} as const;
+
 /**
  * Alıcı talep formu — /api/buyer-request üzerinden buyer_requests
  * tablosuna anon INSERT (RLS). Server endpoint'inde rate-limit
@@ -38,7 +177,8 @@ const MAX_BUTCE_DIGITS = 16;
  *
  * A11y: hatalı alana aria-invalid + aria-describedby.
  */
-export default function BuyerForm() {
+export default function BuyerForm({ locale = "tr" }: { locale?: Locale }) {
+  const c = COPY[locale];
   const ids = {
     ad: useId(),
     tel: useId(),
@@ -104,20 +244,20 @@ export default function BuyerForm() {
     setError(null);
     setErrorField(null);
 
-    if (!payload.ad_soyad) return reportError("ad", "Lütfen ad soyad girin.");
+    if (!payload.ad_soyad) return reportError("ad", c.errors.name);
     if (!payload.telefon || !PHONE_RE.test(payload.telefon))
-      return reportError("tel", "Lütfen geçerli bir telefon numarası girin.");
+      return reportError("tel", c.errors.phone);
     if (payload.email && !EMAIL_RE.test(payload.email))
-      return reportError("email", "Girdiğiniz e-posta adresi geçersiz görünüyor.");
+      return reportError("email", c.errors.email);
     if (!payload.islem_tipi)
-      return reportError("islem_tipi", "Lütfen satılık mı kiralık mı seçin.");
+      return reportError("islem_tipi", c.errors.islem);
     if (!payload.mulk_tipi)
-      return reportError("mulk_tipi", "Lütfen mülk tipini seçin.");
-    if (!payload.ilce) return reportError("ilce", "Lütfen aradığınız ilçeyi yazın.");
+      return reportError("mulk_tipi", c.errors.mulk);
+    if (!payload.ilce) return reportError("ilce", c.errors.ilce);
     if (!payload.zaman_planlama)
-      return reportError("zaman", "Lütfen zaman planlamasını seçin.");
+      return reportError("zaman", c.errors.zaman);
     if (!payload.kvkk)
-      return reportError("kvkk", "Lütfen KVKK aydınlatma onayını işaretleyin.");
+      return reportError("kvkk", c.errors.kvkk);
 
     setStatus("sending");
     try {
@@ -131,10 +271,7 @@ export default function BuyerForm() {
         error?: string;
       };
       if (!res.ok) {
-        throw new Error(
-          result.error ||
-            "Talebiniz gönderilemedi. Lütfen tekrar deneyin veya bizi telefonla arayın.",
-        );
+        throw new Error(result.error || c.errors.sendFailed);
       }
       // Otomatik teşekkür e-postası — best-effort, RESEND yoksa no-op.
       if (payload.email) {
@@ -148,11 +285,7 @@ export default function BuyerForm() {
       setStatus("success");
     } catch (err) {
       setStatus("error");
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Talebiniz gönderilemedi. Lütfen tekrar deneyin veya bizi telefonla arayın.",
-      );
+      setError(err instanceof Error ? err.message : c.errors.sendFailed);
     }
   }
 
@@ -170,10 +303,10 @@ export default function BuyerForm() {
           <CheckCircle2 className="h-7 w-7" aria-hidden />
         </span>
         <h3 className="mt-5 font-display font-bold text-xl text-navy">
-          Talebiniz alındı
+          {c.successTitle}
         </h3>
         <p className="mt-2 text-sm text-navy/65 leading-relaxed max-w-sm mx-auto">
-          Kriterlerinize uygun mülk geldiğinde size haber vereceğiz. İlginiz için teşekkürler.
+          {c.successBody}
         </p>
       </div>
     );
@@ -201,7 +334,7 @@ export default function BuyerForm() {
             htmlFor={ids.ad}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Ad Soyad <span className="text-remax-red">*</span>
+            {c.nameLabel} <span className="text-remax-red">*</span>
           </label>
           <input
             id={ids.ad}
@@ -209,7 +342,7 @@ export default function BuyerForm() {
             required
             type="text"
             autoComplete="name"
-            placeholder="Adınız Soyadınız"
+            placeholder={c.namePlaceholder}
             maxLength={MAX_NAME}
             aria-invalid={errorField === "ad" || undefined}
             aria-describedby={errorField === "ad" ? errId : undefined}
@@ -221,7 +354,7 @@ export default function BuyerForm() {
             htmlFor={ids.tel}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Telefon <span className="text-remax-red">*</span>
+            {c.phoneLabel} <span className="text-remax-red">*</span>
           </label>
           <input
             id={ids.tel}
@@ -245,14 +378,15 @@ export default function BuyerForm() {
           htmlFor={ids.email}
           className="block text-sm font-semibold text-navy mb-1.5"
         >
-          E-posta <span className="text-navy/40 font-normal">(opsiyonel)</span>
+          {c.emailLabel}{" "}
+          <span className="text-navy/40 font-normal">{c.optional}</span>
         </label>
         <input
           id={ids.email}
           name="email"
           type="email"
           autoComplete="email"
-          placeholder="ornek@eposta.com"
+          placeholder={c.emailPlaceholder}
           maxLength={MAX_EMAIL}
           aria-invalid={errorField === "email" || undefined}
           aria-describedby={errorField === "email" ? errId : undefined}
@@ -266,7 +400,7 @@ export default function BuyerForm() {
             htmlFor={ids.islem}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            İşlem Tipi <span className="text-remax-red">*</span>
+            {c.islemLabel} <span className="text-remax-red">*</span>
           </label>
           <select
             id={ids.islem}
@@ -277,8 +411,8 @@ export default function BuyerForm() {
             aria-describedby={errorField === "islem_tipi" ? errId : undefined}
             className={inputClass}
           >
-            <option value="satilik">Satılık</option>
-            <option value="kiralik">Kiralık</option>
+            <option value="satilik">{c.islemOptions.satilik}</option>
+            <option value="kiralik">{c.islemOptions.kiralik}</option>
           </select>
         </div>
         <div>
@@ -286,7 +420,7 @@ export default function BuyerForm() {
             htmlFor={ids.mulk}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Mülk Tipi <span className="text-remax-red">*</span>
+            {c.mulkLabel} <span className="text-remax-red">*</span>
           </label>
           <select
             id={ids.mulk}
@@ -298,14 +432,14 @@ export default function BuyerForm() {
             className={inputClass}
           >
             <option value="" disabled>
-              Seçiniz…
+              {c.selectPlaceholder}
             </option>
-            <option value="daire">Daire</option>
-            <option value="mustakil">Müstakil</option>
-            <option value="villa">Villa</option>
-            <option value="isyeri">İş Yeri</option>
-            <option value="arsa">Arsa</option>
-            <option value="diger">Diğer</option>
+            <option value="daire">{c.mulkOptions.daire}</option>
+            <option value="mustakil">{c.mulkOptions.mustakil}</option>
+            <option value="villa">{c.mulkOptions.villa}</option>
+            <option value="isyeri">{c.mulkOptions.isyeri}</option>
+            <option value="arsa">{c.mulkOptions.arsa}</option>
+            <option value="diger">{c.mulkOptions.diger}</option>
           </select>
         </div>
       </div>
@@ -316,14 +450,14 @@ export default function BuyerForm() {
             htmlFor={ids.ilce}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            İlçe <span className="text-remax-red">*</span>
+            {c.ilceLabel} <span className="text-remax-red">*</span>
           </label>
           <input
             id={ids.ilce}
             name="ilce"
             required
             type="text"
-            placeholder="örn. Çankaya"
+            placeholder={c.ilcePlaceholder}
             maxLength={MAX_TEXT}
             aria-invalid={errorField === "ilce" || undefined}
             aria-describedby={errorField === "ilce" ? errId : undefined}
@@ -335,14 +469,14 @@ export default function BuyerForm() {
             htmlFor={ids.mahalleler}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Mahalleler{" "}
-            <span className="text-navy/40 font-normal">(virgülle)</span>
+            {c.mahallelerLabel}{" "}
+            <span className="text-navy/40 font-normal">{c.commaHint}</span>
           </label>
           <input
             id={ids.mahalleler}
             name="mahalleler"
             type="text"
-            placeholder="Beştepe, Bahçelievler, Emek"
+            placeholder={c.mahallelerPlaceholder}
             maxLength={MAX_LIST_TEXT}
             className={inputClass}
           />
@@ -355,13 +489,13 @@ export default function BuyerForm() {
             htmlFor={ids.oda}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Oda
+            {c.odaLabel}
           </label>
           <input
             id={ids.oda}
             name="oda_sayisi"
             type="text"
-            placeholder="2+1 / 3+1"
+            placeholder={c.odaPlaceholder}
             maxLength={30}
             className={inputClass}
           />
@@ -371,7 +505,7 @@ export default function BuyerForm() {
             htmlFor={ids.minm2}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Min m²
+            {c.minM2Label}
           </label>
           <input
             id={ids.minm2}
@@ -389,7 +523,7 @@ export default function BuyerForm() {
             htmlFor={ids.maxm2}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Max m²
+            {c.maxM2Label}
           </label>
           <input
             id={ids.maxm2}
@@ -410,15 +544,15 @@ export default function BuyerForm() {
             htmlFor={ids.minbutce}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Min Bütçe (TL){" "}
-            <span className="text-navy/40 font-normal">(opsiyonel)</span>
+            {c.minButceLabel}{" "}
+            <span className="text-navy/40 font-normal">{c.optional}</span>
           </label>
           <input
             id={ids.minbutce}
             name="min_butce"
             type="text"
             inputMode="numeric"
-            placeholder="örn. 5.000.000"
+            placeholder={c.minButcePlaceholder}
             maxLength={MAX_BUTCE_DIGITS + 6}
             className={inputClass}
             dir="ltr"
@@ -429,15 +563,15 @@ export default function BuyerForm() {
             htmlFor={ids.maxbutce}
             className="block text-sm font-semibold text-navy mb-1.5"
           >
-            Max Bütçe (TL){" "}
-            <span className="text-navy/40 font-normal">(opsiyonel)</span>
+            {c.maxButceLabel}{" "}
+            <span className="text-navy/40 font-normal">{c.optional}</span>
           </label>
           <input
             id={ids.maxbutce}
             name="max_butce"
             type="text"
             inputMode="numeric"
-            placeholder="örn. 12.000.000"
+            placeholder={c.maxButcePlaceholder}
             maxLength={MAX_BUTCE_DIGITS + 6}
             className={inputClass}
             dir="ltr"
@@ -450,14 +584,14 @@ export default function BuyerForm() {
           htmlFor={ids.ihtiyac}
           className="block text-sm font-semibold text-navy mb-1.5"
         >
-          İhtiyaç ve Tercihler{" "}
-          <span className="text-navy/40 font-normal">(opsiyonel)</span>
+          {c.ihtiyacLabel}{" "}
+          <span className="text-navy/40 font-normal">{c.optional}</span>
         </label>
         <input
           id={ids.ihtiyac}
           name="ihtiyaclar"
           type="text"
-          placeholder="örn. asansör + 2 otopark + bahçe + güvenlik"
+          placeholder={c.ihtiyacPlaceholder}
           maxLength={MAX_LIST_TEXT}
           className={inputClass}
         />
@@ -468,7 +602,7 @@ export default function BuyerForm() {
           htmlFor={ids.zaman}
           className="block text-sm font-semibold text-navy mb-1.5"
         >
-          Zaman Planlaması <span className="text-remax-red">*</span>
+          {c.zamanLabel} <span className="text-remax-red">*</span>
         </label>
         <select
           id={ids.zaman}
@@ -479,10 +613,10 @@ export default function BuyerForm() {
           aria-describedby={errorField === "zaman" ? errId : undefined}
           className={inputClass}
         >
-          <option value="hemen">Hemen alacağım</option>
-          <option value="1_3_ay">1-3 ay içinde</option>
-          <option value="3_6_ay">3-6 ay içinde</option>
-          <option value="esnek">Esnek / uygun fırsatla</option>
+          <option value="hemen">{c.zamanOptions.hemen}</option>
+          <option value="1_3_ay">{c.zamanOptions["1_3_ay"]}</option>
+          <option value="3_6_ay">{c.zamanOptions["3_6_ay"]}</option>
+          <option value="esnek">{c.zamanOptions.esnek}</option>
         </select>
       </div>
 
@@ -491,14 +625,14 @@ export default function BuyerForm() {
           htmlFor={ids.not}
           className="block text-sm font-semibold text-navy mb-1.5"
         >
-          Not / Eklemek istedikleriniz{" "}
-          <span className="text-navy/40 font-normal">(opsiyonel)</span>
+          {c.notLabel}{" "}
+          <span className="text-navy/40 font-normal">{c.optional}</span>
         </label>
         <textarea
           id={ids.not}
           name="not_text"
           rows={3}
-          placeholder="Aradığınız mülk hakkında detaylar…"
+          placeholder={c.notPlaceholder}
           maxLength={MAX_NOT}
           className={`${inputClass} resize-y`}
         />
@@ -517,16 +651,16 @@ export default function BuyerForm() {
           className="mt-0.5 h-4 w-4 flex-shrink-0 accent-remax-red"
         />
         <span>
-          Kişisel verilerimin alıcı kaydımın yönetilmesi amacıyla{" "}
-          <span className="font-semibold text-navy">RE/MAX BOSS</span>{" "}
-          tarafından KVKK kapsamında işlenmesini kabul ediyorum.{" "}
+          {c.kvkkBefore}
+          <span className="font-semibold text-navy">{c.kvkkBrand}</span>
+          {c.kvkkAfter}
           <a
             href="/kvkk-aydinlatma"
             target="_blank"
             rel="noopener noreferrer"
             className="underline text-remax-red hover:text-remax-red-hover"
           >
-            (KVKK Aydınlatma Metni)
+            {c.kvkkLink}
           </a>
         </span>
       </label>
@@ -542,10 +676,7 @@ export default function BuyerForm() {
       )}
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
-        <p className="text-xs text-navy/55">
-          <span className="text-remax-red">*</span> zorunlu. Kayıt eşleme niyet
-          kaydıdır; uygunluk kararı ofise aittir.
-        </p>
+        <p className="text-xs text-navy/55">{c.footnote}</p>
         <button
           type="submit"
           disabled={status === "sending"}
@@ -557,11 +688,11 @@ export default function BuyerForm() {
           {status === "sending" ? (
             <>
               <Loader2 className="h-4 w-4 me-2 animate-spin" aria-hidden />{" "}
-              Gönderiliyor…
+              {c.sendingBtn}
             </>
           ) : (
             <>
-              <Send className="h-4 w-4 me-2" aria-hidden /> Talebi Gönder
+              <Send className="h-4 w-4 me-2" aria-hidden /> {c.submitBtn}
             </>
           )}
         </button>

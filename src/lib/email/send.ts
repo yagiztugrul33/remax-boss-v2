@@ -10,13 +10,6 @@ export type SendResult =
   | { ok: true; sent: true; id?: string }
   | { ok: true; sent: false; reason: "not-configured" | "send-error" };
 
-/** RESEND yapılandırması eksiksiz mi? */
-export function isEmailConfigured(): boolean {
-  const key = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM;
-  return Boolean(key && from && key.trim() && from.trim());
-}
-
 export async function sendEmail(
   to: string,
   email: RenderedEmail,

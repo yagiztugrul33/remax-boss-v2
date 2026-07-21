@@ -98,7 +98,7 @@ export default function Navbar({
       >
         <BrandLockup scrolled={scrolled} />
 
-        <nav aria-label="Ana menü" className="hidden lg:flex items-center gap-6">
+        <nav aria-label="Ana menü" className="hidden lg:flex items-center gap-4 xl:gap-6">
           {navItems.map((item) => {
             const active = isActive(pathname, item.href);
             if (item.key === "office") {

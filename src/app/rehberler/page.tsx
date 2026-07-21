@@ -7,6 +7,7 @@ import {
   Banknote,
   Key,
   BookOpen,
+  Download,
   type LucideIcon,
 } from "lucide-react";
 import Section from "@/components/ui/section";
@@ -92,9 +93,15 @@ export default async function RehberlerPage() {
                   <p className="mt-3 text-sm text-navy/70 leading-relaxed flex-1">
                     {g.excerpt}
                   </p>
-                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-remax-red">
-                    {d.readCta}
-                    <ArrowRight className="h-4 w-4" aria-hidden />
+                  <span className="mt-5 flex items-center justify-between gap-3">
+                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-remax-red">
+                      {d.readCta}
+                      <ArrowRight className="h-4 w-4" aria-hidden />
+                    </span>
+                    <span className="inline-flex items-center gap-1 rounded-full bg-mist px-2.5 py-1 text-xs font-semibold text-navy/60">
+                      <Download className="h-3 w-3" aria-hidden />
+                      {d.downloadIndexBadge}
+                    </span>
                   </span>
                 </Link>
               </li>
