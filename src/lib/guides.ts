@@ -75,8 +75,8 @@ export const GUIDES: readonly Guide[] = [
     },
     meta: {
       title: {
-        tr: "İlk Kez Ev Alma Rehberi · Adım Adım | RE/MAX BOSS",
-        en: "First-Time Home Buyer's Guide · Step by Step | RE/MAX BOSS",
+        tr: "İlk Kez Ev Alma Rehberi · Adım Adım",
+        en: "First-Time Home Buyer's Guide · Step by Step",
       },
       description: {
         tr: "İlk kez ev alacaklar için Ankara odaklı pratik rehber: bütçe, kredi, mülk seçimi, ekspertiz, sözleşme, tapu adımları.",
@@ -195,8 +195,8 @@ export const GUIDES: readonly Guide[] = [
     },
     meta: {
       title: {
-        tr: "Ev Satarken Dikkat Edilecekler · Rehber | RE/MAX BOSS",
-        en: "What to Watch For When Selling · Guide | RE/MAX BOSS",
+        tr: "Ev Satarken Dikkat Edilecekler · Rehber",
+        en: "What to Watch For When Selling · Guide",
       },
       description: {
         tr: "Satıcılar için pratik rehber: doğru fiyatlandırma, hazırlık, görseller, pazarlama, görüşme ve tapu süreci.",
@@ -305,8 +305,8 @@ export const GUIDES: readonly Guide[] = [
     },
     meta: {
       title: {
-        tr: "Konut Kredisi Temel Rehberi · Süreç + Belgeler | RE/MAX BOSS",
-        en: "Mortgage Basics Guide · Process + Documents | RE/MAX BOSS",
+        tr: "Konut Kredisi Temel Rehberi · Süreç + Belgeler",
+        en: "Mortgage Basics Guide · Process + Documents",
       },
       description: {
         tr: "Konut kredisi adımları, gerekli belgeler ve dikkat edilecek noktalar. Faiz oranı / aylık taksit kesin tutarlar bankayla görüşülür.",
@@ -407,8 +407,8 @@ export const GUIDES: readonly Guide[] = [
     },
     meta: {
       title: {
-        tr: "Kiralama Süreci · Mülk Sahibi + Kiracı | RE/MAX BOSS",
-        en: "Leasing Process · Landlord + Tenant | RE/MAX BOSS",
+        tr: "Kiralama Süreci · Mülk Sahibi + Kiracı",
+        en: "Leasing Process · Landlord + Tenant",
       },
       description: {
         tr: "Kiralık süreçleri için pratik rehber: ilan, gezi, kiracı seçimi, sözleşme, depozito, teslim ve süreç takibi.",

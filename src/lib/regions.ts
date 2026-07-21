@@ -88,8 +88,8 @@ export const REGIONS: readonly Region[] = [
     },
     meta: {
       title: {
-        tr: "Beştepe'de Gayrimenkul · Satılık, Kiralık, Değerleme | RE/MAX BOSS",
-        en: "Real Estate in Beştepe · Sale, Rent, Valuation | RE/MAX BOSS",
+        tr: "Beştepe'de Gayrimenkul · Satılık, Kiralık, Değerleme",
+        en: "Real Estate in Beştepe · Sale, Rent, Valuation",
       },
       description: {
         tr: "Beştepe'de RE/MAX BOSS ile gayrimenkul alım-satım, kiralama ve ücretsiz değerleme. Ankara Yenimahalle bölgesinde profesyonel danışmanlık.",
@@ -223,8 +223,8 @@ export const REGIONS: readonly Region[] = [
     },
     meta: {
       title: {
-        tr: "Yenimahalle'de Gayrimenkul · Satılık, Kiralık, Değerleme | RE/MAX BOSS",
-        en: "Real Estate in Yenimahalle · Sale, Rent, Valuation | RE/MAX BOSS",
+        tr: "Yenimahalle'de Gayrimenkul · Satılık, Kiralık, Değerleme",
+        en: "Real Estate in Yenimahalle · Sale, Rent, Valuation",
       },
       description: {
         tr: "Yenimahalle ilçesinde RE/MAX BOSS ile gayrimenkul alım-satım, kiralama ve ücretsiz değerleme. Beştepe ofisimizden tüm semtlere ulaşıyoruz.",
@@ -356,8 +356,8 @@ export const REGIONS: readonly Region[] = [
     },
     meta: {
       title: {
-        tr: "Çukurambar'da Gayrimenkul · Satılık, Kiralık, Değerleme | RE/MAX BOSS",
-        en: "Real Estate in Çukurambar · Sale, Rent, Valuation | RE/MAX BOSS",
+        tr: "Çukurambar'da Gayrimenkul · Satılık, Kiralık, Değerleme",
+        en: "Real Estate in Çukurambar · Sale, Rent, Valuation",
       },
       description: {
         tr: "Çukurambar'da RE/MAX BOSS ile rezidans, iş yeri ve daire alım-satım, kiralama ve ücretsiz değerleme. Çankaya'nın gelişen prestij bölgesinde profesyonel danışmanlık.",
@@ -471,8 +471,8 @@ export const REGIONS: readonly Region[] = [
     },
     meta: {
       title: {
-        tr: "Gaziosmanpaşa'da Gayrimenkul · Satılık, Kiralık, Değerleme | RE/MAX BOSS",
-        en: "Real Estate in Gaziosmanpaşa · Sale, Rent, Valuation | RE/MAX BOSS",
+        tr: "Gaziosmanpaşa'da Gayrimenkul · Satılık, Kiralık, Değerleme",
+        en: "Real Estate in Gaziosmanpaşa · Sale, Rent, Valuation",
       },
       description: {
         tr: "GOP'ta RE/MAX BOSS ile lüks konut alım-satım, kiralama ve ücretsiz değerleme. Çankaya'nın büyükelçilik ve butik yaşam bölgesinde profesyonel danışmanlık.",
@@ -586,8 +586,8 @@ export const REGIONS: readonly Region[] = [
     },
     meta: {
       title: {
-        tr: "Oran'da Gayrimenkul · Satılık, Kiralık, Değerleme | RE/MAX BOSS",
-        en: "Real Estate in Oran · Sale, Rent, Valuation | RE/MAX BOSS",
+        tr: "Oran'da Gayrimenkul · Satılık, Kiralık, Değerleme",
+        en: "Real Estate in Oran · Sale, Rent, Valuation",
       },
       description: {
         tr: "Oran'da RE/MAX BOSS ile rezidans ve lüks konut alım-satım, kiralama ve ücretsiz değerleme. Çankaya'nın üst segment yatırım bölgesinde profesyonel danışmanlık.",
@@ -701,8 +701,8 @@ export const REGIONS: readonly Region[] = [
     },
     meta: {
       title: {
-        tr: "Söğütözü'nde Gayrimenkul · Satılık, Kiralık, Değerleme | RE/MAX BOSS",
-        en: "Real Estate in Söğütözü · Sale, Rent, Valuation | RE/MAX BOSS",
+        tr: "Söğütözü'nde Gayrimenkul · Satılık, Kiralık, Değerleme",
+        en: "Real Estate in Söğütözü · Sale, Rent, Valuation",
       },
       description: {
         tr: "Söğütözü'nde RE/MAX BOSS ile ofis, rezidans ve karma kullanım mülk alım-satım, kiralama ve ücretsiz değerleme. Ankara'nın iş dünyası aksında profesyonel danışmanlık.",
@@ -816,8 +816,8 @@ export const REGIONS: readonly Region[] = [
     },
     meta: {
       title: {
-        tr: "Batıkent'te Gayrimenkul · Satılık, Kiralık, Değerleme | RE/MAX BOSS",
-        en: "Real Estate in Batıkent · Sale, Rent, Valuation | RE/MAX BOSS",
+        tr: "Batıkent'te Gayrimenkul · Satılık, Kiralık, Değerleme",
+        en: "Real Estate in Batıkent · Sale, Rent, Valuation",
       },
       description: {
         tr: "Batıkent'te RE/MAX BOSS ile daire ve konut alım-satım, kiralama ve ücretsiz değerleme. Planlı toplu konut bölgesinde profesyonel danışmanlık.",
@@ -931,8 +931,8 @@ export const REGIONS: readonly Region[] = [
     },
     meta: {
       title: {
-        tr: "Demetevler'de Gayrimenkul · Satılık, Kiralık, Değerleme | RE/MAX BOSS",
-        en: "Real Estate in Demetevler · Sale, Rent, Valuation | RE/MAX BOSS",
+        tr: "Demetevler'de Gayrimenkul · Satılık, Kiralık, Değerleme",
+        en: "Real Estate in Demetevler · Sale, Rent, Valuation",
       },
       description: {
         tr: "Demetevler'de RE/MAX BOSS ile konut alım-satım, kiralama ve ücretsiz değerleme. Yoğun yerleşim ve canlı kira piyasasında profesyonel danışmanlık.",

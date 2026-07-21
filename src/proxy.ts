@@ -25,6 +25,18 @@ import { isLocaleExempt, stripLocalePrefix } from "@/lib/i18n/url";
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // ── Eski production alias'ı kanonik domaine 308'le (çift indeksleme olmasın).
+  // YALNIZ sabit production hostu — hash'li preview deploy'ları (remax-boss-v2-xxxx-*)
+  // etkilenmez, test edilebilir kalır.
+  const host = request.headers.get("host") ?? "";
+  if (host === "remax-boss-v2.vercel.app") {
+    const url = request.nextUrl.clone();
+    url.protocol = "https";
+    url.host = "remaxboss.com.tr";
+    url.port = "";
+    return NextResponse.redirect(url, 308);
+  }
+
   const isEnPrefixed = pathname === "/en" || pathname.startsWith("/en/");
   const cleanPath = stripLocalePrefix(pathname);
 

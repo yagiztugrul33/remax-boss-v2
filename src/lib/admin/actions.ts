@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { pingIndexNow } from "@/lib/indexnow";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin/guard";
 
@@ -143,6 +144,8 @@ export async function createListing(formData: FormData): Promise<void> {
   revalidatePath("/ilanlar");
   revalidatePath(`/ilanlar/${data.id}`);
   revalidatePath("/");
+  // IndexNow — yeni ilan URL bildirimi (best-effort, redirect'ten ÖNCE).
+  await pingIndexNow(["/ilanlar", `/ilanlar/${data.id}`]);
   redirect(`/admin?ok=created:${data.id}`);
 }
 
@@ -186,6 +189,8 @@ export async function updateListing(
   revalidatePath("/ilanlar");
   revalidatePath(`/ilanlar/${id}`);
   revalidatePath("/");
+  // IndexNow — güncellenen ilan URL bildirimi (best-effort).
+  await pingIndexNow([`/ilanlar/${id}`]);
   redirect(`/admin?ok=updated:${id}`);
 }
 

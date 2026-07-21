@@ -15,6 +15,7 @@
 import { requireAdmin } from "./guard";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import { pingIndexNow } from "@/lib/indexnow";
 import {
   validateRows,
   IMPORT_LIMITS,
@@ -148,6 +149,8 @@ export async function importListings(
   revalidatePath("/admin");
   revalidatePath("/ilanlar");
   revalidatePath("/");
+  // IndexNow — toplu iceri aktarma sonrasi liste bildirimi (best-effort).
+  await pingIndexNow(["/ilanlar"]);
 
   return {
     ok: failures.length === 0,
