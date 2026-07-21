@@ -678,6 +678,351 @@ export const REGIONS: readonly Region[] = [
       en: "RE/MAX BOSS services in Oran: residence/luxury buying, selling, leasing and free valuation.",
     },
   },
+
+  // ════════════════════ SÖĞÜTÖZÜ ════════════════════
+  {
+    slug: "sogutozu",
+    name: "Söğütözü",
+    district: "Çankaya",
+    city: "Ankara",
+    hero: {
+      eyebrow: {
+        tr: "Hizmet Bölgesi · Söğütözü",
+        en: "Service Area · Söğütözü",
+      },
+      title: {
+        tr: "Söğütözü'nde satılık ve kiralık gayrimenkul",
+        en: "Properties for sale and rent in Söğütözü",
+      },
+      intro: {
+        tr: "Söğütözü, Ankara'nın Çankaya ilçesinde plaza ve iş merkezi yoğunluğuyla öne çıkan bir bölgedir. Söğütözü Metro istasyonu (M2 hattı), çevredeki iş kampüsleri ve karma kullanımlı projeler bölgeyi Ankara iş dünyasının doğal merkezlerinden birine dönüştürür. RE/MAX BOSS, Söğütözü'ndeki alım-satım, kiralama ve değerleme süreçlerini Beştepe ofisinden yönetir.",
+        en: "Söğütözü is an area in Ankara's Çankaya district known for its dense cluster of plazas and business centres. Söğütözü metro station (M2 line), the surrounding office campuses and mixed-use projects make it a natural centre of Ankara's business world. RE/MAX BOSS manages buying, selling, leasing and valuation in Söğütözü from the Beştepe office.",
+      },
+    },
+    meta: {
+      title: {
+        tr: "Söğütözü'nde Gayrimenkul · Satılık, Kiralık, Değerleme | RE/MAX BOSS",
+        en: "Real Estate in Söğütözü · Sale, Rent, Valuation | RE/MAX BOSS",
+      },
+      description: {
+        tr: "Söğütözü'nde RE/MAX BOSS ile ofis, rezidans ve karma kullanım mülk alım-satım, kiralama ve ücretsiz değerleme. Ankara'nın iş dünyası aksında profesyonel danışmanlık.",
+        en: "Buy, sell, lease and get a free valuation in Söğütözü with RE/MAX BOSS — office, residence and mixed-use advisory on Ankara's business axis.",
+      },
+    },
+    shortDesc: {
+      tr: "Plaza ve iş merkezlerinin merkezi — Ankara iş dünyasının aksı.",
+      en: "The plaza and business-centre hub — the axis of Ankara's business world.",
+    },
+    facts: [
+      {
+        icon: "TrainFront",
+        title: { tr: "Söğütözü Metro (M2)", en: "Söğütözü Metro (M2)" },
+        body: {
+          tr: "Söğütözü metro istasyonu bölgenin ortasında yer alır; Ankara'nın farklı noktalarına pratik erişim sağlar.",
+          en: "Söğütözü metro station sits in the heart of the area, offering practical access to different parts of Ankara.",
+        },
+      },
+      {
+        icon: "Building2",
+        title: { tr: "Plaza ve iş kuleleri", en: "Plazas and office towers" },
+        body: {
+          tr: "Bölge, yoğun plaza ve iş kulesi dokusuyla Ankara iş dünyasının önemli aksılarından biridir.",
+          en: "A dense fabric of plazas and office towers makes the area one of Ankara's key business corridors.",
+        },
+      },
+      {
+        icon: "Sun",
+        title: { tr: "Armada AVM yakını", en: "Close to Armada Mall" },
+        body: {
+          tr: "Armada AVM bölgeye yakındır; alışveriş, sinema ve gastronomi ihtiyaçları için pratik bir odak sunar.",
+          en: "Armada Mall is nearby, offering a practical hub for shopping, cinema and dining.",
+        },
+      },
+      {
+        icon: "Building2",
+        title: { tr: "Karma kullanım", en: "Mixed use" },
+        body: {
+          tr: "Ofis, rezidans ve ticari alanların bir arada bulunduğu karma yapı, profesyoneller için tercih nedenidir.",
+          en: "A blend of offices, residences and retail makes the area a preferred choice for professionals.",
+        },
+      },
+      {
+        icon: "MapPin",
+        title: { tr: "Çukurambar aksında", en: "On the Çukurambar axis" },
+        body: {
+          tr: "Çukurambar ile organik bir bütünlük içinde çalışan aks üzerindedir; iki bölge çoğu zaman birlikte değerlendirilir.",
+          en: "Sits on the axis that works as an organic whole with Çukurambar; the two are often considered together.",
+        },
+      },
+      {
+        icon: "Landmark",
+        title: { tr: "Şirket merkezleri", en: "Corporate headquarters" },
+        body: {
+          tr: "Birçok özel sektör şirket merkezine ev sahipliği yapan bir iş bölgesidir.",
+          en: "A business district that hosts the headquarters of many private-sector companies.",
+        },
+      },
+    ],
+    about: [
+      {
+        tr: "Söğütözü, Çankaya ilçesinde plaza ve iş merkezi yoğunluğuyla öne çıkan bir bölgedir. Söğütözü Metro istasyonu, çevredeki iş kampüsleri ve karma kullanımlı projeler bölgeyi Ankara iş dünyasının doğal merkezlerinden birine dönüştürür. Yoğun ofis kulelerinin yanı sıra rezidans ve ticari alanlar da güçlü şekilde yer alır; bu karma yapı, profesyonellerin iş ve yaşam alanına aynı aks üzerinde erişim kurmasını sağlar.",
+        en: "Söğütözü, in the Çankaya district, stands out for its dense concentration of plazas and office centres. The Söğütözü metro station, surrounding office campuses and mixed-use projects make it a natural centre of Ankara's business world. Alongside its office towers, residences and retail are strongly present; this mixed fabric lets professionals reach both work and living options along a single axis.",
+      },
+      {
+        tr: "Söğütözü Metro istasyonu ve Armada AVM'nin bölgeye yakınlığı gündelik ulaşımı ve alışverişi pratik hâle getirir. Çukurambar ile organik bir bütünlük içinde çalışan bu aks, hem şirket merkezleri hem de üst segment kiracı-yatırımcı için cazip bir konum sunar. Ofis kiralama, yatırımlık rezidans ve karma kullanımlı mülklerde bölgeye özel piyasa bilgisi belirgin fark yaratır.",
+        en: "The Söğütözü metro station and the nearby Armada Mall keep daily commuting and shopping practical. Working as an organic whole with Çukurambar, this axis offers an attractive location for corporate headquarters as well as upper-segment tenants and investors. Area-specific market insight makes a clear difference in office leasing, investment residences and mixed-use properties.",
+      },
+    ],
+    serviceHighlights: [
+      {
+        tr: "Ofis kiralama ve alım-satım — plaza pazarında bölge deneyimi.",
+        en: "Office leasing and buying/selling — area experience in the plaza market.",
+      },
+      {
+        tr: "Yatırımlık rezidans ve karma kullanım mülk danışmanlığı.",
+        en: "Investment residence and mixed-use property advisory.",
+      },
+      {
+        tr: "Çukurambar–Söğütözü aksı için birleşik piyasa yaklaşımı.",
+        en: "A unified market approach for the Çukurambar–Söğütözü axis.",
+      },
+    ],
+    neighbors: ["cukurambar", "bestepe", "oran"],
+    serviceBlurb: {
+      tr: "Söğütözü'nde RE/MAX BOSS hizmetleri: ofis, rezidans ve karma kullanım mülk alım-satım, kiralama ve ücretsiz değerleme.",
+      en: "RE/MAX BOSS services in Söğütözü: office, residence and mixed-use buying, selling, leasing and free valuation.",
+    },
+  },
+
+  // ════════════════════ BATIKENT ════════════════════
+  {
+    slug: "batikent",
+    name: "Batıkent",
+    district: "Yenimahalle",
+    city: "Ankara",
+    hero: {
+      eyebrow: {
+        tr: "Hizmet Bölgesi · Batıkent",
+        en: "Service Area · Batıkent",
+      },
+      title: {
+        tr: "Batıkent'te satılık ve kiralık gayrimenkul",
+        en: "Properties for sale and rent in Batıkent",
+      },
+      intro: {
+        tr: "Batıkent, Yenimahalle ilçesinde yer alan, Türkiye'nin planlı toplu konut gelişiminin öne çıkan örneklerinden biridir. M1 metro hattı, geniş yeşil alanlar ve düzenli yapı stoğu bölgeyi orta gelirli aileler için istikrarlı bir tercihe dönüştürür. RE/MAX BOSS, Batıkent'teki alım-satım, kiralama ve değerleme süreçlerini Beştepe ofisinden yönetir.",
+        en: "Batıkent, in the Yenimahalle district, is one of Türkiye's leading examples of planned mass housing. The M1 metro line, generous green spaces and an orderly building stock make it a steady choice for middle-income families. RE/MAX BOSS manages buying, selling, leasing and valuation in Batıkent from the Beştepe office.",
+      },
+    },
+    meta: {
+      title: {
+        tr: "Batıkent'te Gayrimenkul · Satılık, Kiralık, Değerleme | RE/MAX BOSS",
+        en: "Real Estate in Batıkent · Sale, Rent, Valuation | RE/MAX BOSS",
+      },
+      description: {
+        tr: "Batıkent'te RE/MAX BOSS ile daire ve konut alım-satım, kiralama ve ücretsiz değerleme. Planlı toplu konut bölgesinde profesyonel danışmanlık.",
+        en: "Buy, sell, lease and get a free valuation in Batıkent with RE/MAX BOSS — apartment and residential advisory in Ankara's planned mass-housing area.",
+      },
+    },
+    shortDesc: {
+      tr: "Planlı toplu konut — M1 metro hattı ve orta gelir aile yaşamı.",
+      en: "Planned mass housing — M1 metro line and middle-income family living.",
+    },
+    facts: [
+      {
+        icon: "Building2",
+        title: { tr: "Planlı toplu konut", en: "Planned mass housing" },
+        body: {
+          tr: "Batıkent, Türkiye'nin planlı toplu konut gelişiminin öne çıkan örneklerinden biridir; düzenli yapı stoğu tanınırlığını destekler.",
+          en: "Batıkent is one of Türkiye's leading examples of planned mass housing; an orderly building stock reinforces its recognisability.",
+        },
+      },
+      {
+        icon: "TrainFront",
+        title: { tr: "M1 metro hattı", en: "M1 metro line" },
+        body: {
+          tr: "M1 metro hattı Batıkent'i şehrin diğer bölümlerine güçlü biçimde bağlar; ulaşım günlük hayatın kolay bir parçasıdır.",
+          en: "The M1 metro line connects Batıkent strongly to the rest of the city; transit is an easy part of daily life.",
+        },
+      },
+      {
+        icon: "Trees",
+        title: { tr: "Geniş yeşil alanlar", en: "Generous green spaces" },
+        body: {
+          tr: "Bölge, parklar ve spor alanlarıyla aile odaklı bir yaşam sunar; yeşil alanlar bölge kimliğinin belirleyici parçasıdır.",
+          en: "Parks and sports areas support family-oriented living; green spaces are a defining part of the area's identity.",
+        },
+      },
+      {
+        icon: "MapPin",
+        title: { tr: "Aile odaklı yerleşim", en: "Family-oriented settlement" },
+        body: {
+          tr: "Orta gelirli ailelerin yoğun tercih ettiği bir yerleşim bölgesi olarak istikrarlı bir talep dokusuna sahiptir.",
+          en: "Strongly preferred by middle-income families, the area has a steady demand profile.",
+        },
+      },
+      {
+        icon: "Building2",
+        title: { tr: "Yüksek konut stoku", en: "Large housing stock" },
+        body: {
+          tr: "Konut stoku çeşitli büyüklük ve tipte olduğundan farklı bütçe ve ihtiyaçlara seçenek sunar.",
+          en: "The housing stock spans various sizes and types, offering options across different budgets and needs.",
+        },
+      },
+      {
+        icon: "Sun",
+        title: { tr: "Kira hareketliliği", en: "Rental market activity" },
+        body: {
+          tr: "M1 hattı ve düzenli konut dokusu, hem alım-satım hem de kira piyasasında istikrarlı bir hareketlilik sağlar.",
+          en: "The M1 line and orderly housing fabric support steady activity in both sales and rental markets.",
+        },
+      },
+    ],
+    about: [
+      {
+        tr: "Batıkent, Yenimahalle ilçesinde yer alan ve Türkiye'nin planlı toplu konut gelişiminin öne çıkan örneklerinden biri olan bir bölgedir. M1 metro hattı, geniş yeşil alanlar ve düzenli yapı stoğu bölgeyi orta gelirli aileler için istikrarlı bir tercihe dönüştürür. Parklar, spor alanları ve düzenli sokak dokusu aile odaklı bir yaşam sunar.",
+        en: "Batıkent is a Yenimahalle neighbourhood and one of Türkiye's leading examples of planned mass housing. The M1 metro line, generous green spaces and an orderly building stock make it a steady choice for middle-income families. Parks, sports areas and an orderly street fabric support a family-oriented lifestyle.",
+      },
+      {
+        tr: "Yüksek konut stoku, farklı bütçe ve büyüklükte seçeneklerin bir arada bulunmasını sağlar. M1 metro hattı Batıkent'i şehrin diğer bölümlerine güçlü biçimde bağlar; bu bağlantı hem gündelik erişimi hem de kira ve alım-satım hareketliliğini destekler. Aile odaklı konut alım-satımı ve kiralamada Batıkent'in geniş stok yelpazesinde doğru mülk eşleştirmesi belirgin fark yaratır.",
+        en: "A large housing stock brings together options across a range of budgets and sizes. The M1 metro line connects Batıkent strongly to the rest of the city; that connection supports both daily access and steady activity in the rental and sales markets. Matching the right property within Batıkent's broad stock makes a clear difference in family-focused sales and leasing.",
+      },
+    ],
+    serviceHighlights: [
+      {
+        tr: "Aile odaklı daire ve konut alım-satımı.",
+        en: "Family-focused apartment and residential buying/selling.",
+      },
+      {
+        tr: "Kira piyasasında hareketli talep — hızlı eşleştirme.",
+        en: "Active demand in the rental market — quick matching.",
+      },
+      {
+        tr: "Uygun giriş bedeliyle ilk konut arayışlarında rehberlik.",
+        en: "Guidance for first-home searches with an accessible entry price.",
+      },
+    ],
+    neighbors: ["yenimahalle", "demetevler", "bestepe"],
+    serviceBlurb: {
+      tr: "Batıkent'te RE/MAX BOSS hizmetleri: aile odaklı daire/konut alım-satım, kiralama ve ücretsiz değerleme.",
+      en: "RE/MAX BOSS services in Batıkent: family-focused apartment/home buying, selling, leasing and free valuation.",
+    },
+  },
+
+  // ════════════════════ DEMETEVLER ════════════════════
+  {
+    slug: "demetevler",
+    name: "Demetevler",
+    district: "Yenimahalle",
+    city: "Ankara",
+    hero: {
+      eyebrow: {
+        tr: "Hizmet Bölgesi · Demetevler",
+        en: "Service Area · Demetevler",
+      },
+      title: {
+        tr: "Demetevler'de satılık ve kiralık gayrimenkul",
+        en: "Properties for sale and rent in Demetevler",
+      },
+      intro: {
+        tr: "Demetevler, Yenimahalle ilçesinde yer alan yoğun yerleşim bölgelerinden biridir. Metro erişimi, uygun fiyatlı konut stoku ve yüksek kiralama hareketiyle bölge; hem oturmak isteyenler hem de yatırımcılar için istikrarlı bir alternatif oluşturur. RE/MAX BOSS, Demetevler'deki alım-satım, kiralama ve değerleme süreçlerini Beştepe ofisinden yönetir.",
+        en: "Demetevler, in the Yenimahalle district, is one of Ankara's densely populated residential areas. With metro access, an accessibly priced housing stock and an active rental market, it stands as a steady option for both residents and investors. RE/MAX BOSS manages buying, selling, leasing and valuation in Demetevler from the Beştepe office.",
+      },
+    },
+    meta: {
+      title: {
+        tr: "Demetevler'de Gayrimenkul · Satılık, Kiralık, Değerleme | RE/MAX BOSS",
+        en: "Real Estate in Demetevler · Sale, Rent, Valuation | RE/MAX BOSS",
+      },
+      description: {
+        tr: "Demetevler'de RE/MAX BOSS ile konut alım-satım, kiralama ve ücretsiz değerleme. Yoğun yerleşim ve canlı kira piyasasında profesyonel danışmanlık.",
+        en: "Buy, sell, lease and get a free valuation in Demetevler with RE/MAX BOSS — residential advisory in a dense settlement with an active rental market.",
+      },
+    },
+    shortDesc: {
+      tr: "Yoğun yerleşim, metro erişimi, canlı kira piyasası.",
+      en: "Dense residential fabric, metro access and an active rental market.",
+    },
+    facts: [
+      {
+        icon: "MapPin",
+        title: { tr: "Yoğun yerleşim", en: "Dense residential fabric" },
+        body: {
+          tr: "Demetevler, Yenimahalle içinde nüfus yoğunluğu yüksek yerleşim bölgelerinden biridir; kendine yeten esnaf ağı vardır.",
+          en: "Demetevler is one of Yenimahalle's densely populated residential areas, with a self-sufficient local retail network.",
+        },
+      },
+      {
+        icon: "TrainFront",
+        title: { tr: "Metro erişimi", en: "Metro access" },
+        body: {
+          tr: "Metro erişimi bölgeyi şehrin diğer bölümlerine ve iş bölgelerine hızlıca bağlar.",
+          en: "Metro access quickly links the area to other parts of the city and its business districts.",
+        },
+      },
+      {
+        icon: "Building2",
+        title: { tr: "Uygun fiyatlı konut", en: "Accessibly priced housing" },
+        body: {
+          tr: "Uygun giriş bedelli konut stokuyla ilk konut ve yatırım arayışlarında sık değerlendirilen bir bölgedir.",
+          en: "An accessible entry-price housing stock makes it a frequent option for first-home and investment searches.",
+        },
+      },
+      {
+        icon: "Sun",
+        title: { tr: "Kira hareketliliği", en: "Rental activity" },
+        body: {
+          tr: "Yüksek kiralama hareketi, mülk sahipleri için düzenli talep anlamına gelir.",
+          en: "Active rental flow means steady demand for property owners.",
+        },
+      },
+      {
+        icon: "MapPin",
+        title: { tr: "Esnaf ağı", en: "Local retail network" },
+        body: {
+          tr: "Geniş bir esnaf ağı ve gündelik hizmetlerin yakınlığı bölgeye pratik bir yaşam çerçevesi kazandırır.",
+          en: "A broad local retail network and easy access to daily services give the area a practical living framework.",
+        },
+      },
+      {
+        icon: "Landmark",
+        title: { tr: "İstikrarlı talep", en: "Steady demand" },
+        body: {
+          tr: "Yoğun yerleşim + metro erişimi kombinasyonu bölgenin talep dokusunu uzun vadede istikrarlı tutar.",
+          en: "The combination of dense settlement and metro access keeps demand steady over the long term.",
+        },
+      },
+    ],
+    about: [
+      {
+        tr: "Demetevler, Yenimahalle ilçesinde yer alan yoğun yerleşim bölgelerinden biridir. Metro erişimi, uygun fiyatlı konut stoku ve yüksek kiralama hareketiyle bölge; hem oturmak isteyenler hem de yatırımcılar için istikrarlı bir alternatif oluşturur. Geniş bir esnaf ağı ve gündelik hizmetlerin yakınlığı kendine yeten bir yaşam sunar.",
+        en: "Demetevler is one of the densely populated residential areas in the Yenimahalle district. Metro access, an accessibly priced housing stock and an active rental market make it a steady option for both residents and investors. A broad local retail network and easy access to daily services support a self-sufficient lifestyle.",
+      },
+      {
+        tr: "Ulaşım bağlantıları şehir merkezine ve iş bölgelerine hızlı erişim sağlar. Yüksek kiralama hareketi, mülk sahipleri için düzenli talep anlamına gelir. Yatırım perspektifinden Demetevler; uygun giriş bedeli ve istikrarlı kiracı profili arayanlar için değerlendirilebilir bir seçenektir. Yatırımlık konut ve uygun bütçeli alım-satım süreçlerinde bölgeye özel deneyim belirgin fark yaratır.",
+        en: "Transit connections keep the city centre and business districts within quick reach. An active rental flow means steady demand for property owners. From an investment perspective, Demetevler is worth considering for those looking for an accessible entry price and a stable tenant profile. Area-specific experience makes a clear difference in investment properties and value-priced sales.",
+      },
+    ],
+    serviceHighlights: [
+      {
+        tr: "Yatırımlık konut alım-satımı — uygun giriş bedeli odaklı.",
+        en: "Investment property buying/selling — accessible entry-price focused.",
+      },
+      {
+        tr: "Kira yönetimi ve hızlı kiracı eşleştirme.",
+        en: "Rental management and quick tenant matching.",
+      },
+      {
+        tr: "Uygun bütçeli ilk konut alımlarında rehberlik.",
+        en: "Guidance in value-priced first-home purchases.",
+      },
+    ],
+    neighbors: ["yenimahalle", "batikent", "bestepe"],
+    serviceBlurb: {
+      tr: "Demetevler'de RE/MAX BOSS hizmetleri: yatırımlık konut, kiralama yönetimi ve uygun bütçeli alım-satım.",
+      en: "RE/MAX BOSS services in Demetevler: investment properties, rental management and value-priced buying/selling.",
+    },
+  },
 ];
 
 // ─── Yerelleştirme yardımcıları ───
