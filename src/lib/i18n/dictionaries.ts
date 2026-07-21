@@ -515,6 +515,8 @@ export interface Dict {
     agentDetail: {
       backLabel: string;
       bioPlaceholder: string;
+      servicesHeading: string;
+      servicesSubtitle: string;
       languagesLabel: string;
       specialtiesLabel: string;
       certificationsLabel: string;
@@ -1328,6 +1330,9 @@ const tr: Dict = {
       backLabel: "← Ekibimize dön",
       bioPlaceholder:
         "Bu danışman için detaylı profil hazırlanıyor. Görüşmek için ofis hattımızı kullanabilirsiniz.",
+      servicesHeading: "Birlikte neler yapabiliriz?",
+      servicesSubtitle:
+        "RE/MAX BOSS ekibinin tüm hizmetlerine bu danışman üzerinden ulaşabilirsiniz.",
       languagesLabel: "Diller",
       specialtiesLabel: "Uzmanlık alanları",
       certificationsLabel: "Sertifika ve lisanslar",
@@ -2167,6 +2172,9 @@ const en: Dict = {
       backLabel: "← Back to our team",
       bioPlaceholder:
         "A detailed profile for this agent is being prepared. You can call our office to get in touch.",
+      servicesHeading: "What can we do together?",
+      servicesSubtitle:
+        "All RE/MAX BOSS services are available to you through this agent.",
       languagesLabel: "Languages",
       specialtiesLabel: "Specialties",
       certificationsLabel: "Certifications & Licences",

@@ -20,11 +20,12 @@ import Eyebrow from "@/components/ui/eyebrow";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { office } from "@/lib/office";
+import { services } from "@/lib/services";
 import {
   getAgentBySlug,
   getAllAgentSlugs,
 } from "@/lib/team-detail";
-import { getDictionary } from "@/lib/i18n/server";
+import { getDictionary, getLocale } from "@/lib/i18n/server";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -71,9 +72,15 @@ export default async function AgentDetailPage({ params }: PageProps) {
   if (!found) notFound();
   const { agent, detail } = found;
   const d = (await getDictionary()).pages.agentDetail;
+  const locale = await getLocale();
 
   const phone = detail.directPhone || office.phone;
   const email = detail.directEmail || office.email;
+  // WhatsApp: danışmana özel numara girilmemişse GERÇEK ofis hattı kullanılır
+  // (uydurma kişisel numara YOK — fallback ofisin doğrulanmış WhatsApp'ı).
+  const waHref =
+    detail.whatsapp ||
+    `https://wa.me/${office.whatsapp.replace(/\D/g, "")}`;
   const hasBio = Boolean(detail.bio && detail.bio.trim().length > 0);
   const hasLanguages = (detail.languages?.length ?? 0) > 0;
   const hasSpecialties = (detail.specialties?.length ?? 0) > 0;
@@ -160,6 +167,15 @@ export default async function AgentDetailPage({ params }: PageProps) {
                   <Phone className="h-4 w-4 me-2" aria-hidden />
                   {phone}
                 </a>
+                <a
+                  href={waHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-md border border-white/20 bg-white/5 hover:bg-white/10 text-emerald-300 hover:text-emerald-200 h-12 px-5 text-sm font-semibold transition-colors"
+                >
+                  <MessageCircle className="h-4 w-4" aria-hidden />
+                  {d.whatsappLabel}
+                </a>
                 <Link
                   href="/iletisim"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-white/85 hover:text-white transition-colors"
@@ -244,7 +260,33 @@ export default async function AgentDetailPage({ params }: PageProps) {
               </div>
             )}
 
-            {/* Bilgi henüz girilmemişse hiçbir başlık çıkmaz; placeholder yetişir */}
+            {/* Bilgi henüz girilmemişse yukarıdaki başlıklar çıkmaz; aşağıdaki
+                GERÇEK hizmet bloğu sayfayı "eksik" değil "sade" gösterir. */}
+            <div>
+              <h2 className="font-display font-extrabold text-navy text-lg mb-1.5">
+                {d.servicesHeading}
+              </h2>
+              <p className="text-sm text-navy/60 leading-relaxed mb-4">
+                {d.servicesSubtitle}
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {services.map((s) => (
+                  <Link
+                    key={s.slug}
+                    href={`/hizmetler/${s.slug}`}
+                    className="card-depth group rounded-2xl border border-line bg-white p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-remax-red"
+                  >
+                    <h3 className="font-display font-bold text-sm text-navy group-hover:text-remax-red transition-colors">
+                      {locale === "en" ? s.title.en : s.title.tr}
+                    </h3>
+                    <span className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-remax-red">
+                      {d.contactCta}
+                      <ArrowRight className="h-3 w-3" aria-hidden />
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Yan iletişim kartı */}
@@ -276,22 +318,20 @@ export default async function AgentDetailPage({ params }: PageProps) {
                   {email}
                 </a>
               </li>
-              {detail.whatsapp && (
-                <li className="flex items-start gap-3">
-                  <MessageCircle
-                    className="h-4 w-4 mt-1 flex-shrink-0 text-remax-red"
-                    aria-hidden
-                  />
-                  <a
-                    href={detail.whatsapp}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-navy hover:text-remax-red transition-colors"
-                  >
-                    {d.whatsappLabel}
-                  </a>
-                </li>
-              )}
+              <li className="flex items-start gap-3">
+                <MessageCircle
+                  className="h-4 w-4 mt-1 flex-shrink-0 text-remax-red"
+                  aria-hidden
+                />
+                <a
+                  href={waHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-navy hover:text-remax-red transition-colors"
+                >
+                  {d.whatsappLabel}
+                </a>
+              </li>
               {detail.linkedin && (
                 <li className="flex items-start gap-3">
                   <LinkedinIcon
