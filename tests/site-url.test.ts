@@ -7,7 +7,7 @@
 
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
-const FALLBACK = "https://remax-boss-v2.vercel.app";
+const FALLBACK = "https://remaxboss.com.tr";
 const BOM = String.fromCharCode(0xfeff);
 
 async function siteUrlWith(envValue: string | undefined): Promise<string> {

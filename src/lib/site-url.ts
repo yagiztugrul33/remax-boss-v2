@@ -13,7 +13,7 @@
  * Fallback: şu anki Vercel adresi.
  */
 
-const FALLBACK = "https://remax-boss-v2.vercel.app";
+const FALLBACK = "https://remaxboss.com.tr";
 
 function sanitizeSiteUrl(raw: string | undefined): string {
   if (!raw) return FALLBACK;

@@ -66,6 +66,17 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: process.cwd(),
   },
+  // www → apex 301: kanonik host https://remaxboss.com.tr (SEO — tek host indekslensin).
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.remaxboss.com.tr" }],
+        destination: "https://remaxboss.com.tr/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

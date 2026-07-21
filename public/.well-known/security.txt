@@ -2,4 +2,4 @@
 Contact: mailto:info@remaxboss.com.tr
 Expires: 2027-07-21T00:00:00.000Z
 Preferred-Languages: tr, en
-Canonical: https://remax-boss-v2.vercel.app/.well-known/security.txt
+Canonical: https://remaxboss.com.tr/.well-known/security.txt
