@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "@/components/ui/locale-link";
 import { Clock, ArrowLeft, ArrowRight, Phone } from "lucide-react";
 import Section from "@/components/ui/section";
+import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Eyebrow from "@/components/ui/eyebrow";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -58,7 +59,8 @@ export default async function BlogPostPage({
   const raw = getPostBySlug(slug);
   if (!raw) notFound();
   const locale = await getLocale();
-  const d = (await getDictionary()).pages.blog;
+  const dict = await getDictionary();
+  const d = dict.pages.blog;
   const post = localizePost(raw, locale);
   const related = getRelatedPostsLocalized(slug, locale);
 
@@ -87,6 +89,15 @@ export default async function BlogPostPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      <Breadcrumbs
+        locale={locale}
+        homeLabel={dict.nav.home}
+        items={[
+          { href: "/blog", label: dict.nav.blog },
+          { label: post.title },
+        ]}
       />
 
       {/* HERO */}

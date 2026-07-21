@@ -13,6 +13,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Section from "@/components/ui/section";
+import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Eyebrow from "@/components/ui/eyebrow";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -69,7 +70,8 @@ export default async function RehberDetayPage({ params }: PageProps) {
   if (!g) notFound();
   const locale = await getLocale();
   const lg = localizeGuide(g, locale);
-  const d = (await getDictionary()).pages.guides;
+  const dict = await getDictionary();
+  const d = dict.pages.guides;
   const Icon = ICONS[lg.icon];
 
   // JSON-LD Article — pratik adım-adım rehber, organization yazar.
@@ -95,6 +97,16 @@ export default async function RehberDetayPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+
+      <Breadcrumbs
+        locale={locale}
+        homeLabel={dict.nav.home}
+        items={[
+          { href: "/rehberler", label: d.indexEyebrow },
+          { label: lg.title },
+        ]}
+      />
+
       {/* HERO */}
       <section className="relative isolate bg-navy-900 text-white overflow-hidden">
         <div

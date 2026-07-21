@@ -12,6 +12,7 @@ import ExitIntent from "@/components/ui/exit-intent";
 import SwRegister from "@/components/ui/sw-register";
 import Analytics from "@/components/ui/analytics";
 import { office } from "@/lib/office";
+import { REGIONS } from "@/lib/regions";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { SITE_URL } from "@/lib/site-url";
 import "./globals.css";
@@ -64,7 +65,10 @@ export async function generateMetadata(): Promise<Metadata> {
     description,
     applicationName: "RE/MAX BOSS",
     manifest: "/manifest.json",
-    alternates: await localeAlternates("/"),
+    alternates: {
+      ...(await localeAlternates("/")),
+      types: { "application/rss+xml": "/feed.xml" },
+    },
     // Google Search Console doğrulama — env yoksa hiç eklenmez
     ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION
       ? {
@@ -104,8 +108,13 @@ export async function generateMetadata(): Promise<Metadata> {
 /**
  * JSON-LD RealEstateAgent yapısal verisi. Description locale-aware
  * (TR/EN). Diğer alanlar (adres, telefon, marka) dile bağımsız.
+ * Zenginleştirme: logo (ImageObject), sameAs (yalnız DOLU sosyal hesaplar),
+ * openingHoursSpecification (office.ts çalışma saatleri), areaServed
+ * (şehir + 8 hizmet bölgesi). Geo koordinat bilinmediği için EKLENMEDİ.
  */
 function buildJsonLd(localeDescription: string) {
+  // Yalnız doğrulanmış (boş olmayan) sosyal hesaplar sameAs'e girer.
+  const sameAs = Object.values(office.social).filter(Boolean);
   return {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
@@ -114,6 +123,12 @@ function buildJsonLd(localeDescription: string) {
     url: SITE_URL,
     email: office.email,
     telephone: office.phone,
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE_URL}/brand/remax-boss-color.png`,
+    },
+    image: `${SITE_URL}/office/resepsiyon.jpg`,
+    ...(sameAs.length > 0 ? { sameAs } : {}),
     address: {
       "@type": "PostalAddress",
       streetAddress: office.addressFull,
@@ -121,7 +136,28 @@ function buildJsonLd(localeDescription: string) {
       addressRegion: office.city,
       addressCountry: "TR",
     },
-    areaServed: { "@type": "City", name: office.city },
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "09:00",
+        closes: "19:00",
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: "Saturday",
+        opens: "10:00",
+        closes: "17:00",
+      },
+    ],
+    areaServed: [
+      { "@type": "City", name: office.city },
+      ...REGIONS.map((r) => ({
+        "@type": "Place",
+        name: r.name,
+        containedInPlace: { "@type": "AdministrativeArea", name: r.district },
+      })),
+    ],
     parentOrganization: { "@type": "Organization", name: "RE/MAX" },
   };
 }

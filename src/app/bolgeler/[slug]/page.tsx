@@ -18,6 +18,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Section from "@/components/ui/section";
+import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Eyebrow from "@/components/ui/eyebrow";
 import Reveal from "@/components/ui/reveal";
 import SubscribeSection from "@/components/sections/SubscribeSection";
@@ -97,7 +98,8 @@ export default async function BolgeDetayPage({ params }: PageProps) {
   if (!region) notFound();
   const locale = await getLocale();
   const r = localizeRegion(region, locale);
-  const d = (await getDictionary()).pages.regions;
+  const dict = await getDictionary();
+  const d = dict.pages.regions;
   const waNumber = office.whatsapp.replace(/\D/g, "");
   const waHref = `https://wa.me/${waNumber}`;
 
@@ -159,6 +161,15 @@ export default async function BolgeDetayPage({ params }: PageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(agentLd) }}
+      />
+
+      <Breadcrumbs
+        locale={locale}
+        homeLabel={dict.nav.home}
+        items={[
+          { href: "/bolgeler", label: dict.nav.regions },
+          { label: r.name },
+        ]}
       />
 
       {/* ── HERO ── */}

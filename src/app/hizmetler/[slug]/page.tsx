@@ -19,6 +19,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Section from "@/components/ui/section";
+import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Eyebrow from "@/components/ui/eyebrow";
 import Reveal from "@/components/ui/reveal";
 import { buttonVariants } from "@/components/ui/button";
@@ -79,7 +80,8 @@ export default async function ServiceDetailPage({
   const raw = getServiceBySlug(slug);
   if (!raw) notFound();
   const locale = await getLocale();
-  const d = (await getDictionary()).pages.serviceDetail;
+  const dict = await getDictionary();
+  const d = dict.pages.serviceDetail;
   const s = localizeService(raw, locale);
   const Icon = iconMap[s.icon];
   const others = services
@@ -87,7 +89,7 @@ export default async function ServiceDetailPage({
     .map((x) => localizeService(x, locale));
 
   // Hero altı kompakt güven şeridi — /hizmetler dict'inden ortak değerler
-  const servicesDict = (await getDictionary()).pages.services;
+  const servicesDict = dict.pages.services;
   const compactTrust = [
     {
       icon: Globe2,
@@ -105,6 +107,15 @@ export default async function ServiceDetailPage({
 
   return (
     <>
+      <Breadcrumbs
+        locale={locale}
+        homeLabel={dict.nav.home}
+        items={[
+          { href: "/hizmetler", label: dict.footer.services },
+          { label: s.title },
+        ]}
+      />
+
       <section className="relative isolate bg-navy-900 text-white overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <Image

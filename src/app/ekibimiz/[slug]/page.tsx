@@ -17,6 +17,7 @@ import {
   InstagramIcon,
 } from "@/components/brand/SocialIcons";
 import Section from "@/components/ui/section";
+import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Eyebrow from "@/components/ui/eyebrow";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -72,7 +73,8 @@ export default async function AgentDetailPage({ params }: PageProps) {
   const found = getAgentBySlug(slug);
   if (!found) notFound();
   const { agent, detail } = found;
-  const d = (await getDictionary()).pages.agentDetail;
+  const dict = await getDictionary();
+  const d = dict.pages.agentDetail;
   const locale = await getLocale();
 
   const phone = detail.directPhone || office.phone;
@@ -90,6 +92,15 @@ export default async function AgentDetailPage({ params }: PageProps) {
 
   return (
     <>
+      <Breadcrumbs
+        locale={locale}
+        homeLabel={dict.nav.home}
+        items={[
+          { href: "/ekibimiz", label: dict.nav.team },
+          { label: agent.name },
+        ]}
+      />
+
       {/* ── HERO — split: portre + isim/unvan ── */}
       <section className="relative isolate bg-navy-900 text-white overflow-hidden">
         <div

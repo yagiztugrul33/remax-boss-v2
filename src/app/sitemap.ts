@@ -40,39 +40,72 @@ type Entry = MetadataRoute.Sitemap[number];
 /**
  * Bir path için TR (kök) + EN (/en prefix) olmak üzere İKİ sitemap girdisi
  * üretir; her ikisinde hreflang alternates haritası bulunur. Google iki dili
- * ayrı URL'lerde ayrı ayrı indeksler.
+ * ayrı URL'lerde ayrı ayrı indeksler. Opsiyonel images → image sitemap.
  */
 function bilingualEntries(
   path: string,
   opts: Pick<Entry, "lastModified" | "changeFrequency" | "priority">,
+  images?: readonly string[],
 ): Entry[] {
   const trUrl = `${siteUrl}${path}`;
   const enUrl = `${siteUrl}${path === "/" ? "/en" : `/en${path}`}`;
   const languages = { tr: trUrl, en: enUrl, "x-default": trUrl };
+  const imageUrls = images?.map((i) =>
+    i.startsWith("http") ? i : `${siteUrl}${i}`,
+  );
   return [
-    { url: trUrl, ...opts, alternates: { languages } },
-    { url: enUrl, ...opts, alternates: { languages } },
+    {
+      url: trUrl,
+      ...opts,
+      alternates: { languages },
+      ...(imageUrls?.length ? { images: imageUrls } : {}),
+    },
+    {
+      url: enUrl,
+      ...opts,
+      alternates: { languages },
+      ...(imageUrls?.length ? { images: imageUrls } : {}),
+    },
   ];
 }
+
+/** Ana sayfa / hakkımızda görselleri — image sitemap için gerçek ofis fotoğrafları. */
+const OFFICE_IMAGES = [
+  "/office/resepsiyon.jpg",
+  "/office/duvar-logo.jpg",
+  "/office/lounge.jpg",
+  "/office/yonetici-ofis.jpg",
+  "/office/toplanti.jpg",
+  "/office/teras.jpg",
+] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   const staticEntries = routes.flatMap((r) =>
-    bilingualEntries(r.path, {
-      lastModified: now,
-      changeFrequency: r.changeFrequency,
-      priority: r.priority,
-    }),
+    bilingualEntries(
+      r.path,
+      {
+        lastModified: now,
+        changeFrequency: r.changeFrequency,
+        priority: r.priority,
+      },
+      // Image sitemap: ana sayfa + hakkımızda gerçek ofis fotoğraflarıyla.
+      r.path === "/" || r.path === "/hakkimizda" ? OFFICE_IMAGES : undefined,
+    ),
   );
 
-  // Blog yazıları (statik içerik) — her yazı kendi yayın tarihiyle.
+  // Blog yazıları (statik içerik) — her yazı kendi yayın tarihi + kapak görseli.
   const blogEntries = posts.flatMap((p) =>
-    bilingualEntries(`/blog/${p.slug}`, {
-      lastModified: new Date(p.date),
-      changeFrequency: "yearly",
-      priority: 0.7,
-    }),
+    bilingualEntries(
+      `/blog/${p.slug}`,
+      {
+        lastModified: new Date(p.date),
+        changeFrequency: "yearly",
+        priority: 0.7,
+      },
+      [p.cover.src],
+    ),
   );
 
   // Hizmet detay sayfaları.
