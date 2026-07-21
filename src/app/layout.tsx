@@ -156,6 +156,14 @@ export default async function RootLayout({
         </head>
       )}
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        {/* A11y: klavye kullanıcıları için içeriğe atlama linki — yalnız
+            focus'ta görünür. */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:start-3 focus:z-[100] focus:rounded-md focus:bg-navy focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-white focus:shadow-elevated"
+        >
+          {dict.nav.skipToContent}
+        </a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -166,7 +174,7 @@ export default async function RootLayout({
         {/* GA4 — env GA_ID + çerez onayı (KVKK fail-closed) varsa yüklenir. */}
         <Analytics />
         <Navbar locale={locale} dict={dict.nav} />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">{children}</main>
         <Footer
           dict={dict.footer}
           navDict={dict.nav}

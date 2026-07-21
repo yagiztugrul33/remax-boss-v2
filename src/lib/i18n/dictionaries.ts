@@ -36,6 +36,7 @@ export interface Dict {
     postListing: string;
     openMenu: string;
     language: string;
+    skipToContent: string;
   };
   hero: {
     w1: string;
@@ -712,6 +713,7 @@ const tr: Dict = {
     postListing: "İlan Ver",
     openMenu: "Menüyü aç/kapa",
     language: "Dil seçimi",
+    skipToContent: "İçeriğe geç",
   },
   hero: {
     w1: "Ankara'da",
@@ -1549,6 +1551,7 @@ const en: Dict = {
     postListing: "List a Property",
     openMenu: "Toggle menu",
     language: "Language",
+    skipToContent: "Skip to content",
   },
   hero: {
     w1: "Real estate",
