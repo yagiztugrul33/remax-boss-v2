@@ -13,6 +13,7 @@ import {
   Search,
   ExternalLink,
   Phone,
+  Check,
   type LucideIcon,
 } from "lucide-react";
 import Section from "@/components/ui/section";
@@ -26,6 +27,7 @@ import { services } from "@/lib/services";
 import {
   getRegionBySlug,
   getAllRegionSlugs,
+  getNeighborRegions,
   localizeRegion,
   type LocalizedRegion,
 } from "@/lib/regions";
@@ -97,6 +99,11 @@ export default async function BolgeDetayPage({ params }: PageProps) {
   const d = (await getDictionary()).pages.regions;
   const waNumber = office.whatsapp.replace(/\D/g, "");
   const waHref = `https://wa.me/${waNumber}`;
+
+  // Yakın bölgeler — localize edilmiş liste (var olmayan slug elenmiş).
+  const neighborRegions = getNeighborRegions(region.slug).map((n) =>
+    localizeRegion(n, locale),
+  );
 
   // ─── JSON-LD: Place + areaServed RealEstateAgent ───
   // Hiçbir sayısal vaadi (fiyat/sayı) içermez; yalnız bölge tanımı + hizmet alanı.
@@ -211,8 +218,45 @@ export default async function BolgeDetayPage({ params }: PageProps) {
         </div>
       </section>
 
+      {/* ── ABOUT — bölge karakterine dair uzun anlatı (2 paragraf) ── */}
+      {r.about.length > 0 && (
+        <Section tone="light" density="normal">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-10 lg:gap-14 items-start">
+            <div className="lg:sticky lg:top-28">
+              <Eyebrow tone="red">{d.aboutHeading}</Eyebrow>
+              <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
+                {r.name}
+              </h2>
+              <p className="mt-1 text-sm text-navy/50">
+                {r.district === r.name
+                  ? r.city
+                  : `${r.district} · ${r.city}`}
+              </p>
+              <p className="mt-5 text-sm text-navy/60 leading-relaxed">
+                {d.aboutSubtitle}
+              </p>
+            </div>
+            <div className="max-w-2xl space-y-5">
+              {r.about.map((p, i) => (
+                <p
+                  key={i}
+                  className={cn(
+                    "leading-[1.8]",
+                    i === 0
+                      ? "text-lg text-navy/80 font-medium"
+                      : "text-base md:text-lg text-navy/75",
+                  )}
+                >
+                  {p}
+                </p>
+              ))}
+            </div>
+          </div>
+        </Section>
+      )}
+
       {/* ── FACTS — genel doğru bilgi (uydurma istatistik YOK) ── */}
-      <Section tone="light" density="normal">
+      <Section tone="mist" density="normal">
         <div className="max-w-2xl mb-8">
           <Eyebrow tone="red">{d.factsHeading}</Eyebrow>
           <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
@@ -252,7 +296,7 @@ export default async function BolgeDetayPage({ params }: PageProps) {
       </Section>
 
       {/* ── SERVICES (4 servisin kısa kart listesi — services.ts'ten) ── */}
-      <Section tone="mist" density="normal">
+      <Section tone="light" density="normal">
         <div className="max-w-2xl mb-8">
           <Eyebrow tone="red">{d.servicesHeading}</Eyebrow>
           <h2 className="mt-5 font-display text-display-lg text-navy text-balance">
@@ -287,7 +331,77 @@ export default async function BolgeDetayPage({ params }: PageProps) {
             );
           })}
         </div>
+
+        {/* Bölge-özel hizmet vurguları — 3-4 madde */}
+        {r.serviceHighlights.length > 0 && (
+          <div className="mt-10 rounded-3xl border border-line bg-mist/50 p-6 md:p-8">
+            <Eyebrow tone="red">{d.highlightsHeading}</Eyebrow>
+            <p className="mt-3 text-sm text-navy/60 leading-relaxed max-w-xl">
+              {d.highlightsSubtitle}
+            </p>
+            <ul className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
+              {r.serviceHighlights.map((h, i) => (
+                <li
+                  key={i}
+                  className="flex items-start gap-3 text-navy/80 leading-relaxed"
+                >
+                  <Check
+                    className="h-5 w-5 flex-shrink-0 text-remax-red mt-0.5"
+                    aria-hidden
+                  />
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </Section>
+
+      {/* ── YAKIN BÖLGELER — SEO iç link + keşif ── */}
+      {neighborRegions.length > 0 && (
+        <Section tone="mist" density="normal">
+          <div className="max-w-2xl mb-8">
+            <Eyebrow tone="red">{d.neighborsHeading}</Eyebrow>
+            <p className="mt-3 text-navy/65 leading-relaxed">
+              {d.neighborsSubtitle}
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {neighborRegions.map((n, i) => (
+              <Reveal
+                key={n.slug}
+                delay={(i % 3) * 80}
+                className="h-full"
+              >
+                <Link
+                  href={`/bolgeler/${n.slug}`}
+                  className="card-depth group h-full flex flex-col rounded-2xl border border-line bg-white p-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-remax-red"
+                >
+                  <div className="inline-flex items-center gap-2 text-xs font-semibold tracking-wide text-remax-red">
+                    <MapPin className="h-3.5 w-3.5" aria-hidden />
+                    {n.district === n.name
+                      ? n.city
+                      : `${n.district} · ${n.city}`}
+                  </div>
+                  <h3 className="mt-3 font-display font-bold text-lg text-navy group-hover:text-remax-red transition-colors">
+                    {n.name}
+                  </h3>
+                  <p className="mt-2 text-sm text-navy/60 leading-relaxed flex-1">
+                    {n.shortDesc}
+                  </p>
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-remax-red">
+                    {d.indexCardCta}
+                    <ArrowRight
+                      className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
+                      aria-hidden
+                    />
+                  </span>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+        </Section>
+      )}
 
       {/* ── LEAD CTA ── */}
       <Section tone="dark" density="normal">

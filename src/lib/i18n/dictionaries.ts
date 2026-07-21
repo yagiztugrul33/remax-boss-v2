@@ -630,9 +630,15 @@ export interface Dict {
       indexCardCta: string;
       // Detay sayfası /bolgeler/[slug]
       backLabel: string;
+      aboutHeading: string;
+      aboutSubtitle: string;
       factsHeading: string;
+      highlightsHeading: string;
+      highlightsSubtitle: string;
       servicesHeading: string;
       servicesSubtitle: string;
+      neighborsHeading: string;
+      neighborsSubtitle: string;
       ctaSectionEyebrow: string;
       ctaSectionTitle: string;
       ctaSectionSubtitle: string;
@@ -1440,10 +1446,19 @@ const tr: Dict = {
         "RE/MAX BOSS, Beştepe merkezli ofisinden Ankara'nın gelişen bölgelerinde gayrimenkul alım-satım, kiralama ve değerleme hizmeti verir.",
       indexCardCta: "Bölgeye git",
       backLabel: "← Tüm bölgeler",
+      aboutHeading: "Bölgeyi tanıyın",
+      aboutSubtitle:
+        "Konum, karakter ve gayrimenkul açısından bölgenin önemli noktaları.",
       factsHeading: "Bölge hakkında",
+      highlightsHeading: "Bu bölgede öne çıkan hizmetlerimiz",
+      highlightsSubtitle:
+        "Bölge segmentine göre yaklaşımımızın somut vurguları.",
       servicesHeading: "Bu bölgede sunduğumuz hizmetler",
       servicesSubtitle:
         "Süreç hangi aşamada olursa olsun, RE/MAX Türkiye standartlarıyla yönetiyoruz.",
+      neighborsHeading: "Yakın bölgeler",
+      neighborsSubtitle:
+        "Aynı aksta değerlendirebileceğiniz komşu bölgeler.",
       ctaSectionEyebrow: "Lead",
       ctaSectionTitle: "Bu bölgede nasıl yardımcı olabiliriz?",
       ctaSectionSubtitle:
@@ -2267,10 +2282,19 @@ const en: Dict = {
         "From its office in Beştepe, RE/MAX BOSS provides buying, selling, leasing and valuation services across Ankara's growing areas.",
       indexCardCta: "Go to area",
       backLabel: "← All areas",
+      aboutHeading: "Get to know the area",
+      aboutSubtitle:
+        "The area's key points across location, character and real estate.",
       factsHeading: "About the area",
+      highlightsHeading: "Highlights of our service here",
+      highlightsSubtitle:
+        "Concrete emphases of our approach tuned to the area's segment.",
       servicesHeading: "Services we offer in this area",
       servicesSubtitle:
         "Whatever stage your process is at, we run it to RE/MAX Türkiye standards.",
+      neighborsHeading: "Nearby areas",
+      neighborsSubtitle:
+        "Adjacent areas along the same axis worth considering together.",
       ctaSectionEyebrow: "Lead",
       ctaSectionTitle: "How can we help in this area?",
       ctaSectionSubtitle:
