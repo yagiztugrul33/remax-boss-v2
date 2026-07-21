@@ -1,7 +1,8 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/locale-link";
 import { Clock, ArrowLeft, ArrowRight, Phone } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
@@ -36,7 +37,7 @@ export async function generateMetadata({
   return {
     title: ls.title,
     description: ls.excerpt,
-    alternates: { canonical: `/blog/${ls.slug}` },
+    alternates: await localeAlternates(`/blog/${ls.slug}`),
     openGraph: {
       title: `${ls.title} | RE/MAX BOSS`,
       description: ls.excerpt,

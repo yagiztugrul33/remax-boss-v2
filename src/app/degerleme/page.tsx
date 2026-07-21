@@ -1,3 +1,4 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import { Calculator, Check } from "lucide-react";
 import Section from "@/components/ui/section";
@@ -10,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: d.title,
     description: d.subtitle,
-    alternates: { canonical: "/degerleme" },
+    alternates: await localeAlternates("/degerleme"),
   };
 }
 

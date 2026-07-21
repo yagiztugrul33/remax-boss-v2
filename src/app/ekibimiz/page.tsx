@@ -1,6 +1,7 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/locale-link";
 import { ArrowRight, Phone } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
@@ -10,11 +11,12 @@ import { cn } from "@/lib/utils";
 import { office, team } from "@/lib/office";
 import { getDictionary } from "@/lib/i18n/server";
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  return {
   title: "Ekibimiz",
   description:
     "RE/MAX BOSS ekibi — Beştepe ofisimizin brokerları, gayrimenkul danışmanları ve destek kadrosu. Deneyimli kadromuzla tanışın.",
-  alternates: { canonical: "/ekibimiz" },
+  alternates: await localeAlternates("/ekibimiz"),
   openGraph: {
     title: "Ekibimiz — RE/MAX BOSS",
     description:
@@ -28,7 +30,8 @@ export const metadata: Metadata = {
       },
     ],
   },
-};
+  };
+}
 
 // Hero arka planı — gerçek ofis fotoğrafı.
 const heroBg = {

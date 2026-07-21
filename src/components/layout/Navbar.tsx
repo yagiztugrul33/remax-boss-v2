@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/locale-link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Menu, X, Phone, MapPin, Building2, BadgeCheck } from "lucide-react";
@@ -10,11 +10,14 @@ import LocaleToggle from "@/components/layout/LocaleToggle";
 import { navItems, office } from "@/lib/office";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/lib/i18n/config";
+import { stripLocalePrefix } from "@/lib/i18n/url";
 import type { Dict } from "@/lib/i18n/dictionaries";
 
 function isActive(pathname: string, href: string) {
-  if (href === "/") return pathname === "/";
-  return pathname === href || pathname.startsWith(`${href}/`);
+  // /en prefix'i aktif-link eşleşmesini bozmasın (locale-aware nav).
+  const clean = stripLocalePrefix(pathname);
+  if (href === "/") return clean === "/";
+  return clean === href || clean.startsWith(`${href}/`);
 }
 
 export default function Navbar({

@@ -1,5 +1,6 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/locale-link";
 import { notFound } from "next/navigation";
 import {
   ArrowRight,
@@ -43,7 +44,7 @@ export async function generateMetadata({
   return {
     title: lg.meta.title,
     description: lg.meta.description,
-    alternates: { canonical: `/rehberler/${slug}` },
+    alternates: await localeAlternates(`/rehberler/${slug}`),
     openGraph: {
       title: lg.meta.title,
       description: lg.meta.description,

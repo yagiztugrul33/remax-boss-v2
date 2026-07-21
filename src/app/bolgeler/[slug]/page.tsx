@@ -1,5 +1,6 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/locale-link";
 import { notFound } from "next/navigation";
 import {
   ArrowRight,
@@ -54,7 +55,7 @@ export async function generateMetadata({
   return {
     title: localized.meta.title,
     description: localized.meta.description,
-    alternates: { canonical: `/bolgeler/${slug}` },
+    alternates: await localeAlternates(`/bolgeler/${slug}`),
     openGraph: {
       title: localized.meta.title,
       description: localized.meta.description,

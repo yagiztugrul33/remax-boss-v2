@@ -1,5 +1,6 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/locale-link";
 import {
   ArrowRight,
   ShoppingCart,
@@ -19,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: d.indexTitle,
     description: d.indexSubtitle,
-    alternates: { canonical: "/rehberler" },
+    alternates: await localeAlternates("/rehberler"),
   };
 }
 

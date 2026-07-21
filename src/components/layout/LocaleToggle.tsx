@@ -1,12 +1,15 @@
-"use client";
+﻿"use client";
 
 import { useRouter } from "next/navigation";
 import { Globe } from "lucide-react";
 import { LOCALE_COOKIE, type Locale } from "@/lib/i18n/config";
+import { withLocale } from "@/lib/i18n/url";
 
 /**
- * TR/EN dil değiştirici. Tercihi NEXT_LOCALE cookie'ye yazar ve
- * router.refresh() ile server bileşenlerini yeni dilde yeniden çeker.
+ * TR/EN dil degistirici - URL tabanli: ayni sayfanin diger dildeki
+ * URL'sine gider (/hizmetler <-> /en/hizmetler), anasayfaya ATMAZ.
+ * Cookie yalnizca tercih koprusu olarak guncellenir (proxy'deki
+ * prefix'siz -> /en yonlendirmesi icin).
  */
 export default function LocaleToggle({
   locale,
@@ -20,7 +23,10 @@ export default function LocaleToggle({
   function setLocale(next: Locale) {
     if (next === locale) return;
     document.cookie = `${LOCALE_COOKIE}=${next};path=/;max-age=31536000;samesite=lax`;
-    router.refresh();
+    // Ayni sayfanin diger dil URL'si - query/hash korunur.
+    const current =
+      window.location.pathname + window.location.search + window.location.hash;
+    router.push(withLocale(next, current));
   }
 
   const other: Locale = locale === "tr" ? "en" : "tr";
@@ -55,8 +61,10 @@ export default function LocaleToggle({
       >
         EN
       </button>
-      {/* Sessiz erişilebilirlik: diğer dile geçişin ne olduğunu duyur */}
-      <span className="sr-only">{other === "en" ? "Switch to English" : "Türkçeye geç"}</span>
+      {/* Sessiz erisilebilirlik: diger dile gecisin ne oldugunu duyur */}
+      <span className="sr-only">
+        {other === "en" ? "Switch to English" : "Türkçeye geç"}
+      </span>
     </span>
   );
 }

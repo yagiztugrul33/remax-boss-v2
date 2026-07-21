@@ -1,5 +1,6 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/locale-link";
 import { Search, SearchX, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
@@ -20,11 +21,12 @@ import {
   ROOM_OPTIONS,
 } from "@/lib/listing-search";
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  return {
   title: "İlanlar",
   description:
     "RE/MAX BOSS Ankara portföyündeki tüm satılık ve kiralık gayrimenkul ilanları — bölge, mülk tipi ve fiyata göre filtreleyin.",
-  alternates: { canonical: "/ilanlar" },
+  alternates: await localeAlternates("/ilanlar"),
   openGraph: {
     title: "İlanlar — RE/MAX BOSS",
     description:
@@ -38,7 +40,8 @@ export const metadata: Metadata = {
       },
     ],
   },
-};
+  };
+}
 
 // DB'den okuduğumuz için sayfa dinamik — her isteğin güncel veriyi göstermesi için.
 export const dynamic = "force-dynamic";

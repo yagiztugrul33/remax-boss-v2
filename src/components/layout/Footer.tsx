@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/locale-link";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import BrandLockup from "@/components/brand/BrandLockup";
 import { REGIONS } from "@/lib/regions";

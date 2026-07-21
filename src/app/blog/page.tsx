@@ -1,3 +1,4 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
@@ -11,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: d.meta.title,
     description: d.meta.description,
-    alternates: { canonical: "/blog" },
+    alternates: await localeAlternates("/blog"),
     openGraph: {
       title: d.og.title,
       description: d.og.desc,

@@ -11,7 +11,7 @@ import { SITE_URL as siteUrl } from "@/lib/site-url";
 const routes: {
   path: string;
   priority: number;
-  changeFrequency: "weekly" | "monthly";
+  changeFrequency: "weekly" | "monthly" | "yearly";
 }[] = [
   { path: "/", priority: 1, changeFrequency: "weekly" },
   { path: "/ilanlar", priority: 0.9, changeFrequency: "weekly" },
@@ -35,54 +35,81 @@ const routes: {
   { path: "/kullanim-sartlari", priority: 0.3, changeFrequency: "monthly" },
 ];
 
+type Entry = MetadataRoute.Sitemap[number];
+
+/**
+ * Bir path için TR (kök) + EN (/en prefix) olmak üzere İKİ sitemap girdisi
+ * üretir; her ikisinde hreflang alternates haritası bulunur. Google iki dili
+ * ayrı URL'lerde ayrı ayrı indeksler.
+ */
+function bilingualEntries(
+  path: string,
+  opts: Pick<Entry, "lastModified" | "changeFrequency" | "priority">,
+): Entry[] {
+  const trUrl = `${siteUrl}${path}`;
+  const enUrl = `${siteUrl}${path === "/" ? "/en" : `/en${path}`}`;
+  const languages = { tr: trUrl, en: enUrl, "x-default": trUrl };
+  return [
+    { url: trUrl, ...opts, alternates: { languages } },
+    { url: enUrl, ...opts, alternates: { languages } },
+  ];
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const staticEntries: MetadataRoute.Sitemap = routes.map((r) => ({
-    url: `${siteUrl}${r.path}`,
-    lastModified: now,
-    changeFrequency: r.changeFrequency,
-    priority: r.priority,
-  }));
+
+  const staticEntries = routes.flatMap((r) =>
+    bilingualEntries(r.path, {
+      lastModified: now,
+      changeFrequency: r.changeFrequency,
+      priority: r.priority,
+    }),
+  );
 
   // Blog yazıları (statik içerik) — her yazı kendi yayın tarihiyle.
-  const blogEntries: MetadataRoute.Sitemap = posts.map((p) => ({
-    url: `${siteUrl}/blog/${p.slug}`,
-    lastModified: new Date(p.date),
-    changeFrequency: "yearly",
-    priority: 0.7,
-  }));
+  const blogEntries = posts.flatMap((p) =>
+    bilingualEntries(`/blog/${p.slug}`, {
+      lastModified: new Date(p.date),
+      changeFrequency: "yearly",
+      priority: 0.7,
+    }),
+  );
 
   // Hizmet detay sayfaları.
-  const serviceEntries: MetadataRoute.Sitemap = services.map((s) => ({
-    url: `${siteUrl}/hizmetler/${s.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.7,
-  }));
+  const serviceEntries = services.flatMap((s) =>
+    bilingualEntries(`/hizmetler/${s.slug}`, {
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    }),
+  );
 
   // Bölge detay sayfaları (yerel SEO landing).
-  const regionEntries: MetadataRoute.Sitemap = REGIONS.map((r) => ({
-    url: `${siteUrl}/bolgeler/${r.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.8,
-  }));
+  const regionEntries = REGIONS.flatMap((r) =>
+    bilingualEntries(`/bolgeler/${r.slug}`, {
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    }),
+  );
 
   // Rehber detayları
-  const guideEntries: MetadataRoute.Sitemap = GUIDES.map((g) => ({
-    url: `${siteUrl}/rehberler/${g.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.7,
-  }));
+  const guideEntries = GUIDES.flatMap((g) =>
+    bilingualEntries(`/rehberler/${g.slug}`, {
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    }),
+  );
 
   // Danışman detay sayfaları.
-  const teamEntries: MetadataRoute.Sitemap = teamDetails.map((t) => ({
-    url: `${siteUrl}/ekibimiz/${t.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.5,
-  }));
+  const teamEntries = teamDetails.flatMap((t) =>
+    bilingualEntries(`/ekibimiz/${t.slug}`, {
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    }),
+  );
 
   return [
     ...staticEntries,

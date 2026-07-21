@@ -1,3 +1,4 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata, Viewport } from "next";
 import { Sora, Inter, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
@@ -63,7 +64,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description,
     applicationName: "RE/MAX BOSS",
     manifest: "/manifest.json",
-    alternates: { canonical: "/" },
+    alternates: await localeAlternates("/"),
     // Google Search Console doğrulama — env yoksa hiç eklenmez
     ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION
       ? {

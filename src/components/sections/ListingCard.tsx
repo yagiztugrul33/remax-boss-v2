@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/locale-link";
 import { Bed, Maximize, Building2, MapPin } from "lucide-react";
 import {
   type Listing,

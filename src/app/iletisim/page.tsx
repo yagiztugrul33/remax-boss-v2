@@ -1,3 +1,4 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
 import Section from "@/components/ui/section";
@@ -14,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: d.title,
     description: d.description,
-    alternates: { canonical: "/iletisim" },
+    alternates: await localeAlternates("/iletisim"),
     openGraph: {
       title: d.title,
       description: d.description,

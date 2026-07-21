@@ -1,3 +1,4 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import {
   Calculator,
@@ -22,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: d.meta.title,
     description: d.meta.description,
-    alternates: { canonical: "/araclar" },
+    alternates: await localeAlternates("/araclar"),
     openGraph: {
       title: d.og.title,
       description: d.og.desc,

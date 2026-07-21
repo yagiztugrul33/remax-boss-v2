@@ -1,7 +1,8 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/locale-link";
 import {
   Handshake,
   Key,
@@ -58,7 +59,7 @@ export async function generateMetadata({
   return {
     title: ls.title,
     description: ls.summary,
-    alternates: { canonical: `/hizmetler/${ls.slug}` },
+    alternates: await localeAlternates(`/hizmetler/${ls.slug}`),
     openGraph: {
       title: `${ls.title} | RE/MAX BOSS`,
       description: ls.summary,

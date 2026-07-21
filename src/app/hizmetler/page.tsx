@@ -1,5 +1,6 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/locale-link";
 import {
   Handshake,
   Key,
@@ -33,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: d.title,
     description: d.description,
-    alternates: { canonical: "/hizmetler" },
+    alternates: await localeAlternates("/hizmetler"),
     openGraph: {
       title: d.title,
       description: d.description,

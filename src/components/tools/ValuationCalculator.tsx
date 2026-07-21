@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useMemo, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/locale-link";
 import {
   Calculator,
   AlertTriangle,

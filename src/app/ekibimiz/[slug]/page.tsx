@@ -1,6 +1,7 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/locale-link";
 import { notFound } from "next/navigation";
 import {
   ArrowRight,
@@ -52,7 +53,7 @@ export async function generateMetadata({
   return {
     title: agent.name,
     description: `${agent.name} — ${agent.title} · RE/MAX BOSS`,
-    alternates: { canonical: `/ekibimiz/${slug}` },
+    alternates: await localeAlternates(`/ekibimiz/${slug}`),
   };
 }
 

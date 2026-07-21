@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/locale-link";
 import { Clock, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { BlogCategory } from "@/lib/blog";

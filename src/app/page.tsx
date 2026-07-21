@@ -1,3 +1,4 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Hero from "@/components/sections/Hero";
 import Services from "@/components/sections/Services";
@@ -10,11 +11,13 @@ import ContactStrip from "@/components/sections/ContactStrip";
 import ClosingCta from "@/components/sections/ClosingCta";
 import SubscribeSection from "@/components/sections/SubscribeSection";
 
-export const metadata: Metadata = {
-  description:
-    "RE/MAX BOSS — Ankara Beştepe merkezli gayrimenkul ofisi. RE/MAX Türkiye altyapısıyla satılık ve kiralık mülkler, yatırım ve danışmanlık hizmetleri.",
-  alternates: { canonical: "/" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    description:
+      "RE/MAX BOSS — Ankara Beştepe merkezli gayrimenkul ofisi. RE/MAX Türkiye altyapısıyla satılık ve kiralık mülkler, yatırım ve danışmanlık hizmetleri.",
+    alternates: await localeAlternates("/"),
+  };
+}
 
 // Anasayfa cookies() kullanıyor (i18n locale + Supabase). Next static render
 // denemesini DYNAMIC_SERVER_USAGE log'uyla bırakıyor → explicit force-dynamic

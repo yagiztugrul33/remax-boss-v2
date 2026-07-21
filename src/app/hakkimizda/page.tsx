@@ -1,6 +1,7 @@
+import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/locale-link";
 import { ArrowRight, MapPin, Phone, Mail } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
@@ -19,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: d.title,
     description: d.description,
-    alternates: { canonical: "/hakkimizda" },
+    alternates: await localeAlternates("/hakkimizda"),
     openGraph: {
       title: d.title,
       description: d.description,
