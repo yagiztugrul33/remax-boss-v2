@@ -282,6 +282,11 @@ export interface Dict {
       desc: string;
       home: string;
       viewListings: string;
+      exploreTitle: string;
+      exploreRegions: string;
+      exploreGuides: string;
+      exploreContact: string;
+      exploreFaq: string;
     };
     career: {
       meta: { title: string; description: string };
@@ -655,6 +660,7 @@ export interface Dict {
       portfolioNote: string;
       footerHeading: string;
       footerCta: string;
+      relatedPostsHeading: string;
     };
   };
 
@@ -1009,6 +1015,11 @@ const tr: Dict = {
       desc: "Aradığınız sayfa taşınmış, silinmiş ya da hiç mevcut olmamış olabilir.",
       home: "Anasayfaya Dön",
       viewListings: "İlanları Gör",
+      exploreTitle: "Aradığınız bunlardan biri olabilir mi?",
+      exploreRegions: "Hizmet bölgelerimiz",
+      exploreGuides: "Adım adım rehberler",
+      exploreContact: "Bize ulaşın",
+      exploreFaq: "Sık sorulan sorular",
     },
     career: {
       meta: {
@@ -1484,6 +1495,7 @@ const tr: Dict = {
         "Bu sayfada uydurma ilan kartı yer almaz. Bölgedeki güncel ilanlarımız için RE/MAX Türkiye ofis sayfasına yönlendiriyoruz.",
       footerHeading: "Hizmet Bölgelerimiz",
       footerCta: "Tüm bölgeler",
+      relatedPostsHeading: "Bu bölgeyle ilgili yazılar",
     },
   },
   forms: {
@@ -1852,6 +1864,11 @@ const en: Dict = {
       desc: "The page you are looking for may have been moved, deleted or never existed.",
       home: "Back to Home",
       viewListings: "View Listings",
+      exploreTitle: "Perhaps you were looking for one of these?",
+      exploreRegions: "Our service areas",
+      exploreGuides: "Step-by-step guides",
+      exploreContact: "Contact us",
+      exploreFaq: "Frequently asked questions",
     },
     career: {
       meta: {
@@ -2327,6 +2344,7 @@ const en: Dict = {
         "No fabricated listing cards are shown on this page. For current listings in the area, we link you to the RE/MAX Türkiye office page.",
       footerHeading: "Our Service Areas",
       footerCta: "All areas",
+      relatedPostsHeading: "Articles about this area",
     },
   },
   forms: {

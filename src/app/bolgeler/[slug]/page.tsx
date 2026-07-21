@@ -34,6 +34,8 @@ import {
   type LocalizedRegion,
 } from "@/lib/regions";
 import { getDictionary, getLocale } from "@/lib/i18n/server";
+import { postsForRegion } from "@/lib/cross-links";
+import { localizePost } from "@/lib/blog";
 import { SITE_URL } from "@/lib/site-url";
 
 interface PageProps {
@@ -107,6 +109,12 @@ export default async function BolgeDetayPage({ params }: PageProps) {
   const neighborRegions = getNeighborRegions(region.slug).map((n) =>
     localizeRegion(n, locale),
   );
+
+  // Bu bölgeyle ilişkili blog yazıları (başlıkta bölge adı geçenler) —
+  // eşleşme yoksa bölüm hiç render edilmez.
+  const relatedPosts = postsForRegion(region.slug)
+    .slice(0, 3)
+    .map((p) => localizePost(p, locale));
 
   // ─── JSON-LD: Place + areaServed RealEstateAgent ───
   // Hiçbir sayısal vaadi (fiyat/sayı) içermez; yalnız bölge tanımı + hizmet alanı.
@@ -499,6 +507,38 @@ export default async function BolgeDetayPage({ params }: PageProps) {
           </div>
         </div>
       </Section>
+
+      {/* ── İLGİLİ YAZILAR — başlıkta bölge adı geçen blog içerikleri ── */}
+      {relatedPosts.length > 0 && (
+        <Section tone="light" density="normal">
+          <h2>
+            <Eyebrow tone="red">{d.relatedPostsHeading}</Eyebrow>
+          </h2>
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {relatedPosts.map((p) => (
+              <Link
+                key={p.slug}
+                href={`/blog/${p.slug}`}
+                className="card-depth group flex flex-col rounded-2xl border border-line bg-white p-5"
+              >
+                <h3 className="font-display font-bold text-navy leading-snug group-hover:text-remax-red transition-colors">
+                  {p.title}
+                </h3>
+                <p className="mt-2 text-sm text-navy/60 leading-relaxed flex-1 line-clamp-3">
+                  {p.excerpt}
+                </p>
+                <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-remax-red">
+                  {dict.pages.blog.readMore}
+                  <ArrowRight
+                    className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
+                    aria-hidden
+                  />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </Section>
+      )}
 
       {/* YENİ İLAN BİLDİRİMİ */}
       <SubscribeSection tone="light" />

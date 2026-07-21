@@ -316,6 +316,22 @@ export const posts: readonly BlogPostBilingual[] = [
             "By managing the process with care from start to finish, we turn your sale into a transparent and secure experience.",
           ],
         },
+        links: [
+          {
+            href: "/degerleme",
+            label: {
+              tr: "Ücretsiz değerleme talebi",
+              en: "Request a free valuation",
+            },
+          },
+          {
+            href: "/kampanya",
+            label: {
+              tr: "Satıcılar için güncel kampanyamız",
+              en: "Our current campaign for sellers",
+            },
+          },
+        ],
       },
     ],
   },
@@ -393,6 +409,22 @@ export const posts: readonly BlogPostBilingual[] = [
             "At RE/MAX BOSS, we offer a tailored, transparent advisory approach throughout your investment journey.",
           ],
         },
+        links: [
+          {
+            href: "/araclar",
+            label: {
+              tr: "Kira getirisi ve bütçe hesaplayıcıları",
+              en: "Rental yield and budget calculators",
+            },
+          },
+          {
+            href: "/bolgeler",
+            label: {
+              tr: "Ankara'daki hizmet bölgelerimiz",
+              en: "Our service areas in Ankara",
+            },
+          },
+        ],
       },
     ],
   },

@@ -1,11 +1,17 @@
 import Link from "@/components/ui/locale-link";
-import { Home, Search } from "lucide-react";
+import { Home, Search, MapPin, BookOpen, Phone, HelpCircle } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { getDictionary } from "@/lib/i18n/server";
+import { getDictionary, getLocale } from "@/lib/i18n/server";
+import { REGIONS } from "@/lib/regions";
+import { GUIDES } from "@/lib/guides";
 
 export default async function NotFound() {
-  const d = (await getDictionary()).pages.notFound;
+  const dict = await getDictionary();
+  const d = dict.pages.notFound;
+  const locale = await getLocale();
+  const popularRegions = REGIONS.slice(0, 4);
+  const popularGuides = GUIDES.slice(0, 2);
 
   return (
     <section className="relative isolate min-h-[calc(100vh-200px)] flex flex-col items-center justify-center bg-navy-900 text-white px-4 text-center overflow-hidden">
@@ -59,6 +65,69 @@ export default async function NotFound() {
           <Search className="h-4 w-4 me-2" aria-hidden />
           {d.viewListings}
         </Link>
+      </div>
+
+      {/* İlgili içerik önerileri — popüler bölgeler + rehberler + destek */}
+      <div className="mt-12 w-full max-w-2xl text-start">
+        <p className="text-center text-sm font-semibold text-white/60">
+          {d.exploreTitle}
+        </p>
+        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <p className="flex items-center gap-1.5 font-semibold text-white/80">
+              <MapPin className="h-3.5 w-3.5 text-remax-red" aria-hidden />
+              {d.exploreRegions}
+            </p>
+            <ul className="mt-2 space-y-1">
+              {popularRegions.map((r) => (
+                <li key={r.slug}>
+                  <Link
+                    href={`/bolgeler/${r.slug}`}
+                    className="text-white/65 hover:text-white transition-colors"
+                  >
+                    {r.hero.title[locale]}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <p className="flex items-center gap-1.5 font-semibold text-white/80">
+              <BookOpen className="h-3.5 w-3.5 text-remax-red" aria-hidden />
+              {d.exploreGuides}
+            </p>
+            <ul className="mt-2 space-y-1">
+              {popularGuides.map((g) => (
+                <li key={g.slug}>
+                  <Link
+                    href={`/rehberler/${g.slug}`}
+                    className="text-white/65 hover:text-white transition-colors"
+                  >
+                    {g.title[locale]}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  href="/sss"
+                  className="inline-flex items-center gap-1.5 text-white/65 hover:text-white transition-colors"
+                >
+                  <HelpCircle className="h-3.5 w-3.5" aria-hidden />
+                  {d.exploreFaq}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/iletisim"
+                  className="inline-flex items-center gap-1.5 text-white/65 hover:text-white transition-colors"
+                >
+                  <Phone className="h-3.5 w-3.5" aria-hidden />
+                  {d.exploreContact}
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
   );

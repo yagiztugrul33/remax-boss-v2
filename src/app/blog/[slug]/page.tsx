@@ -19,6 +19,7 @@ import {
 } from "@/lib/blog";
 import { SITE_URL as SITE } from "@/lib/site-url";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
+import { regionsForPost } from "@/lib/cross-links";
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
@@ -63,6 +64,8 @@ export default async function BlogPostPage({
   const d = dict.pages.blog;
   const post = localizePost(raw, locale);
   const related = getRelatedPostsLocalized(slug, locale);
+  // Başlıkta adı geçen bölgeler → bölge sayfası chip'leri (mekanik eşleşme).
+  const mentionedRegions = regionsForPost(slug);
 
   const categoryLabel = {
     "bolge-rehberi": d.categories.bolge,
@@ -183,6 +186,22 @@ export default async function BlogPostPage({
               )}
             </div>
           ))}
+
+          {/* Bölge sayfası chip'leri — başlıkta adı geçen bölgeler */}
+          {mentionedRegions.length > 0 && (
+            <div className="mt-8 flex flex-wrap gap-2">
+              {mentionedRegions.map((r) => (
+                <Link
+                  key={r.slug}
+                  href={`/bolgeler/${r.slug}`}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-remax-red-soft px-3.5 py-2 text-sm font-semibold text-remax-red hover:bg-remax-red hover:text-white transition-colors"
+                >
+                  {r.hero.eyebrow[locale]}
+                  <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                </Link>
+              ))}
+            </div>
+          )}
 
           {/* Disclaimer */}
           <div className="mt-10 rounded-2xl border border-line bg-mist/50 p-5 text-sm text-navy/60 leading-relaxed">
