@@ -17,6 +17,7 @@ interface Copy {
   emailLabel: string;
   emailPlaceholder: string;
   kvkkText: string;
+  kvkkLink: string;
   submitButton: string;
   submitting: string;
   successTitle: string;
@@ -34,6 +35,7 @@ const COPY: Record<Locale, Copy> = {
     emailPlaceholder: "ornek@eposta.com",
     kvkkText:
       "E-posta bırakırken, kişisel verilerimin RE/MAX BOSS tarafından KVKK kapsamında iletişim amacıyla işlenmesini kabul ediyorum.",
+    kvkkLink: "(KVKK Aydınlatma Metni)",
     submitButton: "PDF'i indir",
     submitting: "Hazırlanıyor…",
     successTitle: "Teşekkürler!",
@@ -50,6 +52,7 @@ const COPY: Record<Locale, Copy> = {
     emailPlaceholder: "you@example.com",
     kvkkText:
       "By leaving my email, I agree to RE/MAX BOSS processing my personal data for communication purposes under KVKK.",
+    kvkkLink: "(KVKK Notice)",
     submitButton: "Download PDF",
     submitting: "Preparing…",
     successTitle: "Thank you!",
@@ -203,7 +206,17 @@ export default function GuideDownloadForm({
           type="checkbox"
           className="mt-0.5 h-4 w-4 flex-shrink-0 accent-remax-red"
         />
-        <span>{c.kvkkText}</span>
+        <span>
+          {c.kvkkText}{" "}
+          <a
+            href="/kvkk-aydinlatma"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-remax-red hover:text-remax-red-hover"
+          >
+            {c.kvkkLink}
+          </a>
+        </span>
       </label>
 
       {error && (

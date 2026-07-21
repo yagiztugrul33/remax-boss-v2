@@ -1271,9 +1271,9 @@ const tr: Dict = {
     },
     legal: {
       eyebrow: "Yasal",
-      placeholderNoticeTitle: "Bu metin hazırlanıyor.",
+      placeholderNoticeTitle: "Detaylı metin hazırlanıyor.",
       placeholderNoticeBody:
-        "Aşağıdaki bölümlerin nihai içeriği yasal danışman onayı sonrasında yayınlanacaktır. Detaylı bilgi için info@remaxboss.com.tr veya +90 312 598 00 00 numarasından ofisimize ulaşabilirsiniz.",
+        "Aşağıdaki bölümler, hangi verilerin toplandığı ve nerede saklandığına ilişkin olgusal bir ön bilgilendirmedir; nihai içerik yasal danışman onayı sonrasında yayınlanacaktır. Sorularınız ve veri silme talepleriniz için info@remaxboss.com.tr veya +90 312 598 00 00 numarasından ofisimize ulaşabilirsiniz.",
       lastUpdated:
         "Bu metin yasal danışman onayı sonrası güncellenecektir. Son güncelleme tarihi metin yayınlandığında eklenecektir.",
       footerHeading: "Yasal",
@@ -2109,9 +2109,9 @@ const en: Dict = {
     },
     legal: {
       eyebrow: "Legal",
-      placeholderNoticeTitle: "This text is being prepared.",
+      placeholderNoticeTitle: "The detailed text is being prepared.",
       placeholderNoticeBody:
-        "The final content of the sections below will be published after legal counsel approval. For detailed information, please reach our office at info@remaxboss.com.tr or +90 312 598 00 00.",
+        "The sections below are a factual interim notice about what data is collected and where it is stored; the final content will be published after legal counsel approval. For questions and data-deletion requests, reach our office at info@remaxboss.com.tr or +90 312 598 00 00.",
       lastUpdated:
         "This text will be updated upon legal counsel approval. The last-updated date will be added once the content is published.",
       footerHeading: "Legal",
