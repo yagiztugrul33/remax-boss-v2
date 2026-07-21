@@ -154,6 +154,21 @@ export default async function BlogPostPage({
                   {p}
                 </p>
               ))}
+              {/* Çapraz linkler — bölge/rehber/hizmet sayfalarına iç link (SEO) */}
+              {s.links && s.links.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {s.links.map((l) => (
+                    <Link
+                      key={l.href}
+                      href={l.href}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-line bg-mist/50 px-3.5 py-2 text-sm font-semibold text-navy/75 hover:text-remax-red hover:border-remax-red/40 transition-colors"
+                    >
+                      {l.label}
+                      <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
 
