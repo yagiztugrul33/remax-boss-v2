@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isTrustedOrigin } from "@/lib/security";
 import {
   buildSystemPrompt,
   MAX_HISTORY,
@@ -46,6 +47,11 @@ function jsonError(message: string, status: number) {
 }
 
 export async function POST(req: NextRequest) {
+  // CSRF katmanı — istek kendi origin'imizden gelmiyorsa reddet.
+  if (!isTrustedOrigin(req)) {
+    return NextResponse.json({ error: "Geçersiz istek kaynağı." }, { status: 403 });
+  }
+
   // 1) Feature flag
   if (process.env.NEXT_PUBLIC_AI_ASSISTANT_ENABLED !== "true") {
     return jsonError("Asistan şu an kapalı.", 503);

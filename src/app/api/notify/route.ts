@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isTrustedOrigin } from "@/lib/security";
 import { isLocale } from "@/lib/i18n/config";
 import {
   isNotifyKind,
@@ -22,6 +23,11 @@ export const dynamic = "force-dynamic";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: Request) {
+  // CSRF katmanı — istek kendi origin'imizden gelmiyorsa reddet.
+  if (!isTrustedOrigin(request)) {
+    return NextResponse.json({ error: "Geçersiz istek kaynağı." }, { status: 403 });
+  }
+
   let payload: unknown = null;
   try {
     payload = await request.json();

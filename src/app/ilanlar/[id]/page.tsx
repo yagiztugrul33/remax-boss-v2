@@ -26,6 +26,7 @@ import { cn } from "@/lib/utils";
 import { formatLocation, formatPrice } from "@/lib/listings";
 import { getListingById, getSimilarListings } from "@/lib/queries";
 import { office } from "@/lib/office";
+import { safeJsonLd } from "@/lib/security";
 import { SITE_URL } from "@/lib/site-url";
 
 // DB'den okur — dinamik.
@@ -202,7 +203,8 @@ export default async function ListingDetailPage({ params }: PageProps) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        // İlan başlığı/açıklaması admin girdisi — </script> kaçışı safeJsonLd ile.
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
 
       {/* GERİ + üst meta */}

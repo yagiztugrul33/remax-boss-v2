@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isTrustedOrigin } from "@/lib/security";
 import { createClient } from "@/lib/supabase/server";
 import { checkRateLimit, clientKeyFromRequest } from "@/lib/rate-limit";
 
@@ -67,6 +68,11 @@ function intOrNull(v: unknown, max = 9_999_999): number | null {
 }
 
 export async function POST(req: NextRequest) {
+  // CSRF katmanı — istek kendi origin'imizden gelmiyorsa reddet.
+  if (!isTrustedOrigin(req)) {
+    return NextResponse.json({ error: "Geçersiz istek kaynağı." }, { status: 403 });
+  }
+
   const rl = checkRateLimit(
     clientKeyFromRequest(req, "valuation"),
     3,
