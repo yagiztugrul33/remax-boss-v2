@@ -4,7 +4,7 @@ export const office = {
   district: "Yenimahalle",
   neighborhood: "Beştepe",
   addressFull:
-    "Beştepe Mah. Alparslan Türkeş Cad. No: 61, Yenimahalle / Ankara",
+    "Beştepe Mah. Alparslan Türkeş Cad. No: 61 AH, Yenimahalle / Ankara",
   addressShort: "Beştepe · Yenimahalle / Ankara",
   phone: "+90 312 598 00 00",
   whatsapp: "+90 551 350 26 77",
@@ -28,7 +28,7 @@ export const office = {
   shortDescription:
     "RE/MAX BOSS, Ankara Beştepe merkezli, RE/MAX Türkiye bünyesinde bağımsız sahipli ve işletmeli bir gayrimenkul ofisidir. Profesyonellik ve güvenilirlik ilkeleriyle, alıcılar ve satıcılar için ölçülebilir değer üretir.",
   mapsQuery:
-    "Be%C5%9Ftepe%20Mah.%20Alparslan%20T%C3%BCrke%C5%9F%20Cad.%20No%2061%20Yenimahalle%20Ankara",
+    "Be%C5%9Ftepe%20Mah.%20Alparslan%20T%C3%BCrke%C5%9F%20Cad.%20No%2061%20AH%20Yenimahalle%20Ankara",
 } as const;
 
 /**

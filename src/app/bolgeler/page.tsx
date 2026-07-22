@@ -21,6 +21,14 @@ export async function generateMetadata(): Promise<Metadata> {
       description: d.indexSubtitle,
       locale: locale === "en" ? "en_US" : "tr_TR",
       url: await localeOgUrl("/bolgeler"),
+      images: [
+        {
+          url: "/office/resepsiyon.jpg",
+          width: 2000,
+          height: 1125,
+          alt: d.indexTitle,
+        },
+      ],
     },
   };
 }
