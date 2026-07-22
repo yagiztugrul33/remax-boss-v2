@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOgUrl } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Link from "@/components/ui/locale-link";
 import { notFound } from "next/navigation";
@@ -50,7 +50,7 @@ export async function generateMetadata({
       title: lg.meta.title,
       description: lg.meta.description,
       locale: locale === "en" ? "en_US" : "tr_TR",
-      url: `/rehberler/${slug}`,
+      url: await localeOgUrl(`/rehberler/${slug}`),
     },
   };
 }

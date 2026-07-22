@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOgUrl } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -45,7 +45,7 @@ export async function generateMetadata({
       description: ls.excerpt,
       type: "article",
       publishedTime: ls.date,
-      url: `${SITE}/blog/${ls.slug}`,
+      url: await localeOgUrl(`/blog/${ls.slug}`),
       images: [{ url: ls.cover.src, alt: ls.cover.alt }],
     },
   };

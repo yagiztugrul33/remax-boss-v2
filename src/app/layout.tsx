@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOgUrl } from "@/lib/i18n/server-meta";
 import type { Metadata, Viewport } from "next";
 import { Sora, Inter, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
@@ -83,7 +83,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "RE/MAX BOSS",
       title: "RE/MAX BOSS — Ankara Beştepe",
       description,
-      url: SITE_URL,
+      url: await localeOgUrl("/"),
       images: [
         {
           url: "/office/resepsiyon.jpg",

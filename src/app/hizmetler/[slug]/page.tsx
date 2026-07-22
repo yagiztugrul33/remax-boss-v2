@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOgUrl } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -33,7 +33,6 @@ import {
 } from "@/lib/services";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
-import { SITE_URL as SITE } from "@/lib/site-url";
 
 const iconMap: Record<ServiceIcon, LucideIcon> = {
   handshake: Handshake,
@@ -65,7 +64,7 @@ export async function generateMetadata({
       title: `${ls.title} | RE/MAX BOSS`,
       description: ls.summary,
       type: "website",
-      url: `${SITE}/hizmetler/${ls.slug}`,
+      url: await localeOgUrl(`/hizmetler/${ls.slug}`),
       images: [{ url: ls.cover.src, alt: ls.cover.alt }],
     },
   };

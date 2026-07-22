@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOgUrl } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Link from "@/components/ui/locale-link";
 import { ArrowRight, MapPin } from "lucide-react";
@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: d.indexTitle,
       description: d.indexSubtitle,
       locale: locale === "en" ? "en_US" : "tr_TR",
-      url: "/bolgeler",
+      url: await localeOgUrl("/bolgeler"),
     },
   };
 }
