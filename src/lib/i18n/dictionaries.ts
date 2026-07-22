@@ -1483,7 +1483,7 @@ const tr: Dict = {
       neighborsHeading: "Yakın bölgeler",
       neighborsSubtitle:
         "Aynı aksta değerlendirebileceğiniz komşu bölgeler.",
-      ctaSectionEyebrow: "Lead",
+      ctaSectionEyebrow: "Talep",
       ctaSectionTitle: "Bu bölgede nasıl yardımcı olabiliriz?",
       ctaSectionSubtitle:
         "Mülk arıyorsanız kriterlerinizi bize iletin, satıcıysanız ücretsiz değerleme talebi gönderin.",

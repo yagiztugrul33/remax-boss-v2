@@ -338,7 +338,9 @@ export function GuideDocument({
             <Text style={styles.brandBadge}>RE/MAX</Text>
             <Text style={styles.brandName}>BOSS</Text>
           </View>
-          <Text style={styles.categoryChip}>{g.title.toUpperCase()}</Text>
+          <Text style={styles.categoryChip}>
+            {g.title.toLocaleUpperCase(locale === "en" ? "en-US" : "tr-TR")}
+          </Text>
         </View>
 
         <Text style={styles.sectionTitle}>

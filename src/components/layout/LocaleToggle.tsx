@@ -1,6 +1,5 @@
-﻿"use client";
+"use client";
 
-import { useRouter } from "next/navigation";
 import { Globe } from "lucide-react";
 import { LOCALE_COOKIE, type Locale } from "@/lib/i18n/config";
 import { withLocale } from "@/lib/i18n/url";
@@ -10,6 +9,12 @@ import { withLocale } from "@/lib/i18n/url";
  * URL'sine gider (/hizmetler <-> /en/hizmetler), anasayfaya ATMAZ.
  * Cookie yalnizca tercih koprusu olarak guncellenir (proxy'deki
  * prefix'siz -> /en yonlendirmesi icin).
+ *
+ * ONEMLI: Gecis TAM SAYFA navigasyonla yapilir (window.location.assign).
+ * router.push ile client-side gecişte Next layout'u yeniden render etmez
+ * (/en/* proxy rewrite'la ayni segment agacina gider); navbar/footer ve
+ * <html lang> eski dilde kalir — karisik dil + yanlis buyuk harf kurali
+ * (CSS uppercase, i/İ) bug'una yol acar.
  */
 export default function LocaleToggle({
   locale,
@@ -18,15 +23,13 @@ export default function LocaleToggle({
   locale: Locale;
   label: string;
 }) {
-  const router = useRouter();
-
   function setLocale(next: Locale) {
     if (next === locale) return;
     document.cookie = `${LOCALE_COOKIE}=${next};path=/;max-age=31536000;samesite=lax`;
     // Ayni sayfanin diger dil URL'si - query/hash korunur.
     const current =
       window.location.pathname + window.location.search + window.location.hash;
-    router.push(withLocale(next, current));
+    window.location.assign(withLocale(next, current));
   }
 
   const other: Locale = locale === "tr" ? "en" : "tr";

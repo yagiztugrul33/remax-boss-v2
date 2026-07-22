@@ -65,7 +65,8 @@ function initialsOf(name: string) {
     .map((p) => p[0])
     .slice(0, 2)
     .join("")
-    .toUpperCase();
+    // TR locale şart: "i"→"İ" (yalın toUpperCase "i"→"I" üretir, isim bozulur)
+    .toLocaleUpperCase("tr-TR");
 }
 
 export default async function AgentDetailPage({ params }: PageProps) {
