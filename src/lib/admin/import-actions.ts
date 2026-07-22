@@ -14,7 +14,8 @@
 
 import { requireAdmin } from "./guard";
 import { createClient } from "@/lib/supabase/server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
+import { LISTINGS_CACHE_TAG } from "@/lib/queries";
 import { pingIndexNow } from "@/lib/indexnow";
 import {
   validateRows,
@@ -148,6 +149,7 @@ export async function importListings(
 
   revalidatePath("/admin");
   revalidatePath("/ilanlar");
+  updateTag(LISTINGS_CACHE_TAG);
   revalidatePath("/");
   // IndexNow — toplu iceri aktarma sonrasi liste bildirimi (best-effort).
   await pingIndexNow(["/ilanlar"]);

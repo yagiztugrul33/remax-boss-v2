@@ -89,6 +89,10 @@ const nextConfig: NextConfig = {
     // Modern format servisleme — Vercel/next optimizer JPEG/PNG'leri
     // otomatik AVIF/WebP'e çevirir (kaynak dosyalar değişmez).
     formats: ["image/avif", "image/webp"],
+    // Optimize görsellere tarayıcı cache'i: ofis fotoğrafları nadiren
+    // değişir; max-age=0 her görüntülemede revalidate round-trip'i
+    // üretiyordu (LH ölçümü). 31 gün.
+    minimumCacheTTL: 2678400,
     remotePatterns: [
       ...(supabaseHost
         ? [

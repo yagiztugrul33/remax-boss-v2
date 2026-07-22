@@ -1,6 +1,7 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
+import { LISTINGS_CACHE_TAG } from "@/lib/queries";
 import { pingIndexNow } from "@/lib/indexnow";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin/guard";
@@ -142,6 +143,7 @@ export async function createListing(formData: FormData): Promise<void> {
 
   revalidatePath("/admin");
   revalidatePath("/ilanlar");
+  updateTag(LISTINGS_CACHE_TAG);
   revalidatePath(`/ilanlar/${data.id}`);
   revalidatePath("/");
   // IndexNow — yeni ilan URL bildirimi (best-effort, redirect'ten ÖNCE).
@@ -187,6 +189,7 @@ export async function updateListing(
 
   revalidatePath("/admin");
   revalidatePath("/ilanlar");
+  updateTag(LISTINGS_CACHE_TAG);
   revalidatePath(`/ilanlar/${id}`);
   revalidatePath("/");
   // IndexNow — güncellenen ilan URL bildirimi (best-effort).
@@ -205,6 +208,7 @@ export async function deleteListing(formData: FormData): Promise<void> {
 
   revalidatePath("/admin");
   revalidatePath("/ilanlar");
+  updateTag(LISTINGS_CACHE_TAG);
   revalidatePath("/");
   redirect(`/admin?ok=deleted:${id}`);
 }

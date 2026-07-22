@@ -33,6 +33,9 @@ export default async function Hero() {
           Ken-burns SABİT (Plan B kalıcı): hareket sıfır → titreme imkansız.
           quality={90}: kullanıcının kaliteli fotoğrafı bozulmadan görünsün
           (Next default 75). bilingual alt locale'a göre. */}
+      {/* fetchPriority: LCP görseli — LH ölçümünde 2s resourceLoadDelay'in
+          nedeni preload'un öncelik ipucu taşımamasıydı (diğer preload'larla
+          eşit sırada yarışıyordu). */}
       <Image
         src={heroImage.src}
         alt={heroAlt}
@@ -41,6 +44,7 @@ export default async function Hero() {
         quality={90}
         className="object-cover"
         priority
+        fetchPriority="high"
       />
 
       {/* ── Gradient overlays — left + bottom reads dark ── */}

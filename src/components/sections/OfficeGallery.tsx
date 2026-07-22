@@ -30,13 +30,14 @@ export default function OfficeGallery({ items }: { items: readonly GalleryItem[]
             aria-label={`Büyüt: ${img.alt}`}
             className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-mist border border-line group focus-visible:outline-2 focus-visible:outline-remax-red focus-visible:outline-offset-2"
           >
+            {/* priority KALDIRILDI: galeri fold altında; 4 thumb preload'u
+                LCP hero görseliyle bant yarışıyordu (LH ölçümü). */}
             <Image
               src={img.src}
               alt={img.alt}
               fill
               sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
               className="object-cover transition-transform duration-500 group-hover:scale-[1.06]"
-              priority={i < 4}
             />
             <div className="absolute inset-0 bg-navy-900/0 group-hover:bg-navy-900/20 transition-colors duration-300" />
           </button>

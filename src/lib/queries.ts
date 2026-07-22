@@ -1,10 +1,34 @@
-import { createClient } from "@/lib/supabase/server";
+import { unstable_cache } from "next/cache";
+import { createClient as createSupabaseJs } from "@supabase/supabase-js";
 import { rowToListing, type Listing } from "@/lib/listings";
 import { getRegionBySlug } from "@/lib/regions";
 import {
   LISTING_PAGE_SIZE,
   type ListingFilters,
 } from "@/lib/listing-search";
+
+/**
+ * İlan cache tag'ı — public listing okumaları bu tag ile data cache'e
+ * alınır; admin mutasyonları revalidateTag(LISTINGS_CACHE_TAG) çağırır.
+ * Ölçüm gerekçesi: her istekte Supabase round-trip'i dokümanı ~0.7-1.4s
+ * geciktiriyordu (ana sayfa 1.3-1.6s, /ilanlar 1.9s; sorgusuz bölge
+ * sayfası 0.4s). Public veri (yalnız published) oturumdan bağımsız.
+ */
+export const LISTINGS_CACHE_TAG = "listings";
+const LISTINGS_CACHE_SECONDS = 300;
+
+/**
+ * Çerezsiz anon istemci — YALNIZ public okumalar için.
+ * unstable_cache içinde cookies() kullanılamaz; RLS anon'a zaten sadece
+ * published satırları gösterir, oturum bilgisine gerek yok.
+ */
+function publicClient() {
+  return createSupabaseJs(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { auth: { persistSession: false, autoRefreshToken: false } },
+  );
+}
 
 /**
  * Supabase'a güvenli erişim sarmalayıcısı.
@@ -37,10 +61,9 @@ export const LISTING_COLUMNS = `
   image_urls, listing_no
 `;
 
-/** Tüm yayınlanmış ilanlar (en yeni önce). */
-export async function getPublishedListings(): Promise<Listing[]> {
-  return safeRun(async () => {
-    const supabase = await createClient();
+const getPublishedListingsCached = unstable_cache(
+  async () => {
+    const supabase = publicClient();
     const { data, error } = await supabase
       .from("listings")
       .select(LISTING_COLUMNS)
@@ -48,13 +71,19 @@ export async function getPublishedListings(): Promise<Listing[]> {
       .order("created_at", { ascending: false });
     if (error) throw error;
     return (data ?? []).map(rowToListing);
-  }, [] as Listing[]);
+  },
+  ["published-listings"],
+  { tags: [LISTINGS_CACHE_TAG], revalidate: LISTINGS_CACHE_SECONDS },
+);
+
+/** Tüm yayınlanmış ilanlar (en yeni önce). */
+export async function getPublishedListings(): Promise<Listing[]> {
+  return safeRun(() => getPublishedListingsCached(), [] as Listing[]);
 }
 
-/** Öne çıkan yayınlanmış ilanlar — anasayfa şeridi. */
-export async function getFeaturedListings(limit = 4): Promise<Listing[]> {
-  return safeRun(async () => {
-    const supabase = await createClient();
+const getFeaturedListingsCached = unstable_cache(
+  async (limit: number) => {
+    const supabase = publicClient();
     const { data, error } = await supabase
       .from("listings")
       .select(LISTING_COLUMNS)
@@ -64,20 +93,33 @@ export async function getFeaturedListings(limit = 4): Promise<Listing[]> {
       .limit(limit);
     if (error) throw error;
     return (data ?? []).map(rowToListing);
-  }, [] as Listing[]);
+  },
+  ["featured-listings"],
+  { tags: [LISTINGS_CACHE_TAG], revalidate: LISTINGS_CACHE_SECONDS },
+);
+
+/** Öne çıkan yayınlanmış ilanlar — anasayfa şeridi. */
+export async function getFeaturedListings(limit = 4): Promise<Listing[]> {
+  return safeRun(() => getFeaturedListingsCached(limit), [] as Listing[]);
 }
 
-/** Yayınlanmış ilan toplamı — boş-durum / filtre çubuğu kararı için. */
-export async function countPublishedListings(): Promise<number> {
-  return safeRun(async () => {
-    const supabase = await createClient();
+const countPublishedListingsCached = unstable_cache(
+  async () => {
+    const supabase = publicClient();
     const { count, error } = await supabase
       .from("listings")
       .select("id", { count: "exact", head: true })
       .eq("status", "published");
     if (error) throw error;
     return count ?? 0;
-  }, 0);
+  },
+  ["published-listings-count"],
+  { tags: [LISTINGS_CACHE_TAG], revalidate: LISTINGS_CACHE_SECONDS },
+);
+
+/** Yayınlanmış ilan toplamı — boş-durum / filtre çubuğu kararı için. */
+export async function countPublishedListings(): Promise<number> {
+  return safeRun(() => countPublishedListingsCached(), 0);
 }
 
 export interface ListingSearchResult {
@@ -85,56 +127,80 @@ export interface ListingSearchResult {
   total: number;
 }
 
+/** Arama çekirdeği — publicClient ile (oturum gerekmez, RLS published). */
+async function runListingSearch(f: ListingFilters): Promise<ListingSearchResult> {
+  const supabase = publicClient();
+  let q = supabase
+    .from("listings")
+    .select(LISTING_COLUMNS, { count: "exact" })
+    .eq("status", "published");
+
+  if (f.kind) q = q.eq("listing_type", f.kind);
+  if (f.type) q = q.eq("property_type", f.type);
+  if (f.rooms) q = q.eq("rooms", f.rooms);
+  if (f.minPrice != null) q = q.gte("price", f.minPrice);
+  if (f.maxPrice != null) q = q.lte("price", f.maxPrice);
+  if (f.minArea != null) q = q.gte("gross_area", f.minArea);
+  if (f.maxArea != null) q = q.lte("gross_area", f.maxArea);
+
+  if (f.region) {
+    const region = getRegionBySlug(f.region);
+    if (region) {
+      // "Gaziosmanpaşa (GOP)" → "Gaziosmanpaşa" (parantezli ek atılır).
+      const name = region.name.replace(/\s*\(.*\)\s*$/, "").trim();
+      q = q.or(`district.ilike.%${name}%,neighborhood.ilike.%${name}%`);
+    }
+  }
+
+  if (f.sort === "price-asc") q = q.order("price", { ascending: true });
+  else if (f.sort === "price-desc") q = q.order("price", { ascending: false });
+  else q = q.order("created_at", { ascending: false });
+
+  const from = (f.page - 1) * LISTING_PAGE_SIZE;
+  q = q.range(from, from + LISTING_PAGE_SIZE - 1);
+
+  const { data, count, error } = await q;
+  if (error) throw error;
+  return {
+    items: (data ?? []).map(rowToListing),
+    total: count ?? 0,
+  };
+}
+
+/** Filtresiz ilk sayfa — /ilanlar'ın en sık hali; cache'lenir. */
+const searchListingsDefaultCached = unstable_cache(
+  () => runListingSearch({ sort: "new", page: 1 }),
+  ["listing-search-default"],
+  { tags: [LISTINGS_CACHE_TAG], revalidate: LISTINGS_CACHE_SECONDS },
+);
+
+function isDefaultSearch(f: ListingFilters): boolean {
+  return (
+    !f.kind &&
+    !f.type &&
+    !f.rooms &&
+    !f.region &&
+    f.minPrice == null &&
+    f.maxPrice == null &&
+    f.minArea == null &&
+    f.maxArea == null &&
+    f.sort === "new" &&
+    f.page === 1
+  );
+}
+
 /**
  * Sunucu tarafı arama/filtre/sıralama/sayfalama.
  * Bölge filtresi regions.ts slug'ından bölge adına çevrilip district +
  * neighborhood üzerinde ilike ile aranır (listings'te bölge alanı serbest text).
+ * Filtresiz varsayılan görünüm data cache'ten; filtreli aramalar canlı.
  */
 export async function searchListings(
   f: ListingFilters,
 ): Promise<ListingSearchResult> {
   return safeRun(
-    async () => {
-      const supabase = await createClient();
-      let q = supabase
-        .from("listings")
-        .select(LISTING_COLUMNS, { count: "exact" })
-        .eq("status", "published");
-
-      if (f.kind) q = q.eq("listing_type", f.kind);
-      if (f.type) q = q.eq("property_type", f.type);
-      if (f.rooms) q = q.eq("rooms", f.rooms);
-      if (f.minPrice != null) q = q.gte("price", f.minPrice);
-      if (f.maxPrice != null) q = q.lte("price", f.maxPrice);
-      if (f.minArea != null) q = q.gte("gross_area", f.minArea);
-      if (f.maxArea != null) q = q.lte("gross_area", f.maxArea);
-
-      if (f.region) {
-        const region = getRegionBySlug(f.region);
-        if (region) {
-          // "Gaziosmanpaşa (GOP)" → "Gaziosmanpaşa" (parantezli ek atılır).
-          const name = region.name.replace(/\s*\(.*\)\s*$/, "").trim();
-          q = q.or(
-            `district.ilike.%${name}%,neighborhood.ilike.%${name}%`,
-          );
-        }
-      }
-
-      if (f.sort === "price-asc") q = q.order("price", { ascending: true });
-      else if (f.sort === "price-desc")
-        q = q.order("price", { ascending: false });
-      else q = q.order("created_at", { ascending: false });
-
-      const from = (f.page - 1) * LISTING_PAGE_SIZE;
-      q = q.range(from, from + LISTING_PAGE_SIZE - 1);
-
-      const { data, count, error } = await q;
-      if (error) throw error;
-      return {
-        items: (data ?? []).map(rowToListing),
-        total: count ?? 0,
-      };
-    },
+    () =>
+      isDefaultSearch(f) ? searchListingsDefaultCached() : runListingSearch(f),
     { items: [] as Listing[], total: 0 },
   );
 }
@@ -148,7 +214,7 @@ export async function getSimilarListings(
   limit = 3,
 ): Promise<Listing[]> {
   return safeRun(async () => {
-    const supabase = await createClient();
+    const supabase = publicClient();
 
     const base = () =>
       supabase
@@ -187,7 +253,7 @@ export async function getSimilarListings(
 /** Tek ilan — yalnız published. Bulunamaz/draft → null. */
 export async function getListingById(id: string): Promise<Listing | null> {
   return safeRun(async () => {
-    const supabase = await createClient();
+    const supabase = publicClient();
     const { data, error } = await supabase
       .from("listings")
       .select(LISTING_COLUMNS)
