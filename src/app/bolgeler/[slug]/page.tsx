@@ -473,6 +473,17 @@ export default async function BolgeDetayPage({ params }: PageProps) {
               <p className="text-sm text-white/75 leading-relaxed">
                 {d.portfolioNote}
               </p>
+              {/* İç link önce: bölgeye filtreli ilan listesi (SEO + kullanıcı) */}
+              <Link
+                href={`/ilanlar?bolge=${slug}`}
+                className={cn(
+                  buttonVariants({ size: "lg" }),
+                  "bg-remax-red hover:bg-remax-red-hover text-white h-11 px-5 w-full text-sm font-semibold",
+                )}
+              >
+                <Search className="h-4 w-4 me-2" aria-hidden />
+                {d.ctaListings}
+              </Link>
               <a
                 href={REMAX_PORTFOLIO_URL}
                 target="_blank"

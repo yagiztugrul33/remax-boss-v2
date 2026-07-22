@@ -217,10 +217,11 @@ export default async function IlanlarPage({ searchParams }: PageProps) {
             )}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-navy/70 mb-1">
+                <label htmlFor="f-tip" className="block text-xs font-semibold text-navy/70 mb-1">
                   {c.typeLabel}
                 </label>
                 <select
+                  id="f-tip"
                   name="tip"
                   defaultValue={filters.type ?? ""}
                   className={selectClass}
@@ -234,10 +235,11 @@ export default async function IlanlarPage({ searchParams }: PageProps) {
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-navy/70 mb-1">
+                <label htmlFor="f-bolge" className="block text-xs font-semibold text-navy/70 mb-1">
                   {c.regionLabel}
                 </label>
                 <select
+                  id="f-bolge"
                   name="bolge"
                   defaultValue={filters.region ?? ""}
                   className={selectClass}
@@ -251,10 +253,11 @@ export default async function IlanlarPage({ searchParams }: PageProps) {
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-navy/70 mb-1">
+                <label htmlFor="f-oda" className="block text-xs font-semibold text-navy/70 mb-1">
                   {c.roomsLabel}
                 </label>
                 <select
+                  id="f-oda"
                   name="oda"
                   defaultValue={filters.rooms ?? ""}
                   className={selectClass}
@@ -268,10 +271,11 @@ export default async function IlanlarPage({ searchParams }: PageProps) {
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-navy/70 mb-1">
+                <label htmlFor="f-sirala" className="block text-xs font-semibold text-navy/70 mb-1">
                   {c.sortLabel}
                 </label>
                 <select
+                  id="f-sirala"
                   name="sirala"
                   defaultValue={filters.sort}
                   className={selectClass}
@@ -283,12 +287,13 @@ export default async function IlanlarPage({ searchParams }: PageProps) {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-navy/70 mb-1">
+                <label htmlFor="f-min-fiyat" className="block text-xs font-semibold text-navy/70 mb-1">
                   {c.minPrice}
                 </label>
                 <input
                   type="text"
                   inputMode="numeric"
+                  id="f-min-fiyat"
                   name="min-fiyat"
                   defaultValue={filters.minPrice ?? ""}
                   placeholder="0"
@@ -297,12 +302,13 @@ export default async function IlanlarPage({ searchParams }: PageProps) {
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-navy/70 mb-1">
+                <label htmlFor="f-max-fiyat" className="block text-xs font-semibold text-navy/70 mb-1">
                   {c.maxPrice}
                 </label>
                 <input
                   type="text"
                   inputMode="numeric"
+                  id="f-max-fiyat"
                   name="max-fiyat"
                   defaultValue={filters.maxPrice ?? ""}
                   placeholder="∞"
@@ -311,12 +317,13 @@ export default async function IlanlarPage({ searchParams }: PageProps) {
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-navy/70 mb-1">
+                <label htmlFor="f-min-m2" className="block text-xs font-semibold text-navy/70 mb-1">
                   {c.minArea}
                 </label>
                 <input
                   type="text"
                   inputMode="numeric"
+                  id="f-min-m2"
                   name="min-m2"
                   defaultValue={filters.minArea ?? ""}
                   placeholder="0"
@@ -325,12 +332,13 @@ export default async function IlanlarPage({ searchParams }: PageProps) {
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-navy/70 mb-1">
+                <label htmlFor="f-max-m2" className="block text-xs font-semibold text-navy/70 mb-1">
                   {c.maxArea}
                 </label>
                 <input
                   type="text"
                   inputMode="numeric"
+                  id="f-max-m2"
                   name="max-m2"
                   defaultValue={filters.maxArea ?? ""}
                   placeholder="∞"
@@ -403,6 +411,8 @@ export default async function IlanlarPage({ searchParams }: PageProps) {
           </div>
         ) : (
           <>
+            {/* a11y: h1 → kart h3 atlamasını kapatan görünmez başlık */}
+            <h2 className="sr-only">{c.resultLine(result.total)}</h2>
             <div className="addon-stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
               {result.items.map((l, i) => (
                 <ListingCard key={l.id} listing={l} priority={i < 4} index={i} />

@@ -33,7 +33,11 @@ const securityHeaders = [
       "default-src 'self'",
       // Next.js inline scripts + eval (RSC payload, turbopack HMR)
       // + Google Analytics (GA4 / gtag) production yüklemesi
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
+      // 'unsafe-eval' KALDIRILDI (22 Tem): production bundle'da eval
+      // kullanımı yok — canlıda konsol CSP hatası taramasıyla doğrulandı.
+      // 'unsafe-inline' KALIYOR: Next bootstrap + JSON-LD inline script'leri
+      // için gerekli (nonce denemesi daha önce kırmıştı).
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com",
       // Supabase API + Google Maps + Google Analytics ölçüm endpoint'leri
       `connect-src 'self' https://*.supabase.co wss://*.supabase.co https://maps.googleapis.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com`,
       // Supabase Storage görselleri + GA tracking pixel + kendi origin

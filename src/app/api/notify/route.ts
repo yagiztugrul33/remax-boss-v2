@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { isTrustedOrigin } from "@/lib/security";
+import { checkRateLimit, clientKeyFromRequest } from "@/lib/rate-limit";
 import { isLocale } from "@/lib/i18n/config";
 import {
   isNotifyKind,
@@ -26,6 +27,16 @@ export async function POST(request: Request) {
   // CSRF katmanı — istek kendi origin'imizden gelmiyorsa reddet.
   if (!isTrustedOrigin(request)) {
     return NextResponse.json({ error: "Geçersiz istek kaynağı." }, { status: 403 });
+  }
+
+  // Rate-limit — Resend yapılandırıldığında e-posta spam yüzeyi olmasın
+  // (diğer form endpoint'leriyle aynı desen; IP başına 3/dk).
+  const rl = checkRateLimit(clientKeyFromRequest(request, "notify"), 3, 60_000);
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { ok: true, sent: false, reason: "rate-limited" },
+      { status: 429, headers: { "retry-after": String(rl.retryAfterSec) } },
+    );
   }
 
   let payload: unknown = null;

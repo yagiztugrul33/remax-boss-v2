@@ -51,6 +51,16 @@ export async function generateMetadata({
       description: lg.meta.description,
       locale: locale === "en" ? "en_US" : "tr_TR",
       url: await localeOgUrl(`/rehberler/${slug}`),
+      // og:image eksikti (child openGraph layout'takini tamamen ezer) —
+      // paylaşım kartları görselsiz kalıyordu.
+      images: [
+        {
+          url: "/office/resepsiyon.jpg",
+          width: 2000,
+          height: 1125,
+          alt: lg.title,
+        },
+      ],
     },
   };
 }

@@ -656,6 +656,7 @@ export interface Dict {
       ctaBuyer: string;
       ctaValuation: string;
       ctaPortfolio: string;
+      ctaListings: string;
       ctaContact: string;
       portfolioNote: string;
       footerHeading: string;
@@ -1490,6 +1491,7 @@ const tr: Dict = {
       ctaBuyer: "Bu bölgede mülk arıyorum",
       ctaValuation: "Mülkümü değerletmek istiyorum",
       ctaPortfolio: "Tüm güncel ilanlarımız",
+      ctaListings: "Bu bölgedeki ilanlarımız",
       ctaContact: "İletişime geç",
       portfolioNote:
         "Bu sayfada uydurma ilan kartı yer almaz. Bölgedeki güncel ilanlarımız için RE/MAX Türkiye ofis sayfasına yönlendiriyoruz.",
@@ -2339,6 +2341,7 @@ const en: Dict = {
       ctaBuyer: "I'm looking for a property here",
       ctaValuation: "I want to value my property",
       ctaPortfolio: "All our current listings",
+      ctaListings: "Our listings in this area",
       ctaContact: "Get in touch",
       portfolioNote:
         "No fabricated listing cards are shown on this page. For current listings in the area, we link you to the RE/MAX Türkiye office page.",

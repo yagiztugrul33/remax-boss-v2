@@ -86,7 +86,7 @@ export default function Footer({
               <li key={l.href}>
                 <Link
                   href={l.href}
-                  className="hover:text-white transition-colors"
+                  className="inline-block py-2 hover:text-white transition-colors"
                 >
                   {l.label}
                 </Link>
@@ -223,25 +223,25 @@ export default function Footer({
           >
             <Link
               href="/kvkk-aydinlatma"
-              className="hover:text-white transition-colors"
+              className="inline-block py-2 hover:text-white transition-colors"
             >
               {legalDict.kvkkLabel}
             </Link>
             <Link
               href="/gizlilik-politikasi"
-              className="hover:text-white transition-colors"
+              className="inline-block py-2 hover:text-white transition-colors"
             >
               {legalDict.privacyLabel}
             </Link>
             <Link
               href="/cerez-politikasi"
-              className="hover:text-white transition-colors"
+              className="inline-block py-2 hover:text-white transition-colors"
             >
               {legalDict.cookieLabel}
             </Link>
             <Link
               href="/kullanim-sartlari"
-              className="hover:text-white transition-colors"
+              className="inline-block py-2 hover:text-white transition-colors"
             >
               {legalDict.termsLabel}
             </Link>
