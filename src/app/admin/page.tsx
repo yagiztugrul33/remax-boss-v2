@@ -84,8 +84,19 @@ interface PageProps {
 }
 
 export default async function AdminHomePage({ searchParams }: PageProps) {
-  const { user } = await requireAdmin();
+  const { user, supabase } = await requireAdmin();
   const sp = await searchParams;
+
+  // DB seviyesinde admin doğrulaması: allowlist'te olup admins tablosunda
+  // OLMAYAN hesap panele girebilir ama RLS tüm lead kayıtlarını gizler
+  // (listeler sessizce boş görünür). Bu durumu banner ile görünür yap.
+  let dbAdmin = true;
+  try {
+    const { data } = await supabase.rpc("is_admin");
+    dbAdmin = data === true;
+  } catch {
+    // rpc erişilemezse yanlış alarm üretme
+  }
   const listings = await getAllListingsAdmin();
   const published = listings.filter((l) => l.status === "published").length;
   const drafts = listings.filter((l) => l.status === "draft").length;
@@ -192,6 +203,27 @@ export default async function AdminHomePage({ searchParams }: PageProps) {
           </div>
         </div>
       </section>
+
+      {!dbAdmin && (
+        <div className="container-page mt-6">
+          <div className="rounded-2xl border border-remax-red/30 bg-remax-red-soft p-5">
+            <p className="font-display font-bold text-navy">
+              Bu hesap veritabanı yetki tablosunda (admins) kayıtlı değil.
+            </p>
+            <p className="mt-2 text-sm text-navy/75 leading-relaxed">
+              Panel açılıyor ama RLS güvenlik katmanı mesaj, değerleme, alıcı
+              kaydı ve abone listelerini bu hesaba <strong>göstermez</strong> —
+              listeler boş görünür. Düzeltmek için Supabase Dashboard → SQL
+              Editor&apos;da şu komutu çalıştırın:
+            </p>
+            <pre className="mt-3 rounded-xl bg-navy-900 text-white/90 text-xs p-4 overflow-x-auto">
+              {`insert into public.admins (id, email)
+select id, email from auth.users where email = '${user.email}'
+on conflict (id) do nothing;`}
+            </pre>
+          </div>
+        </div>
+      )}
 
       <FlashBanner raw={sp.ok} />
 
