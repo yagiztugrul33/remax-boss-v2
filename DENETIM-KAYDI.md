@@ -1,7 +1,9 @@
 # DENETİM KAYDI — Sessiz Sağlık Taraması (Ö3)
 
 **Tarih:** 2026-08-05 · **Dal:** `staging` · **Kapsam:** kırık bağlantı · SEO metadata · console/hydration
-**Kural:** tasarıma dokunulmadı (renk/spacing/component görünümü SIFIR değişiklik) · uzak push YOK
+**Kural:** tasarıma dokunulmadı (renk/spacing/component görünümü SIFIR değişiklik)
+**Uzak durum:** `origin/staging` **2026-08-05'te açıldı** — bkz. §9 (bu kayıttan önceki
+sürümde "uzak push YOK" yazıyordu; push ayrı bir onaylı adımda yapıldı).
 
 ---
 
@@ -287,3 +289,90 @@ yapısı veya görünen metin değişmedi. Değişiklikler yalnız:
 
 Kanıt: görünen telefon metni `+90 312 598 00 00` düzeltmeden sonra da
 **127 sayfanın hepsinde** mevcut (§7a).
+
+---
+
+## 9. Push doğrulaması (2026-08-05)
+
+### 9.1 Dal açma
+
+`git fetch origin` öncesi uzakta yalnız `origin/master`, `origin/gh-pages`,
+`origin/HEAD` vardı — **`origin/staging` YOKTU**. Açıldı:
+
+```
+git push -u origin staging
+ * [new branch]      staging -> staging
+branch 'staging' set up to track 'origin/staging'.
+```
+
+### 9.2 SHA eşitliği (uzağa gerçekten ne gitti)
+
+```
+LOKAL  staging        : 58fba03f8e6a951327a3a0e23a8d0d044f254e4b
+UZAK   origin/staging : 58fba03f8e6a951327a3a0e23a8d0d044f254e4b
+```
+
+Birebir aynı. Uzak dalda taşınan 6 commit:
+
+| # | SHA | Konu |
+|---|---|---|
+| 1 | `de58c05` | docs: eksik secret envanteri — `MISSING_SECRETS.md` şablonu |
+| 2 | `6243230` | feat(seo): anasayfa/ilanlar/ekibimiz meta metinleri EN diline ayrıldı |
+| 3 | `f16d7a3` | fix(seo): sayfa `openGraph` override'ları site geneli alanları düşürüyordu |
+| 4 | `ec86f74` | fix(a11y): `tel:` bağlantılarındaki boşluklar kaldırıldı (RFC 3966) |
+| 5 | `08815b4` | docs(denetim): sessiz sağlık taraması kaydı |
+| 6 | `827ac96` | chore: lokal yedekler klasörü `.gitignore`'a eklendi |
+| 7 | `58fba03` | docs(denetim): commit listesi tamamlandı |
+
+### 9.3 KAPI 3 — SOĞUK KLON, **UZAKTAN** (`_dogrulama\remaxboss-push`)
+
+§6'daki soğuk klon lokal daldan alınmıştı. Bu sefer klon **doğrudan GitHub'dan**
+çekildi — yani sınanan şey, uzağa fiilen yazılmış olan ağaç.
+
+```
+git clone https://github.com/yagiztugrul33/remax-boss-v2.git ... -b staging
+klon HEAD : 58fba03f8e6a951327a3a0e23a8d0d044f254e4b   (= origin/staging)
+```
+
+| Adım | Süre | Sonuç |
+|---|---|---|
+| `git clone -b staging` (ağdan) | **28.1 sn** | `HEAD = 58fba03…` — uzak SHA ile birebir |
+| `npm ci` | **114.1 sn** | tamamlandı |
+| `npm run build` | **74.8 sn** | `✓ Compiled successfully` · rota tablosu · **exit code 0** |
+| `npm test` (`vitest run`) | **12.3 sn** | `Test Files 7 passed (7)` · **`Tests 40 passed (40)`** · **exit code 0** |
+
+> Süreler `Measure-Command` / `Stopwatch` ile ölçüldü. §6'ya göre `npm ci` ve
+> `build` daha uzun sürdü çünkü bu klon ağdan indirildi ve npm cache'i soğuktu;
+> **sonuçlar (build ✓, 40/40 test) değişmedi**.
+
+### 9.4 Vercel preview
+
+Repo Vercel'e **bağlı**. Push, staging SHA'sı için Preview deployment tetikledi:
+
+```
+deployment id : 5762298632
+environment   : Preview
+sha           : 58fba03f8e6a951327a3a0e23a8d0d044f254e4b
+state         : success
+url           : https://remax-boss-v2-d7jbezzni-yagizo.vercel.app
+```
+
+Vercel tarafında build **başarılı**. Ancak sayfa içeriği doğrulanamadı —
+deployment **koruma altında** (Vercel Deployment Protection / SSO):
+
+```
+GET https://remax-boss-v2-d7jbezzni-yagizo.vercel.app
+HTTP/1.1 302 Found
+Location: https://vercel.com/sso-api?url=…&nonce=…
+X-Robots-Tag: noindex
+→ (takip) 307 → /login?next=…
+```
+
+Yani `200` gelen sayfa **uygulamanın değil, Vercel'in giriş ekranının**.
+Preview içeriğinin (sayfa başlığı vb.) doğrulanması giriş gerektirdiğinden
+**yapılmadı** ve kuyruğa yazıldı (`SABAH_ONAY_KUYRUGU.md`).
+
+### 9.5 Bu adımda tasarıma dokunulmadı
+
+Push adımında **hiçbir** kaynak dosya değişmedi; yalnız bu denetim kaydı ve
+onay kuyruğu dosyası yazıldı. `git diff --stat` kapsamı yalnızca `.md`.
