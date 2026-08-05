@@ -47,3 +47,6 @@ next-env.d.ts
 
 # lokal test sunucu logu
 start.log
+
+# lokal yedekler (git bundle) — repoya girmez
+/yedekler/
