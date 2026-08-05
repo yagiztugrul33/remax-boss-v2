@@ -152,11 +152,23 @@ Tarayıcıda gezilen sayfalar: `/`, `/ilanlar`, `/araclar` (hesaplayıcılar),
 
 ## 5. Commit listesi
 
-| SHA | Başlık |
-|---|---|
-| `6243230c11822f0f5ea318d7f19f7348a88d1e91` | feat(seo): anasayfa, ilanlar ve ekibimiz meta metinleri EN diline ayrildi |
-| `f16d7a3b2943f3c4b11390e093a6b28a4a0740f4` | fix(seo): sayfa openGraph override'lari site geneli alanlari dusuruyordu |
-| `ec86f740e723b3b5d08cea4f44cc441ca5d4c42d` | fix(a11y): tel: baglantilarindaki bosluklar kaldirildi (RFC 3966) |
+Düzeltme grupları (her biri ayrı commit):
+
+| # | SHA | Başlık |
+|---|---|---|
+| 1 | `6243230c11822f0f5ea318d7f19f7348a88d1e91` | feat(seo): anasayfa, ilanlar ve ekibimiz meta metinleri EN diline ayrildi |
+| 2 | `f16d7a3b2943f3c4b11390e093a6b28a4a0740f4` | fix(seo): sayfa openGraph override'lari site geneli alanlari dusuruyordu |
+| 3 | `ec86f740e723b3b5d08cea4f44cc441ca5d4c42d` | fix(a11y): tel: baglantilarindaki bosluklar kaldirildi (RFC 3966) |
+
+Kayıt + temizlik:
+
+| # | SHA | Başlık |
+|---|---|---|
+| 4 | `08815b4fabcb2bd63a0e29b06bd5f56eb7b107a7` | docs(denetim): sessiz saglik taramasi kaydi — DENETIM-KAYDI.md |
+| 5 | `827ac96a76a3deaf671f34563ea5f48ae293d7a8` | chore: lokal yedekler klasoru gitignore'a eklendi |
+
+> Bu tablo commit 4 yazıldıktan sonra güncellendiği için 4 ve 5 numaralı
+> SHA'lar sonradan eklenmiştir; nihai dal ucu için `git log` esastır.
 
 > `6243230` bu tarama başladığında çalışma ağacında **commit'lenmemiş olarak
 > duruyordu** (önceki oturumun yarım işi). Kendi değişikliklerimden ayrı
