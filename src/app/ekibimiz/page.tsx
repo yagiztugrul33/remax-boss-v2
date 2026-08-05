@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOpenGraph } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "@/components/ui/locale-link";
@@ -39,7 +39,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: m.title,
     description: m.description,
     alternates: await localeAlternates("/ekibimiz"),
-    openGraph: {
+    openGraph: await localeOpenGraph("/ekibimiz", {
       title: m.ogTitle,
       description: m.ogDescription,
       images: [
@@ -50,7 +50,7 @@ export async function generateMetadata(): Promise<Metadata> {
           alt: m.ogAlt,
         },
       ],
-    },
+    }),
   };
 }
 

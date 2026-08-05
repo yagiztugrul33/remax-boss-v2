@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOpenGraph } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Link from "@/components/ui/locale-link";
 import { Search, SearchX, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
@@ -49,7 +49,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: m.title,
     description: m.description,
     alternates: await localeAlternates("/ilanlar"),
-    openGraph: {
+    openGraph: await localeOpenGraph("/ilanlar", {
       title: m.ogTitle,
       description: m.ogDescription,
       images: [
@@ -60,7 +60,7 @@ export async function generateMetadata(): Promise<Metadata> {
           alt: m.ogAlt,
         },
       ],
-    },
+    }),
   };
 }
 

@@ -1,4 +1,4 @@
-import { localeAlternates, localeOgUrl } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOpenGraph } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -60,13 +60,11 @@ export async function generateMetadata({
     title: ls.title,
     description: ls.summary,
     alternates: await localeAlternates(`/hizmetler/${ls.slug}`),
-    openGraph: {
+    openGraph: await localeOpenGraph(`/hizmetler/${ls.slug}`, {
       title: `${ls.title} | RE/MAX BOSS`,
       description: ls.summary,
-      type: "website",
-      url: await localeOgUrl(`/hizmetler/${ls.slug}`),
       images: [{ url: ls.cover.src, alt: ls.cover.alt }],
-    },
+    }),
   };
 }
 

@@ -1,4 +1,4 @@
-import { localeAlternates, localeOgUrl } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOpenGraph } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Link from "@/components/ui/locale-link";
 import { ArrowRight, MapPin } from "lucide-react";
@@ -10,17 +10,14 @@ import { REGIONS, localizeRegion } from "@/lib/regions";
 import { getDictionary, getLocale } from "@/lib/i18n/server";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = await getLocale();
   const d = (await getDictionary()).pages.regions;
   return {
     title: d.indexTitle,
     description: d.indexSubtitle,
     alternates: await localeAlternates("/bolgeler"),
-    openGraph: {
+    openGraph: await localeOpenGraph("/bolgeler", {
       title: d.indexTitle,
       description: d.indexSubtitle,
-      locale: locale === "en" ? "en_US" : "tr_TR",
-      url: await localeOgUrl("/bolgeler"),
       images: [
         {
           url: "/office/resepsiyon.jpg",
@@ -29,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
           alt: d.indexTitle,
         },
       ],
-    },
+    }),
   };
 }
 

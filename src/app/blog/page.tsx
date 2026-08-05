@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOpenGraph } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
@@ -13,12 +13,11 @@ export async function generateMetadata(): Promise<Metadata> {
     title: d.meta.title,
     description: d.meta.description,
     alternates: await localeAlternates("/blog"),
-    openGraph: {
+    openGraph: await localeOpenGraph("/blog", {
       title: d.og.title,
       description: d.og.desc,
-      type: "website",
       images: [{ url: "/office/resepsiyon.jpg" }],
-    },
+    }),
   };
 }
 

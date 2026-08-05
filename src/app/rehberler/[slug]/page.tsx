@@ -1,4 +1,4 @@
-import { localeAlternates, localeOgUrl } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOpenGraph } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Link from "@/components/ui/locale-link";
 import { notFound } from "next/navigation";
@@ -46,11 +46,9 @@ export async function generateMetadata({
     title: lg.meta.title,
     description: lg.meta.description,
     alternates: await localeAlternates(`/rehberler/${slug}`),
-    openGraph: {
+    openGraph: await localeOpenGraph(`/rehberler/${slug}`, {
       title: lg.meta.title,
       description: lg.meta.description,
-      locale: locale === "en" ? "en_US" : "tr_TR",
-      url: await localeOgUrl(`/rehberler/${slug}`),
       // og:image eksikti (child openGraph layout'takini tamamen ezer) —
       // paylaşım kartları görselsiz kalıyordu.
       images: [
@@ -61,7 +59,7 @@ export async function generateMetadata({
           alt: lg.title,
         },
       ],
-    },
+    }),
   };
 }
 

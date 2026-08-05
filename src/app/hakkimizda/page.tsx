@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOpenGraph } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "@/components/ui/locale-link";
@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: d.title,
     description: d.description,
     alternates: await localeAlternates("/hakkimizda"),
-    openGraph: {
+    openGraph: await localeOpenGraph("/hakkimizda", {
       title: d.title,
       description: d.description,
       images: [
@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
               : "RE/MAX BOSS yönetici ofisi",
         },
       ],
-    },
+    }),
   };
 }
 

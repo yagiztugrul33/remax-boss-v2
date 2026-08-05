@@ -1,4 +1,4 @@
-import { localeAlternates, localeOgUrl } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOpenGraph } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -40,14 +40,13 @@ export async function generateMetadata({
     title: ls.title,
     description: ls.excerpt,
     alternates: await localeAlternates(`/blog/${ls.slug}`),
-    openGraph: {
+    openGraph: await localeOpenGraph(`/blog/${ls.slug}`, {
       title: `${ls.title} | RE/MAX BOSS`,
       description: ls.excerpt,
       type: "article",
       publishedTime: ls.date,
-      url: await localeOgUrl(`/blog/${ls.slug}`),
       images: [{ url: ls.cover.src, alt: ls.cover.alt }],
-    },
+    }),
   };
 }
 

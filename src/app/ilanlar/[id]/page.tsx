@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOpenGraph } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Link from "@/components/ui/locale-link";
 import { notFound } from "next/navigation";
@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: listing.title,
     description: desc,
     alternates: await localeAlternates(`/ilanlar/${id}`),
-    openGraph: {
+    openGraph: await localeOpenGraph(`/ilanlar/${id}`, {
       title: listing.title,
       description: desc,
       type: "article",
@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             ],
           }
         : {}),
-    },
+    }),
   };
 }
 

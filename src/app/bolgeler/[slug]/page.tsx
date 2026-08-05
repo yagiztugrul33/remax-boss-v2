@@ -1,4 +1,4 @@
-import { localeAlternates, localeOgUrl } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOpenGraph } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Link from "@/components/ui/locale-link";
 import { notFound } from "next/navigation";
@@ -59,11 +59,9 @@ export async function generateMetadata({
     title: localized.meta.title,
     description: localized.meta.description,
     alternates: await localeAlternates(`/bolgeler/${slug}`),
-    openGraph: {
+    openGraph: await localeOpenGraph(`/bolgeler/${slug}`, {
       title: localized.meta.title,
       description: localized.meta.description,
-      locale: locale === "en" ? "en_US" : "tr_TR",
-      url: await localeOgUrl(`/bolgeler/${slug}`),
       images: [
         {
           url: "/office/resepsiyon.jpg",
@@ -75,7 +73,7 @@ export async function generateMetadata({
               : `RE/MAX BOSS — ${region.name} bölgesinde hizmet`,
         },
       ],
-    },
+    }),
   };
 }
 
