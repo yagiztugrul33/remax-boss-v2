@@ -5,7 +5,7 @@ import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import MapEmbed from "@/components/sections/MapEmbed";
 import ContactForm from "@/components/sections/ContactForm";
-import { office } from "@/lib/office";
+import { office, telHref } from "@/lib/office";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
 
@@ -52,7 +52,7 @@ export default async function IletisimPage() {
       icon: Phone,
       label: ci.phoneLabel,
       primary: office.phone,
-      href: `tel:${office.phone}`,
+      href: telHref(office.phone),
       ltr: true,
     },
     {

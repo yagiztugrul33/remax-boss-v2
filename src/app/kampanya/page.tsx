@@ -17,7 +17,7 @@ import Reveal from "@/components/ui/reveal";
 import CampaignForm from "@/components/sections/CampaignForm";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { office } from "@/lib/office";
+import { office, telHref } from "@/lib/office";
 import { getCampaignSettings } from "@/lib/campaign-queries";
 import { remainingQuota } from "@/lib/campaign";
 import { getDictionary, getLocale } from "@/lib/i18n/server";
@@ -197,7 +197,7 @@ export default async function KampanyaPage() {
             <p className="mt-4 text-navy/65 leading-relaxed max-w-md">
               {d.applyDescBefore}
               <a
-                href={`tel:${office.phone}`}
+                href={telHref(office.phone)}
                 className="font-semibold text-remax-red hover:underline"
                 dir="ltr"
               >

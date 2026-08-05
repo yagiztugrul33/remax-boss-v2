@@ -5,7 +5,7 @@ import Link from "@/components/ui/locale-link";
 import { Info, ArrowRight, Phone } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { office } from "@/lib/office";
+import { office, telHref } from "@/lib/office";
 
 export function NumberField({
   label,
@@ -128,7 +128,7 @@ export function ToolCTA({ label }: { label: string }) {
         <ArrowRight className="h-4 w-4 ms-2" />
       </Link>
       <a
-        href={`tel:${office.phone}`}
+        href={telHref(office.phone)}
         className="inline-flex items-center gap-2 text-sm font-semibold text-navy/70 hover:text-remax-red transition-colors"
       >
         <Phone className="h-4 w-4" aria-hidden />

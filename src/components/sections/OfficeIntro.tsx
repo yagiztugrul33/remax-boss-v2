@@ -6,7 +6,7 @@ import Eyebrow from "@/components/ui/eyebrow";
 import Reveal from "@/components/ui/reveal";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { office } from "@/lib/office";
+import { office, telHref } from "@/lib/office";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
 
@@ -51,7 +51,7 @@ export default async function OfficeIntro() {
                 <ArrowRight className="h-4 w-4 ms-2" />
               </Link>
               <a
-                href={`tel:${office.phone}`}
+                href={telHref(office.phone)}
                 className={cn(
                   buttonVariants({ variant: "ghost", size: "lg" }),
                   "text-navy hover:text-remax-red h-12 px-4 text-sm",

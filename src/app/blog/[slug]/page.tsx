@@ -9,7 +9,7 @@ import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Eyebrow from "@/components/ui/eyebrow";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { office } from "@/lib/office";
+import { office, telHref } from "@/lib/office";
 import {
   posts,
   getPostBySlug,
@@ -225,7 +225,7 @@ export default async function BlogPostPage({
                 <ArrowRight className="h-4 w-4 ms-2" />
               </Link>
               <a
-                href={`tel:${office.phone}`}
+                href={telHref(office.phone)}
                 className="inline-flex items-center gap-2 text-sm font-semibold text-white/85 hover:text-white transition-colors"
               >
                 <Phone className="h-4 w-4" aria-hidden />

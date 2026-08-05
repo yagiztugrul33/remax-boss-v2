@@ -24,7 +24,7 @@ import Reveal from "@/components/ui/reveal";
 import SubscribeSection from "@/components/sections/SubscribeSection";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { office } from "@/lib/office";
+import { office, telHref } from "@/lib/office";
 import { services } from "@/lib/services";
 import {
   getRegionBySlug,
@@ -496,7 +496,7 @@ export default async function BolgeDetayPage({ params }: PageProps) {
               </a>
               <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-white/10">
                 <a
-                  href={`tel:${office.phone}`}
+                  href={telHref(office.phone)}
                   className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-remax-red transition-colors"
                   dir="ltr"
                 >

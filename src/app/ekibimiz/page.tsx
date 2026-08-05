@@ -8,7 +8,7 @@ import Eyebrow from "@/components/ui/eyebrow";
 import TeamSection from "@/components/sections/TeamSection";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { office, team } from "@/lib/office";
+import { office, team, telHref } from "@/lib/office";
 import { getDictionary, getLocale } from "@/lib/i18n/server";
 
 /** Sayfa meta metinleri — TR + EN (EN URL'leri TR başlık taşımasın). */
@@ -139,7 +139,7 @@ export default async function EkibimizPage() {
                 <ArrowRight className="h-4 w-4 ms-2" />
               </Link>
               <a
-                href={`tel:${office.phone}`}
+                href={telHref(office.phone)}
                 className="inline-flex items-center gap-2 text-sm font-semibold text-white/85 hover:text-white transition-colors"
               >
                 <Phone className="h-4 w-4" aria-hidden />

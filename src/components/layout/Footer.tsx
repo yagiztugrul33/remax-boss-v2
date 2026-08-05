@@ -9,7 +9,7 @@ import {
   YoutubeIcon,
   TwitterIcon,
 } from "@/components/brand/SocialIcons";
-import { office } from "@/lib/office";
+import { office, telHref } from "@/lib/office";
 import { services } from "@/lib/services";
 import type { Dict } from "@/lib/i18n/dictionaries";
 
@@ -171,7 +171,7 @@ export default function Footer({
                 aria-hidden
               />
               <a
-                href={`tel:${office.phone}`}
+                href={telHref(office.phone)}
                 className="hover:text-white"
                 dir="ltr"
               >

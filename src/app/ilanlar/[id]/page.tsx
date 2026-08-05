@@ -25,7 +25,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { formatLocation, formatPrice } from "@/lib/listings";
 import { getListingById, getSimilarListings } from "@/lib/queries";
-import { office } from "@/lib/office";
+import { office, telHref } from "@/lib/office";
 import { safeJsonLd } from "@/lib/security";
 import { SITE_URL } from "@/lib/site-url";
 
@@ -269,7 +269,7 @@ export default async function ListingDetailPage({ params }: PageProps) {
 
             <div className="mt-6 flex flex-col gap-2.5">
               <a
-                href={`tel:${office.phone}`}
+                href={telHref(office.phone)}
                 className={cn(
                   buttonVariants({ size: "lg" }),
                   "bg-remax-red hover:bg-remax-red-hover text-white h-11 px-5 text-sm font-semibold w-full",
@@ -424,7 +424,7 @@ export default async function ListingDetailPage({ params }: PageProps) {
           </div>
           <div className="flex flex-col gap-3 lg:items-end">
             <a
-              href={`tel:${office.phone}`}
+              href={telHref(office.phone)}
               className={cn(
                 buttonVariants({ size: "lg" }),
                 "bg-navy-900 hover:bg-navy-700 text-white h-12 px-6 text-base font-semibold tracking-wide",

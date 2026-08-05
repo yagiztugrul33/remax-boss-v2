@@ -21,7 +21,7 @@ import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Eyebrow from "@/components/ui/eyebrow";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { office } from "@/lib/office";
+import { office, telHref } from "@/lib/office";
 import { services } from "@/lib/services";
 import {
   getAgentBySlug,
@@ -170,7 +170,7 @@ export default async function AgentDetailPage({ params }: PageProps) {
 
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <a
-                  href={`tel:${phone}`}
+                  href={telHref(phone)}
                   className={cn(
                     buttonVariants({ size: "lg" }),
                     "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-6 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)]",
@@ -312,7 +312,7 @@ export default async function AgentDetailPage({ params }: PageProps) {
                   aria-hidden
                 />
                 <a
-                  href={`tel:${phone}`}
+                  href={telHref(phone)}
                   className="text-navy hover:text-remax-red transition-colors"
                   dir="ltr"
                 >

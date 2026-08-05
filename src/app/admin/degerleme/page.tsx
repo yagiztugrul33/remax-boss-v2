@@ -15,6 +15,7 @@ import {
 } from "@/lib/admin/lead-forms";
 import { updateValuationStatus } from "@/lib/admin/lead-form-actions";
 import RetentionBar from "@/components/admin/RetentionBar";
+import { telHref } from "@/lib/office";
 
 export const metadata: Metadata = {
   title: "Değerleme Talepleri",
@@ -113,7 +114,7 @@ export default async function AdminDegerlemePage() {
                   </div>
                   <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-navy/70">
                     <a
-                      href={`tel:${r.telefon}`}
+                      href={telHref(r.telefon)}
                       className="inline-flex items-center gap-1.5 hover:text-remax-red transition-colors"
                       dir="ltr"
                     >

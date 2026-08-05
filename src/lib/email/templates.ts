@@ -4,7 +4,7 @@
  * Şablonlar minimal HTML + plaintext fallback.
  */
 
-import { office } from "../office";
+import { office, telHref } from "../office";
 import type { Locale } from "../i18n/config";
 
 export type NotifyKind = "contact" | "valuation" | "buyer" | "subscribe";
@@ -118,7 +118,7 @@ function renderHtml(copy: TemplateCopy, name: string | undefined): string {
       <tr><td style="padding:16px 32px;background:${MIST};border-top:1px solid ${LINE};font-size:12px;color:${NAVY_70};line-height:1.55;">
         <div style="font-weight:600;color:${NAVY};margin-bottom:4px;">${escapeHtml(office.name)}</div>
         <div>${escapeHtml(office.addressFull)}</div>
-        <div><a href="tel:${escapeAttr(office.phone)}" style="color:${NAVY_70};text-decoration:none;">${escapeHtml(office.phone)}</a> · <a href="mailto:${escapeAttr(office.email)}" style="color:${NAVY_70};text-decoration:none;">${escapeHtml(office.email)}</a></div>
+        <div><a href="${escapeAttr(telHref(office.phone))}" style="color:${NAVY_70};text-decoration:none;">${escapeHtml(office.phone)}</a> · <a href="mailto:${escapeAttr(office.email)}" style="color:${NAVY_70};text-decoration:none;">${escapeHtml(office.email)}</a></div>
       </td></tr>
     </table>
   </td></tr>

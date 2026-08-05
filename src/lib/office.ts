@@ -32,6 +32,22 @@ export const office = {
 } as const;
 
 /**
+ * İnsan-okur telefon numarasını geçerli bir `tel:` URI'sine çevirir.
+ *
+ * NEDEN: `office.phone` ekranda gösterilen biçimdir ("+90 312 598 00 00")
+ * ve öyle KALMALIDIR. Ancak RFC 3966 gereği `tel:` URI'si boşluk içeremez;
+ * `tel:+90 312 598 00 00` teknik olarak geçersizdir ve bazı çevirici
+ * uygulamaları numarayı ilk boşlukta kesebilir. Görünen metne dokunmadan
+ * yalnız bağlantı hedefini normalize ederiz.
+ *
+ * Aynı normalizasyon deseni wa.me linklerinde zaten kullanılıyor
+ * (`office.whatsapp.replace(/\D/g, "")`).
+ */
+export function telHref(phone: string): string {
+  return `tel:${phone.replace(/[^\d+]/g, "")}`;
+}
+
+/**
  * RE/MAX BOSS ofisinin GERÇEK açıklama metni — TR (kaynak) + EN (profesyonel
  * çeviri). UYDURMA YOK. Sayfa kullanımı: `aboutContent.paragraphs[locale]`.
  */

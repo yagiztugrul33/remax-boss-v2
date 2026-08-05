@@ -9,6 +9,7 @@ import { requireAdmin } from "@/lib/admin/guard";
 import { getAllMessages } from "@/lib/admin/leads";
 import { updateMessageStatus } from "@/lib/admin/lead-actions";
 import RetentionBar from "@/components/admin/RetentionBar";
+import { telHref } from "@/lib/office";
 import {
   LEAD_STATUS_LABEL,
   LEAD_SOURCE_LABEL,
@@ -105,7 +106,7 @@ export default async function AdminMesajlarPage() {
                   </div>
                   <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-navy/70">
                     <a
-                      href={`tel:${m.phone}`}
+                      href={telHref(m.phone)}
                       className="inline-flex items-center gap-1.5 hover:text-remax-red transition-colors"
                       dir="ltr"
                     >

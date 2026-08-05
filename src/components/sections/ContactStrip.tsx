@@ -2,7 +2,7 @@ import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import MapEmbed from "./MapEmbed";
-import { office } from "@/lib/office";
+import { office, telHref } from "@/lib/office";
 import { getDictionary } from "@/lib/i18n/server";
 
 export default async function ContactStrip() {
@@ -19,7 +19,7 @@ export default async function ContactStrip() {
       icon: Phone,
       label: d.phoneLabel,
       primary: office.phone,
-      href: `tel:${office.phone}`,
+      href: telHref(office.phone),
       secondary: `${d.whatsappPrefix} ${office.whatsapp}`,
       ltr: true,
     },
