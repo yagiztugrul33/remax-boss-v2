@@ -9,27 +9,48 @@ import TeamSection from "@/components/sections/TeamSection";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { office, team } from "@/lib/office";
-import { getDictionary } from "@/lib/i18n/server";
+import { getDictionary, getLocale } from "@/lib/i18n/server";
+
+/** Sayfa meta metinleri — TR + EN (EN URL'leri TR başlık taşımasın). */
+const META_COPY = {
+  tr: {
+    title: "Ekibimiz",
+    description:
+      "RE/MAX BOSS ekibi — Beştepe ofisimizin brokerları, gayrimenkul danışmanları ve destek kadrosu. Deneyimli kadromuzla tanışın.",
+    ogTitle: "Ekibimiz — RE/MAX BOSS",
+    ogDescription:
+      "Brokerlardan danışmanlara, ofis gelişiminden destek ekibine: uzman kadromuzla tanışın.",
+    ogAlt: "RE/MAX BOSS ekibi — açık ofis çalışma alanı",
+  },
+  en: {
+    title: "Our Team",
+    description:
+      "The RE/MAX BOSS team — brokers, real estate advisors and support staff of our Beştepe office. Meet our experienced team.",
+    ogTitle: "Our Team — RE/MAX BOSS",
+    ogDescription:
+      "From brokers to advisors and support staff: meet our expert team.",
+    ogAlt: "RE/MAX BOSS team — open office workspace",
+  },
+} as const;
 
 export async function generateMetadata(): Promise<Metadata> {
+  const m = META_COPY[await getLocale()];
   return {
-  title: "Ekibimiz",
-  description:
-    "RE/MAX BOSS ekibi — Beştepe ofisimizin brokerları, gayrimenkul danışmanları ve destek kadrosu. Deneyimli kadromuzla tanışın.",
-  alternates: await localeAlternates("/ekibimiz"),
-  openGraph: {
-    title: "Ekibimiz — RE/MAX BOSS",
-    description:
-      "Brokerlardan danışmanlara, ofis gelişiminden destek ekibine: uzman kadromuzla tanışın.",
-    images: [
-      {
-        url: "/office/acik-ofis-1.jpg",
-        width: 2000,
-        height: 1125,
-        alt: "RE/MAX BOSS ekibi — açık ofis çalışma alanı",
-      },
-    ],
-  },
+    title: m.title,
+    description: m.description,
+    alternates: await localeAlternates("/ekibimiz"),
+    openGraph: {
+      title: m.ogTitle,
+      description: m.ogDescription,
+      images: [
+        {
+          url: "/office/acik-ofis-1.jpg",
+          width: 2000,
+          height: 1125,
+          alt: m.ogAlt,
+        },
+      ],
+    },
   };
 }
 

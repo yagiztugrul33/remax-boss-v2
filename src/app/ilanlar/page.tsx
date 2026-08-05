@@ -21,25 +21,46 @@ import {
   ROOM_OPTIONS,
 } from "@/lib/listing-search";
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-  title: "İlanlar",
-  description:
-    "RE/MAX BOSS Ankara portföyündeki tüm satılık ve kiralık gayrimenkul ilanları — bölge, mülk tipi ve fiyata göre filtreleyin.",
-  alternates: await localeAlternates("/ilanlar"),
-  openGraph: {
-    title: "İlanlar — RE/MAX BOSS",
+/** Sayfa meta metinleri — TR + EN (EN URL'leri TR başlık taşımasın). */
+const META_COPY = {
+  tr: {
+    title: "İlanlar",
     description:
+      "RE/MAX BOSS Ankara portföyündeki tüm satılık ve kiralık gayrimenkul ilanları — bölge, mülk tipi ve fiyata göre filtreleyin.",
+    ogTitle: "İlanlar — RE/MAX BOSS",
+    ogDescription:
       "RE/MAX BOSS Ankara portföyündeki tüm satılık ve kiralık gayrimenkul ilanları.",
-    images: [
-      {
-        url: "/office/resepsiyon.jpg",
-        width: 2000,
-        height: 1125,
-        alt: "RE/MAX BOSS — Ankara portföyü",
-      },
-    ],
+    ogAlt: "RE/MAX BOSS — Ankara portföyü",
   },
+  en: {
+    title: "Listings",
+    description:
+      "All properties for sale and rent in the RE/MAX BOSS Ankara portfolio — filter by region, property type and price.",
+    ogTitle: "Listings — RE/MAX BOSS",
+    ogDescription:
+      "All properties for sale and rent in the RE/MAX BOSS Ankara portfolio.",
+    ogAlt: "RE/MAX BOSS — Ankara portfolio",
+  },
+} as const;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const m = META_COPY[await getLocale()];
+  return {
+    title: m.title,
+    description: m.description,
+    alternates: await localeAlternates("/ilanlar"),
+    openGraph: {
+      title: m.ogTitle,
+      description: m.ogDescription,
+      images: [
+        {
+          url: "/office/resepsiyon.jpg",
+          width: 2000,
+          height: 1125,
+          alt: m.ogAlt,
+        },
+      ],
+    },
   };
 }
 
