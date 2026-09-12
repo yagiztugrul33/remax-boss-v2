@@ -12,6 +12,8 @@ import { cn } from "@/lib/utils";
 import { countPublishedListings, searchListings } from "@/lib/queries";
 import { REGIONS } from "@/lib/regions";
 import { getLocale } from "@/lib/i18n/server";
+import { safeJsonLd } from "@/lib/security";
+import { SITE_URL } from "@/lib/site-url";
 import {
   parseListingFilters,
   buildListingQuery,
@@ -145,8 +147,30 @@ export default async function IlanlarPage({ searchParams }: PageProps) {
     { value: "kiralik" as const, label: c.kindKiralik },
   ];
 
+  // JSON-LD — ItemList (yalnız gerçek/yayınlanmış ilanlar varken; başlıklar
+  // admin girdisi olduğundan safeJsonLd ile </script> enjeksiyonuna karşı kaçışlanır).
+  const jsonLd =
+    result.items.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          itemListElement: result.items.map((l, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `${SITE_URL}/ilanlar/${l.id}`,
+            name: l.title,
+          })),
+        }
+      : null;
+
   return (
     <>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
+        />
+      )}
       {/* HERO — navy, eyebrow + display-xl + accent-mark */}
       <section className="relative isolate bg-navy-900 text-white overflow-hidden">
         <div

@@ -28,6 +28,7 @@ import {
   getAllAgentSlugs,
 } from "@/lib/team-detail";
 import { getDictionary, getLocale } from "@/lib/i18n/server";
+import { SITE_URL } from "@/lib/site-url";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -91,8 +92,31 @@ export default async function AgentDetailPage({ params }: PageProps) {
   const hasCertifications = (detail.certifications?.length ?? 0) > 0;
   const hasYears = typeof detail.yearsExperience === "number";
 
+  // JSON-LD — Person (sabit/kontrollü içerik, office.ts + team-detail.ts).
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: agent.name,
+    jobTitle: agent.title,
+    url: `${SITE_URL}/ekibimiz/${slug}`,
+    telephone: phone,
+    email,
+    worksFor: {
+      "@type": "RealEstateAgent",
+      name: office.name,
+      url: SITE_URL,
+    },
+    ...(agent.photo ? { image: `${SITE_URL}${agent.photo}` } : {}),
+    ...(hasBio ? { description: detail.bio } : {}),
+    ...(hasLanguages ? { knowsLanguage: detail.languages } : {}),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Breadcrumbs
         locale={locale}
         homeLabel={dict.nav.home}

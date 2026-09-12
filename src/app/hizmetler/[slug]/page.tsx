@@ -33,6 +33,7 @@ import {
 } from "@/lib/services";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
+import { SITE_URL } from "@/lib/site-url";
 
 const iconMap: Record<ServiceIcon, LucideIcon> = {
   handshake: Handshake,
@@ -104,8 +105,31 @@ export default async function ServiceDetailPage({
     },
   ];
 
+  // JSON-LD — Service (sabit/kontrollü içerik, tüm alanlar services.ts'ten).
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: s.title,
+    name: s.title,
+    description: s.summary,
+    url: `${SITE_URL}/hizmetler/${s.slug}`,
+    image: `${SITE_URL}${s.cover.src}`,
+    provider: {
+      "@type": "RealEstateAgent",
+      name: office.name,
+      telephone: office.phone,
+      email: office.email,
+      url: SITE_URL,
+    },
+    areaServed: { "@type": "City", name: office.city },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Breadcrumbs
         locale={locale}
         homeLabel={dict.nav.home}
