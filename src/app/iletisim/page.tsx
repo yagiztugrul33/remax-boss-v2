@@ -1,6 +1,6 @@
 import { localeAlternates } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
-import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, MessageCircle, Star } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import MapEmbed from "@/components/sections/MapEmbed";
@@ -80,6 +80,13 @@ export default async function IletisimPage() {
       label: ci.weekendLabel,
       primary: `${ci.weekendSaturdayPrefix} ${office.workingHours.saturday}`,
       secondary: `${ci.weekendSundayPrefix} ${office.workingHours.sunday}`,
+    },
+    {
+      icon: Star,
+      label: ci.googleReviewLabel,
+      primary: ci.googleReviewCta,
+      href: office.googleReviewUrl,
+      external: true,
     },
   ];
 

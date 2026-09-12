@@ -29,6 +29,18 @@ export const office = {
     "RE/MAX BOSS, Ankara Beştepe merkezli, RE/MAX Türkiye bünyesinde bağımsız sahipli ve işletmeli bir gayrimenkul ofisidir. Profesyonellik ve güvenilirlik ilkeleriyle, alıcılar ve satıcılar için ölçülebilir değer üretir.",
   mapsQuery:
     "Be%C5%9Ftepe%20Mah.%20Alparslan%20T%C3%BCrke%C5%9F%20Cad.%20No%2061%20AH%20Yenimahalle%20Ankara",
+  /**
+   * Google'da yorum bırakma linki — gerçek bir Google Place ID/CID henüz
+   * elimizde olmadığı için (uydurma ID kullanılmaz, yanlış işletmeye
+   * yönlendirebilir) resmi Google Maps "search" URL şeması kullanılıyor:
+   * https://developers.google.com/maps/documentation/urls/get-started#search-action
+   * Kullanıcı işletmeyi bulup "Yorum yaz"a tıklar. Place ID netleşince bu
+   * link doğrudan `search.google.com/local/writereview?placeid=...`
+   * formatına güncellenebilir.
+   */
+  googleReviewUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    "RE/MAX BOSS Beştepe Mah. Alparslan Türkeş Cad. No: 61 AH, Yenimahalle / Ankara",
+  )}`,
 } as const;
 
 /**
