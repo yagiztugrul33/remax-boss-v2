@@ -8,7 +8,7 @@ import { buttonVariants } from "@/components/ui/button";
 import BrandLockup from "@/components/brand/BrandLockup";
 import LocaleToggle from "@/components/layout/LocaleToggle";
 import { navItems, office } from "@/lib/office";
-import { cn } from "@/lib/utils";
+import { cn, toTelHref } from "@/lib/utils";
 import type { Locale } from "@/lib/i18n/config";
 import { stripLocalePrefix } from "@/lib/i18n/url";
 import type { Dict } from "@/lib/i18n/dictionaries";
@@ -69,7 +69,7 @@ export default function Navbar({
         <div className="container-page flex flex-wrap items-center justify-between gap-2 py-2">
           <div className="flex items-center gap-4 flex-wrap">
             <a
-              href={`tel:${office.phone}`}
+              href={`tel:${toTelHref(office.phone)}`}
               className="inline-flex items-center gap-1.5 hover:text-white/80 transition-colors"
             >
               <Phone className="h-3.5 w-3.5" aria-hidden />

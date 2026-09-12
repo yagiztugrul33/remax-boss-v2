@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { countPublishedListings, searchListings } from "@/lib/queries";
 import { REGIONS } from "@/lib/regions";
 import { getLocale } from "@/lib/i18n/server";
+import { localeOgBase } from "@/lib/i18n/server-meta";
 import { safeJsonLd } from "@/lib/security";
 import { SITE_URL } from "@/lib/site-url";
 import {
@@ -30,6 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
     "RE/MAX BOSS Ankara portföyündeki tüm satılık ve kiralık gayrimenkul ilanları — bölge, mülk tipi ve fiyata göre filtreleyin.",
   alternates: await localeAlternates("/ilanlar"),
   openGraph: {
+    ...(await localeOgBase("/ilanlar")),
     title: "İlanlar — RE/MAX BOSS",
     description:
       "RE/MAX BOSS Ankara portföyündeki tüm satılık ve kiralık gayrimenkul ilanları.",

@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOgBase } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Link from "@/components/ui/locale-link";
 import {
@@ -18,7 +18,7 @@ import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import Reveal from "@/components/ui/reveal";
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, toTelHref } from "@/lib/utils";
 import { office } from "@/lib/office";
 import {
   getAllServices,
@@ -36,6 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: d.description,
     alternates: await localeAlternates("/hizmetler"),
     openGraph: {
+      ...(await localeOgBase("/hizmetler")),
       title: d.title,
       description: d.description,
       images: [
@@ -250,7 +251,7 @@ export default async function HizmetlerPage() {
                 <ArrowRight className="h-4 w-4 ms-2" aria-hidden />
               </Link>
               <a
-                href={`tel:${office.phone}`}
+                href={`tel:${toTelHref(office.phone)}`}
                 className="inline-flex items-center gap-2 text-sm font-semibold text-white/85 hover:text-white transition-colors"
                 dir="ltr"
               >

@@ -3,7 +3,7 @@ import Link from "@/components/ui/locale-link";
 import { ArrowLeft, Phone, Mail, MapPin, Coins, Inbox } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
-import { cn } from "@/lib/utils";
+import { cn, toTelHref } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { requireAdmin } from "@/lib/admin/guard";
 import {
@@ -185,7 +185,7 @@ export default async function AdminKampanyaPage() {
                     </span>
                   </div>
                   <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-navy/70">
-                    <a href={`tel:${a.telefon}`} className="inline-flex items-center gap-1.5 hover:text-remax-red" dir="ltr">
+                    <a href={`tel:${toTelHref(a.telefon)}`} className="inline-flex items-center gap-1.5 hover:text-remax-red" dir="ltr">
                       <Phone className="h-3.5 w-3.5" aria-hidden />
                       {a.telefon}
                     </a>

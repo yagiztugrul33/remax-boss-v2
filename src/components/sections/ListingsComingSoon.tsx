@@ -4,7 +4,7 @@ import { ArrowRight, Phone, Search, LineChart, Handshake } from "lucide-react";
 import Eyebrow from "@/components/ui/eyebrow";
 import Reveal from "@/components/ui/reveal";
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, toTelHref } from "@/lib/utils";
 import { office } from "@/lib/office";
 
 /**
@@ -105,7 +105,7 @@ export default function ListingsComingSoon({
                 Hakkımızda
               </Link>
               <a
-                href={`tel:${office.phone}`}
+                href={`tel:${toTelHref(office.phone)}`}
                 className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
               >
                 <Phone className="h-3.5 w-3.5" aria-hidden />

@@ -1,4 +1,4 @@
-import { localeAlternates, localeOgUrl } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOgBase } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -8,7 +8,7 @@ import Section from "@/components/ui/section";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Eyebrow from "@/components/ui/eyebrow";
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, toTelHref } from "@/lib/utils";
 import { office } from "@/lib/office";
 import {
   posts,
@@ -41,11 +41,11 @@ export async function generateMetadata({
     description: ls.excerpt,
     alternates: await localeAlternates(`/blog/${ls.slug}`),
     openGraph: {
+      ...(await localeOgBase(`/blog/${ls.slug}`)),
       title: `${ls.title} | RE/MAX BOSS`,
       description: ls.excerpt,
       type: "article",
       publishedTime: ls.date,
-      url: await localeOgUrl(`/blog/${ls.slug}`),
       images: [{ url: ls.cover.src, alt: ls.cover.alt }],
     },
   };
@@ -226,7 +226,7 @@ export default async function BlogPostPage({
                 <ArrowRight className="h-4 w-4 ms-2" />
               </Link>
               <a
-                href={`tel:${office.phone}`}
+                href={`tel:${toTelHref(office.phone)}`}
                 className="inline-flex items-center gap-2 text-sm font-semibold text-white/85 hover:text-white transition-colors"
               >
                 <Phone className="h-4 w-4" aria-hidden />

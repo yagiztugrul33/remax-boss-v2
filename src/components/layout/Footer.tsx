@@ -11,6 +11,7 @@ import {
 } from "@/components/brand/SocialIcons";
 import { office } from "@/lib/office";
 import { services } from "@/lib/services";
+import { toTelHref } from "@/lib/utils";
 import type { Dict } from "@/lib/i18n/dictionaries";
 
 // dict.servicesList sırası services dizisiyle eşleşir (alim-satim, kiralama,
@@ -171,7 +172,7 @@ export default function Footer({
                 aria-hidden
               />
               <a
-                href={`tel:${office.phone}`}
+                href={`tel:${toTelHref(office.phone)}`}
                 className="hover:text-white"
                 dir="ltr"
               >
