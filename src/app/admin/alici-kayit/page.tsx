@@ -3,7 +3,7 @@ import Link from "@/components/ui/locale-link";
 import { ArrowLeft, Mail, Phone, Inbox, MapPin } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
-import { cn } from "@/lib/utils";
+import { cn, toTelHref } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { requireAdmin } from "@/lib/admin/guard";
 import {
@@ -122,7 +122,7 @@ export default async function AdminAliciKayitPage() {
                   </div>
                   <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-navy/70">
                     <a
-                      href={`tel:${r.telefon}`}
+                      href={`tel:${toTelHref(r.telefon)}`}
                       className="inline-flex items-center gap-1.5 hover:text-remax-red transition-colors"
                       dir="ltr"
                     >

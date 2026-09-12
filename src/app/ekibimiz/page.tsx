@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOgBase } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "@/components/ui/locale-link";
@@ -7,7 +7,7 @@ import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import TeamSection from "@/components/sections/TeamSection";
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, toTelHref } from "@/lib/utils";
 import { office, team } from "@/lib/office";
 import { getDictionary } from "@/lib/i18n/server";
 
@@ -18,6 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
     "RE/MAX BOSS ekibi — Beştepe ofisimizin brokerları, gayrimenkul danışmanları ve destek kadrosu. Deneyimli kadromuzla tanışın.",
   alternates: await localeAlternates("/ekibimiz"),
   openGraph: {
+    ...(await localeOgBase("/ekibimiz")),
     title: "Ekibimiz — RE/MAX BOSS",
     description:
       "Brokerlardan danışmanlara, ofis gelişiminden destek ekibine: uzman kadromuzla tanışın.",
@@ -118,7 +119,7 @@ export default async function EkibimizPage() {
                 <ArrowRight className="h-4 w-4 ms-2" />
               </Link>
               <a
-                href={`tel:${office.phone}`}
+                href={`tel:${toTelHref(office.phone)}`}
                 className="inline-flex items-center gap-2 text-sm font-semibold text-white/85 hover:text-white transition-colors"
               >
                 <Phone className="h-4 w-4" aria-hidden />

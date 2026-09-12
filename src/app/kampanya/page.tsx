@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOgBase } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Link from "@/components/ui/locale-link";
 import {
@@ -16,7 +16,7 @@ import Eyebrow from "@/components/ui/eyebrow";
 import Reveal from "@/components/ui/reveal";
 import CampaignForm from "@/components/sections/CampaignForm";
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, toTelHref } from "@/lib/utils";
 import { office } from "@/lib/office";
 import { getCampaignSettings } from "@/lib/campaign-queries";
 import { remainingQuota } from "@/lib/campaign";
@@ -30,6 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: d.meta.description,
     alternates: await localeAlternates("/kampanya"),
     openGraph: {
+      ...(await localeOgBase("/kampanya")),
       title: d.og.title,
       description: d.og.desc,
       images: [
@@ -197,7 +198,7 @@ export default async function KampanyaPage() {
             <p className="mt-4 text-navy/65 leading-relaxed max-w-md">
               {d.applyDescBefore}
               <a
-                href={`tel:${office.phone}`}
+                href={`tel:${toTelHref(office.phone)}`}
                 className="font-semibold text-remax-red hover:underline"
                 dir="ltr"
               >

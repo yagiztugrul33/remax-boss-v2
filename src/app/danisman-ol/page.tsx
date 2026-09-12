@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOgBase } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "@/components/ui/locale-link";
@@ -27,7 +27,7 @@ import Reveal from "@/components/ui/reveal";
 import CareerFaq from "@/components/sections/CareerFaq";
 import IncomeEstimator from "@/components/sections/IncomeEstimator";
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, toTelHref } from "@/lib/utils";
 import { office } from "@/lib/office";
 import { localizeCareer, type CareerIcon } from "@/lib/career";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
@@ -40,6 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: d.meta.description,
     alternates: await localeAlternates("/danisman-ol"),
     openGraph: {
+      ...(await localeOgBase("/danisman-ol")),
       title: d.og.title,
       description: d.og.desc,
       images: [
@@ -372,7 +373,7 @@ export default async function DanismanOlPage() {
 
             <div className="mt-8 grid sm:grid-cols-2 gap-3 text-sm">
               <a
-                href={`tel:${office.phone}`}
+                href={`tel:${toTelHref(office.phone)}`}
                 className="inline-flex items-center gap-2.5 rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-white/80 hover:text-white transition-colors"
               >
                 <Phone className="h-4 w-4 text-remax-red" aria-hidden />

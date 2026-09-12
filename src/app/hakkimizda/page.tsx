@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOgBase } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "@/components/ui/locale-link";
@@ -9,7 +9,7 @@ import Logo from "@/components/brand/Logo";
 import OfficeGallery from "@/components/sections/OfficeGallery";
 import TeamSection from "@/components/sections/TeamSection";
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, toTelHref } from "@/lib/utils";
 import { office, aboutContent, officeGallery } from "@/lib/office";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
@@ -22,6 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: d.description,
     alternates: await localeAlternates("/hakkimizda"),
     openGraph: {
+      ...(await localeOgBase("/hakkimizda")),
       title: d.title,
       description: d.description,
       images: [
@@ -60,7 +61,7 @@ export default async function HakkimizdaPage() {
       label: d.infoCards.phoneLabel,
       primary: office.phone,
       secondary: `${d.infoCards.whatsappPrefix} ${office.whatsapp}`,
-      href: `tel:${office.phone}`,
+      href: `tel:${toTelHref(office.phone)}`,
       ltr: true,
     },
     {

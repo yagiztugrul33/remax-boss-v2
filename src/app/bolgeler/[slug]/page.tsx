@@ -1,4 +1,4 @@
-import { localeAlternates, localeOgUrl } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOgBase } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Link from "@/components/ui/locale-link";
 import { notFound } from "next/navigation";
@@ -23,7 +23,7 @@ import Eyebrow from "@/components/ui/eyebrow";
 import Reveal from "@/components/ui/reveal";
 import SubscribeSection from "@/components/sections/SubscribeSection";
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, toTelHref } from "@/lib/utils";
 import { office } from "@/lib/office";
 import { services } from "@/lib/services";
 import {
@@ -60,10 +60,9 @@ export async function generateMetadata({
     description: localized.meta.description,
     alternates: await localeAlternates(`/bolgeler/${slug}`),
     openGraph: {
+      ...(await localeOgBase(`/bolgeler/${slug}`)),
       title: localized.meta.title,
       description: localized.meta.description,
-      locale: locale === "en" ? "en_US" : "tr_TR",
-      url: await localeOgUrl(`/bolgeler/${slug}`),
       images: [
         {
           url: "/office/resepsiyon.jpg",
@@ -498,7 +497,7 @@ export default async function BolgeDetayPage({ params }: PageProps) {
               </a>
               <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-white/10">
                 <a
-                  href={`tel:${office.phone}`}
+                  href={`tel:${toTelHref(office.phone)}`}
                   className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-remax-red transition-colors"
                   dir="ltr"
                 >

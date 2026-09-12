@@ -1,5 +1,5 @@
 import Link from "@/components/ui/locale-link";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Star } from "lucide-react";
 import BrandLockup from "@/components/brand/BrandLockup";
 import { REGIONS } from "@/lib/regions";
 import {
@@ -11,6 +11,7 @@ import {
 } from "@/components/brand/SocialIcons";
 import { office } from "@/lib/office";
 import { services } from "@/lib/services";
+import { toTelHref } from "@/lib/utils";
 import type { Dict } from "@/lib/i18n/dictionaries";
 
 // dict.servicesList sırası services dizisiyle eşleşir (alim-satim, kiralama,
@@ -171,7 +172,7 @@ export default function Footer({
                 aria-hidden
               />
               <a
-                href={`tel:${office.phone}`}
+                href={`tel:${toTelHref(office.phone)}`}
                 className="hover:text-white"
                 dir="ltr"
               >
@@ -207,6 +208,18 @@ export default function Footer({
               </div>
             </li>
           </ul>
+
+          {/* Google yorum CTA — gerçek Place ID netleşene dek Maps arama
+              linkiyle çalışır (bkz. office.ts googleReviewUrl açıklaması). */}
+          <a
+            href={office.googleReviewUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-remax-red transition-colors"
+          >
+            <Star className="h-4 w-4 text-remax-red" aria-hidden />
+            {dict.googleReviewLabel}
+          </a>
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 import { ArrowRight, Sparkles, Phone } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import Eyebrow from "@/components/ui/eyebrow";
-import { cn } from "@/lib/utils";
+import { cn, toTelHref } from "@/lib/utils";
 import { office } from "@/lib/office";
 import { getDictionary } from "@/lib/i18n/server";
 
@@ -55,7 +55,7 @@ export default async function ClosingCta() {
               <ArrowRight className="h-5 w-5 ms-2" />
             </a>
             <a
-              href={`tel:${office.phone}`}
+              href={`tel:${toTelHref(office.phone)}`}
               className="inline-flex items-center gap-2 text-sm font-semibold text-white/85 hover:text-white"
             >
               <Phone className="h-3.5 w-3.5" aria-hidden />

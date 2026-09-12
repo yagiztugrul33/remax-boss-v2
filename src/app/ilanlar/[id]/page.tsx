@@ -1,4 +1,4 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOgBase } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
 import Link from "@/components/ui/locale-link";
 import { notFound } from "next/navigation";
@@ -22,7 +22,7 @@ import ListingShare from "@/components/sections/ListingShare";
 import ListingInquiryForm from "@/components/sections/ListingInquiryForm";
 import MapEmbed from "@/components/sections/MapEmbed";
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, toTelHref } from "@/lib/utils";
 import { formatLocation, formatPrice } from "@/lib/listings";
 import { getListingById, getSimilarListings } from "@/lib/queries";
 import { office } from "@/lib/office";
@@ -54,6 +54,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description: desc,
     alternates: await localeAlternates(`/ilanlar/${id}`),
     openGraph: {
+      ...(await localeOgBase(`/ilanlar/${id}`)),
       title: listing.title,
       description: desc,
       type: "article",
@@ -269,7 +270,7 @@ export default async function ListingDetailPage({ params }: PageProps) {
 
             <div className="mt-6 flex flex-col gap-2.5">
               <a
-                href={`tel:${office.phone}`}
+                href={`tel:${toTelHref(office.phone)}`}
                 className={cn(
                   buttonVariants({ size: "lg" }),
                   "bg-remax-red hover:bg-remax-red-hover text-white h-11 px-5 text-sm font-semibold w-full",
@@ -424,7 +425,7 @@ export default async function ListingDetailPage({ params }: PageProps) {
           </div>
           <div className="flex flex-col gap-3 lg:items-end">
             <a
-              href={`tel:${office.phone}`}
+              href={`tel:${toTelHref(office.phone)}`}
               className={cn(
                 buttonVariants({ size: "lg" }),
                 "bg-navy-900 hover:bg-navy-700 text-white h-12 px-6 text-base font-semibold tracking-wide",

@@ -1,6 +1,6 @@
-import { localeAlternates } from "@/lib/i18n/server-meta";
+import { localeAlternates, localeOgBase } from "@/lib/i18n/server-meta";
 import type { Metadata } from "next";
-import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, MessageCircle, Star } from "lucide-react";
 import Section from "@/components/ui/section";
 import Eyebrow from "@/components/ui/eyebrow";
 import MapEmbed from "@/components/sections/MapEmbed";
@@ -8,6 +8,7 @@ import ContactForm from "@/components/sections/ContactForm";
 import { office } from "@/lib/office";
 import { getLocale, getDictionary } from "@/lib/i18n/server";
 import { withAccent } from "@/lib/i18n/render";
+import { toTelHref } from "@/lib/utils";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -17,6 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: d.description,
     alternates: await localeAlternates("/iletisim"),
     openGraph: {
+      ...(await localeOgBase("/iletisim")),
       title: d.title,
       description: d.description,
       images: [
@@ -52,7 +54,7 @@ export default async function IletisimPage() {
       icon: Phone,
       label: ci.phoneLabel,
       primary: office.phone,
-      href: `tel:${office.phone}`,
+      href: `tel:${toTelHref(office.phone)}`,
       ltr: true,
     },
     {
@@ -80,6 +82,13 @@ export default async function IletisimPage() {
       label: ci.weekendLabel,
       primary: `${ci.weekendSaturdayPrefix} ${office.workingHours.saturday}`,
       secondary: `${ci.weekendSundayPrefix} ${office.workingHours.sunday}`,
+    },
+    {
+      icon: Star,
+      label: ci.googleReviewLabel,
+      primary: ci.googleReviewCta,
+      href: office.googleReviewUrl,
+      external: true,
     },
   ];
 

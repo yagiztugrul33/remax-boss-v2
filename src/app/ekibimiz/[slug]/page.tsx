@@ -20,7 +20,7 @@ import Section from "@/components/ui/section";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Eyebrow from "@/components/ui/eyebrow";
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, toTelHref } from "@/lib/utils";
 import { office } from "@/lib/office";
 import { services } from "@/lib/services";
 import {
@@ -28,6 +28,7 @@ import {
   getAllAgentSlugs,
 } from "@/lib/team-detail";
 import { getDictionary, getLocale } from "@/lib/i18n/server";
+import { SITE_URL } from "@/lib/site-url";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -91,8 +92,31 @@ export default async function AgentDetailPage({ params }: PageProps) {
   const hasCertifications = (detail.certifications?.length ?? 0) > 0;
   const hasYears = typeof detail.yearsExperience === "number";
 
+  // JSON-LD — Person (sabit/kontrollü içerik, office.ts + team-detail.ts).
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: agent.name,
+    jobTitle: agent.title,
+    url: `${SITE_URL}/ekibimiz/${slug}`,
+    telephone: phone,
+    email,
+    worksFor: {
+      "@type": "RealEstateAgent",
+      name: office.name,
+      url: SITE_URL,
+    },
+    ...(agent.photo ? { image: `${SITE_URL}${agent.photo}` } : {}),
+    ...(hasBio ? { description: detail.bio } : {}),
+    ...(hasLanguages ? { knowsLanguage: detail.languages } : {}),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Breadcrumbs
         locale={locale}
         homeLabel={dict.nav.home}
@@ -170,7 +194,7 @@ export default async function AgentDetailPage({ params }: PageProps) {
 
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <a
-                  href={`tel:${phone}`}
+                  href={`tel:${toTelHref(phone)}`}
                   className={cn(
                     buttonVariants({ size: "lg" }),
                     "bg-remax-red hover:bg-remax-red-hover text-white h-12 px-6 text-sm font-semibold tracking-wide shadow-[var(--shadow-glow-red)]",
@@ -312,7 +336,7 @@ export default async function AgentDetailPage({ params }: PageProps) {
                   aria-hidden
                 />
                 <a
-                  href={`tel:${phone}`}
+                  href={`tel:${toTelHref(phone)}`}
                   className="text-navy hover:text-remax-red transition-colors"
                   dir="ltr"
                 >

@@ -57,6 +57,7 @@ export interface Dict {
     servicesList: [string, string, string, string];
     serviceRequest: string;
     contactHeading: string;
+    googleReviewLabel: string;
     weekdays: string;
     saturday: string;
     sunday: string;
@@ -189,6 +190,8 @@ export interface Dict {
         weekendLabel: string;
         weekendSaturdayPrefix: string;
         weekendSundayPrefix: string;
+        googleReviewLabel: string;
+        googleReviewCta: string;
       };
     };
 
@@ -747,6 +750,7 @@ const tr: Dict = {
     ],
     serviceRequest: "Hizmet talebi gönder →",
     contactHeading: "İletişim",
+    googleReviewLabel: "Google'da Yorum Bırakın",
     weekdays: "Hafta İçi:",
     saturday: "Cumartesi:",
     sunday: "Pazar:",
@@ -902,6 +906,8 @@ const tr: Dict = {
         weekendLabel: "Hafta Sonu",
         weekendSaturdayPrefix: "Cumartesi",
         weekendSundayPrefix: "Pazar",
+        googleReviewLabel: "Deneyiminizi Paylaşın",
+        googleReviewCta: "Google'da yorum bırakın",
       },
     },
     services: {
@@ -1592,6 +1598,7 @@ const en: Dict = {
     ],
     serviceRequest: "Send a service request →",
     contactHeading: "Contact",
+    googleReviewLabel: "Leave us a Google review",
     weekdays: "Weekdays:",
     saturday: "Saturday:",
     sunday: "Sunday:",
@@ -1751,6 +1758,8 @@ const en: Dict = {
         weekendLabel: "Weekend",
         weekendSaturdayPrefix: "Saturday",
         weekendSundayPrefix: "Sunday",
+        googleReviewLabel: "Share Your Experience",
+        googleReviewCta: "Leave us a review on Google",
       },
     },
     services: {

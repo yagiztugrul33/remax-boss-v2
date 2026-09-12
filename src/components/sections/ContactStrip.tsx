@@ -4,6 +4,7 @@ import Eyebrow from "@/components/ui/eyebrow";
 import MapEmbed from "./MapEmbed";
 import { office } from "@/lib/office";
 import { getDictionary } from "@/lib/i18n/server";
+import { toTelHref } from "@/lib/utils";
 
 export default async function ContactStrip() {
   const d = (await getDictionary()).pages.home.contactStrip;
@@ -19,7 +20,7 @@ export default async function ContactStrip() {
       icon: Phone,
       label: d.phoneLabel,
       primary: office.phone,
-      href: `tel:${office.phone}`,
+      href: `tel:${toTelHref(office.phone)}`,
       secondary: `${d.whatsappPrefix} ${office.whatsapp}`,
       ltr: true,
     },
